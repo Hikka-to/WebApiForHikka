@@ -98,6 +98,7 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+
 # Chutzpah Test files
 _Chutzpah*
 
@@ -361,3 +362,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# My ignorence
+*.json
+/WebApiForHikka/appsettings.json
