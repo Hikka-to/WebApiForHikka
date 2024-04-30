@@ -1,15 +1,26 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using WebApiForHikka.Constants.Users;
 
 namespace WebApiForHikka.Domain.Models;
 public class User : Model
 {
-    public override bool IsMatch(string searchTerm)
-    {
-        throw new NotImplementedException();
-    }
 
-    public override object? SortBy(string sortColumn)
+    [Required]
+    public string Password { get; set; }
+
+    [Required]
+    [Index(IsUnique = true)]
+    [EmailAddress]
+    public string Email { get; set; }
+
+    [Required]
+    public string Role { get; set; }
+
+    public User(string password, string email, string role)
     {
-        throw new NotImplementedException();
+        this.Password = password;
+        this.Email = email;
+        this.Role = role;
     }
 }

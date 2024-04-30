@@ -1,11 +1,11 @@
 ﻿
-using WebApiForHikka.Constants.Strings;
+using WebApiForHikka.Constants.Shared;
 
 namespace WebApiForHikka.Domain;
 
 public sealed record FilterPaginationDto(
     string SearchTerm = "",
-    int PageNumber = 1,
-    int PageSize = 50,
-    string SortColumn = SharedStringsConstants.IdName,
+    int PageNumber = ShraredNumberConstatnts.DefaultPageToStartWith,
+    int PageSize = ShraredNumberConstatnts.DefaultItemsInOnePage,
+    string SortColumn = SharedStringConstants.IdName,
     SortOrder SortOrder = SortOrder.Asc);

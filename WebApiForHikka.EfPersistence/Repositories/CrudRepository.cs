@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Constants.Strings;
+using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
@@ -55,10 +55,10 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         var query = DbContext.Set<TModel>().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(dto.SearchTerm))
-            query = Filter(query, dto.SearchTerm);
+            query = Filter(query, dto.SortColumn, dto.SearchTerm);
         var totalItems = await query.CountAsync(cancellationToken);
 
-        var orderBy = string.IsNullOrWhiteSpace(dto.SortColumn) ? SharedStringsConstants.IdName : dto.SortColumn;
+        var orderBy = string.IsNullOrWhiteSpace(dto.SortColumn) ? SharedStringConstants.IdName : dto.SortColumn;
 
         query = Sort(query, orderBy, dto.SortOrder == SortOrder.Asc);
 
@@ -80,7 +80,7 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
 
     protected abstract void Update(TModel model, TModel entity);
 
-    protected abstract IQueryable<TModel> Filter(IQueryable<TModel> query, string filter);
+    protected abstract IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter);
 
     protected abstract IQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending);
 

@@ -1,6 +1,5 @@
-﻿
-namespace WebApiForHikka.Constants.Strings;
-public static class SharedStringsConstants
+﻿namespace WebApiForHikka.Constants.Shared;
+public static class SharedStringConstants
 {
     //General
     public const string Asc = "ascending";
@@ -9,5 +8,4 @@ public static class SharedStringsConstants
     //Model
     public const string IdName = "Id";
 
-    //User
 }
