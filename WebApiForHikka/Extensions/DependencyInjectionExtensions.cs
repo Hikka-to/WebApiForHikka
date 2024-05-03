@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.AppSettings;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.WebApi.Helper;
 using WebApiForHikka.WebApi.Helper.HashFunction;
 
 namespace WebApiForHikka.WebApi.Extensions;
@@ -14,6 +16,10 @@ public static class DependencyInjectionExtensions
         services.AddDbContext<HikkaDbContext>(options =>
             options.UseNpgsql(connectionString, x => x.MigrationsAssembly("WebApiForHikka.EfPersistence")));
 
+        var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
+        var mapper = mapperConfiguration.CreateMapper();
+
+
         //Repositories
         services.AddTransient<IUserRepository, UserRepository>();
 
@@ -21,7 +27,8 @@ public static class DependencyInjectionExtensions
         services.AddTransient<IUserService, UserService>();
 
         //Helpers
-        services.AddSingleton<IHashFunctions, HashFunctions>();
+        //!!!!! IMPORTANT if you change the hash function you need also chage the verify password function in the UserPepository !!!!
+        services.AddSingleton<IHashFunctions, HashFunctions>(); 
 
     }
 

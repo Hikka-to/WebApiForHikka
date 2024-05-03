@@ -1,6 +1,6 @@
 ﻿
 using SushiRestaurant.EfPersistence.Repositories;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Constants.Users;
@@ -16,8 +16,26 @@ public class UserRepository : CrudRepository<User>, IUserRepository
 
     public async Task<User?> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken)
     {
-        
-        return await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+        var user = await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        if (user != null && VerifyPassword(password, user.Password))
+        {
+            return user;
+        }
+        return null;
+    }
+    public async Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken)
+    {
+        var user = await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        if (user == null) 
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool VerifyPassword(string enteredPassword, string storedHash)
+    {
+        return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash);
     }
 
     protected override IQueryable<User> Filter(IQueryable<User> query, string filterBy, string filter)
@@ -48,4 +66,6 @@ public class UserRepository : CrudRepository<User>, IUserRepository
         entity.Role = model.Role;
         entity.Password = model.Password; 
     }
+
+
 }

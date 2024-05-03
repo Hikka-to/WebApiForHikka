@@ -17,5 +17,22 @@ public class UserStringConstants
 
 
     //Error messages
-    public const string SimplePasswordErrorMessage = "please enter a password that contains at least 6 characters";
+    public const string SimplePasswordErrorMessage = "Please enter a password that contains at least 6 characters";
+
+    public const string UserIsAlreadyExistErrorMessage = "User with this email is already exist";
+
+
+    //Claims
+    public const string EmailClaim = "Email";
+
+    public const string RoleClaim = "Role";
+
+    public const string IdClaim = "Id";
+
+    //Roles
+    public const string UserRole = "User";
+
+    public const string AdminRole = "Admin";
+
+    public const string BannedRole = "Banned";
 }

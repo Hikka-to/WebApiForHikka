@@ -23,4 +23,6 @@ public class User : Model
         this.Email = email;
         this.Role = role;
     }
+
+    public User() { }
 }

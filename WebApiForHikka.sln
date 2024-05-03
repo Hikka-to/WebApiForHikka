@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiForHikka.WebApi", "WebApiForHikka\WebApiForHikka.WebApi.csproj", "{F160FB14-D9D1-4E4D-905A-1680B3D8CB8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.WebApi", "WebApiForHikka\WebApiForHikka.WebApi.csproj", "{F160FB14-D9D1-4E4D-905A-1680B3D8CB8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiForHikka.Constants", "WebApiForHikka.Constants\WebApiForHikka.Constants.csproj", "{73D4E575-90BC-4DCF-BCAC-89CB2307CF01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.Constants", "WebApiForHikka.Constants\WebApiForHikka.Constants.csproj", "{73D4E575-90BC-4DCF-BCAC-89CB2307CF01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiForHikka.Domain", "WebApiForHikka.Domain\WebApiForHikka.Domain.csproj", "{AC23C15B-9BF0-4108-A390-B3F03BB0EBBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.Domain", "WebApiForHikka.Domain\WebApiForHikka.Domain.csproj", "{AC23C15B-9BF0-4108-A390-B3F03BB0EBBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiForHikka.Application", "WebApiForHikka.Application\WebApiForHikka.Application.csproj", "{18DFA5C7-37FE-4107-A410-DED53C8F8BA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.Application", "WebApiForHikka.Application\WebApiForHikka.Application.csproj", "{18DFA5C7-37FE-4107-A410-DED53C8F8BA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiForHikka.EfPersistence", "WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj", "{D2BE0E6E-D1D9-493D-8400-DA5D0108D29C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.EfPersistence", "WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj", "{D2BE0E6E-D1D9-493D-8400-DA5D0108D29C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiForHikka.Dtos", "WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj", "{A1B7B9D9-30F4-4744-B997-F9D3E2A820BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D2BE0E6E-D1D9-493D-8400-DA5D0108D29C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2BE0E6E-D1D9-493D-8400-DA5D0108D29C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2BE0E6E-D1D9-493D-8400-DA5D0108D29C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B7B9D9-30F4-4744-B997-F9D3E2A820BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B7B9D9-30F4-4744-B997-F9D3E2A820BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B7B9D9-30F4-4744-B997-F9D3E2A820BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B7B9D9-30F4-4744-B997-F9D3E2A820BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

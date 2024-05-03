@@ -5,4 +5,5 @@ public class HashFunctions : IHashFunctions
     {
         return BCrypt.Net.BCrypt.HashPassword(password);
     }
+   
 }
