@@ -24,6 +24,7 @@
     <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
     <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj" />
     <ProjectReference Include="..\WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj" />
   </ItemGroup>
 
 </Project>

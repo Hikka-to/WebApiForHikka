@@ -4,27 +4,24 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.RegularExpressions;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.AppSettings;
+using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.WebApi.Dto.Users;
-using WebApiForHikka.WebApi.Helper.HashFunction;
+using WebApiForHikka.Dtos.Dto.Users;
 
-namespace WebApiForHikka.WebApi.Controllers;
+namespace WebApiForHikka.Dtos.Controllers;
 public class UsersController : Controller
 {
     private readonly IUserService _userService; 
-    private readonly IHashFunctions _hashFunctions; 
     private readonly IConfiguration _configuration;
 
-    public UsersController(IUserService userService, IConfiguration configuration, IHashFunctions hashFunctions, IMapper mapper, IHttpContextAccessor httpContextAccessor) :base(mapper, httpContextAccessor)
+    public UsersController(IUserService userService, IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor) :base(mapper, httpContextAccessor)
     {
         _userService = userService;
         _configuration = configuration;
-        _hashFunctions = hashFunctions;
     }
 
     [HttpPost("register")]
@@ -35,7 +32,7 @@ public class UsersController : Controller
             return BadRequest(GetAllErrorsDuringValidation());
         }
         
-        var user = new User(_hashFunctions.HashPassword(model.Password), model.Email, model.Role);
+        var user = new User(model.Password, model.Email, model.Role);
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
         return Ok(new { message = "User created successfully", id=id });
@@ -62,7 +59,7 @@ public class UsersController : Controller
                 new Claim(UserStringConstants.RoleClaim, user.Role),
                 new Claim(UserStringConstants.IdClaim, user.Id.ToString()),
             }),
-            Expires = DateTime.UtcNow.AddDays(7),
+            Expires = DateTime.UtcNow.AddDays(ShraredNumberConstatnts.HowManyDayExpiresForJwt),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);

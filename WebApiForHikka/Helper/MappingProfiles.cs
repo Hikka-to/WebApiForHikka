@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.WebApi.Dto.Users;
+using WebApiForHikka.Dtos.Dto.Users;
 
-namespace WebApiForHikka.WebApi.Helper;
+namespace WebApiForHikka.Dtos.Helper;
 public class MappingProfiles : Profile
 {
     public MappingProfiles()

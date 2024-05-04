@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-
-namespace WebApiForHikka.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 using WebApiForHikka.Constants.Users;
+
+
+namespace WebApiForHikka.Dtos.Controllers;
 
 public class DummyController : Controller
 {

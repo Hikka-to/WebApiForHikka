@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.WebApi.Dto.Authorization;
+﻿namespace WebApiForHikka.Dtos.Dto.Authorization;
 public record JwtTokenContentDto
 {
     public required string? Email;

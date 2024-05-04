@@ -3,7 +3,7 @@ using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
-namespace WebApiForHikka.WebApi.Dto.Users;
+namespace WebApiForHikka.Dtos.Dto.Users;
 public class UpdateUserDto
 {
     [Required(ErrorMessage = SharedStringConstants.IdIsRequiredErrorMessage)]

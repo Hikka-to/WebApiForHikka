@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Shared;
 
-namespace WebApiForHikka.WebApi.Dto.Users;
+namespace WebApiForHikka.Dtos.Dto.Users;
 public class GetUserDto
 {
     public required string Email { get; set; }

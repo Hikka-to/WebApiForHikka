@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Domain.Models;
 
-namespace WebApiForHikka.WebApi.Dto.Users;
+namespace WebApiForHikka.Dtos.Dto.Users;
 public class ReturnUserPageDto
 {
     public required IReadOnlyCollection<GetUserDto> Users { get; set; }

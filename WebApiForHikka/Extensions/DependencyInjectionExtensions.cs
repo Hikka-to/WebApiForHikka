@@ -4,10 +4,10 @@ using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.AppSettings;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.WebApi.Helper;
-using WebApiForHikka.WebApi.Helper.HashFunction;
+using WebApiForHikka.Dtos.Helper;
+using WebApiForHikka.SharedFunction.HashFunction;
 
-namespace WebApiForHikka.WebApi.Extensions;
+namespace WebApiForHikka.Dtos.Extensions;
 public static class DependencyInjectionExtensions
 {
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
@@ -27,7 +27,8 @@ public static class DependencyInjectionExtensions
         services.AddTransient<IUserService, UserService>();
 
         //Helpers
-        //!!!!! IMPORTANT if you change the hash function you need also chage the verify password function in the UserPepository !!!!
+        //!!!!! IMPORTANT if you change the hash function you need also change the verify password function in the UserPepository !!!!
+        //!!!!! IMPORTANT if you change the hash function you need also change the hash function in test 
         services.AddSingleton<IHashFunctions, HashFunctions>(); 
 
     }

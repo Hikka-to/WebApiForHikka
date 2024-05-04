@@ -7,22 +7,34 @@ using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using System.Threading;
+using WebApiForHikka.SharedFunction.HashFunction;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 public class UserRepository : CrudRepository<User>, IUserRepository
 {
-    public UserRepository(HikkaDbContext dbContext) : base(dbContext)
+    private readonly IHashFunctions _hashFunctions;
+
+    public UserRepository(HikkaDbContext dbContext, IHashFunctions hashFunctions) : base(dbContext)
     {
+        _hashFunctions = hashFunctions;
     }
 
     public async Task<User?> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken)
     {
         var user = await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
-        if (user != null && VerifyPassword(password, user.Password))
+        if (user != null && _hashFunctions.VerifyPassword(password, user.Password))
         {
             return user;
         }
         return null;
+    }
+
+    public new async Task<Guid> AddAsync(User model, CancellationToken cancellationToken)
+    {
+        model.Password = _hashFunctions.HashPassword(model.Password);
+        await DbContext.Set<User>().AddAsync(model, cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
+        return model.Id;
     }
     public async Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken)
     {
@@ -43,11 +55,6 @@ public class UserRepository : CrudRepository<User>, IUserRepository
         return true;
     }
 
-
-    private bool VerifyPassword(string enteredPassword, string storedHash)
-    {
-        return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash);
-    }
 
     protected override IQueryable<User> Filter(IQueryable<User> query, string filterBy, string filter)
     {

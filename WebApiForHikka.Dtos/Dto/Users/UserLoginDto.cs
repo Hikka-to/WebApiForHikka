@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Users;
 
-namespace WebApiForHikka.WebApi.Dto.Users;
+namespace WebApiForHikka.Dtos.Dto.Users;
 public record UserLoginDto
 {
     [EmailAddress]

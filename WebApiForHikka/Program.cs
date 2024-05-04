@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using SushiRestaurant.WebApi.Extensions;
 using System.Text;
 using WebApiForHikka.Constants.AppSettings;
-using WebApiForHikka.WebApi.Extensions;
+using WebApiForHikka.Dtos.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -2,6 +2,7 @@
 using System.Threading;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.SharedFunction.HashFunction;
 
 namespace WebApiForHikka.Application.Users;
 public class UserService : CrudService<User, IUserRepository>, IUserService
