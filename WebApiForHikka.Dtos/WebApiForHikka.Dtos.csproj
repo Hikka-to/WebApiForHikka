@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="MyOwnValidationAttribute\" />
+    <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
   </ItemGroup>
 
 </Project>

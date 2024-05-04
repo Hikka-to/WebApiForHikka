@@ -69,9 +69,9 @@ public abstract class Controller : ControllerBase
         return false;
     }
 
-    protected IEnumerable<ModelError> GetAllErrorsDuringValidation() 
+    protected IEnumerable<string> GetAllErrorsDuringValidation() 
     {
-        return ModelState.Values.SelectMany(v => v.Errors);
+        return ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage);
     }
 
 }

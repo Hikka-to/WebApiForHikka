@@ -6,6 +6,7 @@ using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
+using System.Threading;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 public class UserRepository : CrudRepository<User>, IUserRepository
@@ -26,12 +27,22 @@ public class UserRepository : CrudRepository<User>, IUserRepository
     public async Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken)
     {
         var user = await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
-        if (user == null) 
+        if (user == null)
         {
             return false;
         }
         return true;
     }
+    public bool CheckIfUserWithTheEmailIsAlreadyExist(string email)
+    {
+        var user = DbContext.Set<User>().FirstOrDefault(u => u.Email == email);
+        if (user == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
 
     private bool VerifyPassword(string enteredPassword, string storedHash)
     {
@@ -40,7 +51,7 @@ public class UserRepository : CrudRepository<User>, IUserRepository
 
     protected override IQueryable<User> Filter(IQueryable<User> query, string filterBy, string filter)
     {
-         return filterBy switch
+        return filterBy switch
         {
             UserStringConstants.EmailName => query.Where(m => m.Email.Contains(filter)),
             UserStringConstants.RoleName => query.Where(m => m.Role.Contains(filter)),
@@ -64,8 +75,7 @@ public class UserRepository : CrudRepository<User>, IUserRepository
     {
         entity.Email = model.Email;
         entity.Role = model.Role;
-        entity.Password = model.Password; 
+        entity.Password = model.Password;
     }
-
 
 }

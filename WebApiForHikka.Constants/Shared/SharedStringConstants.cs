@@ -10,7 +10,7 @@ public static class SharedStringConstants
     public const string IdName = "Id";
 
     //Error messages
-    public const string EmailIsntFormatedCorrectlyErrorMessage = "This email \'{0}\' isn't formated correctly";
+    public const string EmailIsntFormatedCorrectlyErrorMessage = "Email isn't formated correctly";
 
     public const string IdIsRequiredErrorMessage = "Id is required";
 

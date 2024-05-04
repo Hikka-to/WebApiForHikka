@@ -34,11 +34,7 @@ public class UsersController : Controller
         {
             return BadRequest(GetAllErrorsDuringValidation());
         }
-        if (await _userService.CheckIfUserWithTheEmailIsAlreadyExistAsync(model.Email, cancellationToken)) 
-        {
-            return BadRequest(UserStringConstants.UserIsAlreadyExistErrorMessage);
-        }
-
+        
         var user = new User(_hashFunctions.HashPassword(model.Password), model.Email, model.Role);
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
@@ -48,13 +44,9 @@ public class UsersController : Controller
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody]UserLoginDto model, CancellationToken cancellationToken)
     {
-        if (!Regex.IsMatch(model.Email, UserStringConstants.EmailRegExpression))
+        if (!ModelState.IsValid)
         {
-            return BadRequest("Email isn't correct formet");
-        }
-        if (!Regex.IsMatch(model.Password, UserStringConstants.SimplePasswordRegExpression))
-        {
-            return BadRequest(UserStringConstants.SimplePasswordErrorMessage);
+            return BadRequest(GetAllErrorsDuringValidation());
         }
 
         var user = await _userService.AuthenticateUserAsync(model.Email, model.Password, cancellationToken);
@@ -109,6 +101,11 @@ public class UsersController : Controller
     public async Task<IActionResult> Put([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     {
         var user = _mapper.Map<User>(dto);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
+        }
+
         var userWithPassword = await _userService.GetAsync(dto.Id, cancellationToken);
         if (userWithPassword == null)
         {

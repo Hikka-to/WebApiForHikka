@@ -1,4 +1,5 @@
 ﻿
+using System.Threading;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
 
@@ -24,5 +25,10 @@ public class UserService : CrudService<User, IUserRepository>, IUserService
     public async Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken) 
     {
         return await _repository.CheckIfUserWithTheEmailIsAlreadyExistAsync(email, cancellationToken);
+    }
+
+    public bool CheckIfUserWithTheEmailIsAlreadyExist(string email)
+    {
+        return _repository.CheckIfUserWithTheEmailIsAlreadyExist(email);
     }
 }
