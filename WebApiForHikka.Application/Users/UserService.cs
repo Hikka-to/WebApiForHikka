@@ -32,4 +32,9 @@ public class UserService : CrudService<User, IUserRepository>, IUserService
     {
         return _repository.CheckIfUserWithTheEmailIsAlreadyExist(email);
     }
+
+    public async Task<User?> AuthenticateUserWithAdminRoleAsync(string email, string password, CancellationToken cancellationToken)
+    {
+        return await _repository.AuthenticateUserWithAdminRoleAsync(email, password, cancellationToken);
+    }
 }

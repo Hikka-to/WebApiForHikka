@@ -37,7 +37,7 @@ public class UserRepositoryTest
         // Arrange
         var dbContext = await GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
-        var testUser = new User { Email = "test@example.com", Password = "password", Role="User" };
+        var testUser = new User { Email = "test@example.com", Password = "password", Role=UserStringConstants.UserRole };
         await userRepository.AddAsync(new User {
             Email = testUser.Email,
             Password = testUser.Password,
@@ -53,12 +53,55 @@ public class UserRepositoryTest
     }
 
     [Fact]
+    public async Task UserRepository_AuthenticateUserWithAdminRoleAsync_ReturnsUser()
+    {
+        // Arrange
+        var dbContext = await GetDatabaseContext();
+        var userRepository = new UserRepository(dbContext, _hashFunctions);
+        var testUser = new User { Email = "test@example.com", Password = "password", Role=UserStringConstants.AdminRole };
+        await userRepository.AddAsync(new User {
+            Email = testUser.Email,
+            Password = testUser.Password,
+            Role = testUser.Role,
+        }, new CancellationToken());
+
+        // Act
+        var result = await userRepository.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.Password, new CancellationToken());
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Email.Should().Be(testUser.Email);
+        result.Role.Should().Be(UserStringConstants.AdminRole);
+    }
+    [Fact]
+    public async Task UserRepository_AuthenticateUserWithAdminRoleAsync_ReturnsNull()
+    {
+        // Arrange
+        var dbContext = await GetDatabaseContext();
+        var userRepository = new UserRepository(dbContext, _hashFunctions);
+        var testUser = new User { Email = "test@example.com", Password = "password", Role = UserStringConstants.UserRole };
+        await userRepository.AddAsync(new User
+        {
+            Email = testUser.Email,
+            Password = testUser.Password,
+            Role = testUser.Role,
+        }, new CancellationToken());
+
+        // Act
+        var result = await userRepository.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.Password, new CancellationToken());
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+
+    [Fact]
     public async Task UserRepository_CheckIfUserWithTheEmailIsAlreadyExistAsync_ReturnsTrue()
     {
         // Arrange
         var dbContext = await GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
-        var testUser = new User { Email = "test@example.com", Password = "password", Role="User" };
+        var testUser = new User { Email = "test@example.com", Password = "password", Role=UserStringConstants.UserRole };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -74,7 +117,7 @@ public class UserRepositoryTest
         // Arrange
         var dbContext = GetDatabaseContext().Result;
         var userRepository = new UserRepository(dbContext, _hashFunctions);
-        var testUser = new User { Email = "test@example.com", Password = "password", Role="User" };
+        var testUser = new User { Email = "test@example.com", Password = "password", Role=UserStringConstants.UserRole };
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
         // Act
@@ -91,7 +134,7 @@ public class UserRepositoryTest
         // Arrange
         var dbContext = await GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
-        var testUser = new User { Email = "test@example.com", Password = "password", Role="User" };
+        var testUser = new User { Email = "test@example.com", Password = "password", Role=UserStringConstants.UserRole };
 
         // Act
         var result = await userRepository.AddAsync(testUser, new CancellationToken());
@@ -111,7 +154,7 @@ public class UserRepositoryTest
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User { Email = "test@example.com", Password = "password", Role="User" };
         var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
-        var updatedUser = new User { Id = addedUserId, Email = "updated@example.com", Password = "newpassword", Role="User" };
+        var updatedUser = new User { Id = addedUserId, Email = "updated@example.com", Password = "newpassword", Role=UserStringConstants.UserRole };
 
         // Act
         await userRepository.UpdateAsync(updatedUser, new CancellationToken());
@@ -128,7 +171,7 @@ public class UserRepositoryTest
         // Arrange
         var dbContext = await GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
-        var testUser = new User { Email = "test@example.com", Password = "password", Role="User" };
+        var testUser = new User { Email = "test@example.com", Password = "password", Role=UserStringConstants.UserRole };
         var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -145,7 +188,7 @@ public class UserRepositoryTest
         // Arrange
         var dbContext = await GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
-        var testUser = new User { Email = "test@example.com", Password = "password", Role="User" };
+        var testUser = new User { Email = "test@example.com", Password = "password", Role=UserStringConstants.UserRole };
         var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act

@@ -29,12 +29,23 @@ public class UserRepository : CrudRepository<User>, IUserRepository
         return null;
     }
 
+    public async Task<User?> AuthenticateUserWithAdminRoleAsync(string email, string password, CancellationToken cancellationToken) 
+    {
+        var user = await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        if (user != null && _hashFunctions.VerifyPassword(password, user.Password) && user.Role == UserStringConstants.AdminRole)
+        {
+            return user;
+        }
+        return null;
+    }
+
     public new async Task<Guid> AddAsync(User model, CancellationToken cancellationToken)
     {
-        model.Password = _hashFunctions.HashPassword(model.Password);
-        await DbContext.Set<User>().AddAsync(model, cancellationToken);
+        var user = model.ShallowCopy();
+        user.Password = _hashFunctions.HashPassword(user.Password);
+        await DbContext.Set<User>().AddAsync(user, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
-        return model.Id;
+        return user.Id;
     }
     public async Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken)
     {
