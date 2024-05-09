@@ -12,7 +12,7 @@ using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 
-namespace WebApiForHikka.Dtos.Controllers;
+namespace WebApiForHikka.Controllers;
 public class UsersController : Controller
 {
     private readonly IUserService _userService; 
@@ -31,11 +31,17 @@ public class UsersController : Controller
         {
             return BadRequest(GetAllErrorsDuringValidation());
         }
-        
+
         var user = new User(model.Password, model.Email, model.Role);
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
-        return Ok(new { message = "User created successfully", id=id });
+
+        if (id == null)
+        {
+            return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
+        }
+
+        return Ok(new RegistratedResponseUserDto() {  Message = UserStringConstants.MessageUserRegistrated, Id = (Guid)id });
     }
 
     [HttpPost("login")]
@@ -65,7 +71,7 @@ public class UsersController : Controller
         var token = tokenHandler.CreateToken(tokenDescriptor);
         var tokenString = tokenHandler.WriteToken(token);
 
-        return Ok(new { token = tokenString });
+        return Ok(new LoginResponseUserDto() { Token = tokenString });
     }
 
     [HttpGet("GetAll")]
@@ -78,7 +84,7 @@ public class UsersController : Controller
             new ReturnUserPageDto()
             {
                 HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total/paginationDto.PageSize),
-                Users = users,
+                Models = users,
             }
 
         );

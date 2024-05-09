@@ -1,16 +1,14 @@
 ﻿using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
-using WebApiForHikka.WebApiTest.Repository.Users.FakeDataCreaters;
+using WebApiForHikka.Test.Shared;
 
 
 namespace WebApiForHikka.WebApiTest.Repository.Users;
 
-public class UserRepositoryTest
+public class UserRepositoryTest : SharedTest
 {
     private IHashFunctions _hashFunctions;
 
@@ -19,18 +17,6 @@ public class UserRepositoryTest
         _hashFunctions = new HashFunctions();
     }
 
-    private async Task<HikkaDbContext> GetDatabaseContext()
-    {
-        var options = new DbContextOptionsBuilder<HikkaDbContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
-        var databaseContext = new HikkaDbContext(options);
-        databaseContext.Database.EnsureCreated();
-        await CreateUserFakeData.CreateUsersWithRoleAsync(databaseContext, UserStringConstants.UserRole, 10);
-        await CreateUserFakeData.CreateUsersWithRoleAsync(databaseContext, UserStringConstants.AdminRole, 10);
-
-        return databaseContext;
-    }
     [Fact]
     public async Task UserRepository_AuthenticateUserAsync_ReturnsUser()
     {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using WebApiForHikka.Constants.Users;
 
 
-namespace WebApiForHikka.Dtos.Controllers;
+namespace WebApiForHikka.Controllers;
 
 public class DummyController : Controller
 {

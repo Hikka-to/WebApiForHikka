@@ -1,8 +1,7 @@
 ﻿using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Dtos.Dto.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
-public class ReturnUserPageDto
+public class ReturnUserPageDto : ReturnPageDto<GetUserDto>
 {
-    public required IReadOnlyCollection<GetUserDto> Users { get; set; }
-    public required int HowManyPages { get; set; }
 }

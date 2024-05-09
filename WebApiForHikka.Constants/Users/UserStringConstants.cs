@@ -47,4 +47,11 @@ public class UserStringConstants
         AdminRole.ToLower(),
         BannedRole.ToLower(),
     ];
+
+    //API answered
+
+    public const string MessageUserRegistrated = "User created successfully";
+
+    public const string MessageUserIsntRegistrated = "Something went wrong during registration";
+
 }

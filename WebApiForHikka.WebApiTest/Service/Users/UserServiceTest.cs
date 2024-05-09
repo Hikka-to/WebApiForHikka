@@ -7,10 +7,11 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
+using WebApiForHikka.Test.Shared;
 using WebApiForHikka.WebApiTest.Repository.Users.FakeDataCreaters;
 
-namespace WebApiForHikka.Test.Repository.Users;
-public class UserServiceTest
+namespace WebApiForHikka.Test.Service.Users;
+public class UserServiceTest : SharedTest
 {
     private IHashFunctions _hashFunctions;
 
@@ -19,18 +20,6 @@ public class UserServiceTest
         _hashFunctions = new HashFunctions();
     }
 
-    private async Task<HikkaDbContext> GetDatabaseContext()
-    {
-        var options = new DbContextOptionsBuilder<HikkaDbContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
-        var databaseContext = new HikkaDbContext(options);
-        databaseContext.Database.EnsureCreated();
-        await CreateUserFakeData.CreateUsersWithRoleAsync(databaseContext, UserStringConstants.UserRole, 10);
-        await CreateUserFakeData.CreateUsersWithRoleAsync(databaseContext, UserStringConstants.AdminRole, 10);
-
-        return databaseContext;
-    }
 
     [Fact]
     public async Task UserService_AuthenticateUserAsync_ReturnsUser()
@@ -120,6 +109,7 @@ public class UserServiceTest
         result.Should().BeTrue();
     }
 
+    [Fact]
     public async Task UserService_RegistrateUserAsync_ReturnsUser()
     {
         // Arrange

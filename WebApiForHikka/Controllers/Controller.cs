@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.IdentityModel.Tokens.Jwt;
 using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Dtos.Dto.Authorization;
 
-namespace WebApiForHikka.Dtos.Controllers;
+namespace WebApiForHikka.Controllers;
 
 [Route("api/[controller]")]
 public abstract class Controller : ControllerBase

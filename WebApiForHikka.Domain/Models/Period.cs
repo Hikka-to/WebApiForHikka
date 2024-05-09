@@ -4,7 +4,7 @@ using WebApiForHikka.Constants.Periods;
 
 namespace WebApiForHikka.Domain.Models;
 
-public class Period : Model
+public class Period : ModelWithSeoAddition
 {
 
     [StringLength(PeriodNumberConstants.NameLenght)]
@@ -12,6 +12,4 @@ public class Period : Model
 
     public Period() { }
 
-    [ForeignKey("SeoAdditionId")]
-    public required virtual SeoAddition SeoAddition { get; set; }
 }
