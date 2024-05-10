@@ -71,9 +71,9 @@ public class UserRepository : CrudRepository<User>, IUserRepository
     {
         return filterBy switch
         {
-            UserStringConstants.EmailName => query.Where(m => m.Email.Contains(filter)),
-            UserStringConstants.RoleName => query.Where(m => m.Role.Contains(filter)),
-            SharedStringConstants.IdName => query.Where(m => m.Id.ToString().Contains(filter)),
+            UserStringConstants.EmailName => query.Where(m => m.Email.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            UserStringConstants.RoleName => query.Where(m => m.Role.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SharedStringConstants.IdName => query.Where(m => m.Id.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

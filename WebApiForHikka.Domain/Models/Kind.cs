@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using WebApiForHikka.Constants.Kinds;
 
 namespace WebApiForHikka.Domain.Models;

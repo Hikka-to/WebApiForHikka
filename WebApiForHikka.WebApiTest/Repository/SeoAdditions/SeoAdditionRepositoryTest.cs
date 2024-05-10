@@ -43,35 +43,40 @@ public class SeoAdditionRepositoryTest : SharedTest
     }
 
     [Fact]
-    public async Task SeoAdditionRepository_UpdateSync_ReturnsUpdatedSeoAddition()
+    public async Task SeoAdditionRepository_UpdateAsync_UpdatesSeoAddition()
     {
         // Arrange
         var dbContext = await GetDatabaseContext();
-        var SeoAdditionRepository = new SeoAdditionRepository(dbContext);
-        var testSeoAddition = GetSeoAdditionSample(); 
+        var seoAdditionRepository = new SeoAdditionRepository(dbContext);
+        var testSeoAddition = GetSeoAdditionSample();
+        var id = await seoAdditionRepository.AddAsync(testSeoAddition, new CancellationToken());
+        testSeoAddition.Id = id;
+
+        // Prepare the updated SEO addition
+        var updatedSeoAddition = new SeoAddition
+        {
+            Id = id,
+            Image = "test1",
+            ImageAlt = "test1",
+            Slug = "test1",
+            Description = "test1",
+            SocialImage = "test1",
+            SocialTitle = "test1",
+            Title = "test1",
+            SocialType = "test1",
+            SocialImageAlt = "test1"
+        };
 
         // Act
-        var result = await SeoAdditionRepository.AddAsync(testSeoAddition, new CancellationToken());
-        testSeoAddition.Id = result;
-        testSeoAddition.Image = "test1";
-        testSeoAddition.ImageAlt = "test1";
-        testSeoAddition.Slug = "test1";
-        testSeoAddition.Description = "test1";
-        testSeoAddition.SocialImage = "test1";
-        testSeoAddition.SocialTitle = "test1";
-        testSeoAddition.Title = "test1";
-        testSeoAddition.SocialType = "test1";
-        testSeoAddition.SocialImageAlt = "test1";
+        await seoAdditionRepository.UpdateAsync(updatedSeoAddition, new CancellationToken());
 
-        await SeoAdditionRepository.UpdateAsync(testSeoAddition, new CancellationToken());
-
-        var newObject = await SeoAdditionRepository.GetAsync(testSeoAddition.Id, new CancellationToken());
+        var result = await seoAdditionRepository.GetAsync(id, new CancellationToken());
 
         // Assert
-        newObject.Should().NotBeNull();
-        newObject.Should().BeEquivalentTo(testSeoAddition);
-
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(updatedSeoAddition);
     }
+
 
     [Fact]
     public async Task SeoAdditionRepository_DeleteSync_DeleteSeoAddition() 

@@ -1,6 +1,6 @@
 ﻿namespace WebApiForHikka.Constants.Kinds;
 
-public class KingStringConstants
+public class KindStringConstants
 {
     public const string SlugName = "Slug";
 

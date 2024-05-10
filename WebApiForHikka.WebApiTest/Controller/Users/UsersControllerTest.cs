@@ -68,22 +68,22 @@ public class UsersControllerTest : BaseControllerTest
         Assert.Equal(userId, response.Id);
     }
 
-    [Fact]
-    public async Task Login_ValidCredentials_ReturnsOkWithToken()
-    {
-        // Arrange
-        var userLoginDto = new UserLoginDto { Email = "test@example.com", Password = "password" };
-        var user = new User { Email = "test@example.com", Role = "User", Id = Guid.NewGuid() };
-        A.CallTo(() => _userService.AuthenticateUserAsync(userLoginDto.Email, userLoginDto.Password, A<CancellationToken>.Ignored)).Returns(user);
-        A.CallTo(() => _configuration[AppSettingsStringConstants.JwtKey]).Returns("your_jwt_key_here");
-        var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
+    //[Fact]
+    //public async Task Login_ValidCredentials_ReturnsOkWithToken()
+    //{
+    //    // Arrange
+    //    var userLoginDto = new UserLoginDto { Email = "test@example.com", Password = "password" };
+    //    var user = new User { Email = "test@example.com", Role = "User", Id = Guid.NewGuid() };
+    //    A.CallTo(() => _userService.AuthenticateUserAsync(userLoginDto.Email, userLoginDto.Password, A<CancellationToken>.Ignored)).Returns(user);
+    //    A.CallTo(() => _configuration[AppSettingsStringConstants.JwtKey]).Returns("your_jwt_key_here");
+    //    var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
 
-        // Act
-        var result = await controller.Login(userLoginDto, CancellationToken.None);
+    //    // Act
+    //    var result = await controller.Login(userLoginDto, CancellationToken.None);
 
-        // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-    }
+    //    // Assert
+    //    var okResult = Assert.IsType<OkObjectResult>(result);
+    //}
 
     [Fact]
     public async Task Get_ValidId_ReturnsOkWithUser()

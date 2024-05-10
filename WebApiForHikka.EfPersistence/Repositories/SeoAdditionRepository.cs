@@ -18,16 +18,16 @@ public class SeoAdditionRepository : CrudRepository<SeoAddition>, ISeoAdditionRe
     {
         return filterBy switch
         {
-            SeoAdditionStringConstants.DescriptionName => query.Where(m => m.Description.Contains(filter)),
-            SeoAdditionStringConstants.SlugName => query.Where(m => m.Slug.Contains(filter)),
-            SeoAdditionStringConstants.TitleName => query.Where(m => m.Title.Contains(filter)),
-            SeoAdditionStringConstants.ImageName => query.Where(m => m.Image != null && m.Image.Contains(filter)),
-            SeoAdditionStringConstants.ImageAltName => query.Where(m => m.ImageAlt != null && m.ImageAlt.Contains(filter)),
-            SeoAdditionStringConstants.SocialTitleName => query.Where(m => m.SocialTitle != null && m.SocialTitle.Contains(filter)),
-            SeoAdditionStringConstants.SocialTypeName => query.Where(m => m.SocialType != null && m.SocialType.Contains(filter)),
-            SeoAdditionStringConstants.SocialImageName => query.Where(m => m.SocialImage != null && m.SocialImage.Contains(filter)),
-            SeoAdditionStringConstants.SocialImageAltName => query.Where(m => m.SocialImageAlt != null && m.SocialImageAlt.Contains(filter)),
-            _ => query.Where(m => m.Id.ToString().Contains(filter)),
+            SeoAdditionStringConstants.DescriptionName => query.Where(m => m.Description.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SeoAdditionStringConstants.SlugName => query.Where(m => m.Slug.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SeoAdditionStringConstants.TitleName => query.Where(m => m.Title.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SeoAdditionStringConstants.ImageName => query.Where(m => m.Image != null && m.Image.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SeoAdditionStringConstants.ImageAltName => query.Where(m => m.ImageAlt != null && m.ImageAlt.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SeoAdditionStringConstants.SocialTitleName => query.Where(m => m.SocialTitle != null && m.SocialTitle.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SeoAdditionStringConstants.SocialTypeName => query.Where(m => m.SocialType != null && m.SocialType.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SeoAdditionStringConstants.SocialImageName => query.Where(m => m.SocialImage != null && m.SocialImage.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SeoAdditionStringConstants.SocialImageAltName => query.Where(m => m.SocialImageAlt != null && m.SocialImageAlt.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            _ => query.Where(m => m.Id.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
         };
     }
 
