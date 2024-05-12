@@ -11,9 +11,10 @@ using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.Controllers;
-public class UsersController : Controller
+public class UsersController : MyBaseController, ICrudController<UpdateUserDto, UserRegistrationDto>
 {
     private readonly IUserService _userService; 
     private readonly IConfiguration _configuration;
@@ -24,8 +25,8 @@ public class UsersController : Controller
         _configuration = configuration;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
+    [HttpPost("Registrate")]
+    public async Task<IActionResult> Create([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
         {

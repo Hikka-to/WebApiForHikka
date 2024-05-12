@@ -7,12 +7,12 @@ using WebApiForHikka.Dtos.Dto.Authorization;
 namespace WebApiForHikka.Controllers;
 
 [Route("api/[controller]")]
-public abstract class Controller : ControllerBase
+public abstract class MyBaseController : ControllerBase
 {
     protected readonly IMapper _mapper;
     protected readonly IHttpContextAccessor _httpContextAccessor;
 
-    protected Controller(IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    protected MyBaseController(IMapper mapper, IHttpContextAccessor httpContextAccessor)
     {
         _mapper = mapper;
         _httpContextAccessor = httpContextAccessor;
@@ -72,5 +72,6 @@ public abstract class Controller : ControllerBase
     {
         return ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage);
     }
+
 
 }

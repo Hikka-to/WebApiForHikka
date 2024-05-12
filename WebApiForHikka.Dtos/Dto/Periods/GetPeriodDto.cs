@@ -1,13 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Periods;
-using WebApiForHikka.Dtos.Dto.SeoAddition;
+﻿using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Periods;
 
-public class GetPeriodDto
+public class GetPeriodDto : GetDtoWithSeoAddition
 {
-    public Guid Id { get; set; }
 
-    public string Name { get; set; }
-    public GetSeoAdditionDto SeoAdditionDto { get; set; }
+    public required string Name { get; set; }
 }

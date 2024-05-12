@@ -14,6 +14,16 @@ public class SeoAdditionRepository : CrudRepository<SeoAddition>, ISeoAdditionRe
     {
     }
 
+    public bool CheckIfTheSeoAdditionExist(Guid id)
+    {
+        var user = DbContext.Set<SeoAddition>().FirstOrDefault(u => u.Id == id);
+        if (user == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
     protected override IQueryable<SeoAddition> Filter(IQueryable<SeoAddition> query, string filterBy, string filter)
     {
         return filterBy switch

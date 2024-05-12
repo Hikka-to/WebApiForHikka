@@ -4,5 +4,5 @@ using WebApiForHikka.Domain.Models;
 namespace WebApiForHikka.Application.SeoAdditions;
 public interface ISeoAdditionRepository : ICrudRepository<SeoAddition>
 {
-
+    public bool CheckIfTheSeoAdditionExist(Guid id);
 }

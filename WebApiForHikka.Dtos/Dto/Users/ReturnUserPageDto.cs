@@ -1,5 +1,5 @@
 ﻿using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.Shared;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
 public class ReturnUserPageDto : ReturnPageDto<GetUserDto>

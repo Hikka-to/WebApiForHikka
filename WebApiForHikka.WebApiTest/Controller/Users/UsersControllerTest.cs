@@ -59,7 +59,7 @@ public class UsersControllerTest : BaseControllerTest
         var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
 
         // Act
-        var result = await controller.Register(userRegistrationDto, CancellationToken.None);
+        var result = await controller.Create(userRegistrationDto, CancellationToken.None);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);

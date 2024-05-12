@@ -8,4 +8,9 @@ public class SeoAdditionService : CrudService<SeoAddition, ISeoAdditionRepositor
     public SeoAdditionService(ISeoAdditionRepository repository) : base(repository)
     {
     }
+
+    public bool CheckIfTheSeoAdditionExist(Guid id)
+    {
+        return _repository.CheckIfTheSeoAdditionExist(id);
+    }
 }

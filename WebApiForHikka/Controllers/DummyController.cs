@@ -6,7 +6,7 @@ using WebApiForHikka.Constants.Users;
 
 namespace WebApiForHikka.Controllers;
 
-public class DummyController : Controller
+public class DummyController : MyBaseController
 {
 
     public DummyController(IMapper mapper,IHttpContextAccessor httpContextAccessor) : base(mapper, httpContextAccessor )

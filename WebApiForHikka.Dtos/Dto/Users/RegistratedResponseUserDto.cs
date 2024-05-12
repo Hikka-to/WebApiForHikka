@@ -1,8 +1,9 @@
-﻿namespace WebApiForHikka.Dtos.Dto.Users;
+﻿using WebApiForHikka.Dtos.Shared;
 
-public class RegistratedResponseUserDto
+namespace WebApiForHikka.Dtos.Dto.Users;
+
+public class RegistratedResponseUserDto : ModelDto
 {
-    public required Guid Id;
     public required string Message;
 
 }
