@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Periods;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.SeoAddition;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Periods;
-public class UpdatePeriodDto : ModelWithSeoAddition
+public class UpdatePeriodDto : UpdateDtoWithSeoAddition
 {
 
     [StringLength(PeriodNumberConstants.NameLenght)]

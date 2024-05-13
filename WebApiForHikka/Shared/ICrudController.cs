@@ -12,6 +12,6 @@ public interface ICrudController<UpdateDto, CreateDto>
 
     public Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken);
 
-    public Task<IActionResult> Create([FromQuery] CreateDto dto, CancellationToken cancellationToken);
+    public Task<IActionResult> Create([FromBody] CreateDto dto, CancellationToken cancellationToken);
 
 }

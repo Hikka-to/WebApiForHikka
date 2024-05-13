@@ -6,7 +6,6 @@ using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
-using System.Threading;
 using WebApiForHikka.SharedFunction.HashFunction;
 
 namespace WebApiForHikka.EfPersistence.Repositories;

@@ -1,4 +1,6 @@
-﻿using WebApiForHikka.Dtos.Shared;
+﻿using System.ComponentModel.DataAnnotations;
+using WebApiForHikka.Constants.Kinds;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Kinds;
 

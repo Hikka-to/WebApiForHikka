@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Users;
-using WebApiForHikka.Controllers;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
@@ -18,24 +17,24 @@ public abstract class CrudController
     where TModel  : Model
     where TIService : ICrudService<TModel>
 {
-    protected ICrudService<TModel> _crudService;
+    protected TIService _crudService;
 
-    public CrudController(ICrudService<TModel> crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mapper, httpContextAccessor) 
+    public CrudController(TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mapper, httpContextAccessor) 
     {
         _crudService = crudService;
 
     }
 
 
-    [HttpGet("Create")]
-    public async Task<IActionResult> Create([FromQuery] TCreateDto dto, CancellationToken cancellationToken)
+    [HttpPost("Create")]
+    public virtual async Task<IActionResult> Create([FromBody] TCreateDto dto, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
@@ -53,14 +52,14 @@ public abstract class CrudController
 
 
     [HttpDelete("{id:Guid}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+    public virtual async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
@@ -71,14 +70,14 @@ public abstract class CrudController
 
 
     [HttpGet("{id:Guid}")]
-    public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
+    public virtual async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.UserRole, UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
@@ -92,14 +91,14 @@ public abstract class CrudController
 
 
     [HttpGet("GetAll")]
-    public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
+    public virtual async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
@@ -118,14 +117,14 @@ public abstract class CrudController
 
 
     [HttpPut("update")]
-    public async Task<IActionResult> Put([FromBody] TUpdateDto dto, CancellationToken cancellationToken)
+    public virtual async Task<IActionResult> Put([FromBody] TUpdateDto dto, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint)) 
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint)) 
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 

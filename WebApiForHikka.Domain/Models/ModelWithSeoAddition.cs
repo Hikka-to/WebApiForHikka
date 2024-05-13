@@ -5,5 +5,5 @@ public abstract class ModelWithSeoAddition : Model
 {
 
     [ForeignKey("SeoAdditionId")]
-    public required virtual SeoAddition SeoAddition { get; set; }
+    public required SeoAddition SeoAddition { get; set; }
 }

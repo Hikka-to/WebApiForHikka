@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.ModelsWithSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Shared;
 

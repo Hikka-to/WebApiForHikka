@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Dtos.Dto.Authorization;
 
-namespace WebApiForHikka.Controllers;
+namespace WebApiForHikka.WebApi.Shared;
 
 [Route("api/[controller]")]
 public abstract class MyBaseController : ControllerBase
@@ -68,7 +68,7 @@ public abstract class MyBaseController : ControllerBase
         return false;
     }
 
-    protected IEnumerable<string> GetAllErrorsDuringValidation() 
+    protected IEnumerable<string> GetAllErrorsDuringValidation()
     {
         return ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage);
     }

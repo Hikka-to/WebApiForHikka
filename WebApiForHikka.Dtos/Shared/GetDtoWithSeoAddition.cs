@@ -4,5 +4,5 @@ namespace WebApiForHikka.Dtos.Shared;
 
 public class GetDtoWithSeoAddition : ModelDto
 {
-    public required GetSeoAdditionDto SeoAdditionDto { get; set; }
+    public required GetSeoAdditionDto SeoAddition { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Design;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
@@ -24,20 +25,20 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
 {
     protected ISeoAdditionService _seoAdditionService;
 
-    public CrudControllerForModelWithSeoAddition(ISeoAdditionService seoAdditionService, ICrudService<TModelWithSeoAddition> crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(crudService, mapper, httpContextAccessor)
+    public CrudControllerForModelWithSeoAddition(TIService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(crudService, mapper, httpContextAccessor)
     {
         _seoAdditionService = seoAdditionService;
     }
 
-    [HttpGet("Create")]
-    public async Task<IActionResult> Create([FromQuery] TCreateDtoWithSeoAddition dto, CancellationToken cancellationToken)
+    [HttpPost("Create")]
+    public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
@@ -56,14 +57,14 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
 
 
     [HttpDelete("{id:Guid}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
@@ -74,14 +75,14 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
 
 
     [HttpGet("{id:Guid}")]
-    public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
@@ -95,14 +96,14 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
 
 
     [HttpGet("GetAll")]
-    public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
@@ -121,14 +122,14 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
 
 
     [HttpPut("update")]
-    public async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        string[] rolesToAccessTheEdnpoint = [UserStringConstants.UserRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEdnpoint))
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + rolesToAccessTheEdnpoint.Aggregate((s1, s2) => s1 + ", " + s2);
+                + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
 
