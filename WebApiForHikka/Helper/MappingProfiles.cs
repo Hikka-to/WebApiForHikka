@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Dtos.Dto.SeoAddition;
+using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.Dto.Formats;
 using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.Dtos.Dto.Periods;
 using WebApiForHikka.Dtos.Dto.RestrictedRatings;
-using WebApiForHikka.Dtos.Dto.SeoAddition;
 using WebApiForHikka.Dtos.Dto.Sources;
+using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Status;
-using WebApiForHikka.Dtos.Dto.Users;
 
 namespace WebApiForHikka.Dtos.Helper;
 public class MappingProfiles : Profile
