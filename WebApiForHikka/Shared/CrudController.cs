@@ -116,7 +116,7 @@ public abstract class CrudController
     }
 
 
-    [HttpPut("update")]
+    [HttpPut("Update")]
     public virtual async Task<IActionResult> Put([FromBody] TUpdateDto dto, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();

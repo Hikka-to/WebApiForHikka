@@ -1,21 +1,19 @@
 ﻿using FluentAssertions;
-using WebApiForHikka.Constants.Users;
+using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.Test.Shared.Repository;
+using WebApiForHikka.Test.Shared;
+using WebApiForHikka.Test.Shared.Service;
 
-namespace WebApiForHikka.Test.Repository.SeoAdditions;
-public class SeoAdditionRepositoryTest : SharedRepositoryTest<SeoAddition, SeoAdditionRepository>
+namespace WebApiForHikka.Test.Service.WithSeoAddition.SeoAdditions;
+
+public class SeoAdditionServiceTest : SharedServiceTest<SeoAddition, SeoAdditionService>
 {
-    protected override SeoAdditionRepository GetRepository(HikkaDbContext hikkaDbContext)
-    {
-        return new SeoAdditionRepository(hikkaDbContext);
-    }
-
     protected override SeoAddition GetSample()
     {
-        return new SeoAddition()
+        return new SeoAddition
         {
             Description = "test",
             Slug = "test",
@@ -31,7 +29,7 @@ public class SeoAdditionRepositoryTest : SharedRepositoryTest<SeoAddition, SeoAd
 
     protected override SeoAddition GetSampleForUpdate()
     {
-        return new SeoAddition()
+        return new SeoAddition
         {
             Description = "test1",
             Slug = "test1",
@@ -43,5 +41,13 @@ public class SeoAdditionRepositoryTest : SharedRepositoryTest<SeoAddition, SeoAd
             SocialTitle = "test1",
             SocialType = "test1",
         };
+    }
+
+    protected override SeoAdditionService GetService(HikkaDbContext hikkaDbContext)
+    {
+        SeoAdditionRepository repository = new SeoAdditionRepository(hikkaDbContext);
+
+        return new SeoAdditionService(repository);
+
     }
 }

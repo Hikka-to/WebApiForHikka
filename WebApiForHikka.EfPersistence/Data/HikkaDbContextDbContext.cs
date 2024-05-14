@@ -12,6 +12,7 @@ public class HikkaDbContext : DbContext
     public DbSet<Status> Statuses { get; set; }
     public DbSet<Kind> Kinds { get; set; }
     public DbSet<Source> Sources { get; set; }
+    public DbSet<Format> Formats { get; set; }
     public DbSet<RestrictedRating> RestrictedRatings { get; set; }
 
     public HikkaDbContext(DbContextOptions<HikkaDbContext> options) : base(options)

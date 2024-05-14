@@ -121,7 +121,7 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     }
 
 
-    [HttpPut("update")]
+    [HttpPut("Update")]
     public override async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
         var jwt = this.GetJwtTokenAuthorizationFromHeader();

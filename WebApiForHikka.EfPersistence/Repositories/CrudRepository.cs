@@ -75,7 +75,6 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     public async Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids, CancellationToken cancellationToken)
     {
         return await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id)).ToArrayAsync(cancellationToken);
-
     }
 
     protected abstract void Update(TModel model, TModel entity);
