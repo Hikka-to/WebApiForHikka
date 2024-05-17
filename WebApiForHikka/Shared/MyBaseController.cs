@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using WebApiForHikka.Constants.Users;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Dtos.Dto.Authorization;
 
 namespace WebApiForHikka.WebApi.Shared;

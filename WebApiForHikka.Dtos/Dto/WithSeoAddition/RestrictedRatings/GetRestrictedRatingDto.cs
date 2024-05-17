@@ -9,6 +9,6 @@ public class GetRestrictedRatingDto : GetDtoWithSeoAddition
 
     public required string Hint { get; set; }
 
-    public required string Icon { get; set; }
+    public string? Icon { get; set; }
 }
 

@@ -6,11 +6,12 @@ using System.Security.Claims;
 using System.Text;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.AppSettings;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Constants.Shared;
-using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.Controllers;

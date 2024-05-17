@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.RestrictRatings;
+﻿namespace WebApiForHikka.Constants.Models.RestrictedRatings;
 public static class RestrictedRatingNumberConstants
 {
     public const int NameLenght = 10;

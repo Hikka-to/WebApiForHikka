@@ -1,14 +1,11 @@
 ﻿
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Users;
-using WebApiForHikka.Constants.Users;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.Test.Shared;
-using WebApiForHikka.WebApiTest.Repository.Users.FakeDataCreaters;
 
 namespace WebApiForHikka.Test.Service.Users;
 public class UserServiceTest : SharedTest

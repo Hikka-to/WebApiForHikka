@@ -3,10 +3,10 @@ using SushiRestaurant.EfPersistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Shared;
-using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.SharedFunction.HashFunction;
+using WebApiForHikka.Constants.Models.Users;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 public class UserRepository : CrudRepository<User>, IUserRepository

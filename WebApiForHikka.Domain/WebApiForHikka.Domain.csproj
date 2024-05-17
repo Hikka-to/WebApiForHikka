@@ -15,8 +15,4 @@
     <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\WithSeoAddition\" />
-  </ItemGroup>
-
 </Project>

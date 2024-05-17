@@ -1,6 +1,6 @@
 ﻿using SushiRestaurant.EfPersistence.Repositories;
 using WebApiForHikka.Application.RestrictedRatings;
-using WebApiForHikka.Constants.RestrictRatings;
+using WebApiForHikka.Constants.Models.RestrictedRatings;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 
@@ -19,7 +19,7 @@ public class RestrictedRatingRepository : CrudRepository<RestrictedRating>, IRes
             RestrictedRatingStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
             RestrictedRatingStringConstants.ValueName => query.Where(m => m.Value.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
             RestrictedRatingStringConstants.HintName => query.Where(m => m.Hint.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            RestrictedRatingStringConstants.IconName => query.Where(m => m.Icon.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            RestrictedRatingStringConstants.IconName => query.Where(m => m.Icon != null && m.Icon.Contains(filter, StringComparison.OrdinalIgnoreCase)),
             _ => query.Where(m => m.Id.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
         };
     }

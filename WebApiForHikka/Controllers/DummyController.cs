@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using WebApiForHikka.Constants.Users;
 using WebApiForHikka.WebApi.Shared;
+using WebApiForHikka.Constants.Models.Users;
 
 
 namespace WebApiForHikka.Controllers;

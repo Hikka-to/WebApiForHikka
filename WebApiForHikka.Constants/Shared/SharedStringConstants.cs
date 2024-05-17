@@ -14,4 +14,10 @@ public static class SharedStringConstants
 
     public const string IdIsRequiredErrorMessage = "Id is required";
 
+    public const string SomethingWentWrongDuringCreateing = "Something went wrong during createing ";
+
+    public const string ModelUpdatedSuccessfully = "Model was udpated successfully";
+
+    public const string SomethingWentWrongDuringUpdateing = "Something went wrong during updateing";
+
 }

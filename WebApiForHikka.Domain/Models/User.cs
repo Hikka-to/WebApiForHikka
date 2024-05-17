@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
-using WebApiForHikka.Constants.Users;
 
 namespace WebApiForHikka.Domain.Models;
 public class User : Model

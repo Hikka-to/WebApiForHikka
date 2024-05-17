@@ -8,8 +8,15 @@ namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
 public class SeoAdditionValidationAttribute : ValidationAttribute
 {
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    public SeoAdditionValidationAttribute() : base()
     {
+        ErrorMessage = "SeoAddition with this id doesn't exist";
+    }
+
+    protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+    {
+        if (value == null) return new ValidationResult(ErrorMessage);
+
         Guid id = (Guid)value;
         ISeoAdditionService? seoAdditionService = (ISeoAdditionService)validationContext.GetService(typeof(ISeoAdditionService));
 
@@ -28,6 +35,6 @@ public class SeoAdditionValidationAttribute : ValidationAttribute
     public override string FormatErrorMessage(string name)
     {
         return String.Format(CultureInfo.CurrentCulture,
-          "SeoAddition with this id doesn't exist", name);
+          ErrorMessage, name);
     }
 }

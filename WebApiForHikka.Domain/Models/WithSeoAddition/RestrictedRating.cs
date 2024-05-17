@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.RestrictRatings;
+using WebApiForHikka.Constants.Models.RestrictedRatings;
 
 namespace WebApiForHikka.Domain.Models;
 public class RestrictedRating : ModelWithSeoAddition
@@ -12,6 +12,6 @@ public class RestrictedRating : ModelWithSeoAddition
     public required string Hint { get; set; }
 
     [StringLength(RestrictedRatingNumberConstants.IconLenght)]
-    public required string Icon { get; set; }
+    public string? Icon { get; set; }
 
 }

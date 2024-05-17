@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.Users;
+﻿namespace WebApiForHikka.Constants.Models.Users;
 public class UserStringConstants
 {
 
@@ -41,7 +41,7 @@ public class UserStringConstants
     public const string BannedRole = "Banned";
 
     //List of roles
-   
+
     public static readonly IReadOnlyCollection<string> UsersRolesList = [
         UserRole.ToLower(),
         AdminRole.ToLower(),

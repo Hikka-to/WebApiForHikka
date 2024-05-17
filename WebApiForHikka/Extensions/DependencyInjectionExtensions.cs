@@ -7,13 +7,14 @@ using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Dtos.Helper;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Application.Sources;
-using Microsoft.IdentityModel.Tokens;
-using WebApiForHikka.Application.RestrictedRatings;
-using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.Kinds;
+using WebApiForHikka.Application.Periods;
+using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.Formats;
+using WebApiForHikka.Application.Statuses;
+using WebApiForHikka.Application.WithSeoAddition.Tags;
+using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 
 namespace WebApiForHikka.Dtos.Extensions;
 public static class DependencyInjectionExtensions
@@ -37,6 +38,7 @@ public static class DependencyInjectionExtensions
         services.AddTransient<IPeriodRepository, PeriodRepository>();
         services.AddTransient<IKindRepository, KindRepository>();
         services.AddTransient<IFormatRepository, FormatRepository>();
+        services.AddTransient<ITagRepository, TagRepository>();
 
         //Services
         services.AddTransient<IUserService, UserService>();
@@ -47,10 +49,9 @@ public static class DependencyInjectionExtensions
         services.AddTransient<IPeriodService, PeriodService>();
         services.AddTransient<IKindService, KindService>();
         services.AddTransient<IFormatService, FormatService>();
+        services.AddTransient<ITagService, TagService>();
 
         //Helpers
-        //!!!!! IMPORTANT if you change the hash function you need also change the verify password function in the UserPepository !!!!
-        //!!!!! IMPORTANT if you change the hash function you need also change the hash function in test 
         services.AddSingleton<IHashFunctions, HashFunctions>(); 
 
     }

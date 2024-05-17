@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Constants.Users;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.WebApiTest.Repository.Users.FakeDataCreaters;
 

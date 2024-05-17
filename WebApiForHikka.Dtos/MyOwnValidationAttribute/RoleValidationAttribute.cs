@@ -1,6 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Users;
+using WebApiForHikka.Constants.Models.Users;
 
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
@@ -8,9 +8,12 @@ namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 public class RoleValidationAttribute : ValidationAttribute
 {
 
-    public override bool IsValid(object value)
+    public override bool IsValid(object? value)
     {
+        if (value == null) return false;
+
         string role = (value as string).ToLower();
+
 
         if (!UserStringConstants.UsersRolesList.Contains(role)) 
         {

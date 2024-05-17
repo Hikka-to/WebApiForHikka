@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Dtos.Shared;
+﻿namespace WebApiForHikka.Dtos.ResponseDto;
 
 public class CreateResponseDto
 {

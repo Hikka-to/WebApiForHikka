@@ -3,10 +3,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
-using WebApiForHikka.Constants.Users;
+using WebApiForHikka.Constants.Models.Users;
+using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.WebApi.Shared;
@@ -38,13 +40,19 @@ public abstract class CrudController
             return Unauthorized(errorMessage);
         }
 
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
+        }
+
+
         var model = _mapper.Map<TModel>(dto);
 
         Guid? id = await _crudService.CreateAsync(model, cancellationToken);
 
         if (id == null)
         {
-            return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
+            return BadRequest(SharedStringConstants.SomethingWentWrongDuringCreateing);
         }
 
         return Ok(new CreateResponseDto() {  Id = (Guid)id });
@@ -63,6 +71,10 @@ public abstract class CrudController
             return Unauthorized(errorMessage);
         }
 
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
+        }
 
         await _crudService.DeleteAsync(id, cancellationToken);
         return NoContent();
@@ -79,6 +91,11 @@ public abstract class CrudController
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
                 + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
         }
 
 
@@ -100,6 +117,11 @@ public abstract class CrudController
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
                 + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
         }
 
         var paginationCollection = await _crudService.GetAllAsync(paginationDto, cancellationToken);
@@ -127,13 +149,13 @@ public abstract class CrudController
                 + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
         }
-
-        var model = _mapper.Map<TModel>(dto);
         if (!ModelState.IsValid)
         {
             return BadRequest(GetAllErrorsDuringValidation());
         }
-        await _crudService.UpdateAsync(model, cancellationToken);
+
+        var model = _mapper.Map<TModel>(dto);
+                await _crudService.UpdateAsync(model, cancellationToken);
         return NoContent();
     }
 }

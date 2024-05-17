@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.Sources;
+﻿namespace WebApiForHikka.Constants.Models.Sources;
 public static class SourceStringConstants
 {
     public const string NameName = "Name";

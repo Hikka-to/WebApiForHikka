@@ -45,4 +45,8 @@ public abstract class CrudService<TModel, TRepository> : ICrudService<TModel> wh
         await _repository.UpdateAsync(model, cancellationToken);
     }
 
+    public TModel? Get(Guid id)
+    {
+        return _repository.Get(id);
+    }
 }

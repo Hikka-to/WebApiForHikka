@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore.Design;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
-using WebApiForHikka.Constants.Users;
+using WebApiForHikka.Constants.Models.Users;
+using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.WebApi.Shared;
@@ -42,6 +44,13 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
             return Unauthorized(errorMessage);
         }
 
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
+        }
+
+
+
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
         model.SeoAddition = await _seoAdditionService.GetAsync(dto.SeoAdditionId, cancellationToken);
 
@@ -49,7 +58,7 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
 
         if (id == null)
         {
-            return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
+            return BadRequest(SharedStringConstants.SomethingWentWrongDuringCreateing);
         }
 
         return Ok(new CreateResponseDto() { Id = (Guid)id });
@@ -68,6 +77,12 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
             return Unauthorized(errorMessage);
         }
 
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
+        }
+
+
 
         await _crudService.DeleteAsync(id, cancellationToken);
         return NoContent();
@@ -84,6 +99,11 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
                 + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
         }
 
 
@@ -105,6 +125,11 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
                 + string.Join(", ", rolesToAccessTheEndpoint);
             return Unauthorized(errorMessage);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(GetAllErrorsDuringValidation());
         }
 
         var paginationCollection = await _crudService.GetAllAsync(paginationDto, cancellationToken);
@@ -133,11 +158,13 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
             return Unauthorized(errorMessage);
         }
 
-        var model = _mapper.Map<TModelWithSeoAddition>(dto);
         if (!ModelState.IsValid)
         {
             return BadRequest(GetAllErrorsDuringValidation());
         }
+
+        var model = _mapper.Map<TModelWithSeoAddition>(dto);
+        
 
         model.SeoAddition = await _seoAdditionService.GetAsync(dto.SeoAdditionId, cancellationToken);
 

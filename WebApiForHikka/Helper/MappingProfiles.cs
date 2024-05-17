@@ -9,6 +9,8 @@ using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Status;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
 namespace WebApiForHikka.Dtos.Helper;
 public class MappingProfiles : Profile
@@ -76,6 +78,16 @@ public class MappingProfiles : Profile
         CreateMap<CreateFormatDto, Format>();
 
         CreateMap<UpdateFormatDto, Format>();
+
+        //Tag
+        
+        CreateMap<Tag, GetTagDto>().ForMember(
+            c => c.ParentTagId,
+            op => op.MapFrom(v => v.ParentTag.Id));
+
+        CreateMap<CreateTagDto, Tag>();
+
+        CreateMap<UpdateTagDto, Tag>();
 
 
 

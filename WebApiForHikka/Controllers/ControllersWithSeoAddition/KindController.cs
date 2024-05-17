@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.WebApi.Shared;

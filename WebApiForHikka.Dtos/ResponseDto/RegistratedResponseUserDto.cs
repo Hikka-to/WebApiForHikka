@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.Users;
+namespace WebApiForHikka.Dtos.ResponseDto;
 
 public class RegistratedResponseUserDto : ModelDto
 {

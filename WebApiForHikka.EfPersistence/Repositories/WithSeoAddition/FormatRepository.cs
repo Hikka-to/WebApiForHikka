@@ -1,6 +1,6 @@
 ﻿using SushiRestaurant.EfPersistence.Repositories;
 using WebApiForHikka.Application.Formats;
-using WebApiForHikka.Constants.Formats;
+using WebApiForHikka.Constants.Models.Formats;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 

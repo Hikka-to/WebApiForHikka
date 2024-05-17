@@ -77,11 +77,16 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id)).ToArrayAsync(cancellationToken);
     }
 
+    public TModel? Get(Guid id)
+    {
+        return DbContext.Set<TModel>().FirstOrDefault(e => e.Id == id);
+    }
+
     protected abstract void Update(TModel model, TModel entity);
 
     protected abstract IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter);
 
     protected abstract IQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending);
 
-
+    
 }

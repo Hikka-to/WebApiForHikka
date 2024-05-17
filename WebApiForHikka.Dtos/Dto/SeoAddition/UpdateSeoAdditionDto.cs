@@ -1,6 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.SeoAdditions;
+using WebApiForHikka.Constants.Models.SeoAdditions;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.SeoAddition;

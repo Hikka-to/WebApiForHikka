@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-using WebApiForHikka.Constants.Users;
-using WebApiForHikka.Domain.Models;
+﻿using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Shared.Repository;

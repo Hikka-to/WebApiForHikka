@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Constants.Shared;
-using WebApiForHikka.Constants.Users;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
 namespace WebApiForHikka.Dtos.Dto.Users;

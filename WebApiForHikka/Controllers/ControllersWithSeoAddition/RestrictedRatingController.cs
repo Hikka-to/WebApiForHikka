@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.WebApi.Shared;

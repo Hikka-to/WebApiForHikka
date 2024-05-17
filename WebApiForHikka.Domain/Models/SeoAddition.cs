@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.SeoAdditions;
+using WebApiForHikka.Constants.Models.SeoAdditions;
 
 namespace WebApiForHikka.Domain.Models;
 public class SeoAddition : Model

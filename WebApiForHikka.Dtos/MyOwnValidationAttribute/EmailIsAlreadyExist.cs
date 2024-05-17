@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using WebApiForHikka.Application.Users;
-using WebApiForHikka.Constants.Users;
+using WebApiForHikka.Constants.Models.Users;
 
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
@@ -11,8 +11,10 @@ public class EmailIsAlreadyExist : ValidationAttribute
 {
 
    
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
     {
+        if (value == null) return new ValidationResult(ErrorMessage);
+
         string email = (string)value;
         IUserService? userService = (IUserService)validationContext.GetService(typeof(IUserService));
 

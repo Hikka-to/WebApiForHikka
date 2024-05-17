@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.SeoAdditions;
+﻿namespace WebApiForHikka.Constants.Models.SeoAdditions;
 public static class SeoAdditionNumberConstants
 {
     public const int SlugLength = 128;
