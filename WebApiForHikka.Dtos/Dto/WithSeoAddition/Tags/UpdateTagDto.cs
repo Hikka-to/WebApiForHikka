@@ -9,7 +9,7 @@ public class UpdateTagDto : UpdateDtoWithSeoAddition
 
     public required string EngName { get; set; }
 
-    public required string Alises { get; set; }
+    public required List<String> Alises { get; set; }
 
     public required bool IsGenre { get; set; }
 

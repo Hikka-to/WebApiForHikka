@@ -1,8 +1,8 @@
-﻿using WebApiForHikka.Dtos.MyOwnValidationAttribute;
+﻿using WebApiForHikka.Dtos.Dto.SeoAddition;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
 namespace WebApiForHikka.Dtos.Shared;
 public class CreateDtoWithSeoAddition
 {
-    [SeoAdditionValidation]
-    public required Guid SeoAdditionId { get; set; }
+    public required CreateSeoAdditionDto SeoAddition { get; set; }
 }

@@ -1,6 +1,10 @@
-﻿using SushiRestaurant.EfPersistence.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using SushiRestaurant.EfPersistence.Repositories;
+using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Constants.Models.Tags;
+using WebApiForHikka.Constants.Shared;
+using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 
@@ -19,7 +23,7 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
         return filterBy switch
         {
             TagStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            TagStringConstants.AlisesName => query.Where(m => m.Alises.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            TagStringConstants.AlisesName => query.Where(m => m.Alises.Contains(filter)),
             TagStringConstants.IsGenreName => query.Where(m => m.IsGenre.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
             TagStringConstants.EngNameName => query.Where(m => m.EngName.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
             TagStringConstants.ParentTagName => query.Where(m => m.ParentTag != null && m.ParentTag.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
@@ -49,4 +53,30 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
         entity.EngName = model.EngName;
         entity.Name = model.Name;
     }
+    public override async Task<IReadOnlyCollection<Tag>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<Tag>().IgnoreAutoIncludes().Include(e => e.ParentTag).ToArrayAsync(cancellationToken);
+    }
+
+    public override async Task<PaginatedCollection<Tag>> GetAllAsync(FilterPaginationDto dto, CancellationToken cancellationToken)
+    {
+        var skip = (dto.PageNumber - 1) * dto.PageSize;
+        var take = dto.PageSize;
+
+        var query = DbContext.Set<Tag>().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(dto.SearchTerm))
+            query = Filter(query, dto.SortColumn, dto.SearchTerm);
+        var totalItems = await query.CountAsync(cancellationToken);
+
+        var orderBy = string.IsNullOrWhiteSpace(dto.SortColumn) ? SharedStringConstants.IdName : dto.SortColumn;
+
+        query = Sort(query, orderBy, dto.SortOrder == SortOrder.Asc);
+
+        var models = await query.Skip(skip).Take(take).ToArrayAsync(cancellationToken);
+
+        return new PaginatedCollection<Tag>(models, totalItems);
+    }
+
 }
+

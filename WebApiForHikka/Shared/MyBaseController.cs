@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Dtos.Dto.Authorization;
+using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 
@@ -25,8 +27,6 @@ public abstract class MyBaseController : ControllerBase
         {
             try
             {
-
-
                 var handler = new JwtSecurityTokenHandler();
                 var jwtToken = handler.ReadJwtToken(authHeader);
                 string? userEmail = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.EmailClaim).Value.ToString();
@@ -68,10 +68,37 @@ public abstract class MyBaseController : ControllerBase
         return false;
     }
 
+    protected virtual ErrorEndPoint ValidateRequest(ThingsToValidateBase thingsToValidate) 
+    {
+        ErrorEndPoint errorEndPoint = new ErrorEndPoint();
+
+        var jwt = this.GetJwtTokenAuthorizationFromHeader();
+        if (!this.CheckIfTheUserHasTheRightRole(jwt, thingsToValidate.RolesToAccessTheEndPoint))
+        {
+            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
+                + string.Join(", ",  thingsToValidate.RolesToAccessTheEndPoint);
+            errorEndPoint.UnauthorizedObjectResult = Unauthorized(errorMessage);
+            return errorEndPoint;
+        }
+        if (!ModelState.IsValid)
+        {
+            errorEndPoint.BadRequestObjectResult = BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint;
+        }
+        return errorEndPoint;
+    }
+
     protected IEnumerable<string> GetAllErrorsDuringValidation()
     {
         return ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage);
     }
+
+    protected record ThingsToValidateBase 
+    {
+        public required string[] RolesToAccessTheEndPoint { get; set; }
+    }
+
+    
 
 
 }

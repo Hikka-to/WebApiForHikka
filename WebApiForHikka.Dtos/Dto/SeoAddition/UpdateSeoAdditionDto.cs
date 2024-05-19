@@ -1,11 +1,14 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Models.SeoAdditions;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.SeoAddition;
 public class UpdateSeoAdditionDto : ModelDto
 {
+    [SeoAdditionValidation]
+    public new Guid Id { get; set; }
 
     [StringLength(SeoAdditionNumberConstants.SlugLength)]
     public required string Slug { get; set; }

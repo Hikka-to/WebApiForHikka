@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
@@ -51,6 +52,6 @@ public class HikkaDbContext : DbContext
         modelBuilder.Entity<Source>().Navigation(e => e.SeoAddition).AutoInclude();
 
         modelBuilder.Entity<RestrictedRating>().Navigation(e => e.SeoAddition).AutoInclude();
-
+      
     }
 }

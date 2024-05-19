@@ -1,27 +1,27 @@
 ﻿using AutoMapper;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
+using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 
 public abstract class CrudController
     <TGetDto, TUpdateDto, TCreateDto, TIService, TModel>
     : MyBaseController, ICrudController<TUpdateDto, TCreateDto>
-    where TModel  : Model
+    where TModel : Model
+    where TUpdateDto : ModelDto
     where TIService : ICrudService<TModel>
+
 {
     protected TIService _crudService;
 
-    public CrudController(TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mapper, httpContextAccessor) 
+    public CrudController(TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mapper, httpContextAccessor)
     {
         _crudService = crudService;
 
@@ -31,18 +31,16 @@ public abstract class CrudController
     [HttpPost("Create")]
     public virtual async Task<IActionResult> Create([FromBody] TCreateDto dto, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+            new ThingsToValidateBase()
+            {
+                RolesToAccessTheEndPoint =
+            rolesToAccessTheEndpoint
+            });
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
 
@@ -52,28 +50,26 @@ public abstract class CrudController
 
         if (id == null)
         {
-            return BadRequest(SharedStringConstants.SomethingWentWrongDuringCreateing);
+            return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
         }
 
-        return Ok(new CreateResponseDto() {  Id = (Guid)id });
+        return Ok(new CreateResponseDto() { Id = (Guid)id });
     }
 
 
     [HttpDelete("{id:Guid}")]
     public virtual async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+            new ThingsToValidateBase()
+            {
+                RolesToAccessTheEndPoint =
+            rolesToAccessTheEndpoint
+            });
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
         await _crudService.DeleteAsync(id, cancellationToken);
@@ -84,18 +80,17 @@ public abstract class CrudController
     [HttpGet("{id:Guid}")]
     public virtual async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.UserRole, UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
-        {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
-        }
 
-        if (!ModelState.IsValid)
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+            new ThingsToValidateBase()
+            {
+                RolesToAccessTheEndPoint =
+            rolesToAccessTheEndpoint
+            });
+        if (errorEndPoint.IsError)
         {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
 
@@ -110,18 +105,16 @@ public abstract class CrudController
     [HttpGet("GetAll")]
     public virtual async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+            new ThingsToValidateBase()
+            {
+                RolesToAccessTheEndPoint =
+            rolesToAccessTheEndpoint
+            });
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
         var paginationCollection = await _crudService.GetAllAsync(paginationDto, cancellationToken);
@@ -141,21 +134,48 @@ public abstract class CrudController
     [HttpPut("Update")]
     public virtual async Task<IActionResult> Put([FromBody] TUpdateDto dto, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint)) 
+        ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateEndPoint(
+            new ThingsToValidateForUpdate()
+            {
+                RolesToAccessTheEndPoint =
+            rolesToAccessTheEndpoint,
+                updateDto = dto,
+                
+            });
+
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
-        }
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
+
         var model = _mapper.Map<TModel>(dto);
-                await _crudService.UpdateAsync(model, cancellationToken);
+        await _crudService.UpdateAsync(model, cancellationToken);
         return NoContent();
+    }
+
+    protected virtual ErrorEndPoint ValidateRequestForUpdateEndPoint(ThingsToValidateForUpdate thingsToValidate)
+    {
+        ErrorEndPoint errorEndPoint = ValidateRequest(thingsToValidate);
+        if (errorEndPoint.IsError) 
+        {
+            return errorEndPoint;
+        }
+
+        var model = _crudService.Get(thingsToValidate.updateDto.Id);
+        if (model == null)
+        {
+            errorEndPoint.BadRequestObjectResult = BadRequest(ControllerStringConstants.ModelWithThisIdDoesntExistForUpdateEndPoint);
+            return errorEndPoint;
+        }
+
+
+        return errorEndPoint;
+    }
+
+    protected record ThingsToValidateForUpdate : ThingsToValidateBase 
+    {
+        public required TUpdateDto updateDto { get; set; }
     }
 }

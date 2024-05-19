@@ -22,7 +22,7 @@ public class TagServiceTest : SharedServiceTestWithSeoAddition<
     {
         return new Tag()
         {
-            Alises = "test",
+            Alises = new List<string> { "test" },
             EngName = "test",
             IsGenre = true,
             Name = "test",
@@ -34,7 +34,7 @@ public class TagServiceTest : SharedServiceTestWithSeoAddition<
     {
         return new Tag()
         {
-            Alises = "test1",
+            Alises = new List<string> { "test1" },
             EngName = "test1",
             IsGenre = false,
             Name = "test1",

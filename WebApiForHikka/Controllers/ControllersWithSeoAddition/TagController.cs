@@ -11,6 +11,7 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.WebApi.Shared;
+using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
@@ -27,24 +28,24 @@ public class TagController : CrudControllerForModelWithSeoAddition<GetTagDto,
 
     public override async Task<IActionResult> Create([FromBody] CreateTagDto dto, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(new ThingsToValidateBase() {
+            RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+        });
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
+            return errorEndPoint.GetError();
         }
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
-        }
+
         var model = _mapper.Map<Tag>(dto);
 
-        model.SeoAddition = await _seoAdditionService.GetAsync(dto.SeoAdditionId, cancellationToken);
+        var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
+        await _seoAdditionService.CreateAsync(seoAddition, cancellationToken);
 
-        if (dto.ParentTagId != null) 
+        model.SeoAddition = seoAddition;
+
+        if (dto.ParentTagId != null)
         {
             model.ParentTag = await _crudService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
         }
@@ -57,22 +58,21 @@ public class TagController : CrudControllerForModelWithSeoAddition<GetTagDto,
 
     public override async Task<IActionResult> Put([FromBody] UpdateTagDto dto, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(new ThingsToValidateBase() 
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
+            RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+        });
+        if (errorEndPoint.IsError)
+        {
+            return errorEndPoint.GetError();
         }
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
-        }
+
         var model = _mapper.Map<Tag>(dto);
 
-        model.SeoAddition = await _seoAdditionService.GetAsync(dto.SeoAdditionId, cancellationToken);
+        model.SeoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
 
         if (dto.ParentTagId != null)
         {
@@ -83,11 +83,11 @@ public class TagController : CrudControllerForModelWithSeoAddition<GetTagDto,
         {
             await _crudService.UpdateAsync(model, cancellationToken);
 
-            return Ok(SharedStringConstants.ModelUpdatedSuccessfully);
+            return Ok(ControllerStringConstants.ModelUpdatedSuccessfully);
         }
         catch (Exception)
         {
-            return BadRequest(SharedStringConstants.SomethingWentWrongDuringUpdateing);
+            return BadRequest(ControllerStringConstants.SomethingWentWrongDuringUpdateing);
         }
 
 

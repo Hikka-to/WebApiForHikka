@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
@@ -15,14 +16,14 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     {
         DbContext = dbContext;
     }
-    public async Task<Guid> AddAsync(TModel model, CancellationToken cancellationToken)
+    public virtual async Task<Guid> AddAsync(TModel model, CancellationToken cancellationToken)
     {
         await DbContext.Set<TModel>().AddAsync(model, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
         return model.Id;
     }
 
-    public async Task UpdateAsync(TModel model, CancellationToken cancellationToken)
+    public virtual async Task UpdateAsync(TModel model, CancellationToken cancellationToken)
     {
         var entity = await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == model.Id, cancellationToken);
         if (entity is null)
@@ -32,7 +33,7 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+    public virtual async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         var entity = await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         if (entity is null)
@@ -42,12 +43,12 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<TModel?> GetAsync(Guid id, CancellationToken cancellationToken)
+    public virtual async Task<TModel?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         return await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 
-    public async Task<PaginatedCollection<TModel>> GetAllAsync(FilterPaginationDto dto, CancellationToken cancellationToken)
+    public virtual async Task<PaginatedCollection<TModel>> GetAllAsync(FilterPaginationDto dto, CancellationToken cancellationToken)
     {
         var skip = (dto.PageNumber - 1) * dto.PageSize;
         var take = dto.PageSize;
@@ -67,17 +68,17 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return new PaginatedCollection<TModel>(models, totalItems);
     }
 
-    public async Task<IReadOnlyCollection<TModel>> GetAllAsync(CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyCollection<TModel>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await DbContext.Set<TModel>().ToArrayAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids, CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids, CancellationToken cancellationToken)
     {
         return await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id)).ToArrayAsync(cancellationToken);
     }
 
-    public TModel? Get(Guid id)
+    public virtual TModel? Get(Guid id)
     {
         return DbContext.Set<TModel>().FirstOrDefault(e => e.Id == id);
     }

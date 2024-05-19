@@ -13,6 +13,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.WebApi.Shared;
+using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.Controllers;
 public class UsersController : MyBaseController, ICrudController<UpdateUserDto, UserRegistrationDto>
@@ -79,6 +80,13 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(new ThingsToValidateBase() { RolesToAccessTheEndPoint = rolesToAccessTheEndpoint, });
+        if (errorEndPoint.IsError)
+        {
+            return errorEndPoint.GetError();
+        }
+
         var paginationCollection = await _userService.GetAllAsync(paginationDto, cancellationToken);
 
         var users = _mapper.Map<List<GetUserDto>>(paginationCollection.Models);
@@ -105,12 +113,20 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     {
-        var user = _mapper.Map<User>(dto);
-        if (!ModelState.IsValid)
+        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
+        ErrorEndPoint errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase() 
+            {
+                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+            }
+            );
+        if (errorEndPoint.IsError)
         {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
+        var user = _mapper.Map<User>(dto);
+       
         var userWithPassword = await _userService.GetAsync(dto.Id, cancellationToken);
         if (userWithPassword == null)
         {

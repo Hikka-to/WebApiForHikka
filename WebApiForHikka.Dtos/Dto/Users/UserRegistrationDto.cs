@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Constants.Shared;
+using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
 public class UserRegistrationDto
 {
-    [EmailAddress(ErrorMessage = SharedStringConstants.EmailIsntFormatedCorrectlyErrorMessage)]
+    [EmailAddress(ErrorMessage = ControllerStringConstants.EmailIsntFormatedCorrectlyErrorMessage)]
     [EmailIsAlreadyExist(ErrorMessage = UserStringConstants.UserIsAlreadyExistErrorMessage)]
     [Required]
     public required string Email { get; set; }

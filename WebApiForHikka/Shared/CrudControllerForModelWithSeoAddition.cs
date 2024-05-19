@@ -10,6 +10,7 @@ using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
+using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition> : CrudController<
@@ -32,33 +33,34 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
         _seoAdditionService = seoAdditionService;
     }
 
+
     [HttpPost("Create")]
     public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+            new ThingsToValidateBase() 
+            {
+                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+            }
+            );
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
 
 
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
-        model.SeoAddition = await _seoAdditionService.GetAsync(dto.SeoAdditionId, cancellationToken);
+        var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
+        await _seoAdditionService.CreateAsync(seoAddition, cancellationToken);
+        model.SeoAddition = seoAddition;
 
         Guid? id = await _crudService.CreateAsync(model, cancellationToken);
 
         if (id == null)
         {
-            return BadRequest(SharedStringConstants.SomethingWentWrongDuringCreateing);
+            return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
         }
 
         return Ok(new CreateResponseDto() { Id = (Guid)id });
@@ -68,23 +70,23 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     [HttpDelete("{id:Guid}")]
     public override async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+            new ThingsToValidateBase() 
+            {
+                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+            }
+            );
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
+            return errorEndPoint.GetError();
         }
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
-        }
+        var model = await _crudService.GetAsync(id, cancellationToken);
 
 
-
-        await _crudService.DeleteAsync(id, cancellationToken);
+        await _crudService.DeleteAsync(model.Id, cancellationToken);
+        await _seoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
         return NoContent();
     }
 
@@ -92,20 +94,17 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     [HttpGet("{id:Guid}")]
     public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+            new ThingsToValidateBase() 
+            {
+                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+            }
+            );
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
+            return errorEndPoint.GetError();
         }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
-        }
-
 
         var model = _mapper.Map<TGetDtoWithSeoAddition>(await _crudService.GetAsync(id, cancellationToken));
         if (model is null)
@@ -118,18 +117,16 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     [HttpGet("GetAll")]
     public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+            new ThingsToValidateBase() 
+            {
+                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+            }
+            );
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
         var paginationCollection = await _crudService.GetAllAsync(paginationDto, cancellationToken);
@@ -149,27 +146,50 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     [HttpPut("Update")]
     public override async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, rolesToAccessTheEndpoint))
+        ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateWithSeoAddtionEndPoint(
+            new ThingsToValidateWithSeoAdditionForUpdate() 
+            {
+                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+                updateDto = dto,
+                IdForSeoAddition =  dto.SeoAddition.Id,
+            }
+            
+            );
+        if (errorEndPoint.IsError)
         {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", rolesToAccessTheEndpoint);
-            return Unauthorized(errorMessage);
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
+            return errorEndPoint.GetError();
         }
 
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
-        
-
-        model.SeoAddition = await _seoAdditionService.GetAsync(dto.SeoAdditionId, cancellationToken);
-
+        var seoAddition = await _seoAdditionService.GetAsync(_mapper.Map<SeoAddition>(dto.SeoAddition).Id, cancellationToken);
+        model.SeoAddition = seoAddition;
 
         await _crudService.UpdateAsync(model, cancellationToken);
         return NoContent();
+    }
+
+
+    protected ErrorEndPoint ValidateRequestForUpdateWithSeoAddtionEndPoint(ThingsToValidateWithSeoAdditionForUpdate thingsToValidate)
+    {
+        ErrorEndPoint errorEndPoint = base.ValidateRequestForUpdateEndPoint(thingsToValidate);
+
+        if (errorEndPoint.IsError) 
+        {
+            return errorEndPoint;
+        }
+
+        if (thingsToValidate.updateDto.SeoAddition.Id == thingsToValidate.IdForSeoAddition) 
+        {
+            errorEndPoint.BadRequestObjectResult = BadRequest(ControllerStringConstants.SeoAdditionDoesntConnectToTheModel);
+            return errorEndPoint;
+        }
+
+        return errorEndPoint;
+    }
+
+    protected record ThingsToValidateWithSeoAdditionForUpdate : ThingsToValidateForUpdate 
+    {
+        public required Guid IdForSeoAddition { get; set; }
     }
 }
