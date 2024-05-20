@@ -1,11 +1,9 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Models.SeoAdditions;
 
 namespace WebApiForHikka.Dtos.Dto.SeoAddition;
 public class CreateSeoAdditionDto
 {
-
     [StringLength(SeoAdditionNumberConstants.SlugLength)]
     public required string Slug { get; set; }
 

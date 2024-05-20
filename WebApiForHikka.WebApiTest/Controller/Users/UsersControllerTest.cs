@@ -1,32 +1,23 @@
-﻿using AutoMapper;
-using FakeItEasy;
+﻿using FakeItEasy;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WebApiForHikka.Application.Users;
-using WebApiForHikka.Constants.AppSettings;
-using WebApiForHikka.Controllers;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Test.Controller.Shared;
+using WebApiForHikka.WebApi.Controllers;
 
 namespace WebApiForHikka.Test.Controller.Users;
 
 public class UsersControllerTest : BaseControllerTest
 {
-    private readonly IUserService _userService;
-    private readonly IConfiguration _configuration; 
-    public UsersControllerTest() 
-    {
-        _userService = A.Fake<IUserService>();
-        _configuration = A.Fake<IConfiguration>();
-    }
-
+    private readonly IUserService _userService = A.Fake<IUserService>();
+    private readonly IConfiguration _configuration = A.Fake<IConfiguration>();
 
     [Fact]
-    public async void UsersController_GetAll_ReturnsOK()
+    public async Task UsersController_GetAll_ReturnsOK()
     {
         //Arrange
         var users = A.Fake<ICollection<GetUserDto>>();
@@ -110,6 +101,7 @@ public class UsersControllerTest : BaseControllerTest
         var user = new User { Email = "test@example.com", Role = "User", Id = updateUserDto.Id };
         A.CallTo(() => _userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
         var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
+        A.CallTo(() => _httpContextAccessor);
 
         // Act
         var result = await controller.Put(updateUserDto, CancellationToken.None);
@@ -131,7 +123,4 @@ public class UsersControllerTest : BaseControllerTest
         // Assert
         Assert.IsType<NoContentResult>(result);
     }
-
-
-
 }

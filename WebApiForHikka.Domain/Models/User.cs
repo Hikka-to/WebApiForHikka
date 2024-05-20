@@ -1,38 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApiForHikka.Domain.Models;
-public class User : Model
+[Index(nameof(Email), IsUnique = true)]
+public class User : Model, ICloneable
 {
+    [Required]
+    public string Password { get; set; } = null!;
 
     [Required]
-    public string Password { get; set; }
-
-    [Required]
-    [Index(IsUnique = true)]
     [EmailAddress]
-    public string Email { get; set; }
+    public required string Email { get; set; }
 
     [Required]
-    public string Role { get; set; }
+    public required string Role { get; set; }
 
-    public User(string password, string email, string role)
-    {
-        this.Password = password;
-        this.Email = email;
-        this.Role = role;
-    }
-
-    public User() { }
-
-    public User ShallowCopy() 
-    {
-        return new User()
-        {
-            Email = this.Email,
-            Role = this.Role,
-            Password = this.Password,
-            Id = this.Id
-        };
-    }
+    public User Clone() => (User)MemberwiseClone();
+    object ICloneable.Clone() => Clone();
 }

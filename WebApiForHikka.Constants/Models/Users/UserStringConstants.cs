@@ -53,5 +53,4 @@ public class UserStringConstants
     public const string MessageUserRegistrated = "User created successfully";
 
     public const string MessageUserIsntRegistrated = "Something went wrong during registration";
-
 }

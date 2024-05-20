@@ -1,5 +1,4 @@
-﻿
-using WebApiForHikka.Domain;
+﻿using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Shared;
@@ -13,5 +12,4 @@ public interface ICrudService<TModel> where TModel : Model
     TModel? Get(Guid id);
     Task<PaginatedCollection<TModel>> GetAllAsync(FilterPaginationDto dto, CancellationToken cancellationToken);
     Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids, CancellationToken cancellationToken);
-
 }

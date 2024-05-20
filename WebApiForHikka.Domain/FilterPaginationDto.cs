@@ -1,5 +1,4 @@
-﻿
-using WebApiForHikka.Constants.Shared;
+﻿using WebApiForHikka.Constants.Shared;
 
 namespace WebApiForHikka.Domain;
 

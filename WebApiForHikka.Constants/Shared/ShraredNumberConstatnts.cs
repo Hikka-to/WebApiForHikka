@@ -1,5 +1,4 @@
-﻿
-namespace WebApiForHikka.Constants.Shared;
+﻿namespace WebApiForHikka.Constants.Shared;
 public static class ShraredNumberConstatnts
 {
     public const int DefaultItemsInOnePage = 50;

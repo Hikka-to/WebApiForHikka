@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using WebApiForHikka.Domain.Models;
+﻿using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Shared.Repository;
@@ -11,29 +10,20 @@ public class KindRepositoryTest : SharedRepositoryTestWithSeoAddition<
     KindRepository
     >
 {
-    protected override KindRepository GetRepository(HikkaDbContext hikkaDbContext)
-    {
-        return new KindRepository(hikkaDbContext);
-    }
+    protected override KindRepository GetRepository(HikkaDbContext hikkaDbContext) =>
+        new(hikkaDbContext);
 
-    protected override Kind GetSample()
+    protected override Kind GetSample() => new()
     {
-        return new Kind()
-        {
-            Hint = "test",
-            Slug = "test",
-            SeoAddition = GetSeoAdditionSample(),
-        };
-    }
+        Hint = "test",
+        Slug = "test",
+        SeoAddition = GetSeoAdditionSample(),
+    };
 
-    protected override Kind GetSampleForUpdate()
+    protected override Kind GetSampleForUpdate() => new()
     {
-        return new Kind()
-        {
-            Hint = "test1",
-            Slug = "test1",
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-        };
-    }
-
+        Hint = "test1",
+        Slug = "test1",
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+    };
 }

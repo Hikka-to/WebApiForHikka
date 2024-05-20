@@ -11,4 +11,3 @@ public class GetRestrictedRatingDto : GetDtoWithSeoAddition
 
     public string? Icon { get; set; }
 }
-

@@ -3,9 +3,4 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Application.WithSeoAddition.Tags;
 
-public class TagService : CrudService<Tag, ITagRepository>, ITagService
-{
-    public TagService(ITagRepository repository) : base(repository)
-    {
-    }
-}
+public class TagService(ITagRepository repository) : CrudService<Tag, ITagRepository>(repository), ITagService;

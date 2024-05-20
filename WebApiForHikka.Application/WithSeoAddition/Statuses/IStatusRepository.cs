@@ -3,6 +3,4 @@ using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Statuses;
 
-public interface IStatusRepository : ICrudRepository<Status>
-{
-}
+public interface IStatusRepository : ICrudRepository<Status>;

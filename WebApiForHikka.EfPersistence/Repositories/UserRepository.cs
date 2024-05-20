@@ -1,5 +1,5 @@
 ﻿
-using SushiRestaurant.EfPersistence.Repositories;
+using WebApiForHikka.EfPersistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Shared;
@@ -7,6 +7,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.Constants.Models.Users;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 public class UserRepository : CrudRepository<User>, IUserRepository
@@ -40,11 +41,10 @@ public class UserRepository : CrudRepository<User>, IUserRepository
 
     public new async Task<Guid> AddAsync(User model, CancellationToken cancellationToken)
     {
-        var user = model.ShallowCopy();
-        user.Password = _hashFunctions.HashPassword(user.Password);
-        await DbContext.Set<User>().AddAsync(user, cancellationToken);
+        model.Password = _hashFunctions.HashPassword(model.Password);
+        await DbContext.Set<User>().AddAsync(model, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
-        return user.Id;
+        return model.Id;
     }
     public async Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken)
     {

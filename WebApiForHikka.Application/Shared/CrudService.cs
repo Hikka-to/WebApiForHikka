@@ -1,5 +1,4 @@
-﻿
-using WebApiForHikka.Domain;
+﻿using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Shared;
@@ -27,7 +26,7 @@ public abstract class CrudService<TModel, TRepository> : ICrudService<TModel> wh
     {
         return await _repository.GetAllAsync(dto, cancellationToken);
     }
-    
+
     public async virtual Task<TModel?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _repository.GetAsync(id, cancellationToken);

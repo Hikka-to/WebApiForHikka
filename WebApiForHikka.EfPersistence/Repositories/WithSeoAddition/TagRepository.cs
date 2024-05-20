@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SushiRestaurant.EfPersistence.Repositories;
+using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Constants.Models.Tags;

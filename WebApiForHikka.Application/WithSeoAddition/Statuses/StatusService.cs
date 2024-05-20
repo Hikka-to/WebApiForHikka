@@ -2,9 +2,6 @@
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Statuses;
-public class StatusService : CrudService<Status, IStatusRepository>, IStatusService
-{
-    public StatusService(IStatusRepository repository) : base(repository)
-    {
-    }
-}
+public class StatusService(IStatusRepository repository)
+    : CrudService<Status, IStatusRepository>(repository),
+    IStatusService;

@@ -2,22 +2,20 @@
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using WebApiForHikka.Domain;
+using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Test.Controller.Shared;
 
 public class BaseControllerTest
 {
-    protected readonly IMapper _mapper; 
-    protected readonly IHttpContextAccessor _httpContextAccessor;
+    protected readonly IMapper _mapper = A.Fake<IMapper>();
+    protected readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
 
-    protected CancellationToken _cancellationToken => new CancellationToken(); 
-    protected FilterPaginationDto _filterPaginationDto => new FilterPaginationDto(); 
+    protected CancellationToken _cancellationToken => new();
+    protected FilterPaginationDto _filterPaginationDto => new();
 
-    public BaseControllerTest() 
+    public BaseControllerTest()
     {
-        _mapper = A.Fake<IMapper>();
-        _httpContextAccessor = A.Fake<IHttpContextAccessor>();
-    } 
-
+    }
 
 }

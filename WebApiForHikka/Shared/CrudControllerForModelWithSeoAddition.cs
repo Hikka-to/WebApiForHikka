@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Design;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.ResponseDto;
@@ -13,33 +11,30 @@ using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
-public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition> : CrudController<
-    TGetDtoWithSeoAddition,
-    TUpdateDtoWithSeoAddition,
-    TCreateDtoWithSeoAddition,
-    TIService,
-    TModelWithSeoAddition
-    >
+public abstract class CrudControllerForModelWithSeoAddition
+    <TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition>
+    (TIService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    : CrudController<
+        TGetDtoWithSeoAddition,
+        TUpdateDtoWithSeoAddition,
+        TCreateDtoWithSeoAddition,
+        TIService,
+        TModelWithSeoAddition
+    >(crudService, mapper, httpContextAccessor)
     where TModelWithSeoAddition : ModelWithSeoAddition
     where TGetDtoWithSeoAddition : GetDtoWithSeoAddition
     where TUpdateDtoWithSeoAddition : UpdateDtoWithSeoAddition
     where TCreateDtoWithSeoAddition : CreateDtoWithSeoAddition
     where TIService : ICrudService<TModelWithSeoAddition>
 {
-    protected ISeoAdditionService _seoAdditionService;
-
-    public CrudControllerForModelWithSeoAddition(TIService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(crudService, mapper, httpContextAccessor)
-    {
-        _seoAdditionService = seoAdditionService;
-    }
-
+    protected ISeoAdditionService _seoAdditionService = seoAdditionService;
 
     [HttpPost("Create")]
     public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(
-            new ThingsToValidateBase() 
+        ErrorEndPoint errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
@@ -48,8 +43,6 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
         {
             return errorEndPoint.GetError();
         }
-
-
 
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
         var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
@@ -71,8 +64,8 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     public override async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(
-            new ThingsToValidateBase() 
+        ErrorEndPoint errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
@@ -85,7 +78,7 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
         var model = await _crudService.GetAsync(id, cancellationToken);
 
 
-        await _crudService.DeleteAsync(model.Id, cancellationToken);
+        await _crudService.DeleteAsync(model!.Id, cancellationToken);
         await _seoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
         return NoContent();
     }
@@ -95,8 +88,8 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(
-            new ThingsToValidateBase() 
+        ErrorEndPoint errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
@@ -118,8 +111,8 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(
-            new ThingsToValidateBase() 
+        ErrorEndPoint errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
@@ -147,14 +140,14 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     public override async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateWithSeoAddtionEndPoint(
-            new ThingsToValidateWithSeoAdditionForUpdate() 
+        ErrorEndPoint errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(
+            new ThingsToValidateWithSeoAdditionForUpdate()
             {
                 RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
-                updateDto = dto,
-                IdForSeoAddition =  dto.SeoAddition.Id,
+                UpdateDto = dto,
+                IdForSeoAddition = dto.SeoAddition.Id,
             }
-            
+
             );
         if (errorEndPoint.IsError)
         {
@@ -163,7 +156,7 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
 
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
         var seoAddition = await _seoAdditionService.GetAsync(_mapper.Map<SeoAddition>(dto.SeoAddition).Id, cancellationToken);
-        model.SeoAddition = seoAddition;
+        model.SeoAddition = seoAddition!;
 
         await _crudService.UpdateAsync(model, cancellationToken);
         return NoContent();
@@ -174,12 +167,12 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
     {
         ErrorEndPoint errorEndPoint = base.ValidateRequestForUpdateEndPoint(thingsToValidate);
 
-        if (errorEndPoint.IsError) 
+        if (errorEndPoint.IsError)
         {
             return errorEndPoint;
         }
 
-        if (thingsToValidate.updateDto.SeoAddition.Id == thingsToValidate.IdForSeoAddition) 
+        if (thingsToValidate.UpdateDto.SeoAddition.Id == thingsToValidate.IdForSeoAddition)
         {
             errorEndPoint.BadRequestObjectResult = BadRequest(ControllerStringConstants.SeoAdditionDoesntConnectToTheModel);
             return errorEndPoint;
@@ -188,8 +181,8 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
         return errorEndPoint;
     }
 
-    protected record ThingsToValidateWithSeoAdditionForUpdate : ThingsToValidateForUpdate 
+    protected record ThingsToValidateWithSeoAdditionForUpdate : ThingsToValidateForUpdate
     {
-        public required Guid IdForSeoAddition { get; set; }
+        public required Guid IdForSeoAddition { get; init; }
     }
 }

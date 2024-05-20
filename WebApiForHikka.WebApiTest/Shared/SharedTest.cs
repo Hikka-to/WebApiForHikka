@@ -7,7 +7,7 @@ using WebApiForHikka.WebApiTest.Repository.Users.FakeDataCreaters;
 namespace WebApiForHikka.Test.Shared;
 public class SharedTest
 {
-    public CancellationToken CancellationToken => new CancellationToken();
+    public CancellationToken CancellationToken => new();
 
     public async Task<HikkaDbContext> GetDatabaseContext()
     {

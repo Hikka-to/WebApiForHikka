@@ -8,27 +8,21 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.Formats;
 
 public class FormatServiceTest : SharedServiceTestWithSeoAddition<Format, FormatService>
 {
-    protected override Format GetSample()
+    protected override Format GetSample() => new()
     {
-        return new Format()
-        {
-            Name = "Test",
-            SeoAddition = GetSeoAdditionSample(),
-        };
-    }
+        Name = "Test",
+        SeoAddition = GetSeoAdditionSample(),
+    };
 
-    protected override Format GetSampleForUpdate()
+    protected override Format GetSampleForUpdate() => new()
     {
-        return new Format()
-        {
-            Name = "Test1",
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-        };
-    }
+        Name = "Test1",
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+    };
 
     protected override FormatService GetService(HikkaDbContext hikkaDbContext)
     {
-        FormatRepository repository = new FormatRepository(hikkaDbContext);
+        FormatRepository repository = new(hikkaDbContext);
 
         return new FormatService(repository);
     }

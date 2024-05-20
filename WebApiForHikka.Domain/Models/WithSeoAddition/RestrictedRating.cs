@@ -13,5 +13,4 @@ public class RestrictedRating : ModelWithSeoAddition
 
     [StringLength(RestrictedRatingNumberConstants.IconLenght)]
     public string? Icon { get; set; }
-
 }

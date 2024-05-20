@@ -6,7 +6,7 @@ using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 
-namespace SushiRestaurant.EfPersistence.Repositories;
+namespace WebApiForHikka.EfPersistence.Repositories;
 
 public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TModel : Model
 {

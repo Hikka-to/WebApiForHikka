@@ -2,6 +2,4 @@
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Kinds;
-public interface IKindRepository : ICrudRepository<Kind>
-{
-}
+public interface IKindRepository : ICrudRepository<Kind>;

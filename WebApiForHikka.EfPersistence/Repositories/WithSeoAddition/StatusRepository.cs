@@ -1,4 +1,4 @@
-﻿using SushiRestaurant.EfPersistence.Repositories;
+﻿using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Constants.Models.Statuses;
 using WebApiForHikka.Domain.Models;
