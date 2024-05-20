@@ -18,14 +18,6 @@ namespace WebApiForHikka.Test.Controller.Users;
 public class UsersControllerTest : BaseControllerTest
 {
     private readonly IUserService _userService = A.Fake<IUserService>();
-    private readonly IConfiguration _configuration = A.Fake<IConfiguration>();
-    private readonly IJwtTokenFactory _jwtTokenFactory = new JwtTokenFactory();
-
-
-    public UsersControllerTest() 
-    {
-        A.CallTo(() => _configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
-    }
 
     [Fact]
     public async Task UsersController_GetAll_ReturnsOK()
@@ -34,29 +26,13 @@ public class UsersControllerTest : BaseControllerTest
         var users = A.Fake<ICollection<GetUserDto>>();
         var usersList = A.Fake<List<GetUserDto>>();
         A.CallTo(() => _mapper.Map<List<GetUserDto>>(users)).Returns(usersList);
-        // Generate JWT Token
-        var jwtToken = _jwtTokenFactory.GetJwtToken(_userWithAdminRole, _configuration);
-
-        // Create mocks for HttpRequest and HttpContext
-        var httpRequestMock = new Mock<HttpRequest>();
-        var httpContextMock = new Mock<HttpContext>();
-
-        httpRequestMock.Setup(req => req.Headers.Authorization).Returns(jwtToken);
-
-        // Setup the HttpContext mock to return the mocked HttpRequest
-        httpContextMock.Setup(ctx => ctx.Request).Returns(httpRequestMock.Object);
-
-        // Mock IHttpContextAccessor to return the mocked HttpContext
-        var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-        httpContextAccessorMock.Setup(x => x.HttpContext).Returns(httpContextMock.Object);
-
 
         var controller = new UsersController(
             _userService,
             _jwtTokenFactory,
             _configuration,
             _mapper,
-            httpContextAccessorMock.Object
+            GetHttpContextAccessForAdminUser()
             );
 
         //Act
@@ -89,23 +65,6 @@ public class UsersControllerTest : BaseControllerTest
         Assert.Equal(userId, response.Id);
     }
 
-    //[Fact]
-    //public async Task Login_ValidCredentials_ReturnsOkWithToken()
-    //{
-    //    // Arrange
-    //    var userLoginDto = new UserLoginDto { Email = "test@example.com", Password = "password" };
-    //    var user = new User { Email = "test@example.com", Role = "User", Id = Guid.NewGuid() };
-    //    A.CallTo(() => _userService.AuthenticateUserAsync(userLoginDto.Email, userLoginDto.Password, A<CancellationToken>.Ignored)).Returns(user);
-    //    A.CallTo(() => _configuration[AppSettingsStringConstants.JwtKey]).Returns("your_jwt_key_here");
-    //    var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
-
-    //    // Act
-    //    var result = await controller.Login(userLoginDto, CancellationToken.None);
-
-    //    // Assert
-    //    var okResult = Assert.IsType<OkObjectResult>(result);
-    //}
-
     [Fact]
     public async Task Get_ValidId_ReturnsOkWithUser()
     {
@@ -113,7 +72,7 @@ public class UsersControllerTest : BaseControllerTest
         var userId = Guid.NewGuid();
         var user = new User { Email = "test@example.com", Role = "User", Id = userId };
         A.CallTo(() => _userService.GetAsync(userId, A<CancellationToken>.Ignored)).Returns(user);
-        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, _httpContextAccessor);
+        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Get(userId, CancellationToken.None);
@@ -130,23 +89,8 @@ public class UsersControllerTest : BaseControllerTest
         var user = new User { Email = "test@example.com", Role = "User", Id = updateUserDto.Id };
         A.CallTo(() => _userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
 
-        // Generate JWT Token
-        var jwtToken = _jwtTokenFactory.GetJwtToken(_userWithAdminRole, _configuration);
-
-        // Create mocks for HttpRequest and HttpContext
-        var httpRequestMock = new Mock<HttpRequest>();
-        var httpContextMock = new Mock<HttpContext>();
-
-        httpRequestMock.Setup(req => req.Headers.Authorization).Returns(jwtToken);
-
-        // Setup the HttpContext mock to return the mocked HttpRequest
-        httpContextMock.Setup(ctx => ctx.Request).Returns(httpRequestMock.Object);
-
-        // Mock IHttpContextAccessor to return the mocked HttpContext
-        var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-        httpContextAccessorMock.Setup(x => x.HttpContext).Returns(httpContextMock.Object);
-
-        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, httpContextAccessorMock.Object);
+        
+        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Put(updateUserDto, CancellationToken.None);
@@ -160,7 +104,7 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var userId = Guid.NewGuid();
-        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, _httpContextAccessor);
+        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Delete(userId, CancellationToken.None);
