@@ -26,16 +26,8 @@ public class HikkaDbContext : DbContext
         // Configure the self-referencing relationship
         modelBuilder.Entity<Tag>()
            .HasOne(t => t.ParentTag)
-           .WithMany()
-           .HasForeignKey("ParentId") // Assuming you meant to use "ParentId" instead of "parent_id"
-           .IsRequired(false); // Make foreign key optional
-
-        // Configure the collection of tags
-        modelBuilder.Entity<Tag>()
-           .HasMany(t => t.Tags)
-           .WithOne() // No inverse property needed here
-           .HasForeignKey("ParentId"); // Use the same foreign key for consistency
-
+           .WithMany(t => t.Tags)
+           .HasForeignKey("ParentId");
 
         modelBuilder.Entity<Tag>().Navigation(e => e.SeoAddition).AutoInclude();
 
