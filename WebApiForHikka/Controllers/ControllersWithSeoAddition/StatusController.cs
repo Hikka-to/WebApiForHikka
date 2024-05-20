@@ -8,15 +8,12 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
-public class StatusController : CrudControllerForModelWithSeoAddition<
-    GetStatusDto,
-    UpdateStatusDto,
-    CreateStatusDto,
-    IStatusService,
-    Status
-    >
-{
-    public StatusController(IStatusService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(crudService, seoAdditionService, mapper, httpContextAccessor)
-    {
-    }
-}
+public class StatusController
+    (IStatusService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    : CrudControllerForModelWithSeoAddition<
+        GetStatusDto,
+        UpdateStatusDto,
+        CreateStatusDto,
+        IStatusService,
+        Status
+    >(crudService, seoAdditionService, mapper, httpContextAccessor);

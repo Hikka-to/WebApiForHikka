@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using WebApiForHikka.Domain.Models;
+﻿using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Shared.Repository;
@@ -11,33 +10,24 @@ public class RestrictedRatingRepositoryTest : SharedRepositoryTestWithSeoAdditio
     RestrictedRatingRepository
     >
 {
-    protected override RestrictedRatingRepository GetRepository(HikkaDbContext hikkaDbContext)
-    {
-        return new RestrictedRatingRepository(hikkaDbContext);
-    }
+    protected override RestrictedRatingRepository GetRepository(HikkaDbContext hikkaDbContext) =>
+        new(hikkaDbContext);
 
-    protected override RestrictedRating GetSample()
+    protected override RestrictedRating GetSample() => new()
     {
-        return new RestrictedRating()
-        {
-            Name = "test",
-            Hint = "test",
-            Icon = "test",
-            Value = 1,
-            SeoAddition = GetSeoAdditionSample(),
-        };
-    }
+        Name = "test",
+        Hint = "test",
+        Icon = "test",
+        Value = 1,
+        SeoAddition = GetSeoAdditionSample(),
+    };
 
-    protected override RestrictedRating GetSampleForUpdate()
+    protected override RestrictedRating GetSampleForUpdate() => new()
     {
-        return new RestrictedRating()
-        {
-            Name = "test1",
-            Hint = "test1",
-            Icon = "test1",
-            Value = 2,
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-        };
-    }
-
+        Name = "test1",
+        Hint = "test1",
+        Icon = "test1",
+        Value = 2,
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+    };
 }

@@ -11,40 +11,32 @@ public class TagRepositoryTest : SharedRepositoryTestWithSeoAddition<
     TagRepository
     >
 {
-    protected override TagRepository GetRepository(HikkaDbContext hikkaDbContext)
-    {
-        return new TagRepository(hikkaDbContext);
-    }
+    protected override TagRepository GetRepository(HikkaDbContext hikkaDbContext) =>
+        new(hikkaDbContext);
 
-    protected override Tag GetSample()
+    protected override Tag GetSample() => new()
     {
-        return new Tag()
+        Alises = ["test"],
+        EngName = "test",
+        IsGenre = true,
+        Name = "test",
+        SeoAddition = GetSeoAdditionSample(),
+    };
+
+    protected override Tag GetSampleForUpdate() => new()
+    {
+        Alises = ["test1"],
+        EngName = "test1",
+        IsGenre = false,
+        Name = "test1",
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+        ParentTag = new()
         {
-            Alises = new List<string> { "test" },
+            Alises = ["test"],
             EngName = "test",
             IsGenre = true,
             Name = "test",
             SeoAddition = GetSeoAdditionSample(),
-        };
-    }
-
-    protected override Tag GetSampleForUpdate()
-    {
-        return new Tag()
-        {
-            Alises = new List<string> { "test1" },
-            EngName = "test1",
-            IsGenre = false,
-            Name = "test1",
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-            ParentTag = new Tag()
-            {
-                Alises = new List<string> { "test" },
-                EngName = "test",
-                IsGenre = true,
-                Name = "test",
-                SeoAddition = GetSeoAdditionSample(),
-            },
-        };
-    }
+        },
+    };
 }

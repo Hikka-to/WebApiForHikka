@@ -6,7 +6,10 @@ using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.Test.Shared.Repository;
 
-public abstract class SharedRepositoryTest<TModel, TRepository> : SharedTest where TModel : Model where TRepository : ICrudRepository<TModel>
+public abstract class SharedRepositoryTest<TModel, TRepository>
+    : SharedTest
+    where TModel : Model
+    where TRepository : ICrudRepository<TModel>
 {
     protected abstract TModel GetSample();
     protected abstract TModel GetSampleForUpdate();
@@ -85,7 +88,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository> : SharedTest whe
         var result = await repository.GetAllAsync(CancellationToken);
 
         // Assert
-        Assert.Equal(ids.Count, result.Count());
+        Assert.Equal(ids.Count, result.Count);
     }
 
 
@@ -108,7 +111,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository> : SharedTest whe
         var result = await repository.GetAllModelsByIdsAsync(ids, CancellationToken);
 
         // Assert
-        Assert.Equal(ids.Count, result.Count());
+        Assert.Equal(ids.Count, result.Count);
     }
     public async virtual Task Repository_GetAsync_ReturnsModel()
     {

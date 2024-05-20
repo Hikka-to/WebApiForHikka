@@ -1,12 +1,10 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SushiRestaurant.WebApi.Extensions;
 using System.Text;
 using WebApiForHikka.Constants.AppSettings;
-using WebApiForHikka.Dtos.Extensions;
+using WebApiForHikka.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,20 +28,18 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-   {
-     new OpenApiSecurityScheme
-     {
-       Reference = new OpenApiReference
-       {
-         Type = ReferenceType.SecurityScheme,
-         Id = "Bearer"
-       }
-      },
-      new string[] { }
-    }
-  });
-}); 
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        [new()
+        {
+            Reference = new()
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        }] = []
+    });
+});
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
@@ -66,7 +62,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration[AppSettingsStringConstants.JwtIssuer],
         ValidAudience = builder.Configuration[AppSettingsStringConstants.JwtAudience],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration[AppSettingsStringConstants.JwtKey]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration[AppSettingsStringConstants.JwtKey]!))
     };
 });
 

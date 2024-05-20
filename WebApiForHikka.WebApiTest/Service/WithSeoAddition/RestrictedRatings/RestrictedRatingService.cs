@@ -1,5 +1,4 @@
-﻿using WebApiForHikka.Application.Periods;
-using WebApiForHikka.Application.RestrictedRatings;
+﻿using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
@@ -9,33 +8,27 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.RestrictedRatings;
 
 public class RestrictedRatingServiceTest : SharedServiceTestWithSeoAddition<RestrictedRating, RestrictedRatingService>
 {
-    protected override RestrictedRating GetSample()
+    protected override RestrictedRating GetSample() => new()
     {
-        return new RestrictedRating()
-        {
-            Hint = "test",
-            Icon = "test",
-            Name = "test",
-            Value = 1,
-            SeoAddition = GetSeoAdditionSample(),
-        };
-    }
+        Hint = "test",
+        Icon = "test",
+        Name = "test",
+        Value = 1,
+        SeoAddition = GetSeoAdditionSample(),
+    };
 
-    protected override RestrictedRating GetSampleForUpdate()
+    protected override RestrictedRating GetSampleForUpdate() => new()
     {
-        return new RestrictedRating()
-        {
-            Hint = "test1",
-            Icon = "test1",
-            Name = "test1",
-            Value = 2,
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-        };
-    }
+        Hint = "test1",
+        Icon = "test1",
+        Name = "test1",
+        Value = 2,
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+    };
 
     protected override RestrictedRatingService GetService(HikkaDbContext hikkaDbContext)
     {
-        RestrictedRatingRepository repository = new RestrictedRatingRepository(hikkaDbContext);
+        RestrictedRatingRepository repository = new(hikkaDbContext);
 
         return new RestrictedRatingService(repository);
     }

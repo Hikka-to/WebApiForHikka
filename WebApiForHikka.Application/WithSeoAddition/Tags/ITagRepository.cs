@@ -3,6 +3,4 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Application.WithSeoAddition.Tags;
 
-public interface ITagRepository : ICrudRepository<Tag>
-{
-}
+public interface ITagRepository : ICrudRepository<Tag>;

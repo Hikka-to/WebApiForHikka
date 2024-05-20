@@ -9,20 +9,16 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 namespace WebApiForHikka.WebApi.Shared;
 
 [Route("api/[controller]")]
-public abstract class MyBaseController : ControllerBase
+public abstract class MyBaseController
+    (IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    : ControllerBase
 {
-    protected readonly IMapper _mapper;
-    protected readonly IHttpContextAccessor _httpContextAccessor;
-
-    protected MyBaseController(IMapper mapper, IHttpContextAccessor httpContextAccessor)
-    {
-        _mapper = mapper;
-        _httpContextAccessor = httpContextAccessor;
-    }
+    protected readonly IMapper _mapper = mapper;
+    protected readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
     protected JwtTokenContentDto GetJwtTokenAuthorizationFromHeader()
     {
-        var authHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
+        var authHeader = _httpContextAccessor.HttpContext!.Request.Headers.Authorization.ToString();
         if (authHeader != null)
         {
             try
@@ -68,15 +64,15 @@ public abstract class MyBaseController : ControllerBase
         return false;
     }
 
-    protected virtual ErrorEndPoint ValidateRequest(ThingsToValidateBase thingsToValidate) 
+    protected virtual ErrorEndPoint ValidateRequest(ThingsToValidateBase thingsToValidate)
     {
-        ErrorEndPoint errorEndPoint = new ErrorEndPoint();
+        ErrorEndPoint errorEndPoint = new();
 
-        var jwt = this.GetJwtTokenAuthorizationFromHeader();
-        if (!this.CheckIfTheUserHasTheRightRole(jwt, thingsToValidate.RolesToAccessTheEndPoint))
+        var jwt = GetJwtTokenAuthorizationFromHeader();
+        if (!CheckIfTheUserHasTheRightRole(jwt, thingsToValidate.RolesToAccessTheEndPoint))
         {
             string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ",  thingsToValidate.RolesToAccessTheEndPoint);
+                + string.Join(", ", thingsToValidate.RolesToAccessTheEndPoint);
             errorEndPoint.UnauthorizedObjectResult = Unauthorized(errorMessage);
             return errorEndPoint;
         }
@@ -93,12 +89,8 @@ public abstract class MyBaseController : ControllerBase
         return ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage);
     }
 
-    protected record ThingsToValidateBase 
+    protected record ThingsToValidateBase
     {
-        public required string[] RolesToAccessTheEndPoint { get; set; }
+        public required string[] RolesToAccessTheEndPoint { get; init; }
     }
-
-    
-
-
 }

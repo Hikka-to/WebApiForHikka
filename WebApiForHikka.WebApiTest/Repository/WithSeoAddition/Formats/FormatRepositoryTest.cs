@@ -10,27 +10,18 @@ public class FormatRepositoryTest : SharedRepositoryTestWithSeoAddition<
     FormatRepository
     >
 {
-    protected override FormatRepository GetRepository(HikkaDbContext hikkaDbContext)
-    {
-        return new FormatRepository(hikkaDbContext);
-    }
+    protected override FormatRepository GetRepository(HikkaDbContext hikkaDbContext) =>
+        new(hikkaDbContext);
 
-    protected override Format GetSample()
+    protected override Format GetSample() => new()
     {
-        return new Format()
-        {
-            Name = "test",
-            SeoAddition = GetSeoAdditionSample(),
-        };
-    }
+        Name = "test",
+        SeoAddition = GetSeoAdditionSample(),
+    };
 
-    protected override Format GetSampleForUpdate()
+    protected override Format GetSampleForUpdate() => new()
     {
-        return new Format()
-        {
-            Name = "test1",
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-        };
-    }
-
+        Name = "test1",
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+    };
 }

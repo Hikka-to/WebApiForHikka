@@ -1,29 +1,20 @@
-﻿using AutoMapper;
-using FakeItEasy;
+﻿using FakeItEasy;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WebApiForHikka.Application.Users;
-using WebApiForHikka.Constants.AppSettings;
-using WebApiForHikka.Controllers;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Test.Controller.Shared;
+using WebApiForHikka.WebApi.Controllers;
 
 namespace WebApiForHikka.Test.Controller.Users;
 
 public class UsersControllerTest : BaseControllerTest
 {
-    private readonly IUserService _userService;
-    private readonly IConfiguration _configuration; 
-    public UsersControllerTest() 
-    {
-        _userService = A.Fake<IUserService>();
-        _configuration = A.Fake<IConfiguration>();
-    }
-
+    private readonly IUserService _userService = A.Fake<IUserService>();
+    private readonly IConfiguration _configuration = A.Fake<IConfiguration>();
 
     [Fact]
     public async void UsersController_GetAll_ReturnsOK()
@@ -131,7 +122,4 @@ public class UsersControllerTest : BaseControllerTest
         // Assert
         Assert.IsType<NoContentResult>(result);
     }
-
-
-
 }

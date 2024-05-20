@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
@@ -15,21 +13,20 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
-public class TagController : CrudControllerForModelWithSeoAddition<GetTagDto,
+public class TagController
+    (ITagService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    : CrudControllerForModelWithSeoAddition<GetTagDto,
     UpdateTagDto,
     CreateTagDto,
     ITagService,
     Tag
-    >
+    >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
-    public TagController(ITagService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(crudService, seoAdditionService, mapper, httpContextAccessor)
-    {
-    }
-
     public override async Task<IActionResult> Create([FromBody] CreateTagDto dto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(new ThingsToValidateBase() {
+        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase()
+        {
             RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
         });
         if (errorEndPoint.IsError)
@@ -60,7 +57,7 @@ public class TagController : CrudControllerForModelWithSeoAddition<GetTagDto,
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
 
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(new ThingsToValidateBase() 
+        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase()
         {
             RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
         });
@@ -89,7 +86,5 @@ public class TagController : CrudControllerForModelWithSeoAddition<GetTagDto,
         {
             return BadRequest(ControllerStringConstants.SomethingWentWrongDuringUpdateing);
         }
-
-
     }
 }

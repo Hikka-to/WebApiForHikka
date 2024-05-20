@@ -2,9 +2,4 @@
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Kinds;
-public class KindService : CrudService<Kind, IKindRepository>, IKindService
-{
-    public KindService(IKindRepository repository) : base(repository)
-    {
-    }
-}
+public class KindService(IKindRepository repository) : CrudService<Kind, IKindRepository>(repository), IKindService;

@@ -1,5 +1,4 @@
-﻿
-using WebApiForHikka.Application.Shared;
+﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Users;
@@ -10,5 +9,4 @@ public interface IUserRepository : ICrudRepository<User>
 
     public Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken);
     public bool CheckIfUserWithTheEmailIsAlreadyExist(string email);
-
 }

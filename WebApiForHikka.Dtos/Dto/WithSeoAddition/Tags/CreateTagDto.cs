@@ -15,6 +15,4 @@ public class CreateTagDto : CreateDtoWithSeoAddition
 
     [TagValidation]
     public Guid? ParentTagId { get; set; }
-
-
 }

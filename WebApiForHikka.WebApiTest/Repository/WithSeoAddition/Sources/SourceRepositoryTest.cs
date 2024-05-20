@@ -10,28 +10,18 @@ public class SourceRepositoryTest : SharedRepositoryTestWithSeoAddition<
     SourceRepository
     >
 {
-    protected override SourceRepository GetRepository(HikkaDbContext hikkaDbContext)
-    {
-        return new SourceRepository(hikkaDbContext);
-    }
+    protected override SourceRepository GetRepository(HikkaDbContext hikkaDbContext) =>
+        new(hikkaDbContext);
 
-    protected override Source GetSample()
+    protected override Source GetSample() => new()
     {
-        return new Source()
-        {
-            Name = "test",
-            SeoAddition = GetSeoAdditionSample(),
-        };
-    }
+        Name = "test",
+        SeoAddition = GetSeoAdditionSample(),
+    };
 
-    protected override Source GetSampleForUpdate()
+    protected override Source GetSampleForUpdate() => new()
     {
-        return new Source()
-        {
-            Name = "test1",
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-        };
-    }
-
+        Name = "test1",
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+    };
 }
-

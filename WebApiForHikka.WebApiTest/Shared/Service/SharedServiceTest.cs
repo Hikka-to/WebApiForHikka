@@ -6,7 +6,10 @@ using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.Test.Shared.Service;
 
-public abstract class SharedServiceTest<TModel, TService> : SharedTest where TModel : Model where TService : ICrudService<TModel>
+public abstract class SharedServiceTest<TModel, TService>
+    : SharedTest
+    where TModel : Model
+    where TService : ICrudService<TModel>
 {
     protected abstract TModel GetSample();
     protected abstract TModel GetSampleForUpdate();
@@ -126,7 +129,4 @@ public abstract class SharedServiceTest<TModel, TService> : SharedTest where TMo
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(updatedSample);
     }
-
-
-
 }

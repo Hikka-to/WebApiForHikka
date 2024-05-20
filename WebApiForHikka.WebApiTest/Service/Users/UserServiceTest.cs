@@ -10,13 +10,7 @@ using WebApiForHikka.Test.Shared;
 namespace WebApiForHikka.Test.Service.Users;
 public class UserServiceTest : SharedTest
 {
-    private IHashFunctions _hashFunctions;
-
-    public UserServiceTest()
-    {
-        _hashFunctions = new HashFunctions();
-    }
-
+    private readonly IHashFunctions _hashFunctions = new HashFunctions();
 
     [Fact]
     public async Task UserService_AuthenticateUserAsync_ReturnsUser()
@@ -33,7 +27,7 @@ public class UserServiceTest : SharedTest
 
         // Assert
         result.Should().NotBeNull();
-        result.Email.Should().Be(testUser.Email);
+        result!.Email.Should().Be(testUser.Email);
     }
 
     [Fact]
@@ -51,7 +45,7 @@ public class UserServiceTest : SharedTest
 
         // Assert
         result.Should().NotBeNull();
-        result.Email.Should().Be(testUser.Email);
+        result!.Email.Should().Be(testUser.Email);
         result.Role.Should().Be(UserStringConstants.AdminRole);
     }
 
@@ -121,6 +115,6 @@ public class UserServiceTest : SharedTest
 
         // Assert
         result.Should().NotBeNull();
-        result.Email.Should().Be(testUser.Email);
+        result!.Email.Should().Be(testUser.Email);
     }
 }

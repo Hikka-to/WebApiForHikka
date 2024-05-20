@@ -2,9 +2,4 @@
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Periods;
-public class PeriodService : CrudService<Period, IPeriodRepository>, IPeriodService
-{
-    public PeriodService(IPeriodRepository repository) : base(repository)
-    {
-    }
-}
+public class PeriodService(IPeriodRepository repository) : CrudService<Period, IPeriodRepository>(repository), IPeriodService;

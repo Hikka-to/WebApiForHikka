@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
@@ -43,5 +42,4 @@ public class ErrorEndPoint
 
         return new BadRequestObjectResult("There is no error if you see the message please contact the developer");
     }
-
 }

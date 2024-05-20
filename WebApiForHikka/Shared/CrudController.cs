@@ -11,28 +11,22 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 
-public abstract class CrudController
-    <TGetDto, TUpdateDto, TCreateDto, TIService, TModel>
-    : MyBaseController, ICrudController<TUpdateDto, TCreateDto>
+public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService, TModel>
+    (TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    : MyBaseController(mapper, httpContextAccessor),
+    ICrudController<TUpdateDto, TCreateDto>
     where TModel : Model
     where TUpdateDto : ModelDto
     where TIService : ICrudService<TModel>
 
 {
-    protected TIService _crudService;
-
-    public CrudController(TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mapper, httpContextAccessor)
-    {
-        _crudService = crudService;
-
-    }
-
+    protected TIService _crudService = crudService;
 
     [HttpPost("Create")]
     public virtual async Task<IActionResult> Create([FromBody] TCreateDto dto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+        ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint =
@@ -61,7 +55,7 @@ public abstract class CrudController
     public virtual async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+        ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint =
@@ -82,7 +76,7 @@ public abstract class CrudController
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.UserRole, UserStringConstants.AdminRole];
 
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+        ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint =
@@ -106,7 +100,7 @@ public abstract class CrudController
     public virtual async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(
+        ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint =
@@ -135,13 +129,12 @@ public abstract class CrudController
     public virtual async Task<IActionResult> Put([FromBody] TUpdateDto dto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateEndPoint(
+        ErrorEndPoint errorEndPoint = ValidateRequestForUpdateEndPoint(
             new ThingsToValidateForUpdate()
             {
                 RolesToAccessTheEndPoint =
             rolesToAccessTheEndpoint,
-                updateDto = dto,
-                
+                UpdateDto = dto
             });
 
         if (errorEndPoint.IsError)
@@ -158,12 +151,12 @@ public abstract class CrudController
     protected virtual ErrorEndPoint ValidateRequestForUpdateEndPoint(ThingsToValidateForUpdate thingsToValidate)
     {
         ErrorEndPoint errorEndPoint = ValidateRequest(thingsToValidate);
-        if (errorEndPoint.IsError) 
+        if (errorEndPoint.IsError)
         {
             return errorEndPoint;
         }
 
-        var model = _crudService.Get(thingsToValidate.updateDto.Id);
+        var model = _crudService.Get(thingsToValidate.UpdateDto.Id);
         if (model == null)
         {
             errorEndPoint.BadRequestObjectResult = BadRequest(ControllerStringConstants.ModelWithThisIdDoesntExistForUpdateEndPoint);
@@ -174,8 +167,8 @@ public abstract class CrudController
         return errorEndPoint;
     }
 
-    protected record ThingsToValidateForUpdate : ThingsToValidateBase 
+    protected record ThingsToValidateForUpdate : ThingsToValidateBase
     {
-        public required TUpdateDto updateDto { get; set; }
+        public required TUpdateDto UpdateDto { get; init; }
     }
 }
