@@ -11,7 +11,8 @@ using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
-public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition>
+public abstract class CrudControllerForModelWithSeoAddition
+    <TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition>
     (TIService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : CrudController<
         TGetDtoWithSeoAddition,
@@ -42,8 +43,6 @@ public abstract class CrudControllerForModelWithSeoAddition<TGetDtoWithSeoAdditi
         {
             return errorEndPoint.GetError();
         }
-
-
 
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
         var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);

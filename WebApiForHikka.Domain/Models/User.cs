@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApiForHikka.Domain.Models;
+[Index(nameof(Email), IsUnique = true)]
 public class User : Model
 {
     [Required]
     public string Password { get; set; } = null!;
 
     [Required]
-    [Index(IsUnique = true)]
     [EmailAddress]
     public required string Email { get; set; }
 
