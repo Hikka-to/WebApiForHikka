@@ -18,13 +18,16 @@ public abstract class MyBaseController
 
     protected JwtTokenContentDto GetJwtTokenAuthorizationFromHeader()
     {
-        var authHeader = _httpContextAccessor.HttpContext!.Request.Headers.Authorization.ToString();
-        if (authHeader != null)
+        var authHeader = _httpContextAccessor.HttpContext!.Request.Headers.Authorization;
+
+        var headerString = authHeader.ToString();
+
+        if (headerString != null)
         {
             try
             {
                 var handler = new JwtSecurityTokenHandler();
-                var jwtToken = handler.ReadJwtToken(authHeader);
+                var jwtToken = handler.ReadJwtToken(headerString);
                 string? userEmail = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.EmailClaim).Value.ToString();
                 string? userRole = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.RoleClaim).Value.ToString();
                 string? userId = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.IdClaim).Value.ToString();

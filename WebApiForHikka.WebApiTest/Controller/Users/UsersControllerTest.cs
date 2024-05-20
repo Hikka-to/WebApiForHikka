@@ -1,11 +1,15 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Moq;
 using WebApiForHikka.Application.Users;
+using WebApiForHikka.Constants.AppSettings;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
+using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.WebApi.Controllers;
 
@@ -15,6 +19,13 @@ public class UsersControllerTest : BaseControllerTest
 {
     private readonly IUserService _userService = A.Fake<IUserService>();
     private readonly IConfiguration _configuration = A.Fake<IConfiguration>();
+    private readonly IJwtTokenFactory _jwtTokenFactory = new JwtTokenFactory();
+
+
+    public UsersControllerTest() 
+    {
+        A.CallTo(() => _configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
+    }
 
     [Fact]
     public async Task UsersController_GetAll_ReturnsOK()
@@ -25,6 +36,7 @@ public class UsersControllerTest : BaseControllerTest
         A.CallTo(() => _mapper.Map<List<GetUserDto>>(users)).Returns(usersList);
         var controller = new UsersController(
             _userService,
+            _jwtTokenFactory,
             _configuration,
             _mapper,
             _httpContextAccessor
@@ -48,7 +60,7 @@ public class UsersControllerTest : BaseControllerTest
         var userRegistrationDto = new UserRegistrationDto { Email = "test@example.com", Password = "password", Role = "User" };
         var userId = Guid.NewGuid();
         A.CallTo(() => _userService.RegisterUserAsync(A<User>.Ignored, A<CancellationToken>.Ignored)).Returns(userId);
-        var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
+        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, _httpContextAccessor);
 
         // Act
         var result = await controller.Create(userRegistrationDto, CancellationToken.None);
@@ -84,7 +96,7 @@ public class UsersControllerTest : BaseControllerTest
         var userId = Guid.NewGuid();
         var user = new User { Email = "test@example.com", Role = "User", Id = userId };
         A.CallTo(() => _userService.GetAsync(userId, A<CancellationToken>.Ignored)).Returns(user);
-        var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
+        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, _httpContextAccessor);
 
         // Act
         var result = await controller.Get(userId, CancellationToken.None);
@@ -100,8 +112,24 @@ public class UsersControllerTest : BaseControllerTest
         var updateUserDto = new UpdateUserDto { Id = Guid.NewGuid(), Email = "test@example.com", Role = "User" };
         var user = new User { Email = "test@example.com", Role = "User", Id = updateUserDto.Id };
         A.CallTo(() => _userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
-        var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
-        A.CallTo(() => _httpContextAccessor);
+
+        // Generate JWT Token
+        var jwtToken = _jwtTokenFactory.GetJwtToken(_userWithAdminRole, _configuration);
+
+        // Create mocks for HttpRequest and HttpContext
+        var httpRequestMock = new Mock<HttpRequest>();
+        var httpContextMock = new Mock<HttpContext>();
+
+        httpRequestMock.Setup(req => req.Headers.Authorization).Returns(jwtToken);
+
+        // Setup the HttpContext mock to return the mocked HttpRequest
+        httpContextMock.Setup(ctx => ctx.Request).Returns(httpRequestMock.Object);
+
+        // Mock IHttpContextAccessor to return the mocked HttpContext
+        var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+        httpContextAccessorMock.Setup(x => x.HttpContext).Returns(httpContextMock.Object);
+
+        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, httpContextAccessorMock.Object);
 
         // Act
         var result = await controller.Put(updateUserDto, CancellationToken.None);
@@ -115,7 +143,7 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var userId = Guid.NewGuid();
-        var controller = new UsersController(_userService, _configuration, _mapper, _httpContextAccessor);
+        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, _httpContextAccessor);
 
         // Act
         var result = await controller.Delete(userId, CancellationToken.None);

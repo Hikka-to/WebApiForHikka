@@ -14,6 +14,7 @@ using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.SharedFunction.HashFunction;
+using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.WebApi.Helper;
 
 namespace WebApiForHikka.WebApi.Extensions;
@@ -53,6 +54,7 @@ public static class DependencyInjectionExtensions
 
         //Helpers
         services.AddSingleton<IHashFunctions, HashFunctions>();
+        services.AddSingleton<IJwtTokenFactory, JwtTokenFactory>();
 
     }
 }

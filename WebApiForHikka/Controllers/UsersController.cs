@@ -12,17 +12,19 @@ using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
+using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.WebApi.Shared;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers;
 public class UsersController
-    (IUserService userService, IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    (IUserService userService, IJwtTokenFactory jwtTokenFactory, IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : MyBaseController(mapper, httpContextAccessor),
     ICrudController<UpdateUserDto, UserRegistrationDto>
 {
     private readonly IUserService _userService = userService;
     private readonly IConfiguration _configuration = configuration;
+    private readonly IJwtTokenFactory _jwtTokenFactory = jwtTokenFactory;
 
     [HttpPost("Registrate")]
     public async Task<IActionResult> Create([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
@@ -60,21 +62,8 @@ public class UsersController
         var user = await _userService.AuthenticateUserAsync(model.Email, model.Password, cancellationToken);
         if (user == null) return Unauthorized();
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration[AppSettingsStringConstants.JwtKey]!);
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new(UserStringConstants.EmailClaim, user.Email),
-                new(UserStringConstants.RoleClaim, user.Role),
-                new(UserStringConstants.IdClaim, user.Id.ToString()),
-            }),
-            Expires = DateTime.UtcNow.AddDays(ShraredNumberConstatnts.HowManyDayExpiresForJwt),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var tokenString = tokenHandler.WriteToken(token);
+
+        string tokenString = _jwtTokenFactory.GetJwtToken(user, _configuration)!;
 
         return Ok(new LoginResponseUserDto() { Token = tokenString });
     }
