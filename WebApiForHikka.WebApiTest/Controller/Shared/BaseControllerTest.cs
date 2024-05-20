@@ -46,7 +46,7 @@ public abstract class BaseControllerTest
         // Generate JWT Token
         var jwtToken = _jwtTokenFactory.GetJwtToken(_userWithAdminRole, _configuration);
 
-        // Create mocks for HttpRequest and HttpContext
+        // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
         var httpContextMock = new Mock<HttpContext>();
 
@@ -67,7 +67,7 @@ public abstract class BaseControllerTest
         // Generate JWT Token
         var jwtToken = _jwtTokenFactory.GetJwtToken(_userWithUserRole, _configuration);
 
-        // Create mocks for HttpRequest and HttpContext
+        // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
         var httpContextMock = new Mock<HttpContext>();
 
