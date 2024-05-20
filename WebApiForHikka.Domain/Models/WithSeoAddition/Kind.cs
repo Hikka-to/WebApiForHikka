@@ -5,8 +5,8 @@ namespace WebApiForHikka.Domain.Models;
 
 public class Kind : ModelWithSeoAddition
 {
-     public required string Slug { get; set; }
+    public required string Slug { get; set; }
 
-     [StringLength(KindNumberConstants.HintLenght)]
-     public required string Hint { get; set; }
+    [StringLength(KindNumberConstants.HintLenght)]
+    public required string Hint { get; set; }
 }

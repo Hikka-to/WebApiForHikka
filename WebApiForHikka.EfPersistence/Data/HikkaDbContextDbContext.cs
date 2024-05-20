@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
@@ -7,7 +6,6 @@ namespace WebApiForHikka.EfPersistence.Data;
 
 public class HikkaDbContext : DbContext
 {
-
     public DbSet<User> Users { get; set; }
     public DbSet<SeoAddition> SeoAdditions { get; set; }
     public DbSet<Period> Periods { get; set; }
@@ -52,6 +50,5 @@ public class HikkaDbContext : DbContext
         modelBuilder.Entity<Source>().Navigation(e => e.SeoAddition).AutoInclude();
 
         modelBuilder.Entity<RestrictedRating>().Navigation(e => e.SeoAddition).AutoInclude();
-      
     }
 }

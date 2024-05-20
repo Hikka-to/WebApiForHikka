@@ -1,5 +1,4 @@
-﻿
-namespace WebApiForHikka.Domain.Models;
+﻿namespace WebApiForHikka.Domain.Models;
 
 public class Format : ModelWithSeoAddition
 {

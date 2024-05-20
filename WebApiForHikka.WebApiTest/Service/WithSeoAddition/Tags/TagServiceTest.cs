@@ -13,33 +13,27 @@ public class TagServiceTest : SharedServiceTestWithSeoAddition<
 {
     protected override TagService GetService(HikkaDbContext hikkaDbContext)
     {
-        var rep =  new TagRepository(hikkaDbContext);
+        TagRepository rep = new(hikkaDbContext);
 
-        return  new TagService(rep);
+        return new TagService(rep);
     }
 
-    protected override Tag GetSample()
+    protected override Tag GetSample() => new()
     {
-        return new Tag()
-        {
-            Alises = new List<string> { "test" },
-            EngName = "test",
-            IsGenre = true,
-            Name = "test",
-            SeoAddition = GetSeoAdditionSample(),
-        };
-    }
+        Alises = ["test"],
+        EngName = "test",
+        IsGenre = true,
+        Name = "test",
+        SeoAddition = GetSeoAdditionSample(),
+    };
 
-    protected override Tag GetSampleForUpdate()
+    protected override Tag GetSampleForUpdate() => new()
     {
-        return new Tag()
-        {
-            Alises = new List<string> { "test1" },
-            EngName = "test1",
-            IsGenre = false,
-            Name = "test1",
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-            ParentTag = GetSample(),
-        };
-    }
+        Alises = ["test1"],
+        EngName = "test1",
+        IsGenre = false,
+        Name = "test1",
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+        ParentTag = GetSample(),
+    };
 }

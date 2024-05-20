@@ -10,5 +10,4 @@ public class CreateKindDto : CreateDtoWithSeoAddition
 
     [StringLength(KindNumberConstants.HintLenght)]
     public required string Hint { get; set; }
-
 }

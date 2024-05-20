@@ -3,7 +3,4 @@ using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Formats;
 
-public interface IFormatRepository : ICrudRepository<Format>
-{
-
-}
+public interface IFormatRepository : ICrudRepository<Format>;

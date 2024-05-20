@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using WebApiForHikka.Application.SeoAdditions;
 
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
@@ -18,23 +17,17 @@ public class SeoAdditionValidationAttribute : ValidationAttribute
         if (value == null) return new ValidationResult(ErrorMessage);
 
         Guid id = (Guid)value;
-        ISeoAdditionService? seoAdditionService = (ISeoAdditionService)validationContext.GetService(typeof(ISeoAdditionService));
+        ISeoAdditionService seoAdditionService = validationContext.GetService(typeof(ISeoAdditionService)) as ISeoAdditionService
+            ?? throw new Exception("SeoAddition service hasn't been registrated");
 
-        if (seoAdditionService == null) {
-            throw new Exception("SeoAddition service hasn't been registrated");
-        }
-
-        if (!seoAdditionService.CheckIfTheSeoAdditionExist(id)) 
+        if (!seoAdditionService.CheckIfTheSeoAdditionExist(id))
         {
             return new ValidationResult(ErrorMessage);
         }
 
-        return ValidationResult.Success;
+        return ValidationResult.Success!;
     }
 
-    public override string FormatErrorMessage(string name)
-    {
-        return String.Format(CultureInfo.CurrentCulture,
-          ErrorMessage, name);
-    }
+    public override string FormatErrorMessage(string name) =>
+        ErrorMessage!;
 }

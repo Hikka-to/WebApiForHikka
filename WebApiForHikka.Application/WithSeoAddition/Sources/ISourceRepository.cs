@@ -3,6 +3,4 @@ using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Sources;
 
-public interface ISourceRepository : ICrudRepository<Source>
-{
-}
+public interface ISourceRepository : ICrudRepository<Source>;

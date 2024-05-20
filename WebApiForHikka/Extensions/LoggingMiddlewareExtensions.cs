@@ -1,6 +1,6 @@
-﻿using SushiRestaurant.WebApi.Middlewares;
+﻿using WebApiForHikka.WebApi.Middlewares;
 
-namespace SushiRestaurant.WebApi.Extensions;
+namespace WebApiForHikka.WebApi.Extensions;
 
 public static class LoggingMiddlewareExtensions
 {
@@ -13,5 +13,4 @@ public static class LoggingMiddlewareExtensions
     {
         return app.UseMiddleware<LoggingMiddleware>();
     }
-
 }

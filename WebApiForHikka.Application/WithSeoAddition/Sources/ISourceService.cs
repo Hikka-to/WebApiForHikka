@@ -3,7 +3,4 @@ using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Sources;
 
-public interface ISourceService : ICrudService<Source>
-{
-
-}
+public interface ISourceService : ICrudService<Source>;

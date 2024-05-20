@@ -11,5 +11,4 @@ public static class AppSettingsStringConstants
     public const string JwtIssuer = "Jwt:Issuer";
 
     public const string JwtAudience = "Jwt:Audience";
-
 }

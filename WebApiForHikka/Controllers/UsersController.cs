@@ -15,17 +15,14 @@ using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.WebApi.Shared;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
-namespace WebApiForHikka.Controllers;
-public class UsersController : MyBaseController, ICrudController<UpdateUserDto, UserRegistrationDto>
+namespace WebApiForHikka.WebApi.Controllers;
+public class UsersController
+    (IUserService userService, IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    : MyBaseController(mapper, httpContextAccessor),
+    ICrudController<UpdateUserDto, UserRegistrationDto>
 {
-    private readonly IUserService _userService; 
-    private readonly IConfiguration _configuration;
-
-    public UsersController(IUserService userService, IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor) :base(mapper, httpContextAccessor)
-    {
-        _userService = userService;
-        _configuration = configuration;
-    }
+    private readonly IUserService _userService = userService;
+    private readonly IConfiguration _configuration = configuration;
 
     [HttpPost("Registrate")]
     public async Task<IActionResult> Create([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
@@ -35,7 +32,12 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
             return BadRequest(GetAllErrorsDuringValidation());
         }
 
-        var user = new User(model.Password, model.Email, model.Role);
+        var user = new User
+        {
+            Email = model.Email,
+            Password = model.Password,
+            Role = model.Role
+        };
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
 
@@ -44,11 +46,11 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
             return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
         }
 
-        return Ok(new RegistratedResponseUserDto() {  Message = UserStringConstants.MessageUserRegistrated, Id = (Guid)id });
+        return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, Id = (Guid)id });
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody]UserLoginDto model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login([FromBody] UserLoginDto model, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
         {
@@ -59,14 +61,14 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
         if (user == null) return Unauthorized();
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration[AppSettingsStringConstants.JwtKey]);
+        var key = Encoding.ASCII.GetBytes(_configuration[AppSettingsStringConstants.JwtKey]!);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(UserStringConstants.EmailClaim, user.Email),
-                new Claim(UserStringConstants.RoleClaim, user.Role),
-                new Claim(UserStringConstants.IdClaim, user.Id.ToString()),
+                new(UserStringConstants.EmailClaim, user.Email),
+                new(UserStringConstants.RoleClaim, user.Role),
+                new(UserStringConstants.IdClaim, user.Id.ToString()),
             }),
             Expires = DateTime.UtcNow.AddDays(ShraredNumberConstatnts.HowManyDayExpiresForJwt),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -81,7 +83,7 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
     public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(new ThingsToValidateBase() { RolesToAccessTheEndPoint = rolesToAccessTheEndpoint, });
+        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase() { RolesToAccessTheEndPoint = rolesToAccessTheEndpoint, });
         if (errorEndPoint.IsError)
         {
             return errorEndPoint.GetError();
@@ -93,7 +95,7 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
         return Ok(
             new ReturnUserPageDto()
             {
-                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total/paginationDto.PageSize),
+                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / paginationDto.PageSize),
                 Models = users,
             }
 
@@ -115,7 +117,7 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
-            new ThingsToValidateBase() 
+            new ThingsToValidateBase()
             {
                 RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
@@ -126,7 +128,7 @@ public class UsersController : MyBaseController, ICrudController<UpdateUserDto, 
         }
 
         var user = _mapper.Map<User>(dto);
-       
+
         var userWithPassword = await _userService.GetAsync(dto.Id, cancellationToken);
         if (userWithPassword == null)
         {

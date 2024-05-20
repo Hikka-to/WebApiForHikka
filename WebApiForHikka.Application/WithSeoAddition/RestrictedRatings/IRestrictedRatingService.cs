@@ -3,6 +3,4 @@ using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.RestrictedRatings;
 
-public interface IRestrictedRatingService : ICrudService<RestrictedRating>
-{
-}
+public interface IRestrictedRatingService : ICrudService<RestrictedRating>;

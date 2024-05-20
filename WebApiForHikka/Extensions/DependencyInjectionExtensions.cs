@@ -1,22 +1,22 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Application.Users;
-using WebApiForHikka.Constants.AppSettings;
-using WebApiForHikka.EfPersistence.Data;
-using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.Dtos.Helper;
-using WebApiForHikka.SharedFunction.HashFunction;
-using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Application.Sources;
+using WebApiForHikka.Application.Formats;
 using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.RestrictedRatings;
-using WebApiForHikka.Application.Formats;
+using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Application.Statuses;
+using WebApiForHikka.Application.Users;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
+using WebApiForHikka.Constants.AppSettings;
+using WebApiForHikka.EfPersistence.Data;
+using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.SharedFunction.HashFunction;
+using WebApiForHikka.WebApi.Helper;
 
-namespace WebApiForHikka.Dtos.Extensions;
+namespace WebApiForHikka.WebApi.Extensions;
 public static class DependencyInjectionExtensions
 {
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
@@ -52,8 +52,7 @@ public static class DependencyInjectionExtensions
         services.AddTransient<ITagService, TagService>();
 
         //Helpers
-        services.AddSingleton<IHashFunctions, HashFunctions>(); 
+        services.AddSingleton<IHashFunctions, HashFunctions>();
 
     }
-
 }

@@ -1,6 +1,4 @@
-﻿using BCrypt.Net;
-
-namespace WebApiForHikka.SharedFunction.HashFunction;
+﻿namespace WebApiForHikka.SharedFunction.HashFunction;
 public class HashFunctions : IHashFunctions
 {
     public string HashPassword(string password)
@@ -11,6 +9,4 @@ public class HashFunctions : IHashFunctions
     {
         return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash);
     }
-
-   
 }

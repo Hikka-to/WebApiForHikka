@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using WebApiForHikka.Application.Statuses;
+﻿using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
@@ -12,26 +11,20 @@ public class StatusServiceTest : SharedServiceTestWithSeoAddition<
     StatusService
     >
 {
-    protected override Status GetSample()
+    protected override Status GetSample() => new()
     {
-        return new Status()
-        {
-            Name = "test",
-            SeoAddition = GetSeoAdditionSample()
-        };
-    }
+        Name = "test",
+        SeoAddition = GetSeoAdditionSample()
+    };
 
-    protected override Status GetSampleForUpdate()
+    protected override Status GetSampleForUpdate() => new()
     {
-        return new Status()
-        {
-            Name = "test1",
-            SeoAddition = GetSeoAdditionSampleUpdate()
-        };
-    }
+        Name = "test1",
+        SeoAddition = GetSeoAdditionSampleUpdate()
+    };
     protected override StatusService GetService(HikkaDbContext hikkaDbContext)
     {
-        StatusRepository statusRepository = new StatusRepository(hikkaDbContext);
+        StatusRepository statusRepository = new(hikkaDbContext);
 
         return new StatusService(statusRepository);
     }

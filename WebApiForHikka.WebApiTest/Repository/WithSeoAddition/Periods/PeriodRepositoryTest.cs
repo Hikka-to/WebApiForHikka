@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using WebApiForHikka.Domain.Models;
+﻿using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Shared.Repository;
@@ -12,27 +11,18 @@ public class PeriodRepositoryTest : SharedRepositoryTestWithSeoAddition<
     PeriodRepository
     >
 {
-    protected override PeriodRepository GetRepository(HikkaDbContext hikkaDbContext)
-    {
-        return new PeriodRepository(hikkaDbContext);
-    }
+    protected override PeriodRepository GetRepository(HikkaDbContext hikkaDbContext) =>
+        new(hikkaDbContext);
 
-    protected override Period GetSample()
+    protected override Period GetSample() => new()
     {
-        return new Period()
-        {
-            Name = "test",
-            SeoAddition = GetSeoAdditionSample(),
-        };
-    }
+        Name = "test",
+        SeoAddition = GetSeoAdditionSample(),
+    };
 
-    protected override Period GetSampleForUpdate()
+    protected override Period GetSampleForUpdate() => new()
     {
-        return new Period()
-        {
-            Name = "test1",
-            SeoAddition = GetSeoAdditionSampleUpdate(),
-        };
-    }
-
+        Name = "test1",
+        SeoAddition = GetSeoAdditionSampleUpdate(),
+    };
 }

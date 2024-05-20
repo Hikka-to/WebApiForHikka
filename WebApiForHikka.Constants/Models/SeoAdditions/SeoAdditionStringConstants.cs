@@ -19,5 +19,4 @@ public static class SeoAdditionStringConstants
     public const string SocialImageName = "SocialImage";
 
     public const string SocialImageAltName = "SocialImageAlt";
-
 }

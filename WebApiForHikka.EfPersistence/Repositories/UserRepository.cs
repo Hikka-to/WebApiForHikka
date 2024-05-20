@@ -1,22 +1,18 @@
-﻿
-using SushiRestaurant.EfPersistence.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Users;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.SharedFunction.HashFunction;
-using WebApiForHikka.Constants.Models.Users;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
-public class UserRepository : CrudRepository<User>, IUserRepository
+public class UserRepository
+    (HikkaDbContext dbContext, IHashFunctions hashFunctions)
+    : CrudRepository<User>(dbContext),
+    IUserRepository
 {
-    private readonly IHashFunctions _hashFunctions;
-
-    public UserRepository(HikkaDbContext dbContext, IHashFunctions hashFunctions) : base(dbContext)
-    {
-        _hashFunctions = hashFunctions;
-    }
+    private readonly IHashFunctions _hashFunctions = hashFunctions;
 
     public async Task<User?> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken)
     {
@@ -28,7 +24,7 @@ public class UserRepository : CrudRepository<User>, IUserRepository
         return null;
     }
 
-    public async Task<User?> AuthenticateUserWithAdminRoleAsync(string email, string password, CancellationToken cancellationToken) 
+    public async Task<User?> AuthenticateUserWithAdminRoleAsync(string email, string password, CancellationToken cancellationToken)
     {
         var user = await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
         if (user != null && _hashFunctions.VerifyPassword(password, user.Password) && user.Role == UserStringConstants.AdminRole)
@@ -38,9 +34,8 @@ public class UserRepository : CrudRepository<User>, IUserRepository
         return null;
     }
 
-    public new async Task<Guid> AddAsync(User model, CancellationToken cancellationToken)
+    public new async Task<Guid> AddAsync(User user, CancellationToken cancellationToken)
     {
-        var user = model.ShallowCopy();
         user.Password = _hashFunctions.HashPassword(user.Password);
         await DbContext.Set<User>().AddAsync(user, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
@@ -94,5 +89,4 @@ public class UserRepository : CrudRepository<User>, IUserRepository
         entity.Role = model.Role;
         entity.Password = model.Password;
     }
-
 }

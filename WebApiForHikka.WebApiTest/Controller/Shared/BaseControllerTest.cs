@@ -7,17 +7,9 @@ namespace WebApiForHikka.Test.Controller.Shared;
 
 public class BaseControllerTest
 {
-    protected readonly IMapper _mapper; 
-    protected readonly IHttpContextAccessor _httpContextAccessor;
+    protected readonly IMapper _mapper = A.Fake<IMapper>();
+    protected readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
 
-    protected CancellationToken _cancellationToken => new CancellationToken(); 
-    protected FilterPaginationDto _filterPaginationDto => new FilterPaginationDto(); 
-
-    public BaseControllerTest() 
-    {
-        _mapper = A.Fake<IMapper>();
-        _httpContextAccessor = A.Fake<IHttpContextAccessor>();
-    } 
-
-
+    protected CancellationToken _cancellationToken => new();
+    protected FilterPaginationDto _filterPaginationDto => new();
 }
