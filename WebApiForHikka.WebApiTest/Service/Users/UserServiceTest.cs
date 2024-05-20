@@ -23,7 +23,7 @@ public class UserServiceTest : SharedTest
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userService.AuthenticateUserAsync(testUser.Email, testUser.Password, new CancellationToken());
+        var result = await userService.AuthenticateUserAsync(testUser.Email, "password", new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
@@ -41,7 +41,7 @@ public class UserServiceTest : SharedTest
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.Password, new CancellationToken());
+        var result = await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, "password", new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
@@ -111,7 +111,7 @@ public class UserServiceTest : SharedTest
         await userService.RegisterUserAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userService.AuthenticateUserAsync(testUser.Email, testUser.Password, new CancellationToken());
+        var result = await userService.AuthenticateUserAsync(testUser.Email, "password", new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
