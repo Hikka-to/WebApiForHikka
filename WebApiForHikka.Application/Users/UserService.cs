@@ -2,13 +2,8 @@
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Users;
-public class UserService : CrudService<User, IUserRepository>, IUserService
+public class UserService(IUserRepository repository) : CrudService<User, IUserRepository>(repository), IUserService
 {
-
-    public UserService(IUserRepository repository) : base(repository)
-    {
-    }
-
     public async Task<User?> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken)
     {
         var user = await _repository.AuthenticateUserAsync(email, password, cancellationToken);

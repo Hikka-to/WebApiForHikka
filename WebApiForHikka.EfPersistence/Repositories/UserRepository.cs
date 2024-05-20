@@ -34,8 +34,9 @@ public class UserRepository
         return null;
     }
 
-    public new async Task<Guid> AddAsync(User user, CancellationToken cancellationToken)
+    public new async Task<Guid> AddAsync(User model, CancellationToken cancellationToken)
     {
+        var user = model.Clone();
         user.Password = _hashFunctions.HashPassword(user.Password);
         await DbContext.Set<User>().AddAsync(user, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
