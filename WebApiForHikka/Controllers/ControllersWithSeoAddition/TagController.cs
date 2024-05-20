@@ -60,9 +60,12 @@ public class TagController : CrudControllerForModelWithSeoAddition<GetTagDto,
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
 
-        ErrorEndPoint errorEndPoint = this.ValidateRequest(new ThingsToValidateBase() 
+        ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate() 
         {
             RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
+            updateDto = dto,
+            IdForSeoAddition = dto.SeoAddition.Id,
+
         });
         if (errorEndPoint.IsError)
         {
