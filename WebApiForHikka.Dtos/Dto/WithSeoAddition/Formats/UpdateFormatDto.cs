@@ -4,5 +4,5 @@ namespace WebApiForHikka.Dtos.Dto.Formats;
 
 public class UpdateFormatDto : UpdateDtoWithSeoAddition
 {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 }

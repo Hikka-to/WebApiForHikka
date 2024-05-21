@@ -7,7 +7,7 @@ namespace WebApiForHikka.Dtos.Dto.SeoAddition;
 public class UpdateSeoAdditionDto : ModelDto
 {
     [SeoAdditionValidation]
-    public new Guid Id { get; set; }
+    public required new Guid Id { get; set; }
 
     [StringLength(SeoAdditionNumberConstants.SlugLength)]
     public required string Slug { get; set; }

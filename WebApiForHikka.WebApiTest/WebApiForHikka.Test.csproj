@@ -40,8 +40,4 @@
     <ProjectReference Include="..\WebApiForHikka\WebApiForHikka.WebApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controller\CrudControllers\" />
-  </ItemGroup>
-
 </Project>

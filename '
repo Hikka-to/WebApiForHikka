@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebApiForHikka.Domain;
@@ -82,17 +82,17 @@ public abstract class CrudControllerBaseTest<TController, TUpdateDto, TCreateDto
         result.Should().BeOfType<TReturnPageDto>();
     }
 
-    //public virtual Task<IActionResult> CrudController_Put_()
-    //{
-    //    //Arrange
-    //    TController controller = GetController();
+    public virtual Task<IActionResult> CrudController_Put_ReturnNoContent()
+    {
+        //Arrange
+        TController controller = GetController();
 
-    //    //Act
+        //Act
 
-    //    var result = await controller.Put(GetUpdateDtoSample, _cancellationToken);
+        var result = await controller.Put(GetUpdateDtoSample(), _cancellationToken);
 
-    //    //Assert
-    //    result.Should().NotBeNull();
-    //    result.Should().BeOfType<TReturnPageDto>();
-    //}
+        //Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<TReturnPageDto>();
+    }
 }
