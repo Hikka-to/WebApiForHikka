@@ -1,4 +1,5 @@
 ﻿
+using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.EfPersistence.Data;

@@ -89,6 +89,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
 
 
         var model = _mapper.Map<TGetDto>(await _crudService.GetAsync(id, cancellationToken));
+
         if (model is null)
             return NotFound();
 

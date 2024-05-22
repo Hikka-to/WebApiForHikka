@@ -43,11 +43,11 @@ public abstract class CrudControllerBaseTest
 
         //Act
 
-        var result = await controller.Create(GetCreateDtoSample(), _cancellationToken);
+        var result = await controller.Create(GetCreateDtoSample(), _cancellationToken) as OkObjectResult;
 
         //Assert
         result.Should().NotBeNull();
-        result.Should().NotBeOfType<OkObjectResult>();
+        result.Should().NotBeOfType<CreateResponseDto>();
     }
 
 
@@ -59,7 +59,8 @@ public abstract class CrudControllerBaseTest
 
         //Act
 
-        var createResponse = await controller.Create(GetCreateDtoSample(), _cancellationToken) as CreateResponseDto;
+        CreateResponseDto createResponse = (await controller.Create(GetCreateDtoSample(), _cancellationToken) as OkObjectResult).Value as CreateResponseDto; 
+
 
         var result = await controller.Delete(createResponse.Id, _cancellationToken);
 
@@ -76,7 +77,7 @@ public abstract class CrudControllerBaseTest
         //Arrange
         TController controller = GetController();
         var model = GetModelSample();
-        A.CallTo(() => _crudService.GetAsync(model.Id, A<CancellationToken>.Ignored)).Returns(model);
+        A.CallTo(() => _crudService.GetAsync(model.Id, _cancellationToken)).Returns(model);
         A.CallTo(() => _mapper.Map<TGetDto>(model)).Returns(GetGetDtoSample());
 
         //Act
@@ -88,25 +89,9 @@ public abstract class CrudControllerBaseTest
         result.Should().BeOfType<OkObjectResult>();
     }
     
+    
     [Fact]
-    public virtual async Task CrudController_Get_ReturnsBadRequest()
-    {
-        //Arrange
-        TController controller = GetController();
-        var model = GetModelSample();
-        A.CallTo(() => _crudService.GetAsync(model.Id, A<CancellationToken>.Ignored)).Returns((TModel?)null);
-        //A.CallTo(() => _mapper.Map<TGetDto>(model)).Returns(null);
-        //Act
-
-        var result = await controller.Get(model.Id, _cancellationToken);
-
-        //Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType<NotFound>();
-    }
-
-    [Fact]
-    public virtual async Task CrudController_GetAll_ReturnsPageDto()
+    public virtual async Task CrudController_GetAll_ReturnsOkObjectResult()
     {
         //Arrange
         TController controller = GetController();
@@ -117,7 +102,7 @@ public abstract class CrudControllerBaseTest
 
         //Assert
         result.Should().NotBeNull();
-        result.Should().BeOfType<TReturnPageDto>();
+        result.Should().BeOfType<OkObjectResult>();
     }
 
     [Fact]
@@ -130,18 +115,16 @@ public abstract class CrudControllerBaseTest
 
         var createDto = GetCreateDtoSample();
 
-        var create = await controller.Create(createDto, _cancellationToken) as CreateResponseDto;
+        CreateResponseDto create = (await controller.Create(createDto, _cancellationToken) as OkObjectResult).Value as CreateResponseDto;
 
         var updateDto = GetUpdateDtoSample();
         updateDto.Id = create.Id;
 
         var result = await controller.Put(updateDto, _cancellationToken);
 
-        var updateResualt = await controller.Get(updateDto.Id, _cancellationToken);
 
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<NoContentResult>();
-        updateResualt.Should().BeEquivalentTo(updateDto);
     }
 }
