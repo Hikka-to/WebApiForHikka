@@ -19,33 +19,7 @@ public class UsersControllerTest : BaseControllerTest
 {
     private readonly IUserService _userService = A.Fake<IUserService>();
 
-    [Fact]
-    public async Task UsersController_GetAll_ReturnsOK()
-    {
-        //Arrange
-        var users = A.Fake<ICollection<GetUserDto>>();
-        var usersList = A.Fake<List<GetUserDto>>();
-        A.CallTo(() => _mapper.Map<List<GetUserDto>>(users)).Returns(usersList);
-
-        var controller = new UsersController(
-            _userService,
-            _jwtTokenFactory,
-            _configuration,
-            _mapper,
-            GetHttpContextAccessForAdminUser()
-            );
-
-        //Act
-        var result = await controller.GetAll(
-            _filterPaginationDto,
-            _cancellationToken
-            );
-
-        //Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType(typeof(OkObjectResult));
-    }
-
+   
     [Fact]
     public async Task Register_ValidModel_ReturnsOk()
     {

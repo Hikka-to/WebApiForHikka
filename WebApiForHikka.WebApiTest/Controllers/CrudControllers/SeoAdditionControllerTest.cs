@@ -2,6 +2,7 @@
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SeoAddition;
 using WebApiForHikka.Dtos.Shared;
+using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.WebApi.Controllers;
 
@@ -18,11 +19,11 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     ReturnPageDto<GetSeoAdditionDto>
     >
 {
-    protected override SeoAdditionController GetController()
+    protected override SeoAdditionController GetController(SeoAdditionService crudService)
     {
 
         return new SeoAdditionController(
-            _crudService,
+            crudService,
             _mapper,
             GetHttpContextAccessForAdminUser()
             );
@@ -33,15 +34,15 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     {
         return new CreateSeoAdditionDto()
         {
-            Description = "test",
-            Slug = "test",
-            Title = "test",
-            Image = "test",
-            ImageAlt = "test",
-            SocialImage = "test",
-            SocialImageAlt = "test",
-            SocialTitle = "test",
-            SocialType = "test",
+            Description = Faker.Lorem.GetFirstWord(),
+            Slug = Faker.Lorem.GetFirstWord(),
+            Title = Faker.Lorem.GetFirstWord(),
+            Image = Faker.Lorem.GetFirstWord(),
+            ImageAlt = Faker.Lorem.GetFirstWord(),
+            SocialImage = Faker.Lorem.GetFirstWord(),
+            SocialImageAlt = Faker.Lorem.GetFirstWord(),
+            SocialTitle = Faker.Lorem.GetFirstWord(),
+            SocialType = Faker.Lorem.GetFirstWord(),
         };
     }
 
@@ -49,15 +50,15 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     {
         return new SeoAddition()
         {
-            Description = "test",
-            Slug = "test",
-            Title = "test",
-            Image = "test",
-            ImageAlt = "test",
-            SocialImage = "test",
-            SocialImageAlt = "test",
-            SocialTitle = "test",
-            SocialType = "test",
+            Description = Faker.Lorem.GetFirstWord(),
+            Slug = Faker.Lorem.GetFirstWord(),
+            Title = Faker.Lorem.GetFirstWord(),
+            Image = Faker.Lorem.GetFirstWord(),
+            ImageAlt = Faker.Lorem.GetFirstWord(),
+            SocialImage = Faker.Lorem.GetFirstWord(),
+            SocialImageAlt = Faker.Lorem.GetFirstWord(),
+            SocialTitle = Faker.Lorem.GetFirstWord(),
+            SocialType = Faker.Lorem.GetFirstWord(),
             Id = new Guid(),
         };
     }
@@ -66,15 +67,15 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     {
         return new UpdateSeoAdditionDto()
         {
-            Description = "test",
-            Slug = "test",
-            Title = "test",
-            Image = "test",
-            ImageAlt = "test",
-            SocialImage = "test",
-            SocialImageAlt = "test",
-            SocialTitle = "test",
-            SocialType = "test",
+            Description = Faker.Lorem.GetFirstWord(),
+            Slug = Faker.Lorem.GetFirstWord(),
+            Title = Faker.Lorem.GetFirstWord(),
+            Image = Faker.Lorem.GetFirstWord(),
+            ImageAlt = Faker.Lorem.GetFirstWord(),
+            SocialImage = Faker.Lorem.GetFirstWord(),
+            SocialImageAlt = Faker.Lorem.GetFirstWord(),
+            SocialTitle = Faker.Lorem.GetFirstWord(),
+            SocialType = Faker.Lorem.GetFirstWord(),
             Id = new Guid(),
         };
     }
@@ -83,16 +84,35 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     {
         return new GetSeoAdditionDto()
         {
-            Description = "test",
-            Slug = "test",
-            Title = "test",
-            Image = "test",
-            ImageAlt = "test",
-            SocialImage = "test",
-            SocialImageAlt = "test",
-            SocialTitle = "test",
-            SocialType = "test",
+            Description = Faker.Lorem.GetFirstWord(),
+            Slug = Faker.Lorem.GetFirstWord(),
+            Title = Faker.Lorem.GetFirstWord(),
+            Image = Faker.Lorem.GetFirstWord(),
+            ImageAlt = Faker.Lorem.GetFirstWord(),
+            SocialImage = Faker.Lorem.GetFirstWord(),
+            SocialImageAlt = Faker.Lorem.GetFirstWord(),
+            SocialTitle = Faker.Lorem.GetFirstWord(),
+            SocialType = Faker.Lorem.GetFirstWord(),
             Id = new Guid(),
         };
     }
-}
+
+    protected override ICollection<SeoAddition> GetCollectionOfModels(int howMany)
+    {
+        ICollection<SeoAddition> seoAdditions = new List<SeoAddition>();
+        for (int i = 0; i < howMany; ++i)
+        {
+            seoAdditions.Add(GetModelSample());
+        }
+        return seoAdditions;
+    }
+
+
+    protected override SeoAdditionService GetCrudService()
+    {
+        var res = new SeoAdditionRepository(GetDatabaseContext());
+
+        return new SeoAdditionService(res);
+    }
+
+   }

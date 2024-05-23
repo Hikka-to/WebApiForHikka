@@ -8,18 +8,20 @@ using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
+using WebApiForHikka.Test.Shared;
+using WebApiForHikka.WebApi.Helper;
 
 namespace WebApiForHikka.Test.Controller.Shared;
 
-public abstract class BaseControllerTest
+public abstract class BaseControllerTest : SharedTest
 {
-    protected readonly IMapper _mapper = A.Fake<IMapper>();
+    protected readonly IMapper _mapper;
+
     protected readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
     protected readonly IConfiguration _configuration = A.Fake<IConfiguration>();
 
     protected readonly IJwtTokenFactory _jwtTokenFactory = new JwtTokenFactory();
 
-    protected CancellationToken _cancellationToken => new();
     protected FilterPaginationDto _filterPaginationDto => new();
 
     protected User _userWithAdminRole => new User()
@@ -38,6 +40,9 @@ public abstract class BaseControllerTest
     public BaseControllerTest() 
     {
         A.CallTo(() => _configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
+        var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
+        _mapper = mapperConfiguration.CreateMapper();
+
     }
 
 

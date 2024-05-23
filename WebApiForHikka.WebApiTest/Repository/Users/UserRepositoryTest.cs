@@ -16,7 +16,7 @@ public class UserRepositoryTest : SharedTest
     public async Task UserRepository_AuthenticateUserAsync_ReturnsUser()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext =  GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {
@@ -43,7 +43,7 @@ public class UserRepositoryTest : SharedTest
     public async Task UserRepository_AuthenticateUserWithAdminRoleAsync_ReturnsUser()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext =  GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {
@@ -70,7 +70,7 @@ public class UserRepositoryTest : SharedTest
     public async Task UserRepository_AuthenticateUserWithAdminRoleAsync_ReturnsNull()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext =  GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {
@@ -97,7 +97,7 @@ public class UserRepositoryTest : SharedTest
     public async Task UserRepository_CheckIfUserWithTheEmailIsAlreadyExistAsync_ReturnsTrue()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext =  GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {
@@ -118,7 +118,7 @@ public class UserRepositoryTest : SharedTest
     public void UserRepository_CheckIfUserWithTheEmailIsAlreadyExist_ReturnsTrue()
     {
         // Arrange
-        var dbContext = GetDatabaseContext().Result;
+        var dbContext = GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {
@@ -140,7 +140,7 @@ public class UserRepositoryTest : SharedTest
     public async Task UserRepository_AddAsync_AddsUserAndReturnsId()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext =  GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {
@@ -163,7 +163,7 @@ public class UserRepositoryTest : SharedTest
     public async Task UserRepository_UpdateAsync_UpdatesUserDetails()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {
@@ -193,7 +193,7 @@ public class UserRepositoryTest : SharedTest
     public async Task UserRepository_DeleteAsync_DeletesUser()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext =  GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {
@@ -215,7 +215,7 @@ public class UserRepositoryTest : SharedTest
     public async Task UserRepository_GetAsync_ReturnsUserById()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var testUser = new User
         {

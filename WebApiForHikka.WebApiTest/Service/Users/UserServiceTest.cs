@@ -16,7 +16,7 @@ public class UserServiceTest : SharedTest
     public async Task UserService_AuthenticateUserAsync_ReturnsUser()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext =  GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var userService = new UserService(userRepository);
         var testUser = new User { Email = "test@example.com", Password = "password", Role = UserStringConstants.UserRole };
@@ -34,7 +34,7 @@ public class UserServiceTest : SharedTest
     public async Task UserService_AuthenticateUserWithAdminRoleAsync_ReturnsUser()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var userService = new UserService(userRepository);
         var testUser = new User { Email = "test@example.com", Password = "password", Role = UserStringConstants.AdminRole };
@@ -53,7 +53,7 @@ public class UserServiceTest : SharedTest
     public async Task UserService_AuthenticateUserWithAdminRoleAsync_ReturnsNull()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var userService = new UserService(userRepository);
         var testUser = new User { Email = "test@example.com", Password = "password", Role = UserStringConstants.UserRole };
@@ -70,7 +70,7 @@ public class UserServiceTest : SharedTest
     public async Task UserService_CheckIfUserWithTheEmailIsAlreadyExistAsync_ReturnsTrue()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var userService = new UserService(userRepository);
         var testUser = new User { Email = "test@example.com", Password = "password", Role = UserStringConstants.UserRole };
@@ -87,7 +87,7 @@ public class UserServiceTest : SharedTest
     public void UserService_CheckIfUserWithTheEmailIsAlreadyExist_ReturnsTrue()
     {
         // Arrange
-        var dbContext = GetDatabaseContext().Result;
+        var dbContext = GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var userService = new UserService(userRepository);
         var testUser = new User { Email = "test@example.com", Password = "password", Role = UserStringConstants.UserRole };
@@ -104,7 +104,7 @@ public class UserServiceTest : SharedTest
     public async Task UserService_RegistrateUserAsync_ReturnsUser()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var userRepository = new UserRepository(dbContext, _hashFunctions);
         var userService = new UserService(userRepository);
         var testUser = new User { Email = "test@example.com", Password = "password", Role = UserStringConstants.UserRole };
