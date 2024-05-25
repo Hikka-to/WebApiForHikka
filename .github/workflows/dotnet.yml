@@ -36,7 +36,7 @@ jobs:
       run: dotnet build --configuration ${{ matrix.configuration }} --no-restore
       
     - name: Test
-      run: dotnet test --verbosity normal
+      run: dotnet test --no-build --verbosity normal --configuration ${{ matrix.configuration }}
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
