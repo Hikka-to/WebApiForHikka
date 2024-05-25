@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.FileProviders;
 using System.Collections.Generic;
 using System.Threading;
 using WebApiForHikka.Application.Shared;
@@ -39,7 +40,7 @@ public abstract class CrudControllerBaseTest
 
 
     [Fact]
-    public virtual async Task CrudController_Get_ReturnsBadRequest() 
+    public virtual async Task CrudController_Get_ReturnsNotFound() 
     {
         //Arrange
         var service = GetCrudService();
@@ -47,11 +48,11 @@ public abstract class CrudControllerBaseTest
 
         //Act
 
-        var result = await controller.Get(new Guid(), _cancellationToken) as NotFoundObjectResult;
+        var result = await controller.Get(new Guid(), _cancellationToken);
 
         //Assert
-        result.Should().BeNull();
-        //result.Should().BeOfType<NotFoundObjectResult>();
+        result.Should().NotBeNull();
+        result.Should().BeOfType<NotFoundResult>();
 
     }
 
@@ -162,6 +163,31 @@ public abstract class CrudControllerBaseTest
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<NoContentResult>();
+    }
+
+
+    [Fact]
+    public virtual async Task CrudController_Put_ReturnBadRequest()
+    {
+        //Arrange
+        var service = GetCrudService();
+        TController controller = GetController(service);
+
+
+        //Act
+
+        var createDto = GetCreateDtoSample();
+
+        CreateResponseDto create = (await controller.Create(createDto, _cancellationToken) as OkObjectResult).Value as CreateResponseDto;
+
+        var updateDto = GetUpdateDtoSample();
+
+        var result = await controller.Put(updateDto, _cancellationToken);
+
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<BadRequestObjectResult>();
     }
 
 
