@@ -57,7 +57,7 @@ public class TagController
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
 
-        ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate() 
+        ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate()
         {
             RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             UpdateDto = dto,
@@ -79,15 +79,8 @@ public class TagController
             model.ParentTag = await _crudService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
         }
 
-        try
-        {
-            await _crudService.UpdateAsync(model, cancellationToken);
+        await _crudService.UpdateAsync(model, cancellationToken);
 
-            return Ok(ControllerStringConstants.ModelUpdatedSuccessfully);
-        }
-        catch (Exception)
-        {
-            return BadRequest(ControllerStringConstants.SomethingWentWrongDuringUpdateing);
-        }
+        return Ok(ControllerStringConstants.ModelUpdatedSuccessfully);
     }
 }

@@ -27,7 +27,7 @@ public class UsersControllerTest : BaseControllerTest
         var userRegistrationDto = new UserRegistrationDto { Email = "test@example.com", Password = "password", Role = "User" };
         var userId = Guid.NewGuid();
         A.CallTo(() => _userService.RegisterUserAsync(A<User>.Ignored, A<CancellationToken>.Ignored)).Returns(userId);
-        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, _httpContextAccessor);
+        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Create(userRegistrationDto, CancellationToken.None);

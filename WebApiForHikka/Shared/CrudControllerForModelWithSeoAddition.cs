@@ -172,7 +172,7 @@ public abstract class CrudControllerForModelWithSeoAddition
             return errorEndPoint;
         }
 
-        if (thingsToValidate.UpdateDto.SeoAddition.Id == thingsToValidate.IdForSeoAddition)
+        if (thingsToValidate.UpdateDto.SeoAddition.Id != thingsToValidate.IdForSeoAddition)
         {
             errorEndPoint.BadRequestObjectResult = BadRequest(ControllerStringConstants.SeoAdditionDoesntConnectToTheModel);
             return errorEndPoint;

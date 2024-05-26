@@ -29,22 +29,29 @@ public abstract class CrudControllerBaseTest
 
 {
 
-    protected abstract TController GetController(TCrudService crudService);
+    protected abstract TController GetController(AllServicesInController allServicesInController);
     protected abstract TCreateDto GetCreateDtoSample();
     protected abstract TUpdateDto GetUpdateDtoSample();
     protected abstract TGetDto GetGetDtoSample();
     protected abstract TModel GetModelSample();
-    protected abstract ICollection<TModel> GetCollectionOfModels(int howMany);
-    protected abstract TCrudService GetCrudService();
+    protected abstract AllServicesInController GetAllServices();
+    protected virtual ICollection<TModel> GetCollectionOfModels(int howMany)
+    {
+        ICollection<TModel> seoAdditions = new List<TModel>();
+        for (int i = 0; i < howMany; ++i)
+        {
+            seoAdditions.Add(GetModelSample());
+        }
+        return seoAdditions;
 
+    }
 
 
     [Fact]
     public virtual async Task CrudController_Get_ReturnsNotFound() 
     {
         //Arrange
-        var service = GetCrudService();
-        TController controller = GetController(service);
+        TController controller = GetController(GetAllServices());
 
         //Act
 
@@ -61,11 +68,11 @@ public abstract class CrudControllerBaseTest
     public virtual async Task CrudController_GetAll_ReturnsReturnPageDto() 
     {
         //Arrange
-        var service = GetCrudService();
-        TController controller = GetController(service);
+        var services = GetAllServices();
+        TController controller = GetController(services);
         foreach (var item in GetCollectionOfModels(10))
         {
-            await service.CreateAsync(item, _cancellationToken);
+            await services.CrudService.CreateAsync(item, _cancellationToken);
         }
 
         //Act
@@ -88,8 +95,8 @@ public abstract class CrudControllerBaseTest
     public virtual async Task CrudController_Create_ReturnsCreateResponseDto()
     {
         //Arrange
-        var service = GetCrudService();
-        TController controller = GetController(service);
+        var services = GetAllServices();
+        TController controller = GetController(services);
 
         //Act
         var result = await controller.Create(GetCreateDtoSample(), _cancellationToken) as OkObjectResult;
@@ -106,9 +113,9 @@ public abstract class CrudControllerBaseTest
     public virtual async Task CrudController_Delete_ReturnsNoContent()
     {
         //Arrange
-        var service = GetCrudService();
-        var id = await service.CreateAsync(GetModelSample(), _cancellationToken);
-        TController controller = GetController(service);
+        var services = GetAllServices();
+        var id = await services.CrudService.CreateAsync(GetModelSample(), _cancellationToken);
+        TController controller = GetController(services);
 
         //Act
         var result = await controller.Delete(id, _cancellationToken);
@@ -124,11 +131,11 @@ public abstract class CrudControllerBaseTest
     public virtual async Task CrudController_Get_ReturnsOkObjectResult()
     {
         //Arrange
-        var service = GetCrudService();
-        TController controller = GetController(service);
+        var services = GetAllServices();
+        TController controller = GetController(services);
 
         var model = GetModelSample();
-        var id = await service.CreateAsync(model, _cancellationToken);
+        var id = await services.CrudService.CreateAsync(model, _cancellationToken);
 
         //Act
 
@@ -141,11 +148,11 @@ public abstract class CrudControllerBaseTest
     
 
     [Fact]
-    public virtual async Task CrudController_Put_ReturnNoContent()
+    public virtual async Task CrudController_Put_ReturnsNoContent()
     {
         //Arrange
-        var service = GetCrudService();
-        TController controller = GetController(service);
+        var services = GetAllServices();
+        TController controller = GetController(services);
 
 
         //Act
@@ -153,7 +160,6 @@ public abstract class CrudControllerBaseTest
         var createDto = GetCreateDtoSample();
 
         CreateResponseDto create = (await controller.Create(createDto, _cancellationToken) as OkObjectResult).Value as CreateResponseDto;
-
         var updateDto = GetUpdateDtoSample();
         updateDto.Id = create.Id;
 
@@ -163,6 +169,8 @@ public abstract class CrudControllerBaseTest
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<NoContentResult>();
+
+
     }
 
 
@@ -170,8 +178,8 @@ public abstract class CrudControllerBaseTest
     public virtual async Task CrudController_Put_ReturnBadRequest()
     {
         //Arrange
-        var service = GetCrudService();
-        TController controller = GetController(service);
+        var services = GetAllServices();
+        TController controller = GetController(services);
 
 
         //Act
@@ -188,6 +196,12 @@ public abstract class CrudControllerBaseTest
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<BadRequestObjectResult>();
+    }
+
+
+    protected record AllServicesInController(TCrudService crudService) 
+    {
+        public TCrudService CrudService = crudService;
     }
 
 

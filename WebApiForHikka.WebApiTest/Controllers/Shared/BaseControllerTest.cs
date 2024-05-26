@@ -17,7 +17,7 @@ public abstract class BaseControllerTest : SharedTest
 {
     protected readonly IMapper _mapper;
 
-    protected readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
+    private readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
     protected readonly IConfiguration _configuration = A.Fake<IConfiguration>();
 
     protected readonly IJwtTokenFactory _jwtTokenFactory = new JwtTokenFactory();

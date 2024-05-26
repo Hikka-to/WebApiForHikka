@@ -19,11 +19,11 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     ReturnPageDto<GetSeoAdditionDto>
     >
 {
-    protected override SeoAdditionController GetController(SeoAdditionService crudService)
+    protected override SeoAdditionController GetController(AllServicesInController allServicesInController)
     {
 
         return new SeoAdditionController(
-            crudService,
+            allServicesInController.CrudService,
             _mapper,
             GetHttpContextAccessForAdminUser()
             );
@@ -108,11 +108,10 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     }
 
 
-    protected override SeoAdditionService GetCrudService()
+    protected override AllServicesInController GetAllServices()
     {
         var res = new SeoAdditionRepository(GetDatabaseContext());
 
-        return new SeoAdditionService(res);
+        return new AllServicesInController(new SeoAdditionService(res));
     }
-
-   }
+}
