@@ -22,6 +22,8 @@ public class TagController
     Tag
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
+
+    [HttpPost("Create")]
     public override async Task<IActionResult> Create([FromBody] CreateTagDto dto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
@@ -53,6 +55,8 @@ public class TagController
         return Ok(new CreateResponseDto() { Id = createdId });
     }
 
+
+    [HttpPut("Update")]
     public override async Task<IActionResult> Put([FromBody] UpdateTagDto dto, CancellationToken cancellationToken)
     {
         string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
@@ -81,6 +85,6 @@ public class TagController
 
         await _crudService.UpdateAsync(model, cancellationToken);
 
-        return Ok(ControllerStringConstants.ModelUpdatedSuccessfully);
+        return NoContent();
     }
 }

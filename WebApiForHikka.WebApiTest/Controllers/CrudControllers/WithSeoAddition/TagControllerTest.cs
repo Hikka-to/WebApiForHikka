@@ -29,9 +29,9 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
         var dbContext = GetDatabaseContext();
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
-        var formatRepository = new TagRepository(dbContext);
+        var tagRepository = new TagRepository(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new TagService(formatRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new TagService(tagRepository), new SeoAdditionService(seoAdditionRepository));
     }
 
 
@@ -100,31 +100,4 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
         };
     }
 
-    [Fact]
-    public override async Task CrudController_Put_ReturnsNoContent()
-    {
-        ////Arrange
-        //var services = GetAllServices();
-        //TagController controller = GetController(services);
-
-
-        ////Act
-
-        //var createDto = GetCreateDtoSample();
-
-        //CreateResponseDto create = (await controller.Create(createDto, _cancellationToken) as OkObjectResult).Value as CreateResponseDto;
-
-        //Tag model = await services.CrudService.GetAsync(create.Id, _cancellationToken);
-
-        //var updateDto = GetUpdateDtoSample();
-        //updateDto.Id = model.Id;
-        //updateDto.SeoAddition.Id = model.SeoAddition.Id;
-
-        //var result = await controller.Put(updateDto, _cancellationToken);
-
-
-        ////Assert
-        //result.Should().NotBeNull();
-        //result.Should().BeOfType<NoContentResult>();
-    }
-}
+   }

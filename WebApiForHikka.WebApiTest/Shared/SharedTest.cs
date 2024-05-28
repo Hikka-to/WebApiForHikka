@@ -13,8 +13,7 @@ public class SharedTest
     protected HikkaDbContext GetDatabaseContext()
     {
         var options = new DbContextOptionsBuilder<HikkaDbContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).EnableSensitiveDataLogging().Options;
         var databaseContext = new HikkaDbContext(options);
         databaseContext.Database.EnsureCreated();
 

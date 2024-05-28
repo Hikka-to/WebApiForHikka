@@ -26,7 +26,7 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
             TagStringConstants.AlisesName => query.Where(m => m.Alises.Contains(filter)),
             TagStringConstants.IsGenreName => query.Where(m => m.IsGenre.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
             TagStringConstants.EngNameName => query.Where(m => m.EngName.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            TagStringConstants.ParentTagName => query.Where(m => m.ParentTag != null && m.ParentTag.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            TagStringConstants.ParentTagName => query.Where(m => m.ParentTag != null && m.ParentTag.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }
@@ -39,19 +39,31 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
             TagStringConstants.EngNameName => isAscending ? query.OrderBy(m => m.EngName) : query.OrderByDescending(m => m.EngName),
             TagStringConstants.AlisesName => isAscending ? query.OrderBy(m => m.Alises) : query.OrderByDescending(m => m.Alises),
             TagStringConstants.IsGenreName => isAscending ? query.OrderBy(m => m.IsGenre) : query.OrderByDescending(m => m.IsGenre),
-            TagStringConstants.ParentTagName => isAscending ? query.OrderBy(m => m.ParentTag) : query.OrderByDescending(m => m.Name),
+            TagStringConstants.ParentTagName => isAscending ? query.OrderBy(m => m.ParentTag) : query.OrderByDescending(m => m.ParentTag),
             _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id)
         };
     }
 
     protected override void Update(Tag model, Tag entity)
     {
-        entity.ParentTag = model.ParentTag;
         entity.IsGenre = model.IsGenre;
-        entity.SeoAddition = model.SeoAddition;
         entity.Alises = model.Alises;
         entity.EngName = model.EngName;
         entity.Name = model.Name;
+        entity.ParentTag = model.ParentTag;
+
+        //Don't change 
+        var seoAddition = DbContext.SeoAdditions.First(e => e.Id == model.SeoAddition.Id);
+        entity.SeoAddition = seoAddition;
+        entity.SeoAddition.Slug = model.SeoAddition.Slug;
+        entity.SeoAddition.Title = model.SeoAddition.Title;
+        entity.SeoAddition.Description = model.SeoAddition.Description;
+        entity.SeoAddition.SocialType = model.SeoAddition.SocialType;
+        entity.SeoAddition.SocialTitle = model.SeoAddition.SocialTitle;
+        entity.SeoAddition.Image = model.SeoAddition.Image;
+        entity.SeoAddition.ImageAlt = model.SeoAddition.ImageAlt;
+        entity.SeoAddition.SocialImage = model.SeoAddition.SocialImage;
+        entity.SeoAddition.SocialImageAlt = model.SeoAddition.SocialImageAlt;
     }
     public override async Task<IReadOnlyCollection<Tag>> GetAllAsync(CancellationToken cancellationToken)
     {
@@ -78,5 +90,16 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
         return new PaginatedCollection<Tag>(models, totalItems);
     }
 
+    public override async Task UpdateAsync(Tag model, CancellationToken cancellationToken)
+    {
+        var entity = await DbContext.Set<Tag>().FirstOrDefaultAsync(e => e.Id == model.Id, cancellationToken);
+        if (entity is null)
+            return;
+
+       
+
+        Update(model, entity);
+        await DbContext.SaveChangesAsync(cancellationToken);
+    }
 }
 

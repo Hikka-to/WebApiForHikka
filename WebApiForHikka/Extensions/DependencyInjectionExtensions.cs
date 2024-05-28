@@ -24,37 +24,39 @@ public static class DependencyInjectionExtensions
     {
         var connectionString = configuration.GetConnectionString(AppSettingsStringConstants.DefaultConnection);
         services.AddDbContext<HikkaDbContext>(options =>
-            options.UseNpgsql(connectionString, x => x.MigrationsAssembly("WebApiForHikka.EfPersistence")));
+        {
+            options.UseNpgsql(connectionString, x => x.MigrationsAssembly("WebApiForHikka.EfPersistence"));
+        });
 
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
         var mapper = mapperConfiguration.CreateMapper();
 
 
         //Repositories
-        services.AddTransient<IUserRepository, UserRepository>();
-        services.AddTransient<ISeoAdditionRepository, SeoAdditionRepository>();
-        services.AddTransient<IStatusRepository, StatusRepository>();
-        services.AddTransient<ISourceRepository, SourceRepository>();
-        services.AddTransient<IRestrictedRatingRepository, RestrictedRatingRepository>();
-        services.AddTransient<IPeriodRepository, PeriodRepository>();
-        services.AddTransient<IKindRepository, KindRepository>();
-        services.AddTransient<IFormatRepository, FormatRepository>();
-        services.AddTransient<ITagRepository, TagRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ISeoAdditionRepository, SeoAdditionRepository>();
+        services.AddScoped<IStatusRepository, StatusRepository>();
+        services.AddScoped<ISourceRepository, SourceRepository>();
+        services.AddScoped<IRestrictedRatingRepository, RestrictedRatingRepository>();
+        services.AddScoped<IPeriodRepository, PeriodRepository>();
+        services.AddScoped<IKindRepository, KindRepository>();
+        services.AddScoped<IFormatRepository, FormatRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
 
         //Services
-        services.AddTransient<IUserService, UserService>();
-        services.AddTransient<ISeoAdditionService, SeoAdditionService>();
-        services.AddTransient<IStatusService, StatusService>();
-        services.AddTransient<ISourceService, SourceService>();
-        services.AddTransient<IRestrictedRatingService, RestrictedRatingService>();
-        services.AddTransient<IPeriodService, PeriodService>();
-        services.AddTransient<IKindService, KindService>();
-        services.AddTransient<IFormatService, FormatService>();
-        services.AddTransient<ITagService, TagService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ISeoAdditionService, SeoAdditionService>();
+        services.AddScoped<IStatusService, StatusService>();
+        services.AddScoped<ISourceService, SourceService>();
+        services.AddScoped<IRestrictedRatingService, RestrictedRatingService>();
+        services.AddScoped<IPeriodService, PeriodService>();
+        services.AddScoped<IKindService, KindService>();
+        services.AddScoped<IFormatService, FormatService>();
+        services.AddScoped<ITagService, TagService>();
 
         //Helpers
-        services.AddSingleton<IHashFunctions, HashFunctions>();
-        services.AddSingleton<IJwtTokenFactory, JwtTokenFactory>();
+        services.AddScoped<IHashFunctions, HashFunctions>();
+        services.AddScoped<IJwtTokenFactory, JwtTokenFactory>();
 
     }
 }

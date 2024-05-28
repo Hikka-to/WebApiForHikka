@@ -138,9 +138,10 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         var repository = GetRepository(dbContext);
         var sample = GetSample();
         var id = await repository.AddAsync(sample, _cancellationToken);
-        sample.Id = id;
+        var createModel = await repository.GetAsync(id, _cancellationToken);
+        sample.Id = createModel.Id;
         var updatedSample = GetSampleForUpdate();
-        updatedSample.Id = id;
+        updatedSample.Id = createModel.Id;
 
         // Act
         await repository.UpdateAsync(updatedSample, _cancellationToken);
