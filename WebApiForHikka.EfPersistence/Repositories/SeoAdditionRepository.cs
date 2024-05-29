@@ -58,14 +58,6 @@ public class SeoAdditionRepository : CrudRepository<SeoAddition>, ISeoAdditionRe
 
     protected override void Update(SeoAddition model, SeoAddition entity)
     {
-        entity.Slug = model.Slug;
-        entity.Title = model.Title;
-        entity.Description = model.Description;
-        entity.Image = model.Image;
-        entity.ImageAlt = model.ImageAlt;
-        entity.SocialTitle = model.SocialTitle;
-        entity.SocialType = model.SocialType;
-        entity.SocialImage = model.SocialImage;
-        entity.SocialImageAlt = model.SocialImageAlt;
+        DbContext.Entry(entity).CurrentValues.SetValues(model);
     }
 }

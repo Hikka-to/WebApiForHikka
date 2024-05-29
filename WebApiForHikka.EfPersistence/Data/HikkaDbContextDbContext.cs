@@ -15,6 +15,7 @@ public class HikkaDbContext : DbContext
     public DbSet<Format> Formats { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<RestrictedRating> RestrictedRatings { get; set; }
+    public DbSet<Country> Countries { get; set; }
 
     public HikkaDbContext(DbContextOptions<HikkaDbContext> options) : base(options)
     {
@@ -42,5 +43,7 @@ public class HikkaDbContext : DbContext
         modelBuilder.Entity<Source>().Navigation(e => e.SeoAddition).AutoInclude();
 
         modelBuilder.Entity<RestrictedRating>().Navigation(e => e.SeoAddition).AutoInclude();
+
+        modelBuilder.Entity<Country>().Navigation(e => e.SeoAddition).AutoInclude();
     }
 }

@@ -46,24 +46,12 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
 
     protected override void Update(Tag model, Tag entity)
     {
-        entity.IsGenre = model.IsGenre;
-        entity.Alises = model.Alises;
-        entity.EngName = model.EngName;
-        entity.Name = model.Name;
-        entity.ParentTag = model.ParentTag;
-
-        //Don't change 
         var seoAddition = DbContext.SeoAdditions.First(e => e.Id == model.SeoAddition.Id);
+        DbContext.Entry(seoAddition).CurrentValues.SetValues(model.SeoAddition);
+        DbContext.Entry(entity).CurrentValues.SetValues(model);
         entity.SeoAddition = seoAddition;
-        entity.SeoAddition.Slug = model.SeoAddition.Slug;
-        entity.SeoAddition.Title = model.SeoAddition.Title;
-        entity.SeoAddition.Description = model.SeoAddition.Description;
-        entity.SeoAddition.SocialType = model.SeoAddition.SocialType;
-        entity.SeoAddition.SocialTitle = model.SeoAddition.SocialTitle;
-        entity.SeoAddition.Image = model.SeoAddition.Image;
-        entity.SeoAddition.ImageAlt = model.SeoAddition.ImageAlt;
-        entity.SeoAddition.SocialImage = model.SeoAddition.SocialImage;
-        entity.SeoAddition.SocialImageAlt = model.SeoAddition.SocialImageAlt;
+
+        entity.ParentTag = model.ParentTag;
     }
     public override async Task<IReadOnlyCollection<Tag>> GetAllAsync(CancellationToken cancellationToken)
     {

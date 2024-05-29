@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.Countries;
 using WebApiForHikka.Dtos.Dto.Formats;
 using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.Dtos.Dto.Periods;
@@ -88,5 +89,15 @@ public class MappingProfiles : Profile
         CreateMap<CreateTagDto, Tag>();
 
         CreateMap<UpdateTagDto, Tag>();
+        
+        //Country
+
+        CreateMap<Country, GetCountryDto>();
+
+        CreateMap<CreateCountryDto, Country>();
+
+        CreateMap<UpdateCountryDto, Country>();
+
+
     }
 }

@@ -35,6 +35,5 @@ public class SourceRepository : CrudRepository<Source>, ISourceRepository
     {
         entity.SeoAddition = model.SeoAddition;
         entity.Name = model.Name;
-
     }
 }

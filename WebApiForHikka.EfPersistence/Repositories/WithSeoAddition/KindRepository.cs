@@ -34,8 +34,7 @@ public class KindRepository : CrudRepository<Kind>, IKindRepository
 
     protected override void Update(Kind model, Kind entity)
     {
-        entity.Hint = model.Hint;
-        entity.Slug = model.Slug;
+        DbContext.Entry(entity).CurrentValues.SetValues(model);
         entity.SeoAddition = model.SeoAddition;
     }
 }

@@ -28,7 +28,6 @@ public class FormatRepository : CrudRepository<Format>, IFormatRepository
         {
             FormatStringConstants.NameName => isAscending ? query.OrderBy(m => m.Name) : query.OrderByDescending(m => m.Name),
             _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id) // Default sorting by Id
-
         };
     }
 

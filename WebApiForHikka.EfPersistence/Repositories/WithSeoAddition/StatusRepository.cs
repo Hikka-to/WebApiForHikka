@@ -31,7 +31,7 @@ public class StatusRepository : CrudRepository<Status>, IStatusRepository
 
     protected override void Update(Status model, Status entity)
     {
-        entity.Name = model.Name;
+        DbContext.Entry(entity).CurrentValues.SetValues(model);
         entity.SeoAddition = model.SeoAddition;
     }
 }

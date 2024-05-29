@@ -24,7 +24,7 @@ public class JwtTokenFactory : IJwtTokenFactory
                 new(UserStringConstants.RoleClaim, user.Role),
                 new(UserStringConstants.IdClaim, user.Id.ToString()),
             }),
-            Expires = DateTime.UtcNow.AddDays(ShraredNumberConstatnts.HowManyDayExpiresForJwt),
+            Expires = DateTime.UtcNow.AddDays(SharedNumberConstatnts.HowManyDayExpiresForJwt),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);

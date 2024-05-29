@@ -1,12 +1,17 @@
-﻿using WebApiForHikka.Dtos.MyOwnValidationAttribute;
+﻿using System.ComponentModel.DataAnnotations;
+using WebApiForHikka.Constants.Shared;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
 public class CreateTagDto : CreateDtoWithSeoAddition
 {
+
+    [StringLength(SharedNumberConstatnts.NameLenght)]
     public required string Name { get; set; }
 
+    [StringLength(SharedNumberConstatnts.NameLenght)]
     public required string EngName { get; set; }
 
     public required List<String> Alises { get; set; }
