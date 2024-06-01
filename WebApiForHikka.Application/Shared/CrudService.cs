@@ -3,7 +3,7 @@ using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Shared;
 
-public abstract class CrudService<TModel, TRepository> : ICrudService<TModel> where TModel : Model where TRepository : ICrudRepository<TModel>
+public abstract class CrudService<TModel, TRepository> : ICrudService<TModel> where TModel : IModel where TRepository : ICrudRepository<TModel>
 {
     protected readonly TRepository _repository;
 

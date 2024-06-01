@@ -1,6 +1,7 @@
-﻿namespace WebApiForHikka.Domain.Models;
-
-public abstract class Model
+﻿namespace WebApiForHikka.Domain.Models
 {
-    public Guid Id { get; set; }
+    public abstract class Model : IModel
+    {
+        public Guid Id { get; set; }
+    }
 }

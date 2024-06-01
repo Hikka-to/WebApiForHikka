@@ -8,7 +8,7 @@ namespace WebApiForHikka.Test.Shared.Service;
 
 public abstract class SharedServiceTest<TModel, TService>
     : SharedTest
-    where TModel : Model
+    where TModel : IModel
     where TService : ICrudService<TModel>
 {
     protected abstract TModel GetSample();
@@ -19,33 +19,33 @@ public abstract class SharedServiceTest<TModel, TService>
     public virtual async Task Service_CreateAsync_ReturnsModelAndId()
     {
         // Arrange
-        var dbContext = GetDatabaseContext();
+        var dbContext = await GetDatabaseContext();
         TService Service = GetService(dbContext);
         var sample = GetSample();
 
         // Act
-        var result = await Service.CreateAsync(sample, _cancellationToken);
+        var result = await Service.CreateAsync(sample, CancellationToken);
 
         // Assert
         result.Should().NotBeEmpty();
-        var addedStatus = await Service.GetAsync(result, _cancellationToken);
+        var addedStatus = await Service.GetAsync(result, CancellationToken);
         addedStatus.Should().NotBeNull();
         addedStatus.Should().BeEquivalentTo(sample);
     }
     public virtual async Task Service_Deletesync_DeleteModel()
     {
         // Arrange
-        var dbContext =  GetDatabaseContext();
+        var dbContext = await GetDatabaseContext();
         var service = GetService(dbContext);
         var model = GetSample();
 
         // Act
-        var result = await service.CreateAsync(model, _cancellationToken);
+        var result = await service.CreateAsync(model, CancellationToken);
 
-        await service.DeleteAsync(result, _cancellationToken);
+        await service.DeleteAsync(result, CancellationToken);
 
         // Assert
-        var deletedModel = await service.GetAsync(result, _cancellationToken);
+        var deletedModel = await service.GetAsync(result, CancellationToken);
         deletedModel.Should().BeNull();
     }
 
@@ -54,16 +54,16 @@ public abstract class SharedServiceTest<TModel, TService>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext =  GetDatabaseContext();
+        var dbContext = await GetDatabaseContext();
         var service = GetService(dbContext);
         foreach (var i in data)
         {
-            await service.CreateAsync(i, _cancellationToken);
+            await service.CreateAsync(i, CancellationToken);
         }
         var dto = new FilterPaginationDto { PageNumber = 1, PageSize = 1 };
 
         // Act
-        var result = await service.GetAllAsync(dto, _cancellationToken);
+        var result = await service.GetAllAsync(dto, CancellationToken);
 
         // Assert
         Assert.Single(result.Models);
@@ -76,17 +76,17 @@ public abstract class SharedServiceTest<TModel, TService>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext = GetDatabaseContext();
+        var dbContext = await GetDatabaseContext();
 
         var service = GetService(dbContext);
         foreach (var i in data)
         {
-            await service.CreateAsync(i, _cancellationToken);
+            await service.CreateAsync(i, CancellationToken);
         }
         var ids = data.Select(m => m.Id).ToList();
 
         // Act
-        var result = await service.GetAllModelsByIdsAsync(ids, _cancellationToken);
+        var result = await service.GetAllModelsByIdsAsync(ids, CancellationToken);
 
         // Assert
         Assert.Equal(ids.Count, result.Count());
@@ -94,14 +94,14 @@ public abstract class SharedServiceTest<TModel, TService>
     public async virtual Task Service_GetAsync_ReturnsModel()
     {
         // Arrange
-        var dbContext = GetDatabaseContext();
+        var dbContext = await GetDatabaseContext();
         var service = GetService(dbContext);
         var sample = GetSample();
-        var id = await service.CreateAsync(sample, _cancellationToken);
+        var id = await service.CreateAsync(sample, CancellationToken);
         sample.Id = id;
 
         // Act
-        var result = await service.GetAsync(id, _cancellationToken);
+        var result = await service.GetAsync(id, CancellationToken);
 
         // Assert
         result.Should().NotBeNull();
@@ -112,18 +112,18 @@ public abstract class SharedServiceTest<TModel, TService>
     public virtual async Task Service_UpdateAsync_UpdateModel()
     {
         // Arrange
-        var dbContext = GetDatabaseContext();
+        var dbContext = await GetDatabaseContext();
         var service = GetService(dbContext);
         var sample = GetSample();
-        var id = await service.CreateAsync(sample, _cancellationToken);
+        var id = await service.CreateAsync(sample, CancellationToken);
         sample.Id = id;
         var updatedSample = GetSampleForUpdate();
         updatedSample.Id = id;
 
         // Act
-        await service.UpdateAsync(updatedSample, _cancellationToken);
+        await service.UpdateAsync(updatedSample, CancellationToken);
 
-        var result = await service.GetAsync(id, _cancellationToken);
+        var result = await service.GetAsync(id, CancellationToken);
 
         // Assert
         result.Should().NotBeNull();

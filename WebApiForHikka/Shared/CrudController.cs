@@ -15,7 +15,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     (TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : MyBaseController(mapper, httpContextAccessor),
     ICrudController<TUpdateDto, TCreateDto>
-    where TModel : Model
+    where TModel : IModel
     where TUpdateDto : ModelDto
     where TIService : ICrudService<TModel>
 
@@ -89,7 +89,6 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
 
 
         var model = _mapper.Map<TGetDto>(await _crudService.GetAsync(id, cancellationToken));
-
         if (model is null)
             return NotFound();
 
