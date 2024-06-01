@@ -20,7 +20,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     public virtual async Task Repository_AddAsync_ReturnsModelAndId()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         TRepository Repository = GetRepository(dbContext);
         var sample = GetSample();
 
@@ -36,7 +36,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     public virtual async Task Repository_Deletesync_DeleteModel()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
         var model = GetSample();
 
@@ -55,7 +55,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
         foreach (var i in data)
         {
@@ -75,7 +75,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
 
         foreach (var i in data)
@@ -98,7 +98,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
 
         var repository = GetRepository(dbContext);
         foreach (var i in data)
@@ -116,7 +116,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     public async virtual Task Repository_GetAsync_ReturnsModel()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
         var sample = GetSample();
         var id = await repository.AddAsync(sample, CancellationToken);
@@ -134,7 +134,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     public virtual async Task Repository_UpdateAsync_UpdateModel()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
         var sample = GetSample();
         var id = await repository.AddAsync(sample, CancellationToken);

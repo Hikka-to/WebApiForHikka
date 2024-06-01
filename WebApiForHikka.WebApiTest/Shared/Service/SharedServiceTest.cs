@@ -8,7 +8,7 @@ namespace WebApiForHikka.Test.Shared.Service;
 
 public abstract class SharedServiceTest<TModel, TService>
     : SharedTest
-    where TModel : IModel
+    where TModel : class, IModel
     where TService : ICrudService<TModel>
 {
     protected abstract TModel GetSample();
@@ -19,7 +19,7 @@ public abstract class SharedServiceTest<TModel, TService>
     public virtual async Task Service_CreateAsync_ReturnsModelAndId()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         TService Service = GetService(dbContext);
         var sample = GetSample();
 
@@ -35,7 +35,7 @@ public abstract class SharedServiceTest<TModel, TService>
     public virtual async Task Service_Deletesync_DeleteModel()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var service = GetService(dbContext);
         var model = GetSample();
 
@@ -54,7 +54,7 @@ public abstract class SharedServiceTest<TModel, TService>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var service = GetService(dbContext);
         foreach (var i in data)
         {
@@ -76,7 +76,7 @@ public abstract class SharedServiceTest<TModel, TService>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
 
         var service = GetService(dbContext);
         foreach (var i in data)
@@ -94,7 +94,7 @@ public abstract class SharedServiceTest<TModel, TService>
     public async virtual Task Service_GetAsync_ReturnsModel()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var service = GetService(dbContext);
         var sample = GetSample();
         var id = await service.CreateAsync(sample, CancellationToken);
@@ -112,7 +112,7 @@ public abstract class SharedServiceTest<TModel, TService>
     public virtual async Task Service_UpdateAsync_UpdateModel()
     {
         // Arrange
-        var dbContext = await GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var service = GetService(dbContext);
         var sample = GetSample();
         var id = await service.CreateAsync(sample, CancellationToken);
