@@ -366,3 +366,4 @@ FodyWeavers.xsd
 # My ignorence
 *.json
 /WebApiForHikka/appsettings.json
+'
