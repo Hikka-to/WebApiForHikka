@@ -48,8 +48,8 @@ public class TagRepositoryTest : SharedRepositoryTestWithSeoAddition<
         var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
         var sample = GetSample();
-        var id = await repository.AddAsync(sample, _cancellationToken);
-        var createModel = await repository.GetAsync(id, _cancellationToken);
+        var id = await repository.AddAsync(sample, CancellationToken);
+        var createModel = await repository.GetAsync(id, CancellationToken);
         sample.Id = createModel.Id;
         sample.SeoAddition.Id = createModel.SeoAddition.Id;
         var updatedSample = GetSampleForUpdate();
@@ -57,9 +57,9 @@ public class TagRepositoryTest : SharedRepositoryTestWithSeoAddition<
         updatedSample.SeoAddition.Id = createModel.SeoAddition.Id;
 
         // Act
-        await repository.UpdateAsync(updatedSample, _cancellationToken);
+        await repository.UpdateAsync(updatedSample, CancellationToken);
 
-        var result = await repository.GetAsync(id, _cancellationToken);
+        var result = await repository.GetAsync(id, CancellationToken);
 
         // Assert
         result.Should().NotBeNull();

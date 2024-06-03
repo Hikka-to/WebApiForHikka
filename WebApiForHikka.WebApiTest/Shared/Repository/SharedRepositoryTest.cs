@@ -6,9 +6,9 @@ using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.Test.Shared.Repository;
 
-public abstract class SharedRepositoryTest<TModel, TRepository> 
+public abstract class SharedRepositoryTest<TModel, TRepository>
     : SharedTest
-    where TModel : Model
+    where TModel : IModel
     where TRepository : ICrudRepository<TModel>
 {
     protected abstract TModel GetSample();
@@ -25,11 +25,11 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         var sample = GetSample();
 
         // Act
-        var result = await Repository.AddAsync(sample, _cancellationToken);
+        var result = await Repository.AddAsync(sample, CancellationToken);
 
         // Assert
         result.Should().NotBeEmpty();
-        var addedStatus = await Repository.GetAsync(result, _cancellationToken);
+        var addedStatus = await Repository.GetAsync(result, CancellationToken);
         addedStatus.Should().NotBeNull();
         addedStatus.Should().BeEquivalentTo(sample);
     }
@@ -41,12 +41,12 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         var model = GetSample();
 
         // Act
-        var result = await repository.AddAsync(model, _cancellationToken);
+        var result = await repository.AddAsync(model, CancellationToken);
 
-        await repository.DeleteAsync(result, _cancellationToken);
+        await repository.DeleteAsync(result, CancellationToken);
 
         // Assert
-        var deletedModel = await repository.GetAsync(result, _cancellationToken);
+        var deletedModel = await repository.GetAsync(result, CancellationToken);
         deletedModel.Should().BeNull();
     }
 
@@ -59,12 +59,12 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         var repository = GetRepository(dbContext);
         foreach (var i in data)
         {
-            await repository.AddAsync(i, _cancellationToken);
+            await repository.AddAsync(i, CancellationToken);
         }
         var dto = new FilterPaginationDto { PageNumber = 1, PageSize = 1 };
 
         // Act
-        var result = await repository.GetAllAsync(dto, _cancellationToken);
+        var result = await repository.GetAllAsync(dto, CancellationToken);
 
         // Assert
         Assert.Single(result.Models);
@@ -75,17 +75,17 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext =  GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
 
         foreach (var i in data)
         {
-            await repository.AddAsync(i, _cancellationToken);
+            await repository.AddAsync(i, CancellationToken);
         }
         var ids = data.Select(m => m.Id).ToList();
 
         // Act
-        var result = await repository.GetAllAsync(_cancellationToken);
+        var result = await repository.GetAllAsync(CancellationToken);
 
         // Assert
         Assert.Equal(ids.Count, result.Count);
@@ -98,17 +98,17 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
-        var dbContext =  GetDatabaseContext();
+        var dbContext = GetDatabaseContext();
 
         var repository = GetRepository(dbContext);
         foreach (var i in data)
         {
-            await repository.AddAsync(i, _cancellationToken);
+            await repository.AddAsync(i, CancellationToken);
         }
         var ids = data.Select(m => m.Id).ToList();
 
         // Act
-        var result = await repository.GetAllModelsByIdsAsync(ids, _cancellationToken);
+        var result = await repository.GetAllModelsByIdsAsync(ids, CancellationToken);
 
         // Assert
         Assert.Equal(ids.Count, result.Count);
@@ -119,11 +119,11 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
         var sample = GetSample();
-        var id = await repository.AddAsync(sample, _cancellationToken);
+        var id = await repository.AddAsync(sample, CancellationToken);
         sample.Id = id;
 
         // Act
-        var result = await repository.GetAsync(id, _cancellationToken);
+        var result = await repository.GetAsync(id, CancellationToken);
 
         // Assert
         result.Should().NotBeNull();
@@ -137,37 +137,18 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
         var sample = GetSample();
-        var id = await repository.AddAsync(sample, _cancellationToken);
-        var createModel = await repository.GetAsync(id, _cancellationToken);
-        sample.Id = createModel.Id;
+        var id = await repository.AddAsync(sample, CancellationToken);
+        sample.Id = id;
         var updatedSample = GetSampleForUpdate();
-        updatedSample.Id = createModel.Id;
+        updatedSample.Id = id;
 
         // Act
-        await repository.UpdateAsync(updatedSample, _cancellationToken);
+        await repository.UpdateAsync(updatedSample, CancellationToken);
 
-        var result = await repository.GetAsync(id, _cancellationToken);
+        var result = await repository.GetAsync(id, CancellationToken);
 
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(updatedSample);
     }
-
-    public async virtual Task Repository_Get_ReturnsModel()
-    {
-        // Arrange
-        var dbContext = GetDatabaseContext();
-        var repository = GetRepository(dbContext);
-        var sample = GetSample();
-        var id = await repository.AddAsync(sample, _cancellationToken);
-        sample.Id = id;
-
-        // Act
-        var result = repository.Get(id);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(sample);
-    }
-
 }

@@ -109,15 +109,15 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
 
         var createDto = GetCreateDtoSample();
 
-        CreateResponseDto create = (await controller.Create(createDto, _cancellationToken) as OkObjectResult).Value as CreateResponseDto;
+        CreateResponseDto create = (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
 
-        TModel model = await services.CrudService.GetAsync(create.Id, _cancellationToken);
+        TModel model = await services.CrudService.GetAsync(create.Id, CancellationToken);
 
         var updateDto = GetUpdateDtoSample();
         updateDto.Id = model.Id;
         updateDto.SeoAddition.Id = model.SeoAddition.Id;
 
-        var result = await controller.Put(updateDto, _cancellationToken);
+        var result = await controller.Put(updateDto, CancellationToken);
 
 
         //Assert

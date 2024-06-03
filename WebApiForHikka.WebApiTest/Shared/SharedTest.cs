@@ -1,14 +1,10 @@
-﻿
-using FakeItEasy;
-using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Constants.Models.Users;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.EfPersistence.Data;
-using WebApiForHikka.WebApiTest.Repository.Users.FakeDataCreaters;
 
 namespace WebApiForHikka.Test.Shared;
 public class SharedTest
 {
-    protected CancellationToken _cancellationToken => new();
+    protected CancellationToken CancellationToken => new();
 
     protected HikkaDbContext GetDatabaseContext()
     {

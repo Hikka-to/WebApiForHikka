@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
@@ -8,7 +7,7 @@ using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 
-public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TModel : Model
+public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TModel : class, IModel
 {
     protected readonly HikkaDbContext DbContext;
 
@@ -88,6 +87,4 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     protected abstract IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter);
 
     protected abstract IQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending);
-
-    
 }

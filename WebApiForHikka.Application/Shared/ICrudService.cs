@@ -3,7 +3,7 @@ using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Shared;
 
-public interface ICrudService<TModel> where TModel : Model
+public interface ICrudService<TModel> where TModel : IModel
 {
     Task<Guid> CreateAsync(TModel model, CancellationToken cancellationToken);
     Task UpdateAsync(TModel model, CancellationToken cancellationToken);
