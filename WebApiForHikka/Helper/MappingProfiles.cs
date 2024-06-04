@@ -11,6 +11,7 @@ using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Dto.Status;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
 namespace WebApiForHikka.WebApi.Helper;
@@ -97,6 +98,15 @@ public class MappingProfiles : Profile
         CreateMap<CreateCountryDto, Country>();
 
         CreateMap<UpdateCountryDto, Country>();
+        
+        //Studio
+
+        CreateMap<Studio, GetStudioDto>();
+
+        CreateMap<CreateStudioDto, Studio>();
+
+        CreateMap<UpdateStudioDto, Studio>();
+
 
 
     }

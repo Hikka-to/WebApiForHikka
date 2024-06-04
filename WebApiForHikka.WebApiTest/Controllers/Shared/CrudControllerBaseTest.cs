@@ -15,7 +15,7 @@ public abstract class CrudControllerBaseTest
     : BaseControllerTest
     where TController : ICrudController<TUpdateDto, TCreateDto>
     where TCrudService : CrudService<TModel, TIRepository>
-    where TModel : IModel
+    where TModel : class, IModel
     where TIRepository : ICrudRepository<TModel>
     where TUpdateDto : ModelDto
     where TReturnPageDto : ReturnPageDto<TGetDto>

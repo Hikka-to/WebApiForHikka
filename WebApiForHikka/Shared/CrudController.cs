@@ -15,7 +15,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     (TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : MyBaseController(mapper, httpContextAccessor),
     ICrudController<TUpdateDto, TCreateDto>
-    where TModel : IModel
+    where TModel : class, IModel
     where TUpdateDto : ModelDto
     where TIService : ICrudService<TModel>
 

@@ -8,7 +8,7 @@ namespace WebApiForHikka.Test.Shared.Repository;
 
 public abstract class SharedRepositoryTest<TModel, TRepository>
     : SharedTest
-    where TModel : IModel
+    where TModel : class, IModel
     where TRepository : ICrudRepository<TModel>
 {
     protected abstract TModel GetSample();
