@@ -32,6 +32,8 @@ public abstract class SharedServiceTest<TModel, TService>
         addedStatus.Should().NotBeNull();
         addedStatus.Should().BeEquivalentTo(sample);
     }
+
+    [Fact]
     public virtual async Task Service_Deletesync_DeleteModel()
     {
         // Arrange
@@ -91,6 +93,8 @@ public abstract class SharedServiceTest<TModel, TService>
         // Assert
         Assert.Equal(ids.Count, result.Count());
     }
+
+    [Fact]
     public async virtual Task Service_GetAsync_ReturnsModel()
     {
         // Arrange

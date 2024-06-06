@@ -70,7 +70,7 @@ public abstract class CrudControllerBaseTest
 
         //Act
 
-        var result = await controller.GetAll(_filterPaginationDto, CancellationToken) as OkObjectResult;
+        var result = await controller.GetAll(FilterPaginationDto, CancellationToken) as OkObjectResult;
 
 
         //Assert

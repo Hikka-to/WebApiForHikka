@@ -33,6 +33,8 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         addedStatus.Should().NotBeNull();
         addedStatus.Should().BeEquivalentTo(sample);
     }
+
+    [Fact]
     public virtual async Task Repository_Deletesync_DeleteModel()
     {
         // Arrange
@@ -113,6 +115,8 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         // Assert
         Assert.Equal(ids.Count, result.Count);
     }
+
+    [Fact]
     public async virtual Task Repository_GetAsync_ReturnsModel()
     {
         // Arrange

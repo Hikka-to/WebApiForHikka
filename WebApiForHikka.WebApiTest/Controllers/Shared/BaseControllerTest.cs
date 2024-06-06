@@ -18,19 +18,19 @@ public abstract class BaseControllerTest : SharedTest
     protected readonly IMapper _mapper;
 
     private readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
-    protected readonly IConfiguration _configuration = A.Fake<IConfiguration>();
+    protected readonly IConfiguration Configuration = A.Fake<IConfiguration>();
 
-    protected readonly IJwtTokenFactory _jwtTokenFactory = new JwtTokenFactory();
+    protected readonly IJwtTokenFactory JwtTokenFactory = new JwtTokenFactory();
 
-    protected FilterPaginationDto _filterPaginationDto => new();
+    protected FilterPaginationDto FilterPaginationDto => new();
 
-    protected User _userWithAdminRole => new User()
+    protected User UserWithAdminRole => new User()
     {
         Email = "test@gmail.com",
         Id = new Guid(),
         Role = UserStringConstants.AdminRole,
     };
-    protected User _userWithUserRole => new User()
+    protected User UserWithUserRole => new User()
     {
         Email = "test@gmail.com",
         Id = new Guid(),
@@ -39,7 +39,7 @@ public abstract class BaseControllerTest : SharedTest
 
     public BaseControllerTest() 
     {
-        A.CallTo(() => _configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
+        A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
         _mapper = mapperConfiguration.CreateMapper();
 
@@ -49,7 +49,7 @@ public abstract class BaseControllerTest : SharedTest
     protected IHttpContextAccessor GetHttpContextAccessForAdminUser() 
     {
         // Generate JWT Token
-        var jwtToken = _jwtTokenFactory.GetJwtToken(_userWithAdminRole, _configuration);
+        var jwtToken = JwtTokenFactory.GetJwtToken(UserWithAdminRole, Configuration);
 
         // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
@@ -70,7 +70,7 @@ public abstract class BaseControllerTest : SharedTest
     protected IHttpContextAccessor GetHttpContextAccessForUserUser()
     {
         // Generate JWT Token
-        var jwtToken = _jwtTokenFactory.GetJwtToken(_userWithUserRole, _configuration);
+        var jwtToken = JwtTokenFactory.GetJwtToken(UserWithUserRole, Configuration);
 
         // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();

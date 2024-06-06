@@ -12,4 +12,8 @@
     <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WithSeoAddition\Mediaplayers\" />
+  </ItemGroup>
+
 </Project>

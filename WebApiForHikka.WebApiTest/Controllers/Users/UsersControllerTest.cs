@@ -27,7 +27,7 @@ public class UsersControllerTest : BaseControllerTest
         var userRegistrationDto = new UserRegistrationDto { Email = "test@example.com", Password = "password", Role = "User" };
         var userId = Guid.NewGuid();
         A.CallTo(() => _userService.RegisterUserAsync(A<User>.Ignored, A<CancellationToken>.Ignored)).Returns(userId);
-        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, GetHttpContextAccessForAdminUser());
+        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Create(userRegistrationDto, CancellationToken.None);
@@ -46,7 +46,7 @@ public class UsersControllerTest : BaseControllerTest
         var userId = Guid.NewGuid();
         var user = new User { Email = "test@example.com", Role = "User", Id = userId };
         A.CallTo(() => _userService.GetAsync(userId, A<CancellationToken>.Ignored)).Returns(user);
-        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, GetHttpContextAccessForAdminUser());
+        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Get(userId, CancellationToken.None);
@@ -64,7 +64,7 @@ public class UsersControllerTest : BaseControllerTest
         A.CallTo(() => _userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
 
         
-        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, GetHttpContextAccessForAdminUser());
+        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Put(updateUserDto, CancellationToken.None);
@@ -78,7 +78,7 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var userId = Guid.NewGuid();
-        var controller = new UsersController(_userService, _jwtTokenFactory, _configuration, _mapper, GetHttpContextAccessForAdminUser());
+        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Delete(userId, CancellationToken.None);
