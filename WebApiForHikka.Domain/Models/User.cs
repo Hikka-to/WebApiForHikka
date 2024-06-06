@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebApiForHikka.Domain.Models;
 [Index(nameof(Email), IsUnique = true)]
-public class User : Model, ICloneable
+public class User : Model, IModel, ICloneable
 {
     [Required]
     public string Password { get; set; } = null!;

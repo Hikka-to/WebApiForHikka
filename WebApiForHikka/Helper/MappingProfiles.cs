@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Countries;
 using WebApiForHikka.Dtos.Dto.Formats;
@@ -11,6 +12,8 @@ using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Dto.Status;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
@@ -106,6 +109,24 @@ public class MappingProfiles : Profile
         CreateMap<CreateStudioDto, Studio>();
 
         CreateMap<UpdateStudioDto, Studio>();
+        
+        //Dub
+
+        CreateMap<Dub, GetDubDto>();
+
+        CreateMap<CreateDubDto, Dub>();
+
+        CreateMap<UpdateDubDto, Dub>();
+
+
+        //Mediaplayer
+
+        CreateMap<Mediaplayer, GetMediaplayerDto>();
+
+        CreateMap<CreateMediaplayerDto, Mediaplayer>();
+
+        CreateMap<UpdateMediaplayerDto, Mediaplayer>();
+
 
 
 

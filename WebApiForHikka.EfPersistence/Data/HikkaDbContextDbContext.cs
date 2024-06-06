@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.EfPersistence.Data;
@@ -18,6 +19,7 @@ public class HikkaDbContext : DbContext
     public DbSet<Country> Countries { get; set; }
     public DbSet<Studio> Studios { get; set; }
     public DbSet<Dub> Dubs { get; set; }
+    public DbSet<Mediaplayer> Mediaplayers { get; set; }
 
     public HikkaDbContext(DbContextOptions<HikkaDbContext> options) : base(options)
     {
