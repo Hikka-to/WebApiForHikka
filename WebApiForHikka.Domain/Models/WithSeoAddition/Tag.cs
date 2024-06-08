@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Shared;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
@@ -16,5 +17,8 @@ public class Tag : ModelWithSeoAddition
 
     public virtual Tag? ParentTag { get; set; }
 
-    public virtual ICollection<Tag>? Tags { get; set; }
+    public virtual ICollection<Tag> Tags { get; } = [];
+
+    public ICollection<Anime> Animes { get; } = [];
+    public ICollection<TagAnime> TagAnimes { get; } = [];
 }
