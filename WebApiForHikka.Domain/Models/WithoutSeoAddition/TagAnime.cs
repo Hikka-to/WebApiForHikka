@@ -8,7 +8,4 @@ public class TagAnime : Model
 
     public required Guid AnimeId;
 
-    public required Tag Tag;
-
-    public required Anime Anime;
 }

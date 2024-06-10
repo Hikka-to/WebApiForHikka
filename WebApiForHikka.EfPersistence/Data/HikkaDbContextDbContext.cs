@@ -66,8 +66,6 @@ public class HikkaDbContext : DbContext
         r => r.HasOne<Anime>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade)
     );
         modelBuilder.Entity<Anime>().Navigation(e => e.Tags).AutoInclude();
-        modelBuilder.Entity<TagAnime>().Navigation(e => e.Tag).AutoInclude();
-        modelBuilder.Entity<TagAnime>().Navigation(e => e.Anime).AutoInclude();
 
     }
 }
