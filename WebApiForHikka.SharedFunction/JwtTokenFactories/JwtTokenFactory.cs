@@ -20,8 +20,8 @@ public class JwtTokenFactory : IJwtTokenFactory
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new(UserStringConstants.EmailClaim, user.Email),
-                new(UserStringConstants.RoleClaim, user.Role),
+                new(UserStringConstants.EmailClaim, user.Email!),
+                // !!!!!!!!! Need to fix new roles
                 new(UserStringConstants.IdClaim, user.Id.ToString()),
             }),
             Expires = DateTime.UtcNow.AddDays(SharedNumberConstatnts.HowManyDayExpiresForJwt),

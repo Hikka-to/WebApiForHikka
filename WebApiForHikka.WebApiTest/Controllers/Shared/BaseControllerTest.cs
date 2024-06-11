@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using WebApiForHikka.Constants.AppSettings;
-using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
@@ -24,20 +23,20 @@ public abstract class BaseControllerTest : SharedTest
 
     protected FilterPaginationDto FilterPaginationDto => new();
 
+    // !!!!!!!!! Need to fix new roles
     protected User UserWithAdminRole => new User()
     {
         Email = "test@gmail.com",
         Id = new Guid(),
-        Role = UserStringConstants.AdminRole,
     };
+    // !!!!!!!!! Need to fix new roles
     protected User UserWithUserRole => new User()
     {
         Email = "test@gmail.com",
         Id = new Guid(),
-        Role = UserStringConstants.UserRole,
     };
 
-    public BaseControllerTest() 
+    public BaseControllerTest()
     {
         A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
@@ -46,7 +45,7 @@ public abstract class BaseControllerTest : SharedTest
     }
 
 
-    protected IHttpContextAccessor GetHttpContextAccessForAdminUser() 
+    protected IHttpContextAccessor GetHttpContextAccessForAdminUser()
     {
         // Generate JWT Token
         var jwtToken = JwtTokenFactory.GetJwtToken(UserWithAdminRole, Configuration);

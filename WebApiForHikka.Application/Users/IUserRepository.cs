@@ -9,4 +9,7 @@ public interface IUserRepository : ICrudRepository<User>
 
     public Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken);
     public bool CheckIfUserWithTheEmailIsAlreadyExist(string email);
+
+    public Task<bool> CheckIfUserWithTheUserNameIsAlreadyExistAsync(string username, CancellationToken cancellationToken);
+    public bool CheckIfUserWithTheUserNameIsAlreadyExist(string username);
 }

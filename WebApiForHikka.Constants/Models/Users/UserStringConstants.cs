@@ -9,6 +9,9 @@ public class UserStringConstants
 
     public const string PasswordName = "Password";
 
+    //Name
+    public const int NameLength = 255;
+
     //RegExpression
 
     public const string EmailRegExpression = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
@@ -19,9 +22,13 @@ public class UserStringConstants
     //Error messages
     public const string SimplePasswordErrorMessage = "Please enter a password that contains at least 6 characters";
 
-    public const string UserIsAlreadyExistErrorMessage = "User with this email is already exist";
+    public const string UserEmailAlreadyExistErrorMessage = "User with this email is already exist";
 
     public const string RoleDoesntExist = "This role doesn't exist";
+
+    public const string NameIsTooLongErrorMessage = "Provided username is too long";
+
+    public const string UserNameAlreadyExistErrorMessage = "User with this name is already exist";
 
 
     //Claims

@@ -1,15 +1,9 @@
 ﻿using FakeItEasy;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Moq;
 using WebApiForHikka.Application.Users;
-using WebApiForHikka.Constants.AppSettings;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
-using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.WebApi.Controllers;
 
@@ -19,15 +13,16 @@ public class UsersControllerTest : BaseControllerTest
 {
     private readonly IUserService _userService = A.Fake<IUserService>();
 
-   
+
     [Fact]
     public async Task Register_ValidModel_ReturnsOk()
     {
         // Arrange
-        var userRegistrationDto = new UserRegistrationDto { Email = "test@example.com", Password = "password", Role = "User" };
+        var userRegistrationDto = new UserRegistrationDto { UserName = "test", Email = "test@example.com", Password = "Password123!", Role = "User" };
         var userId = Guid.NewGuid();
         A.CallTo(() => _userService.RegisterUserAsync(A<User>.Ignored, A<CancellationToken>.Ignored)).Returns(userId);
-        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, _mapper, GetHttpContextAccessForAdminUser());
+        var userManager = GetUserManager();
+        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Create(userRegistrationDto, CancellationToken.None);
@@ -44,9 +39,11 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var userId = Guid.NewGuid();
-        var user = new User { Email = "test@example.com", Role = "User", Id = userId };
+        // !!!!!!!!!! Need role fix
+        var user = new User { Email = "test@example.com", Id = userId };
         A.CallTo(() => _userService.GetAsync(userId, A<CancellationToken>.Ignored)).Returns(user);
-        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, _mapper, GetHttpContextAccessForAdminUser());
+        var userManager = GetUserManager();
+        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Get(userId, CancellationToken.None);
@@ -60,11 +57,12 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var updateUserDto = new UpdateUserDto { Id = Guid.NewGuid(), Email = "test@example.com", Role = "User" };
-        var user = new User { Email = "test@example.com", Role = "User", Id = updateUserDto.Id };
+        // !!!!!!!!!! Need role fix
+        var user = new User { Email = "test@example.com", Id = updateUserDto.Id };
         A.CallTo(() => _userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
 
-        
-        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, _mapper, GetHttpContextAccessForAdminUser());
+        var userManager = GetUserManager();
+        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Put(updateUserDto, CancellationToken.None);
@@ -78,7 +76,8 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var userId = Guid.NewGuid();
-        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, _mapper, GetHttpContextAccessForAdminUser());
+        var userManager = GetUserManager();
+        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
 
         // Act
         var result = await controller.Delete(userId, CancellationToken.None);

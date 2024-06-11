@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using WebApiForHikka.Application.Users;
-using WebApiForHikka.Constants.AppSettings;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
@@ -18,7 +13,14 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers;
 public class UsersController
-    (IUserService userService, IJwtTokenFactory jwtTokenFactory, IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    (
+        IUserService userService,
+        IJwtTokenFactory jwtTokenFactory,
+        IConfiguration configuration,
+        UserManager<User> userManager,
+        IMapper mapper,
+        IHttpContextAccessor httpContextAccessor
+    )
     : MyBaseController(mapper, httpContextAccessor),
     ICrudController<UpdateUserDto, UserRegistrationDto>
 {
@@ -36,9 +38,9 @@ public class UsersController
 
         var user = new User
         {
+            UserName = model.UserName,
             Email = model.Email,
-            Password = model.Password,
-            Role = model.Role
+            PasswordHash = model.Password
         };
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
@@ -47,6 +49,8 @@ public class UsersController
         {
             return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
         }
+
+        await userManager.AddToRoleAsync(user, model.Role);
 
         return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, Id = (Guid)id });
     }
