@@ -92,7 +92,6 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
                 r => r.HasOne<Anime>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade)
             );
         modelBuilder.Entity<Anime>().Navigation(e => e.Tags).AutoInclude();
-<<<<<<< HEAD:WebApiForHikka.EfPersistence/Data/HikkaDbContextDbContext.cs
 
 
         modelBuilder.Entity<Anime>()
@@ -115,7 +114,5 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
 
 
-=======
->>>>>>> 6e14b68c5f338dc2340e2a2f52c3f4a11b709add:WebApiForHikka.EfPersistence/Data/HikkaDbContext.cs
     }
 }
