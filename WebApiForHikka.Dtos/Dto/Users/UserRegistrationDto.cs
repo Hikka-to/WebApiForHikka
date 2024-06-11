@@ -6,8 +6,13 @@ using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 namespace WebApiForHikka.Dtos.Dto.Users;
 public class UserRegistrationDto
 {
+    [StringLength(UserStringConstants.NameLength, ErrorMessage = UserStringConstants.NameIsTooLongErrorMessage)]
+    [UserNameAlreadyExist(ErrorMessage = UserStringConstants.UserNameAlreadyExistErrorMessage)]
+    [Required]
+    public required string UserName { get; set; }
+
     [EmailAddress(ErrorMessage = ControllerStringConstants.EmailIsntFormatedCorrectlyErrorMessage)]
-    [EmailIsAlreadyExist(ErrorMessage = UserStringConstants.UserIsAlreadyExistErrorMessage)]
+    [EmailIsAlreadyExist(ErrorMessage = UserStringConstants.UserEmailAlreadyExistErrorMessage)]
     [Required]
     public required string Email { get; set; }
 

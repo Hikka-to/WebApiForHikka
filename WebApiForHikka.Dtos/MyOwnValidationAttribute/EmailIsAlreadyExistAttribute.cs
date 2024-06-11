@@ -7,7 +7,7 @@ using WebApiForHikka.Constants.Models.Users;
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-public class EmailIsAlreadyExist : ValidationAttribute
+public class EmailIsAlreadyExistAttribute : ValidationAttribute
 {
     protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
     {
@@ -27,7 +27,7 @@ public class EmailIsAlreadyExist : ValidationAttribute
 
     public override string FormatErrorMessage(string name)
     {
-        return String.Format(CultureInfo.CurrentCulture,
-          UserStringConstants.UserIsAlreadyExistErrorMessage, name);
+        return string.Format(CultureInfo.CurrentCulture,
+          UserStringConstants.UserEmailAlreadyExistErrorMessage, name);
     }
 }

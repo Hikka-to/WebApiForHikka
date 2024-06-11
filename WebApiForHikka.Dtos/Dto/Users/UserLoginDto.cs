@@ -3,6 +3,7 @@
 namespace WebApiForHikka.Dtos.Dto.Users;
 public record UserLoginDto
 {
+
     [EmailAddress]
     public required string Email { get; set; }
 

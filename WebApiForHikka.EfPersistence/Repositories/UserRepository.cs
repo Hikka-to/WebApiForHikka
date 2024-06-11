@@ -1,49 +1,48 @@
-﻿
-using WebApiForHikka.EfPersistence.Repositories;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Users;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.SharedFunction.HashFunction;
-using WebApiForHikka.Constants.Models.Users;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
-public class UserRepository : CrudRepository<User>, IUserRepository
+public class UserRepository(
+        HikkaDbContext dbContext,
+        IHashFunctions hashFunctions,
+        UserManager<User> userManager
+    ) : CrudRepository<User>(dbContext), IUserRepository
 {
-    private readonly IHashFunctions _hashFunctions;
-
-    public UserRepository(HikkaDbContext dbContext, IHashFunctions hashFunctions) : base(dbContext)
-    {
-        _hashFunctions = hashFunctions;
-    }
-
     public async Task<User?> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken)
     {
-        var user = await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
-        if (user != null && _hashFunctions.VerifyPassword(password, user.Password))
+        var user = await userManager.FindByEmailAsync(email);
+        if (user != null && await userManager.CheckPasswordAsync(user, password))
         {
             return user;
         }
         return null;
     }
 
-    public async Task<User?> AuthenticateUserWithAdminRoleAsync(string email, string password, CancellationToken cancellationToken) 
+    public async Task<User?> AuthenticateUserWithAdminRoleAsync(string email, string password, CancellationToken cancellationToken)
     {
-        var user = await DbContext.Set<User>().FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
-        if (user != null && _hashFunctions.VerifyPassword(password, user.Password) && user.Role == UserStringConstants.AdminRole)
+        var user = await userManager.FindByEmailAsync(email);
+        if (user != null && await userManager.CheckPasswordAsync(user, password) && await userManager.IsInRoleAsync(user, UserStringConstants.AdminRole))
         {
             return user;
         }
         return null;
     }
 
-    public new async Task<Guid> AddAsync(User model, CancellationToken cancellationToken)
+    public override async Task<Guid> AddAsync(User model, CancellationToken cancellationToken)
     {
-        model.Password = _hashFunctions.HashPassword(model.Password);
-        await DbContext.Set<User>().AddAsync(model, cancellationToken);
-        await DbContext.SaveChangesAsync(cancellationToken);
+        var result = await userManager.CreateAsync(model, model.PasswordHash!);
+        if (!result.Succeeded)
+        {
+            // !!!!!!!! Improve error handling
+            throw new AggregateException(result.Errors.Select(e => new Exception(e.Description)));
+        }
+
         return model.Id;
     }
     public async Task<bool> CheckIfUserWithTheEmailIsAlreadyExistAsync(string email, CancellationToken cancellationToken)
@@ -70,8 +69,12 @@ public class UserRepository : CrudRepository<User>, IUserRepository
     {
         return filterBy switch
         {
-            UserStringConstants.EmailName => query.Where(m => m.Email.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            UserStringConstants.RoleName => query.Where(m => m.Role.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            UserStringConstants.EmailName => query.Where(m => m.Email != null && m.Email.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            UserStringConstants.RoleName => from user in query
+                                            join userRole in DbContext.UserRoles on user.Id equals userRole.UserId
+                                            join role in DbContext.Roles on userRole.RoleId equals role.Id
+                                            where role.Name != null && role.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)
+                                            select user,
             SharedStringConstants.IdName => query.Where(m => m.Id.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
@@ -82,7 +85,17 @@ public class UserRepository : CrudRepository<User>, IUserRepository
         return orderBy switch
         {
             UserStringConstants.EmailName => isAscending ? query.OrderBy(m => m.Email) : query.OrderByDescending(m => m.Email),
-            UserStringConstants.RoleName => isAscending ? query.OrderBy(m => m.Role) : query.OrderByDescending(m => m.Role),
+            UserStringConstants.RoleName => isAscending
+                ? (from user in query
+                   join userRole in DbContext.UserRoles on user.Id equals userRole.UserId
+                   join role in DbContext.Roles on userRole.RoleId equals role.Id
+                   orderby role.Name ascending
+                   select user)
+                : (from user in query
+                   join userRole in DbContext.UserRoles on user.Id equals userRole.UserId
+                   join role in DbContext.Roles on userRole.RoleId equals role.Id
+                   orderby role.Name descending
+                   select user),
             SharedStringConstants.IdName => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id),
             _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id)
         };
@@ -90,9 +103,17 @@ public class UserRepository : CrudRepository<User>, IUserRepository
 
     protected override void Update(User model, User entity)
     {
-        entity.Email = model.Email;
-        entity.Role = model.Role;
-        entity.Password = model.Password;
+        DbContext.Entry(entity).CurrentValues.SetValues(model);
     }
 
+
+    public async Task<bool> CheckIfUserWithTheUserNameIsAlreadyExistAsync(string username, CancellationToken cancellationToken)
+    {
+        return await DbContext.Set<User>().AnyAsync(u => u.UserName == username, cancellationToken);
+    }
+
+    public bool CheckIfUserWithTheUserNameIsAlreadyExist(string username)
+    {
+        return DbContext.Set<User>().Any(u => u.UserName == username);
+    }
 }
