@@ -21,6 +21,8 @@ public class HikkaDbContext : DbContext
     public DbSet<Dub> Dubs { get; set; }
     public DbSet<Mediaplayer> Mediaplayers { get; set; }
     public DbSet<TagAnime> TagAnimes { get; set; }
+    public DbSet<CountryAnime> CountryAnimes { get; set; }
+    public DbSet<DubAnime> DubAnimes { get; set; }
     public DbSet<Anime> Animes { get; set; }
     public HikkaDbContext(DbContextOptions<HikkaDbContext> options) : base(options)
     {
@@ -66,6 +68,27 @@ public class HikkaDbContext : DbContext
         r => r.HasOne<Anime>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade)
     );
         modelBuilder.Entity<Anime>().Navigation(e => e.Tags).AutoInclude();
+
+
+        modelBuilder.Entity<Anime>()
+  .HasMany(e => e.Countries)
+  .WithMany(e => e.Animes)
+  .UsingEntity<CountryAnime>(
+       l => l.HasOne<Country>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade),
+       r => r.HasOne<Anime>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade)
+   );
+        modelBuilder.Entity<Anime>().Navigation(e => e.Countries).AutoInclude();
+
+        modelBuilder.Entity<Anime>()
+         .HasMany(e => e.Dubs)
+         .WithMany(e => e.Animes)
+         .UsingEntity<DubAnime>(
+              l => l.HasOne<Dub>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade),
+              r => r.HasOne<Anime>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade)
+          );
+        modelBuilder.Entity<Anime>().Navigation(e => e.Dubs).AutoInclude();
+
+
 
     }
 }
