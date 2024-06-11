@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.EfPersistence.Data;
 
-public class HikkaDbContext : DbContext
+public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
-    public DbSet<User> Users { get; set; }
     public DbSet<SeoAddition> SeoAdditions { get; set; }
     public DbSet<Period> Periods { get; set; }
     public DbSet<Status> Statuses { get; set; }
@@ -29,11 +31,34 @@ public class HikkaDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         // Configure the self-referencing relationship
         modelBuilder.Entity<Tag>()
            .HasOne(t => t.ParentTag)
            .WithMany(t => t.Tags)
            .HasForeignKey("ParentId");
+
+        modelBuilder.Entity<IdentityRole<Guid>>().HasData(
+            new IdentityRole<Guid>
+            {
+                Id = Guid.Parse("2ae998d7-d8b1-4616-a0b3-60d29eca6c90"),
+                Name = UserStringConstants.AdminRole,
+                NormalizedName = UserStringConstants.AdminRole.ToUpper()
+            },
+            new IdentityRole<Guid>
+            {
+                Id = Guid.Parse("b1e76313-b130-44f8-ae76-6aff097064aa"),
+                Name = UserStringConstants.UserRole,
+                NormalizedName = UserStringConstants.UserRole.ToUpper()
+            },
+            new IdentityRole<Guid>
+            {
+                Id = Guid.Parse("5bf717f2-e546-417f-b33a-40eab3eafc96"),
+                Name = UserStringConstants.BannedRole,
+                NormalizedName = UserStringConstants.BannedRole.ToUpper()
+            }
+        );
 
         modelBuilder.Entity<Tag>().Navigation(e => e.SeoAddition).AutoInclude();
 
@@ -57,15 +82,13 @@ public class HikkaDbContext : DbContext
 
         modelBuilder.Entity<Anime>().Navigation(e => e.SeoAddition).AutoInclude();
 
-
         modelBuilder.Entity<Anime>()
-   .HasMany(e => e.Tags)
-   .WithMany(e => e.Animes)
-   .UsingEntity<TagAnime>(
-        l => l.HasOne<Tag>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade),
-        r => r.HasOne<Anime>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade)
-    );
+            .HasMany(e => e.Tags)
+            .WithMany(e => e.Animes)
+            .UsingEntity<TagAnime>(
+                l => l.HasOne<Tag>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade),
+                r => r.HasOne<Anime>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade)
+            );
         modelBuilder.Entity<Anime>().Navigation(e => e.Tags).AutoInclude();
-
     }
 }

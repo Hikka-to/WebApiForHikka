@@ -29,4 +29,14 @@ public class UserService(IUserRepository repository) : CrudService<User, IUserRe
     {
         return await _repository.AuthenticateUserWithAdminRoleAsync(email, password, cancellationToken);
     }
+
+    public async Task<bool> CheckIfUserWithTheUserNameIsAlreadyExistAsync(string username, CancellationToken cancellationToken)
+    {
+        return await _repository.CheckIfUserWithTheUserNameIsAlreadyExistAsync(username, cancellationToken);
+    }
+
+    public bool CheckIfUserWithTheUserNameIsAlreadyExist(string username)
+    {
+        return _repository.CheckIfUserWithTheUserNameIsAlreadyExist(username);
+    }
 }

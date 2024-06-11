@@ -1,19 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApiForHikka.Domain.Models;
-[Index(nameof(Email), IsUnique = true)]
-public class User : Model, IModel, ICloneable
+
+public class User : IdentityUser<Guid>, IModel, ICloneable
 {
     [Required]
-    public string Password { get; set; } = null!;
-
-    [Required]
-    [EmailAddress]
-    public required string Email { get; set; }
-
-    [Required]
-    public required string Role { get; set; }
+    public override required string Email { get => base.Email!; set => base.Email = value; }
 
     public User Clone() => (User)MemberwiseClone();
     object ICloneable.Clone() => Clone();

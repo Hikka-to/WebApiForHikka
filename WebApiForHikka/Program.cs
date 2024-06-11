@@ -1,10 +1,6 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WebApiForHikka.WebApi.Extensions;
-using System.Text;
-using WebApiForHikka.Constants.AppSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,25 +42,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddLoggingMiddleware();
 builder.Services.Configure<TokenOptions>(builder.Configuration.GetSection("TokenOptions"));
 
-// Configure JWT Authentication
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration[AppSettingsStringConstants.JwtIssuer],
-        ValidAudience = builder.Configuration[AppSettingsStringConstants.JwtAudience],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration[AppSettingsStringConstants.JwtKey]!))
-    };
-});
+builder.Services.AddIdentity();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddAuthorization();
 
