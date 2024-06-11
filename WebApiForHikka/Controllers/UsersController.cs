@@ -40,7 +40,8 @@ public class UsersController
         {
             UserName = model.UserName,
             Email = model.Email,
-            PasswordHash = model.Password
+            PasswordHash = model.Password,
+            Role = model.Role,
         };
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
@@ -50,7 +51,6 @@ public class UsersController
             return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
         }
 
-        await userManager.AddToRoleAsync(user, model.Role);
 
         return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, Id = (Guid)id });
     }

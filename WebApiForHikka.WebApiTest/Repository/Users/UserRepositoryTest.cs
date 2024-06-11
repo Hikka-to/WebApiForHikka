@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
@@ -24,12 +25,14 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
+            Role = "Role"
         };
         await userRepository.AddAsync(new User
         {
             UserName = testUser.UserName,
             Email = testUser.Email,
             PasswordHash = testUser.PasswordHash,
+            Role = "Role",
         }, new CancellationToken());
 
         // Act
@@ -53,12 +56,14 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
+            Role = UserStringConstants.AdminRole,
         };
         await userRepository.AddAsync(new User
         {
             UserName = testUser.UserName,
             Email = testUser.Email,
             PasswordHash = testUser.PasswordHash,
+            Role = UserStringConstants.AdminRole,
         }, new CancellationToken());
 
         // Act
@@ -81,13 +86,15 @@ public class UserRepositoryTest : SharedTest
         {
             UserName = "test",
             Email = "test@example.com",
-            PasswordHash = "Password123!"
+            PasswordHash = "Password123!",
+            Role = UserStringConstants.AdminRole,
         };
         await userRepository.AddAsync(new User
         {
             UserName = testUser.UserName,
             Email = testUser.Email,
             PasswordHash = testUser.PasswordHash,
+            Role = UserStringConstants.AdminRole,
         }, new CancellationToken());
 
         // Act
@@ -111,6 +118,7 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
+            Role="Test"
         };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
@@ -133,7 +141,8 @@ public class UserRepositoryTest : SharedTest
         {
             UserName = "test",
             Email = "test@example.com",
-            PasswordHash = "Password123!"
+            PasswordHash = "Password123!",
+            Role="Test"
         };
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
@@ -158,10 +167,11 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
+            Role="Test",
         };
 
         // Act
-        var result = await userRepository.AddAsync(testUser, new CancellationToken());
+        var result = (Guid)(await userRepository.AddAsync(testUser, new CancellationToken()));
 
         // Assert
         result.Should().NotBeEmpty();
@@ -182,14 +192,16 @@ public class UserRepositoryTest : SharedTest
         {
             UserName = "test",
             Email = "test@example.com",
-            PasswordHash = "Password123!"
+            PasswordHash = "Password123!",
+            Role = "Test",
         };
-        var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
+        Guid addedUserId = (Guid)(await userRepository.AddAsync(testUser, new CancellationToken()));
         var updatedUser = new User
         {
             Id = addedUserId,
             Email = "updated@example.com",
             PasswordHash = "newpassword",
+            Role = "Test",
         };
 
         // Act
@@ -214,8 +226,9 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
+            Role="Role"
         };
-        var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
+        var addedUserId = (Guid)(await userRepository.AddAsync(testUser, new CancellationToken()));
 
         // Act
         await userRepository.DeleteAsync(addedUserId, new CancellationToken());
@@ -238,8 +251,9 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
+            Role="Role",
         };
-        var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
+        var addedUserId = (Guid)(await userRepository.AddAsync(testUser, new CancellationToken()));
 
         // Act
         var result = await userRepository.GetAsync(addedUserId, new CancellationToken());

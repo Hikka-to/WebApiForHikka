@@ -42,6 +42,7 @@ public class UserRepository(
             // !!!!!!!! Improve error handling
             throw new AggregateException(result.Errors.Select(e => new Exception(e.Description)));
         }
+            await userManager.AddToRoleAsync(model, model.Role);
 
         return model.Id;
     }

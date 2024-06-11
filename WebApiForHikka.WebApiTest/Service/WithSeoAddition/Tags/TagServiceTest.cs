@@ -45,7 +45,7 @@ public class TagServiceTest : SharedServiceTestWithSeoAddition<
         var dbContext = GetDatabaseContext();
         var service = GetService(dbContext);
         var sample = GetSample();
-        var id = await service.CreateAsync(sample, CancellationToken);
+        var id = (Guid)(await service.CreateAsync(sample, CancellationToken));
         var createModel = await service.GetAsync(id, CancellationToken);
         sample.Id = createModel.Id;
         sample.SeoAddition.Id = createModel.SeoAddition.Id;

@@ -40,7 +40,7 @@ public class UsersControllerTest : BaseControllerTest
         // Arrange
         var userId = Guid.NewGuid();
         // !!!!!!!!!! Need role fix
-        var user = new User { Email = "test@example.com", Id = userId };
+        var user = new User { Email = "test@example.com", Id = userId, Role="Test" };
         A.CallTo(() => _userService.GetAsync(userId, A<CancellationToken>.Ignored)).Returns(user);
         var userManager = GetUserManager();
         var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
@@ -58,7 +58,7 @@ public class UsersControllerTest : BaseControllerTest
         // Arrange
         var updateUserDto = new UpdateUserDto { Id = Guid.NewGuid(), Email = "test@example.com", Role = "User" };
         // !!!!!!!!!! Need role fix
-        var user = new User { Email = "test@example.com", Id = updateUserDto.Id };
+        var user = new User { Email = "test@example.com", Id = updateUserDto.Id, Role="test" };
         A.CallTo(() => _userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
 
         var userManager = GetUserManager();

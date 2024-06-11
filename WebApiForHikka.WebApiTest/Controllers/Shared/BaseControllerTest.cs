@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using WebApiForHikka.Constants.AppSettings;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
@@ -28,12 +29,14 @@ public abstract class BaseControllerTest : SharedTest
     {
         Email = "test@gmail.com",
         Id = new Guid(),
+        Role=UserStringConstants.AdminRole,
     };
     // !!!!!!!!! Need to fix new roles
     protected User UserWithUserRole => new User()
     {
         Email = "test@gmail.com",
         Id = new Guid(),
+        Role=UserStringConstants.UserRole,
     };
 
     public BaseControllerTest()

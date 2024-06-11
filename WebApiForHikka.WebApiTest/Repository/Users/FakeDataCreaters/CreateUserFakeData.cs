@@ -16,7 +16,8 @@ public static class CreateUserFakeData
                 {
                     Email = $"test{i + role}@gmail.com",
                     Id = ids[i],
-                    PasswordHash = i.ToString()
+                    PasswordHash = i.ToString(),
+                    Role="Role",
                 }
                 );
             await databaseContext.SaveChangesAsync();
