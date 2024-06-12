@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Users;
+using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
@@ -12,6 +14,9 @@ using WebApiForHikka.WebApi.Shared;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers;
+
+
+[Authorize(Policy = ControllerStringConstants.CanAccessOnlyAdmin)]
 public class UsersController
     (
         IUserService userService,
@@ -28,6 +33,7 @@ public class UsersController
     private readonly IConfiguration _configuration = configuration;
     private readonly IJwtTokenFactory _jwtTokenFactory = jwtTokenFactory;
 
+    [AllowAnonymous]
     [HttpPost("Registrate")]
     public async Task<IActionResult> Create([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
     {
@@ -55,6 +61,7 @@ public class UsersController
         return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, Id = (Guid)id });
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserLoginDto model, CancellationToken cancellationToken)
     {

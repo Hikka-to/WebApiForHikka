@@ -58,7 +58,7 @@ public class UsersControllerTest : BaseControllerTest
         // Arrange
         var updateUserDto = new UpdateUserDto { Id = Guid.NewGuid(), Email = "test@example.com", Role = "User" };
         // !!!!!!!!!! Need role fix
-        var user = new User { Email = "test@example.com", Id = updateUserDto.Id, Role="test" };
+        var user = new User { Email = "test@example.com", Id = updateUserDto.Id, Role="Admin" };
         A.CallTo(() => _userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
 
         var userManager = GetUserManager();

@@ -2,9 +2,19 @@
 
 public static class ControllerStringConstants
 {
-    public const string ErrorMessageThisEndpointCanAccess = "This endpoint can access only users with the next rolls: ";
+    //Policies
+
+    public const string CanAccessEveryone = "CanAccessEveryone";
+
+    public const string CanAccessUserAndAdmin = "CanAccessUserAndAdmin";
+
+    public const string CanAccessOnlyAdmin = "CanAccessOnlyAdmin";
+
+
 
     //Error messages
+    public const string ErrorMessageThisEndpointCanAccess = "This endpoint can access only users with the next rolls: ";
+
     public const string EmailIsntFormatedCorrectlyErrorMessage = "Email isn't formated correctly";
 
     public const string IdIsRequiredErrorMessage = "Id is required";

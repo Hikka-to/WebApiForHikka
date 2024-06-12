@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using WebApiForHikka.Constants.Controllers;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +39,8 @@ builder.Services.AddSwaggerGen(c =>
         }] = []
     });
 });
+
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
@@ -45,7 +50,18 @@ builder.Services.Configure<TokenOptions>(builder.Configuration.GetSection("Token
 builder.Services.AddIdentity();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
-builder.Services.AddAuthorization();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(ControllerStringConstants.CanAccessEveryone, policy =>
+        policy.RequireRole(UserStringConstants.AdminRole, UserStringConstants.UserRole, UserStringConstants.BannedRole));
+
+    options.AddPolicy(ControllerStringConstants.CanAccessUserAndAdmin, policy =>
+        policy.RequireRole(UserStringConstants.AdminRole, UserStringConstants.UserRole));
+
+    options.AddPolicy(ControllerStringConstants.CanAccessOnlyAdmin, policy =>
+        policy.RequireRole(UserStringConstants.AdminRole));
+});
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
@@ -11,6 +12,7 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 
+[Authorize]
 public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService, TModel>
     (TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : MyBaseController(mapper, httpContextAccessor),
