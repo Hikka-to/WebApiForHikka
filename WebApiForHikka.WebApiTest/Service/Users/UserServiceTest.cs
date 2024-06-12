@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using WebApiForHikka.Application.Users;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
@@ -22,7 +23,7 @@ public class UserServiceTest : SharedTest
         var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
         var userService = new UserService(userRepository, userManager);
         // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role="Role" };
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -42,7 +43,7 @@ public class UserServiceTest : SharedTest
         var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
         var userService = new UserService(userRepository, userManager);
         // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role="Role"  };
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.AdminRole };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -63,7 +64,7 @@ public class UserServiceTest : SharedTest
         var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
         var userService = new UserService(userRepository, userManager);
         // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role="Role" };
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -82,7 +83,7 @@ public class UserServiceTest : SharedTest
         var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
         var userService = new UserService(userRepository, userManager);
         // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role="Role" };
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -101,7 +102,7 @@ public class UserServiceTest : SharedTest
         var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
         var userService = new UserService(userRepository, userManager);
         // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role="test" };
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
         // Act
@@ -120,7 +121,7 @@ public class UserServiceTest : SharedTest
         var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
         var userService = new UserService(userRepository, userManager);
         // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role="role"  };
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
         await userService.RegisterUserAsync(testUser, new CancellationToken());
 
         // Act

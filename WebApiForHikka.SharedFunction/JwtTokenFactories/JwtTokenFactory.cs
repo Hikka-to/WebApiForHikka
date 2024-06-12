@@ -21,8 +21,8 @@ public class JwtTokenFactory : IJwtTokenFactory
             Subject = new ClaimsIdentity(new Claim[]
             {
                 new(UserStringConstants.EmailClaim, user.Email!),
-                // !!!!!!!!! Need to fix new roles
                 new(UserStringConstants.IdClaim, user.Id.ToString()),
+                new(UserStringConstants.RoleClaim, user.Role),
             }),
             Expires = DateTime.UtcNow.AddDays(SharedNumberConstatnts.HowManyDayExpiresForJwt),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

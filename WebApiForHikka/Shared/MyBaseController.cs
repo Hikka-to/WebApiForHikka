@@ -32,7 +32,7 @@ public abstract class MyBaseController
                 string? userRole = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.RoleClaim).Value.ToString();
                 string? userId = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.IdClaim).Value.ToString();
 
-                return new JwtTokenContentDto() { Email = userEmail, Role = userRole, Id = userId };
+                return new JwtTokenContentDto() { Email = userEmail, Role = UserStringConstants.UserRole, Id = userId };
             }
             catch (Exception)
             {
