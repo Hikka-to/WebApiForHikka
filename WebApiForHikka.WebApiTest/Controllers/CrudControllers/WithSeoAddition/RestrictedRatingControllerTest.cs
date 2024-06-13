@@ -27,8 +27,9 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var formatRepository = new RestrictedRatingRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new RestrictedRatingService(formatRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new RestrictedRatingService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
 
@@ -41,7 +42,7 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 

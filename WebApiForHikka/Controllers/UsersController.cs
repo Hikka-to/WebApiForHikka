@@ -16,13 +16,13 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 namespace WebApiForHikka.WebApi.Controllers;
 
 
-[Authorize(Policy = ControllerStringConstants.CanAccessOnlyAdmin)]
+[Authorize(ControllerStringConstants.CanAccessOnlyAdmin)]
 public class UsersController
     (
         IUserService userService,
         IJwtTokenFactory jwtTokenFactory,
         IConfiguration configuration,
-        UserManager<User> userManager,
+        RoleManager<IdentityRole<Guid>> roleManager,
         IMapper mapper,
         IHttpContextAccessor httpContextAccessor
     )
@@ -42,12 +42,16 @@ public class UsersController
             return BadRequest(GetAllErrorsDuringValidation());
         }
 
+        var role = await roleManager.FindByNameAsync(model.Role);
+
+        Console.WriteLine($"\nRole: {role?.Name}\n");
+
         var user = new User
         {
             UserName = model.UserName,
             Email = model.Email,
             PasswordHash = model.Password,
-            Role = model.Role,
+            Roles = [role!],
         };
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
@@ -74,9 +78,9 @@ public class UsersController
         if (user == null) return Unauthorized();
 
 
-        string tokenString = _jwtTokenFactory.GetJwtToken(user, _configuration)!;
+        var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
 
-        return Ok(new LoginResponseUserDto() { Token = tokenString });
+        return Ok(new LoginResponseUserDto() { Token = tokenString! });
     }
 
     [HttpGet("GetAll")]

@@ -1,12 +1,12 @@
-﻿using WebApiForHikka.Application.Statuses;
-using WebApiForHikka.Application.SeoAdditions;
+﻿using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Dtos.Dto.Status;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
-using WebApiForHikka.Dtos.Dto.Status;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
@@ -27,8 +27,9 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var formatRepository = new StatusRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new StatusService(formatRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new StatusService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
 
@@ -41,7 +42,7 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 

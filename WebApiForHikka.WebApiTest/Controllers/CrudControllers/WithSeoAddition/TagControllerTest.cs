@@ -1,10 +1,7 @@
-﻿using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
-using WebApiForHikka.Application.SeoAdditions;
+﻿using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
-using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
@@ -30,8 +27,9 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var tagRepository = new TagRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new TagService(tagRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new TagService(tagRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
 
@@ -44,7 +42,7 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 
@@ -100,4 +98,4 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
         };
     }
 
-   }
+}

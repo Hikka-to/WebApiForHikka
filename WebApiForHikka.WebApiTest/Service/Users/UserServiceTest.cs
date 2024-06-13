@@ -1,6 +1,5 @@
 ﻿
 using FluentAssertions;
-using Microsoft.AspNetCore.Identity;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
@@ -20,10 +19,11 @@ public class UserServiceTest : SharedTest
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
-        var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
-        var userService = new UserService(userRepository, userManager);
-        // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
+        var userRepository = new UserRepository(dbContext, userManager);
+        var userService = new UserService(userRepository);
+        var roleManager = GetRoleManager(dbContext);
+        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -40,10 +40,11 @@ public class UserServiceTest : SharedTest
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
-        var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
-        var userService = new UserService(userRepository, userManager);
-        // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.AdminRole };
+        var userRepository = new UserRepository(dbContext, userManager);
+        var userService = new UserService(userRepository);
+        var roleManager = GetRoleManager(dbContext);
+        var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -52,7 +53,7 @@ public class UserServiceTest : SharedTest
         // Assert
         result.Should().NotBeNull();
         result!.Email.Should().Be(testUser.Email);
-        // !!!!!!!!!! Add role check;
+        result!.Roles.Should().Contain(role!);
     }
 
     [Fact]
@@ -61,10 +62,11 @@ public class UserServiceTest : SharedTest
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
-        var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
-        var userService = new UserService(userRepository, userManager);
-        // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
+        var userRepository = new UserRepository(dbContext, userManager);
+        var userService = new UserService(userRepository);
+        var roleManager = GetRoleManager(dbContext);
+        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -80,10 +82,11 @@ public class UserServiceTest : SharedTest
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
-        var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
-        var userService = new UserService(userRepository, userManager);
-        // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
+        var userRepository = new UserRepository(dbContext, userManager);
+        var userService = new UserService(userRepository);
+        var roleManager = GetRoleManager(dbContext);
+        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -99,10 +102,11 @@ public class UserServiceTest : SharedTest
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
-        var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
-        var userService = new UserService(userRepository, userManager);
-        // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
+        var userRepository = new UserRepository(dbContext, userManager);
+        var userService = new UserService(userRepository);
+        var roleManager = GetRoleManager(dbContext);
+        var role = roleManager.FindByNameAsync(UserStringConstants.UserRole).Result;
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
         // Act
@@ -118,10 +122,11 @@ public class UserServiceTest : SharedTest
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
-        var userRepository = new UserRepository(dbContext, _hashFunctions, userManager);
-        var userService = new UserService(userRepository, userManager);
-        // !!!!!!!!!! Need role fix
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Role = UserStringConstants.UserRole };
+        var userRepository = new UserRepository(dbContext, userManager);
+        var userService = new UserService(userRepository);
+        var roleManager = GetRoleManager(dbContext);
+        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
+        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userService.RegisterUserAsync(testUser, new CancellationToken());
 
         // Act

@@ -24,9 +24,10 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
     {
         var dbContext = GetDatabaseContext();
 
-         var repository = new MediaplayerRepository(dbContext);
+        var repository = new MediaplayerRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInController( new MediaplayerService(repository));
+        return new AllServicesInController(new MediaplayerService(repository), userManager);
     }
 
     protected override ICollection<Mediaplayer> GetCollectionOfModels(int howMany)
@@ -47,11 +48,11 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
         return new MediaplayerController(
             allServices.CrudService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 
-   
+
     protected override CreateMediaplayerDto GetCreateDtoSample()
     {
         return new CreateMediaplayerDto()

@@ -1,9 +1,13 @@
 ﻿using FakeItEasy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Users;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
+using WebApiForHikka.EfPersistence.Data;
+using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.WebApi.Controllers;
 
@@ -11,8 +15,12 @@ namespace WebApiForHikka.Test.Controller.Users;
 
 public class UsersControllerTest : BaseControllerTest
 {
-    private readonly IUserService _userService = A.Fake<IUserService>();
+    protected IUserService GetUserService(HikkaDbContext dbContext, UserManager<User> userManager)
+    {
+        var userRepository = new UserRepository(dbContext, userManager);
 
+        return new UserService(userRepository);
+    }
 
     [Fact]
     public async Task Register_ValidModel_ReturnsOk()
@@ -20,9 +28,13 @@ public class UsersControllerTest : BaseControllerTest
         // Arrange
         var userRegistrationDto = new UserRegistrationDto { UserName = "test", Email = "test@example.com", Password = "Password123!", Role = "User" };
         var userId = Guid.NewGuid();
-        A.CallTo(() => _userService.RegisterUserAsync(A<User>.Ignored, A<CancellationToken>.Ignored)).Returns(userId);
-        var userManager = GetUserManager();
-        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
+        var dbContext = GetDatabaseContext();
+        var userManager = GetUserManager(dbContext);
+        var userService = GetUserService(dbContext, userManager);
+        var jwtTokenFactory = GetJwtTokenFactory(userManager);
+        A.CallTo(() => userService.RegisterUserAsync(A<User>.Ignored, A<CancellationToken>.Ignored)).Returns(userId);
+        var roleManager = GetRoleManager();
+        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAdminUser(userManager));
 
         // Act
         var result = await controller.Create(userRegistrationDto, CancellationToken.None);
@@ -39,11 +51,16 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var userId = Guid.NewGuid();
-        // !!!!!!!!!! Need role fix
-        var user = new User { Email = "test@example.com", Id = userId, Role="Test" };
-        A.CallTo(() => _userService.GetAsync(userId, A<CancellationToken>.Ignored)).Returns(user);
-        var userManager = GetUserManager();
-        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
+        var dbContext = GetDatabaseContext();
+        var roleManager = GetRoleManager(dbContext);
+        var userManager = GetUserManager(dbContext);
+        var userService = GetUserService(dbContext, userManager);
+        var jwtTokenFactory = GetJwtTokenFactory(userManager);
+        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
+        var user = new User { Email = "test@example.com", Id = userId, Roles = [role!] };
+        A.CallTo(() => userService.GetAsync(userId, A<CancellationToken>.Ignored)).Returns(user);
+
+        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAdminUser(userManager));
 
         // Act
         var result = await controller.Get(userId, CancellationToken.None);
@@ -57,12 +74,16 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var updateUserDto = new UpdateUserDto { Id = Guid.NewGuid(), Email = "test@example.com", Role = "User" };
-        // !!!!!!!!!! Need role fix
-        var user = new User { Email = "test@example.com", Id = updateUserDto.Id, Role="Admin" };
-        A.CallTo(() => _userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
+        var dbContext = GetDatabaseContext();
+        var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
+        var userService = GetUserService(dbContext, userManager);
+        var jwtTokenFactory = GetJwtTokenFactory(userManager);
+        var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
+        var user = new User { Email = "test@example.com", Id = updateUserDto.Id, Roles = [role!] };
+        A.CallTo(() => userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
 
-        var userManager = GetUserManager();
-        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
+        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAdminUser(userManager));
 
         // Act
         var result = await controller.Put(updateUserDto, CancellationToken.None);
@@ -76,8 +97,12 @@ public class UsersControllerTest : BaseControllerTest
     {
         // Arrange
         var userId = Guid.NewGuid();
-        var userManager = GetUserManager();
-        var controller = new UsersController(_userService, JwtTokenFactory, Configuration, userManager, _mapper, GetHttpContextAccessForAdminUser());
+        var dbContext = GetDatabaseContext();
+        var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
+        var userService = GetUserService(dbContext, userManager);
+        var jwtTokenFactory = GetJwtTokenFactory(userManager);
+        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAdminUser(userManager));
 
         // Act
         var result = await controller.Delete(userId, CancellationToken.None);

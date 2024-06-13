@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Moq;
 using WebApiForHikka.Constants.AppSettings;
-using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
@@ -20,8 +21,6 @@ public abstract class BaseControllerTest : SharedTest
     private readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
     protected readonly IConfiguration Configuration = A.Fake<IConfiguration>();
 
-    protected readonly IJwtTokenFactory JwtTokenFactory = new JwtTokenFactory();
-
     protected FilterPaginationDto FilterPaginationDto => new();
 
     // !!!!!!!!! Need to fix new roles
@@ -29,14 +28,14 @@ public abstract class BaseControllerTest : SharedTest
     {
         Email = "test@gmail.com",
         Id = new Guid(),
-        Role=UserStringConstants.AdminRole,
+        Roles = [] // Add role
     };
     // !!!!!!!!! Need to fix new roles
     protected User UserWithUserRole => new User()
     {
         Email = "test@gmail.com",
         Id = new Guid(),
-        Role=UserStringConstants.UserRole,
+        Roles = [] // Add role
     };
 
     public BaseControllerTest()
@@ -47,11 +46,21 @@ public abstract class BaseControllerTest : SharedTest
 
     }
 
+    protected IJwtTokenFactory GetJwtTokenFactory(UserManager<User> userManager)
+    {
+        var options = new IdentityOptions();
+        var optionsAccessor = Options.Create(options);
 
-    protected IHttpContextAccessor GetHttpContextAccessForAdminUser()
+        var userClaimsPrincipalFactory = new UserClaimsPrincipalFactory<User>(userManager, optionsAccessor);
+        var jwtTokenFactory = new JwtTokenFactory(userClaimsPrincipalFactory);
+        return jwtTokenFactory;
+    }
+
+    protected IHttpContextAccessor GetHttpContextAccessForAdminUser(UserManager<User> userManager)
     {
         // Generate JWT Token
-        var jwtToken = JwtTokenFactory.GetJwtToken(UserWithAdminRole, Configuration);
+        var jwtTokenFactory = GetJwtTokenFactory(userManager);
+        var jwtToken = jwtTokenFactory.GetJwtTokenAsync(UserWithAdminRole, Configuration).Result;
 
         // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
@@ -69,10 +78,11 @@ public abstract class BaseControllerTest : SharedTest
         return httpContextAccessorMock.Object;
     }
 
-    protected IHttpContextAccessor GetHttpContextAccessForUserUser()
+    protected IHttpContextAccessor GetHttpContextAccessForUserUser(UserManager<User> userManager)
     {
         // Generate JWT Token
-        var jwtToken = JwtTokenFactory.GetJwtToken(UserWithUserRole, Configuration);
+        var jwtTokenFactory = GetJwtTokenFactory(userManager);
+        var jwtToken = jwtTokenFactory.GetJwtTokenAsync(UserWithUserRole, Configuration).Result;
 
         // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
@@ -89,6 +99,4 @@ public abstract class BaseControllerTest : SharedTest
 
         return httpContextAccessorMock.Object;
     }
-
-
 }

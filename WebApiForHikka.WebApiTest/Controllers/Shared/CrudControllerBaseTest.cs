@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
@@ -192,9 +193,10 @@ public abstract class CrudControllerBaseTest
     }
 
 
-    protected record AllServicesInController(TCrudService crudService)
+    protected record AllServicesInController(TCrudService crudService, UserManager<User> userManager)
     {
         public TCrudService CrudService = crudService;
+        public UserManager<User> UserManager = userManager;
     }
 
 

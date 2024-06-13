@@ -1,5 +1,5 @@
-﻿using WebApiForHikka.Application.Sources;
-using WebApiForHikka.Application.SeoAdditions;
+﻿using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Shared;
@@ -26,8 +26,9 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var formatRepository = new SourceRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new SourceService(formatRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new SourceService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
 
@@ -40,7 +41,7 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 
