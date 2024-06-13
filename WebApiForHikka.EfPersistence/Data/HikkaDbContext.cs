@@ -82,6 +82,8 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
         modelBuilder.Entity<Dub>().Navigation(e => e.SeoAddition).AutoInclude();
 
+
+        //Anime
         modelBuilder.Entity<Anime>().Navigation(e => e.SeoAddition).AutoInclude();
 
         modelBuilder.Entity<User>().Navigation(e => e.Roles).AutoInclude();
@@ -121,6 +123,16 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
                 r => r.HasOne<Anime>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade)
             );
         modelBuilder.Entity<Anime>().Navigation(e => e.Dubs).AutoInclude();
+
+        modelBuilder.Entity<Anime>().Navigation(e => e.Status).AutoInclude();
+
+        modelBuilder.Entity<Anime>().Navigation(e => e.Source).AutoInclude();
+
+        modelBuilder.Entity<Anime>().Navigation(e => e.Kind).AutoInclude();
+
+        modelBuilder.Entity<Anime>().Navigation(e => e.RestrictedRating).AutoInclude();
+
+        modelBuilder.Entity<Anime>().Navigation(e => e.Period).AutoInclude();
 
 
 
