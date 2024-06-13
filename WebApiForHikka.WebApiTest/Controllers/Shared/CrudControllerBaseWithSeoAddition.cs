@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Shared;
@@ -17,7 +18,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
     : CrudControllerBaseTest<
         TController, TCrudService, TModel, TIRepository, TUpdateDto, TCreateDto, TGetDto, TReturnPageDto
         >
-    where TController :ICrudController<TUpdateDto, TCreateDto>
+    where TController : ICrudController<TUpdateDto, TCreateDto>
     where TCrudService : CrudService<TModel, TIRepository>
     where TModel : ModelWithSeoAddition
     where TIRepository : ICrudRepository<TModel>
@@ -25,7 +26,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
     where TReturnPageDto : ReturnPageDto<TGetDto>
 {
 
-    protected record AllServicesInControllerWithSeoAddition(TCrudService crudService, ISeoAdditionService seoAdditionService) : AllServicesInController(crudService)
+    protected record AllServicesInControllerWithSeoAddition(TCrudService crudService, ISeoAdditionService seoAdditionService, UserManager<User> userManager) : AllServicesInController(crudService, userManager)
     {
         public ISeoAdditionService SeoAdditionService = seoAdditionService;
     }
@@ -80,7 +81,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
         };
     }
 
-    protected  GetSeoAdditionDto GetSeoAdditionGetDtoSample()
+    protected GetSeoAdditionDto GetSeoAdditionGetDtoSample()
     {
         return new GetSeoAdditionDto()
         {

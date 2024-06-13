@@ -26,10 +26,11 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
     {
         var dbContext = GetDatabaseContext();
 
-         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
-         var countryRepository = new CountryRepository(dbContext);
+        var seoAdditionRepository = new SeoAdditionRepository(dbContext);
+        var countryRepository = new CountryRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition( new CountryService(countryRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new CountryService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
     protected override ICollection<Country> GetCollectionOfModels(int howMany)
@@ -51,11 +52,11 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 
-   
+
     protected override CreateCountryDto GetCreateDtoSample()
     {
         return new CreateCountryDto()

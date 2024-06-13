@@ -8,8 +8,7 @@ public class User : IdentityUser<Guid>, IModel, ICloneable
     [Required]
     public override required string Email { get => base.Email!; set => base.Email = value; }
 
-    [Required]
-    public required string Role { get; set; }
+    public ICollection<IdentityRole<Guid>> Roles { get; set; } = [];
 
     public User Clone() => (User)MemberwiseClone();
     object ICloneable.Clone() => Clone();

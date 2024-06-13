@@ -1,8 +1,5 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using WebApiForHikka.Constants.Controllers;
-using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,9 +20,10 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
-        Description = "Please insert JWT with Bearer into field",
+        Description = "Please insert JWT token into field",
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -35,7 +33,10 @@ builder.Services.AddSwaggerGen(c =>
             {
                 Type = ReferenceType.SecurityScheme,
                 Id = "Bearer"
-            }
+            },
+            Scheme = "oauth2",
+            Name = "Bearer",
+            In = ParameterLocation.Header
         }] = []
     });
 });
@@ -50,18 +51,7 @@ builder.Services.Configure<TokenOptions>(builder.Configuration.GetSection("Token
 builder.Services.AddIdentity();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy(ControllerStringConstants.CanAccessEveryone, policy =>
-        policy.RequireRole(UserStringConstants.AdminRole, UserStringConstants.UserRole, UserStringConstants.BannedRole));
-
-    options.AddPolicy(ControllerStringConstants.CanAccessUserAndAdmin, policy =>
-        policy.RequireRole(UserStringConstants.AdminRole, UserStringConstants.UserRole));
-
-    options.AddPolicy(ControllerStringConstants.CanAccessOnlyAdmin, policy =>
-        policy.RequireRole(UserStringConstants.AdminRole));
-});
+builder.Services.AddPolicies();
 
 var app = builder.Build();
 

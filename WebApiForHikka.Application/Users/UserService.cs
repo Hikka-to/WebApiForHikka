@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using WebApiForHikka.Application.Shared;
+﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Users;
-public class UserService(IUserRepository repository, UserManager<User> userManager) : CrudService<User, IUserRepository>(repository), IUserService
+public class UserService(IUserRepository repository) : CrudService<User, IUserRepository>(repository), IUserService
 {
     public async Task<User?> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken)
     {

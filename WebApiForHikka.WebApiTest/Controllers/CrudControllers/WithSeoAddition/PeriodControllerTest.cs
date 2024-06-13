@@ -27,8 +27,9 @@ public class PeriodControllerTest : CrudControllerBaseWithSeoAddition<
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var formatRepository = new PeriodRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new PeriodService(formatRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new PeriodService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
 
@@ -41,7 +42,7 @@ public class PeriodControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 

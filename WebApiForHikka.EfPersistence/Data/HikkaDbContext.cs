@@ -86,6 +86,16 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         //Anime
         modelBuilder.Entity<Anime>().Navigation(e => e.SeoAddition).AutoInclude();
 
+        modelBuilder.Entity<User>().Navigation(e => e.Roles).AutoInclude();
+
+        modelBuilder.Entity<User>()
+            .HasMany(e => e.Roles)
+            .WithMany()
+            .UsingEntity<IdentityUserRole<Guid>>(
+                l => l.HasOne<IdentityRole<Guid>>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.Cascade),
+                r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Cascade)
+            );
+
         modelBuilder.Entity<Anime>()
             .HasMany(e => e.Tags)
             .WithMany(e => e.Animes)
@@ -97,21 +107,21 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
 
         modelBuilder.Entity<Anime>()
-  .HasMany(e => e.Countries)
-  .WithMany(e => e.Animes)
-  .UsingEntity<CountryAnime>(
-       l => l.HasOne<Country>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade),
-       r => r.HasOne<Anime>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade)
-   );
+            .HasMany(e => e.Countries)
+            .WithMany(e => e.Animes)
+            .UsingEntity<CountryAnime>(
+                l => l.HasOne<Country>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade),
+                r => r.HasOne<Anime>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade)
+            );
         modelBuilder.Entity<Anime>().Navigation(e => e.Countries).AutoInclude();
 
         modelBuilder.Entity<Anime>()
-         .HasMany(e => e.Dubs)
-         .WithMany(e => e.Animes)
-         .UsingEntity<DubAnime>(
-              l => l.HasOne<Dub>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade),
-              r => r.HasOne<Anime>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade)
-          );
+            .HasMany(e => e.Dubs)
+            .WithMany(e => e.Animes)
+            .UsingEntity<DubAnime>(
+                l => l.HasOne<Dub>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade),
+                r => r.HasOne<Anime>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade)
+            );
         modelBuilder.Entity<Anime>().Navigation(e => e.Dubs).AutoInclude();
 
         modelBuilder.Entity<Anime>().Navigation(e => e.Status).AutoInclude();

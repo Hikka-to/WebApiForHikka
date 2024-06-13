@@ -26,10 +26,11 @@ class DubControllerTest : CrudControllerBaseWithSeoAddition<
     {
         var dbContext = GetDatabaseContext();
 
-         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
-         var countryRepository = new DubRepository(dbContext);
+        var seoAdditionRepository = new SeoAdditionRepository(dbContext);
+        var countryRepository = new DubRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition( new DubService(countryRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new DubService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
     protected override ICollection<Dub> GetCollectionOfModels(int howMany)
@@ -51,11 +52,11 @@ class DubControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 
-   
+
     protected override CreateDubDto GetCreateDtoSample()
     {
         return new CreateDubDto()

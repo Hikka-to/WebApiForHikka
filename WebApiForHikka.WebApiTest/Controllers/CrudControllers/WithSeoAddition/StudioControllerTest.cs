@@ -1,12 +1,12 @@
 ﻿using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Dtos.Shared;
-using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
-using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.Test.Controllers.Shared;
-using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 using WebApiForHikka.Application.WithSeoAddition.Studios;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
+using WebApiForHikka.Dtos.Shared;
+using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
@@ -28,8 +28,9 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var countryRepository = new StudioRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new StudioService(countryRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new StudioService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
     protected override ICollection<Studio> GetCollectionOfModels(int howMany)
@@ -51,7 +52,7 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 

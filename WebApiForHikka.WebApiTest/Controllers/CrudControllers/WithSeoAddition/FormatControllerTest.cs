@@ -2,12 +2,9 @@
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Formats;
-using WebApiForHikka.Dtos.Dto.SeoAddition;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.Test.Controllers.Shared;
-using WebApiForHikka.WebApi.Controllers;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -27,10 +24,11 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
     {
         var dbContext = GetDatabaseContext();
 
-         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
-         var formatRepository = new FormatRepository(dbContext);
+        var seoAdditionRepository = new SeoAdditionRepository(dbContext);
+        var formatRepository = new FormatRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition( new FormatService(formatRepository), new SeoAdditionService(seoAdditionRepository));
+        return new AllServicesInControllerWithSeoAddition(new FormatService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
     }
 
     protected override ICollection<Format> GetCollectionOfModels(int howMany)
@@ -52,11 +50,11 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser()
+            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
             );
     }
 
-   
+
     protected override CreateFormatDto GetCreateDtoSample()
     {
         return new CreateFormatDto()

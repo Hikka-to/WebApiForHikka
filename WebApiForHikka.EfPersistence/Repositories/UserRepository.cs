@@ -5,12 +5,10 @@ using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
-using WebApiForHikka.SharedFunction.HashFunction;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 public class UserRepository(
         HikkaDbContext dbContext,
-        IHashFunctions hashFunctions,
         UserManager<User> userManager
     ) : CrudRepository<User>(dbContext), IUserRepository
 {
@@ -42,7 +40,6 @@ public class UserRepository(
             // !!!!!!!! Improve error handling
             throw new AggregateException(result.Errors.Select(e => new Exception(e.Description)));
         }
-            await userManager.AddToRoleAsync(model, model.Role);
 
         return model.Id;
     }

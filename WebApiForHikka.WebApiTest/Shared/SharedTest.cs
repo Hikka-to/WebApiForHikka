@@ -69,4 +69,37 @@ public class SharedTest
 
         return userManager;
     }
+
+    protected RoleManager<IdentityRole<Guid>> GetRoleManager() => GetRoleManager(GetDatabaseContext());
+
+    protected RoleManager<IdentityRole<Guid>> GetRoleManager(HikkaDbContext databaseContext)
+    {
+        var roleStore = new RoleStore<IdentityRole<Guid>, HikkaDbContext, Guid>(databaseContext);
+
+        var options = new Mock<IOptions<IdentityOptions>>();
+        var idOptions = new IdentityOptions();
+
+        idOptions.User.RequireUniqueEmail = true;
+        idOptions.Password.RequireDigit = true;
+        idOptions.Password.RequireLowercase = true;
+        idOptions.Password.RequireUppercase = true;
+        idOptions.Password.RequireNonAlphanumeric = true;
+        idOptions.Password.RequiredLength = 8;
+
+        options.Setup(o => o.Value).Returns(idOptions);
+        var roleValidators = new List<IRoleValidator<IdentityRole<Guid>>>();
+        var validator = new RoleValidator<IdentityRole<Guid>>();
+        roleValidators.Add(validator);
+
+        var roleManager = new RoleManager<IdentityRole<Guid>>
+        (
+            roleStore,
+            roleValidators,
+            new UpperInvariantLookupNormalizer(),
+            new IdentityErrorDescriber(),
+            null!
+        );
+
+        return roleManager;
+    }
 }
