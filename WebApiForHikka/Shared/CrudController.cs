@@ -12,7 +12,7 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 
-[Authorize]
+[Authorize(Policy = ControllerStringConstants.CanAccessOnlyAdmin)]
 public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService, TModel>
     (TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : MyBaseController(mapper, httpContextAccessor),
@@ -27,12 +27,9 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     [HttpPost("Create")]
     public virtual async Task<IActionResult> Create([FromBody] TCreateDto dto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint =
-            rolesToAccessTheEndpoint
             });
         if (errorEndPoint.IsError)
         {
@@ -56,12 +53,9 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     [HttpDelete("{id:Guid}")]
     public virtual async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint =
-            rolesToAccessTheEndpoint
             });
         if (errorEndPoint.IsError)
         {
@@ -76,13 +70,10 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     [HttpGet("{id:Guid}")]
     public virtual async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.UserRole, UserStringConstants.AdminRole];
 
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint =
-            rolesToAccessTheEndpoint
             });
         if (errorEndPoint.IsError)
         {
@@ -101,12 +92,9 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     [HttpGet("GetAll")]
     public virtual async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint =
-            rolesToAccessTheEndpoint
             });
         if (errorEndPoint.IsError)
         {
@@ -130,12 +118,9 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     [HttpPut("Update")]
     public virtual async Task<IActionResult> Put([FromBody] TUpdateDto dto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequestForUpdateEndPoint(
             new ThingsToValidateForUpdate()
             {
-                RolesToAccessTheEndPoint =
-            rolesToAccessTheEndpoint,
                 UpdateDto = dto
             });
 

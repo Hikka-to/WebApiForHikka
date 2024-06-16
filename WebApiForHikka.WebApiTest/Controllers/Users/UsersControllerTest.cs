@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Users;
+using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
@@ -26,15 +27,14 @@ public class UsersControllerTest : BaseControllerTest
     public async Task Register_ValidModel_ReturnsOk()
     {
         // Arrange
-        var userRegistrationDto = new UserRegistrationDto { UserName = "test", Email = "test@example.com", Password = "Password123!", Role = "User" };
+        var userRegistrationDto = new UserRegistrationDto { UserName = "Tesgacawefw21dasdacdqds", Email = "tes12dasddsadasdaat@example.com", Password = "dada!", Role = "User", };
         var userId = Guid.NewGuid();
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var userService = GetUserService(dbContext, userManager);
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
-        A.CallTo(() => userService.RegisterUserAsync(A<User>.Ignored, A<CancellationToken>.Ignored)).Returns(userId);
-        var roleManager = GetRoleManager();
-        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAdminUser(userManager));
+        var roleManager = GetRoleManager(dbContext);
+        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAnonymUser());
 
         // Act
         var result = await controller.Create(userRegistrationDto, CancellationToken.None);
@@ -42,8 +42,7 @@ public class UsersControllerTest : BaseControllerTest
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
         var response = Assert.IsType<RegistratedResponseUserDto>(okResult.Value);
-        Assert.Equal("User created successfully", response.Message);
-        Assert.Equal(userId, response.Id);
+        Assert.Equal(UserStringConstants.MessageUserRegistrated, response.Message);
     }
 
     [Fact]
@@ -54,13 +53,14 @@ public class UsersControllerTest : BaseControllerTest
         var dbContext = GetDatabaseContext();
         var roleManager = GetRoleManager(dbContext);
         var userManager = GetUserManager(dbContext);
-        var userService = GetUserService(dbContext, userManager);
+        var userService = A.Fake<UserService>();
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var user = new User { Email = "test@example.com", Id = userId, Roles = [role!] };
+
         A.CallTo(() => userService.GetAsync(userId, A<CancellationToken>.Ignored)).Returns(user);
 
-        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAdminUser(userManager));
+        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, await GetHttpContextAccessForAdminUser(userManager, roleManager));
 
         // Act
         var result = await controller.Get(userId, CancellationToken.None);
@@ -77,13 +77,13 @@ public class UsersControllerTest : BaseControllerTest
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
-        var userService = GetUserService(dbContext, userManager);
+        var userService = A.Fake<UserService>();
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
         var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
         var user = new User { Email = "test@example.com", Id = updateUserDto.Id, Roles = [role!] };
         A.CallTo(() => userService.GetAsync(updateUserDto.Id, A<CancellationToken>.Ignored)).Returns(user);
 
-        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAdminUser(userManager));
+        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, await GetHttpContextAccessForAdminUser(userManager, roleManager));
 
         // Act
         var result = await controller.Put(updateUserDto, CancellationToken.None);
@@ -96,16 +96,20 @@ public class UsersControllerTest : BaseControllerTest
     public async Task Delete_ValidId_ReturnsNoContent()
     {
         // Arrange
-        var userId = Guid.NewGuid();
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
         var userService = GetUserService(dbContext, userManager);
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
-        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, GetHttpContextAccessForAdminUser(userManager));
+        var controller = new UsersController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, await GetHttpContextAccessForAdminUser(userManager, roleManager));
+
+        var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
+        var user = new User { Email = "test@example.com", Roles = [role!], UserName="tets", PasswordHash = "tesds", };
+
+        var userId = await userService.CreateAsync(user, CancellationToken);
 
         // Act
-        var result = await controller.Delete(userId, CancellationToken.None);
+        var result = await controller.Delete(userId, CancellationToken);
 
         // Assert
         Assert.IsType<NoContentResult>(result);

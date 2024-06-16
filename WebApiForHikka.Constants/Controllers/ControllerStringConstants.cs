@@ -30,4 +30,7 @@ public static class ControllerStringConstants
     public const string ModelWithThisIdDoesntExistForUpdateEndPoint = "Model with this id doesn't exit this endpoint only for update models it can't handler ids that don't exist";
 
     public const string SeoAdditionDoesntConnectToTheModel = "SeoAddtion with this id wasn't attached to the model please don't chage the id in seoAddition";
+
+
+  
 }

@@ -44,7 +44,6 @@ public class UsersController
 
         var role = await roleManager.FindByNameAsync(model.Role);
 
-        Console.WriteLine($"\nRole: {role?.Name}\n");
 
         var user = new User
         {
@@ -61,8 +60,9 @@ public class UsersController
             return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
         }
 
+        var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
 
-        return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, Id = (Guid)id });
+        return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, JwtToken = tokenString,  Id = (Guid)id }) ;
     }
 
     [AllowAnonymous]
@@ -86,8 +86,7 @@ public class UsersController
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
-        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase() { RolesToAccessTheEndPoint = rolesToAccessTheEndpoint, });
+        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase() {  });
         if (errorEndPoint.IsError)
         {
             return errorEndPoint.GetError();
@@ -119,11 +118,9 @@ public class UsersController
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
             );
         if (errorEndPoint.IsError)

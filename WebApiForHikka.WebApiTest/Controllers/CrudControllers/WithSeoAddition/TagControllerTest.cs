@@ -28,13 +28,14 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var tagRepository = new TagRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new TagService(tagRepository), new SeoAdditionService(seoAdditionRepository), userManager);
+        return new AllServicesInControllerWithSeoAddition(new TagService(tagRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
 
-    protected override TagController GetController(AllServicesInController allServicesInController)
+    protected override async Task<TagController> GetController(AllServicesInController allServicesInController)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in TagControllerTest");
 
@@ -42,7 +43,7 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
             );
     }
 

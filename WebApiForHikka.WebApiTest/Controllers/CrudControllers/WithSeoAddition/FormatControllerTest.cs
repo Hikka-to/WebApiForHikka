@@ -27,8 +27,9 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var formatRepository = new FormatRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new FormatService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
+        return new AllServicesInControllerWithSeoAddition(new FormatService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override ICollection<Format> GetCollectionOfModels(int howMany)
@@ -42,7 +43,7 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
 
     }
 
-    protected override FormatController GetController(AllServicesInController allServicesInController)
+    protected override async Task<FormatController> GetController(AllServicesInController allServicesInController)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in FormatControllerTest");
 
@@ -50,7 +51,7 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
             );
     }
 

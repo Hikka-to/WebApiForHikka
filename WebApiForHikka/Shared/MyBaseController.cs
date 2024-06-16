@@ -54,31 +54,11 @@ public abstract class MyBaseController
         };
     }
 
-    protected bool CheckIfTheUserHasTheRightRole(JwtTokenContentDto jwtTokenContent, string[] roles)
-    {
-        for (int i = 0; i < roles.Length; ++i)
-        {
-            roles[i] = roles[i].ToLower();
-        }
-        if (roles.Contains(jwtTokenContent.Role?.ToLower()))
-        {
-            return true;
-        }
-        return false;
-    }
-
+   
     protected virtual ErrorEndPoint ValidateRequest(ThingsToValidateBase thingsToValidate)
     {
         ErrorEndPoint errorEndPoint = new();
-
-        var jwt = GetJwtTokenAuthorizationFromHeader();
-        if (!CheckIfTheUserHasTheRightRole(jwt, thingsToValidate.RolesToAccessTheEndPoint))
-        {
-            string errorMessage = ControllerStringConstants.ErrorMessageThisEndpointCanAccess
-                + string.Join(", ", thingsToValidate.RolesToAccessTheEndPoint);
-            errorEndPoint.UnauthorizedObjectResult = Unauthorized(errorMessage);
-            return errorEndPoint;
-        }
+        
         if (!ModelState.IsValid)
         {
             errorEndPoint.BadRequestObjectResult = BadRequest(GetAllErrorsDuringValidation());
@@ -94,6 +74,5 @@ public abstract class MyBaseController
 
     protected record ThingsToValidateBase
     {
-        public required string[] RolesToAccessTheEndPoint { get; init; }
     }
 }

@@ -28,13 +28,14 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var formatRepository = new StatusRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new StatusService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
+        return new AllServicesInControllerWithSeoAddition(new StatusService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
 
-    protected override StatusController GetController(AllServicesInController allServicesInController)
+    protected override async Task<StatusController> GetController(AllServicesInController allServicesInController)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in StatusControllerTest");
 
@@ -42,7 +43,7 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
             );
     }
 

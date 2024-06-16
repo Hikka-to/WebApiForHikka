@@ -84,7 +84,7 @@ public class UserRepositoryTest : SharedTest
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
         var roleManager = GetRoleManager(dbContext);
-        var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
+        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var testUser = new User
         {
             UserName = "test",

@@ -26,8 +26,9 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
 
         var repository = new MediaplayerRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInController(new MediaplayerService(repository), userManager);
+        return new AllServicesInController(new MediaplayerService(repository), userManager, roleManager);
     }
 
     protected override ICollection<Mediaplayer> GetCollectionOfModels(int howMany)
@@ -41,14 +42,14 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
 
     }
 
-    protected override MediaplayerController GetController(AllServicesInController allServicesInController)
+    protected override async Task<MediaplayerController> GetController(AllServicesInController allServicesInController)
     {
         AllServicesInController allServices = allServicesInController;
 
         return new MediaplayerController(
             allServices.CrudService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
             );
     }
 

@@ -27,13 +27,14 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var formatRepository = new KindRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new KindService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
+        return new AllServicesInControllerWithSeoAddition(new KindService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
 
-    protected override KindController GetController(AllServicesInController allServicesInController)
+    protected override async Task<KindController> GetController(AllServicesInController allServicesInController)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in KindControllerTest");
 
@@ -41,7 +42,7 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
             );
     }
 

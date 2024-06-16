@@ -29,8 +29,9 @@ class DubControllerTest : CrudControllerBaseWithSeoAddition<
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var countryRepository = new DubRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new DubService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager);
+        return new AllServicesInControllerWithSeoAddition(new DubService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override ICollection<Dub> GetCollectionOfModels(int howMany)
@@ -44,7 +45,7 @@ class DubControllerTest : CrudControllerBaseWithSeoAddition<
 
     }
 
-    protected override DubController GetController(AllServicesInController allServicesInController)
+    protected override async Task<DubController> GetController(AllServicesInController allServicesInController)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in DubControllerTest");
 
@@ -52,7 +53,7 @@ class DubControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
             );
     }
 

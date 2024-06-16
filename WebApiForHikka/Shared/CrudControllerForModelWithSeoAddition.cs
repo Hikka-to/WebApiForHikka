@@ -32,11 +32,9 @@ public abstract class CrudControllerForModelWithSeoAddition
     [HttpPost("Create")]
     public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
             );
         if (errorEndPoint.IsError)
@@ -63,11 +61,9 @@ public abstract class CrudControllerForModelWithSeoAddition
     [HttpDelete("{id:Guid}")]
     public override async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
             );
         if (errorEndPoint.IsError)
@@ -87,11 +83,9 @@ public abstract class CrudControllerForModelWithSeoAddition
     [HttpGet("{id:Guid}")]
     public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
             );
         if (errorEndPoint.IsError)
@@ -110,11 +104,9 @@ public abstract class CrudControllerForModelWithSeoAddition
     [HttpGet("GetAll")]
     public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(
             new ThingsToValidateBase()
             {
-                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             }
             );
         if (errorEndPoint.IsError)
@@ -139,11 +131,9 @@ public abstract class CrudControllerForModelWithSeoAddition
     [HttpPut("Update")]
     public override async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(
             new ThingsToValidateWithSeoAdditionForUpdate()
             {
-                RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
                 UpdateDto = dto,
                 IdForSeoAddition = dto.SeoAddition.Id,
             }

@@ -26,10 +26,8 @@ public class TagController
     [HttpPost("Create")]
     public override async Task<IActionResult> Create([FromBody] CreateTagDto dto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
         ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase()
         {
-            RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
         });
         if (errorEndPoint.IsError)
         {
@@ -59,11 +57,9 @@ public class TagController
     [HttpPut("Update")]
     public override async Task<IActionResult> Put([FromBody] UpdateTagDto dto, CancellationToken cancellationToken)
     {
-        string[] rolesToAccessTheEndpoint = [UserStringConstants.AdminRole];
 
         ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate()
         {
-            RolesToAccessTheEndPoint = rolesToAccessTheEndpoint,
             UpdateDto = dto,
             IdForSeoAddition = dto.SeoAddition.Id,
 

@@ -29,8 +29,9 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var countryRepository = new StudioRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new StudioService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager);
+        return new AllServicesInControllerWithSeoAddition(new StudioService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override ICollection<Studio> GetCollectionOfModels(int howMany)
@@ -44,7 +45,7 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
 
     }
 
-    protected override StudioController GetController(AllServicesInController allServicesInController)
+    protected override async Task<StudioController> GetController(AllServicesInController allServicesInController)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in StudioControllerTest");
 
@@ -52,7 +53,7 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
             );
     }
 

@@ -28,13 +28,14 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var formatRepository = new RestrictedRatingRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new RestrictedRatingService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager);
+        return new AllServicesInControllerWithSeoAddition(new RestrictedRatingService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
 
-    protected override RestrictedRatingController GetController(AllServicesInController allServicesInController)
+    protected override async Task<RestrictedRatingController> GetController(AllServicesInController allServicesInController)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in RestrictedRatingControllerTest");
 
@@ -42,7 +43,7 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
             );
     }
 

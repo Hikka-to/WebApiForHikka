@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
 using WebApiForHikka.Constants.AppSettings;
+using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
@@ -24,20 +25,16 @@ public abstract class BaseControllerTest : SharedTest
     protected FilterPaginationDto FilterPaginationDto => new();
 
     // !!!!!!!!! Need to fix new roles
-    protected User UserWithAdminRole => new User()
+    protected User SampleUser => new User()
     {
         Email = "test@gmail.com",
+        UserName = "Test",
         Id = new Guid(),
-        Roles = [] // Add role
+        Roles = [],
+        PasswordHash = "ersdsadwdmkavdkjvwe",
+        SecurityStamp = "tesfaas",
     };
-    // !!!!!!!!! Need to fix new roles
-    protected User UserWithUserRole => new User()
-    {
-        Email = "test@gmail.com",
-        Id = new Guid(),
-        Roles = [] // Add role
-    };
-
+  
     public BaseControllerTest()
     {
         A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
@@ -48,7 +45,9 @@ public abstract class BaseControllerTest : SharedTest
 
     protected IJwtTokenFactory GetJwtTokenFactory(UserManager<User> userManager)
     {
-        var options = new IdentityOptions();
+        var options = new IdentityOptions(
+            
+            );
         var optionsAccessor = Options.Create(options);
 
         var userClaimsPrincipalFactory = new UserClaimsPrincipalFactory<User>(userManager, optionsAccessor);
@@ -56,11 +55,18 @@ public abstract class BaseControllerTest : SharedTest
         return jwtTokenFactory;
     }
 
-    protected IHttpContextAccessor GetHttpContextAccessForAdminUser(UserManager<User> userManager)
+    protected async Task<IHttpContextAccessor> GetHttpContextAccessForAdminUser(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
     {
         // Generate JWT Token
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
-        var jwtToken = jwtTokenFactory.GetJwtTokenAsync(UserWithAdminRole, Configuration).Result;
+        User user = SampleUser;
+
+        await userManager.CreateAsync(user, user.PasswordHash!);
+        await userManager.AddToRoleAsync(user, UserStringConstants.AdminRole);
+
+
+
+        var jwtToken = await jwtTokenFactory.GetJwtTokenAsync(user, Configuration);
 
         // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
@@ -78,11 +84,18 @@ public abstract class BaseControllerTest : SharedTest
         return httpContextAccessorMock.Object;
     }
 
-    protected IHttpContextAccessor GetHttpContextAccessForUserUser(UserManager<User> userManager)
+    protected async Task<IHttpContextAccessor> GetHttpContextAccessForUserUser(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
     {
-        // Generate JWT Token
+         // Generate JWT Token
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
-        var jwtToken = jwtTokenFactory.GetJwtTokenAsync(UserWithUserRole, Configuration).Result;
+        User user = SampleUser;
+
+        await userManager.CreateAsync(user, user.PasswordHash!);
+        await userManager.AddToRoleAsync(user, UserStringConstants.UserRole);
+
+
+
+        var jwtToken = await jwtTokenFactory.GetJwtTokenAsync(user, Configuration);
 
         // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
@@ -99,4 +112,24 @@ public abstract class BaseControllerTest : SharedTest
 
         return httpContextAccessorMock.Object;
     }
+
+    protected  IHttpContextAccessor GetHttpContextAccessForAnonymUser()
+    {
+       
+        // CrudController_ mocks for HttpRequest and HttpContext
+        var httpRequestMock = new Mock<HttpRequest>();
+        var httpContextMock = new Mock<HttpContext>();
+
+        httpRequestMock.Setup(req => req.Headers.Authorization).Returns("");
+
+        // Setup the HttpContext mock to return the mocked HttpRequest
+        httpContextMock.Setup(ctx => ctx.Request).Returns(httpRequestMock.Object);
+
+        // Mock IHttpContextAccessor to return the mocked HttpContext
+        var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+        httpContextAccessorMock.Setup(x => x.HttpContext).Returns(httpContextMock.Object);
+
+        return httpContextAccessorMock.Object;
+    }
+
 }

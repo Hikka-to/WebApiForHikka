@@ -22,7 +22,6 @@ public class SharedTest
         return databaseContext;
     }
 
-    protected UserManager<User> GetUserManager() => GetUserManager(GetDatabaseContext());
 
     protected UserManager<User> GetUserManager(HikkaDbContext databaseContext)
     {
@@ -31,12 +30,14 @@ public class SharedTest
         var options = new Mock<IOptions<IdentityOptions>>();
         var idOptions = new IdentityOptions();
 
+        //Must be the same in userManager and RoleManage
+        //!!!!!!!!!!!!!!!!!!!!! DON'T CHAGE !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         idOptions.User.RequireUniqueEmail = true;
-        idOptions.Password.RequireDigit = true;
-        idOptions.Password.RequireLowercase = true;
-        idOptions.Password.RequireUppercase = true;
-        idOptions.Password.RequireNonAlphanumeric = true;
-        idOptions.Password.RequiredLength = 8;
+        idOptions.Password.RequireDigit = false;
+        idOptions.Password.RequireLowercase = false;
+        idOptions.Password.RequireUppercase = false;
+        idOptions.Password.RequireNonAlphanumeric = false;
+        idOptions.Password.RequiredLength = 2;
 
         options.Setup(o => o.Value).Returns(idOptions);
         var userValidators = new List<IUserValidator<User>>();
@@ -70,7 +71,6 @@ public class SharedTest
         return userManager;
     }
 
-    protected RoleManager<IdentityRole<Guid>> GetRoleManager() => GetRoleManager(GetDatabaseContext());
 
     protected RoleManager<IdentityRole<Guid>> GetRoleManager(HikkaDbContext databaseContext)
     {
@@ -79,12 +79,15 @@ public class SharedTest
         var options = new Mock<IOptions<IdentityOptions>>();
         var idOptions = new IdentityOptions();
 
+
+        //Must be the same in userManager and RoleManage
+        //!!!!!!!!!!!!!!!!!!!!! DON'T CHAGE !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         idOptions.User.RequireUniqueEmail = true;
-        idOptions.Password.RequireDigit = true;
-        idOptions.Password.RequireLowercase = true;
-        idOptions.Password.RequireUppercase = true;
-        idOptions.Password.RequireNonAlphanumeric = true;
-        idOptions.Password.RequiredLength = 8;
+        idOptions.Password.RequireDigit = false;
+        idOptions.Password.RequireLowercase = false;
+        idOptions.Password.RequireUppercase = false;
+        idOptions.Password.RequireNonAlphanumeric = false;
+        idOptions.Password.RequiredLength = 2;
 
         options.Setup(o => o.Value).Returns(idOptions);
         var roleValidators = new List<IRoleValidator<IdentityRole<Guid>>>();

@@ -26,7 +26,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
     where TReturnPageDto : ReturnPageDto<TGetDto>
 {
 
-    protected record AllServicesInControllerWithSeoAddition(TCrudService crudService, ISeoAdditionService seoAdditionService, UserManager<User> userManager) : AllServicesInController(crudService, userManager)
+    protected record AllServicesInControllerWithSeoAddition(TCrudService crudService, ISeoAdditionService seoAdditionService, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager) : AllServicesInController(crudService, userManager, roleManager)
     {
         public ISeoAdditionService SeoAdditionService = seoAdditionService;
     }
@@ -103,7 +103,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
     {
         //Arrange
         var services = GetAllServices();
-        TController controller = GetController(services);
+        TController controller = await GetController(services);
 
 
         //Act

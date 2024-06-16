@@ -19,13 +19,13 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     ReturnPageDto<GetSeoAdditionDto>
     >
 {
-    protected override SeoAdditionController GetController(AllServicesInController allServicesInController)
+    protected override async Task<SeoAdditionController> GetController(AllServicesInController allServicesInController)
     {
 
         return new SeoAdditionController(
             allServicesInController.CrudService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
             );
     }
 
@@ -112,7 +112,8 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
         var db = GetDatabaseContext();
         var res = new SeoAdditionRepository(db);
         var userManager = GetUserManager(db);
+        var roleManager = GetRoleManager(db);
 
-        return new AllServicesInController(new SeoAdditionService(res), userManager);
+        return new AllServicesInController(new SeoAdditionService(res), userManager, roleManager);
     }
 }

@@ -29,8 +29,9 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var countryRepository = new CountryRepository(dbContext);
         var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new CountryService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager);
+        return new AllServicesInControllerWithSeoAddition(new CountryService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override ICollection<Country> GetCollectionOfModels(int howMany)
@@ -44,7 +45,7 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
 
     }
 
-    protected override CountryController GetController(AllServicesInController allServicesInController)
+    protected override async  Task<CountryController>  GetController(AllServicesInController allServicesInController)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in CountryControllerTest");
 
@@ -52,7 +53,7 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            GetHttpContextAccessForAdminUser(allServicesInController.UserManager)
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
             );
     }
 
