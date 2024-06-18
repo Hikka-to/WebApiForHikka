@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Models.Mediaplayers;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 
+[ExportTsInterface(OutputDir = "./TS/Dto/WithoutSeoAddition/Mediaplayers")]
 public class UpdateMediaplayerDto : ModelDto
 {
     [StringLength(MediaplayerNumberConstants.NameLenght)]

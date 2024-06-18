@@ -1,7 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Models.SeoAdditions;
 
 namespace WebApiForHikka.Dtos.Dto.SeoAddition;
+
+
+[ExportTsInterface(OutputDir = "./TS/Dto/SeoAddition")]
 public class CreateSeoAdditionDto
 {
     [StringLength(SeoAdditionNumberConstants.SlugLength)]

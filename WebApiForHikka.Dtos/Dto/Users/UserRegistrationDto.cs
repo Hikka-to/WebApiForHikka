@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
+
+[ExportTsInterface(OutputDir = "./TS/Dto/Users")]
 public class UserRegistrationDto
 {
     [StringLength(UserStringConstants.NameLength, ErrorMessage = UserStringConstants.NameIsTooLongErrorMessage)]

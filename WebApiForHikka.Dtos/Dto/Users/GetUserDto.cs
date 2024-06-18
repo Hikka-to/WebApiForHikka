@@ -1,6 +1,9 @@
-﻿using WebApiForHikka.Dtos.Shared;
+﻿using TypeGen.Core.TypeAnnotations;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
+
+[ExportTsInterface(OutputDir = "./TS/Dto/Users")]
 public class GetUserDto : ModelDto
 {
     public required string Email { get; set; }

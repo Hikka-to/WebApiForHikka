@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Models.SeoAdditions;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.SeoAddition;
+
+[ExportTsInterface(OutputDir = "./TS/Dto/SeoAddition")]
 public class UpdateSeoAdditionDto : ModelDto
 {
     [SeoAdditionValidation]

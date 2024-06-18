@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Models.RestrictedRatings;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.RestrictedRatings;
 
+[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/RestrictedRatings")]
 public class UpdateRestrictedRatingDto : UpdateDtoWithSeoAddition
 {
     [StringLength(RestrictedRatingNumberConstants.NameLenght)]

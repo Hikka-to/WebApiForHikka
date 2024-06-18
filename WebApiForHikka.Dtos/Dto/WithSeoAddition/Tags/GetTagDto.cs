@@ -1,7 +1,10 @@
-﻿using WebApiForHikka.Dtos.Shared;
+﻿using TypeGen.Core.TypeAnnotations;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
+
+[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Tags")]
 public class GetTagDto : GetDtoWithSeoAddition
 {
     public required string Name { get; set; }

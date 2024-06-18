@@ -1,6 +1,10 @@
-﻿using WebApiForHikka.Dtos.Shared;
+﻿using TypeGen.Core.TypeAnnotations;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.SeoAddition;
+
+
+[ExportTsInterface(OutputDir = "./TS/Dto/SeoAddition")]
 public class GetSeoAdditionDto : ModelDto
 {
     public required string Slug { get; set; }
