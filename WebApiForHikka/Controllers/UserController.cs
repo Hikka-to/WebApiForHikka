@@ -18,7 +18,7 @@ namespace WebApiForHikka.WebApi.Controllers;
 
 
 [Authorize(ControllerStringConstants.CanAccessOnlyAdmin)]
-public class UsersController
+public class UserController
     (
         IUserService userService,
         IJwtTokenFactory jwtTokenFactory,
