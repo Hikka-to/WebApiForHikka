@@ -62,7 +62,7 @@ public abstract class SharedServiceTest<TModel, TService>
         {
             await service.CreateAsync(i, CancellationToken);
         }
-        var dto = new FilterPaginationDto { PageNumber = 1, PageSize = 1 };
+        var dto = new FilterPagination { PageNumber = 1, PageSize = 1 };
 
         // Act
         var result = await service.GetAllAsync(dto, CancellationToken);

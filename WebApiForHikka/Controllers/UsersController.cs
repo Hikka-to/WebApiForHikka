@@ -7,6 +7,7 @@ using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
@@ -92,13 +93,15 @@ public class UsersController
             return errorEndPoint.GetError();
         }
 
-        var paginationCollection = await _userService.GetAllAsync(paginationDto, cancellationToken);
+        FilterPagination filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+
+        var paginationCollection = await _userService.GetAllAsync(filterPagination, cancellationToken);
 
         var users = _mapper.Map<List<GetUserDto>>(paginationCollection.Models);
         return Ok(
             new ReturnUserPageDto()
             {
-                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / paginationDto.PageSize),
+                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
                 Models = users,
             }
 

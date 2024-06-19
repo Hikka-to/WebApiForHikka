@@ -63,7 +63,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         {
             await repository.AddAsync(i, CancellationToken);
         }
-        var dto = new FilterPaginationDto { PageNumber = 1, PageSize = 1 };
+        var dto = new FilterPagination { PageNumber = 1, PageSize = 1 };
 
         // Act
         var result = await repository.GetAllAsync(dto, CancellationToken);

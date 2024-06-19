@@ -9,6 +9,7 @@ using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
+using WebApiForHikka.Application.WithSeoAddition.Dubs;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Constants.AppSettings;
 using WebApiForHikka.EfPersistence.Data;
@@ -44,6 +45,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IFormatRepository, FormatRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<ICountryRepository, CountryRepository>();
+        services.AddScoped<IDubRepository, DubRepository>();
 
         //Services
         services.AddScoped<IUserService, UserService>();
@@ -55,6 +57,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IKindService, KindService>();
         services.AddScoped<IFormatService, FormatService>();
         services.AddScoped<ICountryService, CountryService>();
+        services.AddScoped<IDubService, DubService>();
 
         //Helpers
         services.AddScoped<IHashFunctions, HashFunctions>();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
@@ -8,6 +9,7 @@ using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.Dtos.Dto.Periods;
 using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.Dtos.Dto.SeoAddition;
+using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Dto.Status;
 using WebApiForHikka.Dtos.Dto.Statuses;
@@ -22,6 +24,9 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
+        //Shared
+        CreateMap<FilterPaginationDto, FilterPagination>();
+
         //User
         CreateMap<User, GetUserDto>();
 

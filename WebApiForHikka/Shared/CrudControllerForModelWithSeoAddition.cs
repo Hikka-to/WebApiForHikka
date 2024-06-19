@@ -6,6 +6,7 @@ using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
@@ -114,13 +115,15 @@ public abstract class CrudControllerForModelWithSeoAddition
             return errorEndPoint.GetError();
         }
 
-        var paginationCollection = await _crudService.GetAllAsync(paginationDto, cancellationToken);
+        FilterPagination filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+
+        var paginationCollection = await _crudService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = _mapper.Map<List<TGetDtoWithSeoAddition>>(paginationCollection.Models);
         return Ok(
             new ReturnPageDto<TGetDtoWithSeoAddition>()
             {
-                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / paginationDto.PageSize),
+                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
                 Models = models,
             }
 

@@ -2,7 +2,7 @@
 
 namespace WebApiForHikka.Domain;
 
-public sealed record FilterPaginationDto(
+public sealed record FilterPagination(
     string SearchTerm = "",
     int PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
     int PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,

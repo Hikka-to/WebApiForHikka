@@ -7,8 +7,10 @@ using Microsoft.Extensions.Options;
 using Moq;
 using WebApiForHikka.Constants.AppSettings;
 using WebApiForHikka.Constants.Models.Users;
+using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.Test.Shared;
 using WebApiForHikka.WebApi.Helper;
@@ -22,7 +24,14 @@ public abstract class BaseControllerTest : SharedTest
     private readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
     protected readonly IConfiguration Configuration = A.Fake<IConfiguration>();
 
-    protected FilterPaginationDto FilterPaginationDto => new();
+    protected FilterPaginationDto FilterPaginationDto => new FilterPaginationDto()
+    {
+        SearchTerm = "",
+        PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
+        PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
+        SortColumn = SharedStringConstants.IdName,
+        SortOrder = SortOrder.Asc,
+    };
 
     // !!!!!!!!! Need to fix new roles
     protected User SampleUser => new User()
@@ -34,7 +43,7 @@ public abstract class BaseControllerTest : SharedTest
         PasswordHash = "ersdsadwdmkavdkjvwe",
         SecurityStamp = "tesfaas",
     };
-  
+
     public BaseControllerTest()
     {
         A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
@@ -46,7 +55,7 @@ public abstract class BaseControllerTest : SharedTest
     protected IJwtTokenFactory GetJwtTokenFactory(UserManager<User> userManager)
     {
         var options = new IdentityOptions(
-            
+
             );
         var optionsAccessor = Options.Create(options);
 
@@ -86,7 +95,7 @@ public abstract class BaseControllerTest : SharedTest
 
     protected async Task<IHttpContextAccessor> GetHttpContextAccessForUserUser(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
     {
-         // Generate JWT Token
+        // Generate JWT Token
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
         User user = SampleUser;
 
@@ -113,9 +122,9 @@ public abstract class BaseControllerTest : SharedTest
         return httpContextAccessorMock.Object;
     }
 
-    protected  IHttpContextAccessor GetHttpContextAccessForAnonymUser()
+    protected IHttpContextAccessor GetHttpContextAccessForAnonymUser()
     {
-       
+
         // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
         var httpContextMock = new Mock<HttpContext>();

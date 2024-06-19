@@ -22,7 +22,7 @@ public abstract class CrudService<TModel, TRepository> : ICrudService<TModel> wh
         await _repository.DeleteAsync(id, cancellationToken);
     }
 
-    public async virtual Task<PaginatedCollection<TModel>> GetAllAsync(FilterPaginationDto dto, CancellationToken cancellationToken)
+    public async virtual Task<PaginatedCollection<TModel>> GetAllAsync(FilterPagination dto, CancellationToken cancellationToken)
     {
         return await _repository.GetAllAsync(dto, cancellationToken);
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Domain;
+using WebApiForHikka.Dtos.Dto.SharedDtos;
 
 namespace WebApiForHikka.WebApi.Shared;
 public interface ICrudController<UpdateDto, CreateDto>

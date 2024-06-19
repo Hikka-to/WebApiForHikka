@@ -58,7 +58,7 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
         return await DbContext.Set<Tag>().IgnoreAutoIncludes().Include(e => e.ParentTag).ToArrayAsync(cancellationToken);
     }
 
-    public override async Task<PaginatedCollection<Tag>> GetAllAsync(FilterPaginationDto dto, CancellationToken cancellationToken)
+    public override async Task<PaginatedCollection<Tag>> GetAllAsync(FilterPagination dto, CancellationToken cancellationToken)
     {
         var skip = (dto.PageNumber - 1) * dto.PageSize;
         var take = dto.PageSize;

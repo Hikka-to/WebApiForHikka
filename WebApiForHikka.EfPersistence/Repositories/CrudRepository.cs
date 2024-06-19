@@ -47,7 +47,7 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 
-    public virtual async Task<PaginatedCollection<TModel>> GetAllAsync(FilterPaginationDto dto, CancellationToken cancellationToken)
+    public virtual async Task<PaginatedCollection<TModel>> GetAllAsync(FilterPagination dto, CancellationToken cancellationToken)
     {
         var skip = (dto.PageNumber - 1) * dto.PageSize;
         var take = dto.PageSize;

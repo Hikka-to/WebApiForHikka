@@ -3,5 +3,5 @@
 public enum SortOrder
 {
     Asc,
-    Desc
+    Desc,
 }
