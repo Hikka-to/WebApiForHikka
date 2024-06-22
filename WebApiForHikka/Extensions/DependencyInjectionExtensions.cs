@@ -27,7 +27,7 @@ public static class DependencyInjectionExtensions
         var connectionString = configuration.GetConnectionString(AppSettingsStringConstants.DefaultConnection);
         services.AddDbContext<HikkaDbContext>(options =>
         {
-            options.UseNpgsql(connectionString, x => x.MigrationsAssembly("WebApiForHikka.EfPersistence"));
+            options.UseNpgsql(connectionString);
         });
 
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
