@@ -36,6 +36,7 @@ public class UserController
 
     [AllowAnonymous]
     [HttpPost("Registrate")]
+    [ProducesResponseType(typeof(RegistratedResponseUserDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
@@ -63,7 +64,7 @@ public class UserController
 
         var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
 
-        return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, JwtToken = tokenString,  Id = (Guid)id }) ;
+        return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, JwtToken = tokenString!, Id = (Guid)id });
     }
 
     [AllowAnonymous]
@@ -87,7 +88,7 @@ public class UserController
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase() {  });
+        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase() { });
         if (errorEndPoint.IsError)
         {
             return errorEndPoint.GetError();

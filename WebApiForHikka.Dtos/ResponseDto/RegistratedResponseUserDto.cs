@@ -7,7 +7,7 @@ namespace WebApiForHikka.Dtos.ResponseDto;
 [ExportTsInterface(OutputDir = "./TS/ResponseDto/")]
 public class RegistratedResponseUserDto : ModelDto
 {
-    public required string Message;
+    public required string Message { get; set; }
 
-    public required string JwtToken;
+    public required string JwtToken { get; set; }
 }

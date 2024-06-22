@@ -13,23 +13,23 @@ public class FilterPaginationDto
     [DefaultValue("")]
     [TsDefaultValue("")]
     [Required]
-    public string SearchTerm = "";
+    public string SearchTerm { get; set; } = "";
 
     [DefaultValue(SharedNumberConstatnts.DefaultPageToStartWith)]
     [Required]
-    public int PageNumber = SharedNumberConstatnts.DefaultPageToStartWith;
+    public int PageNumber { get; set; } = SharedNumberConstatnts.DefaultPageToStartWith;
 
     [DefaultValue(SharedNumberConstatnts.DefaultItemsInOnePage)]
     [Required]
-    public int PageSize = SharedNumberConstatnts.DefaultItemsInOnePage;
+    public int PageSize { get; set; } = SharedNumberConstatnts.DefaultItemsInOnePage;
 
 
     [DefaultValue(SharedStringConstants.IdName)]
     [TsDefaultValue(SharedStringConstants.IdName)]
     [Required]
-    public string SortColumn = SharedStringConstants.IdName;
+    public string SortColumn { get; set; } = SharedStringConstants.IdName;
 
     [DefaultValue(SortOrder.Asc)]
     [Required]
-    public SortOrder SortOrder = SortOrder.Asc;
+    public SortOrder SortOrder { get; set; } = SortOrder.Asc;
 }
