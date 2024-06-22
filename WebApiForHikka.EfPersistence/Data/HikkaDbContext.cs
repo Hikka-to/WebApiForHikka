@@ -8,7 +8,7 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.EfPersistence.Data;
 
-public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<SeoAddition> SeoAdditions { get; set; }
     public DbSet<Period> Periods { get; set; }
@@ -26,10 +26,6 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<CountryAnime> CountryAnimes { get; set; }
     public DbSet<DubAnime> DubAnimes { get; set; }
     public DbSet<Anime> Animes { get; set; }
-    public HikkaDbContext(DbContextOptions<HikkaDbContext> options) : base(options)
-    {
-        Database.EnsureCreated();
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

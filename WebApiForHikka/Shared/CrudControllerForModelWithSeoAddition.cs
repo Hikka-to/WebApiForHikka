@@ -32,11 +32,7 @@ public abstract class CrudControllerForModelWithSeoAddition
     [HttpPost("Create")]
     public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(
-            new ThingsToValidateBase()
-            {
-            }
-            );
+        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError)
         {
             return errorEndPoint.GetError();
