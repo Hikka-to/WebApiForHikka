@@ -1,7 +1,5 @@
-﻿using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Application.WithSeoAddition.Animes;
+﻿using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Constants.Models.Animes;
-using WebApiForHikka.Constants.Models.Countries;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 
@@ -84,5 +82,7 @@ public class AnimeRepository : CrudRepository<Anime>, IAnimeRepository
         entity.Source = model.Source;
         entity.Status = model.Status;
         entity.Kind = model.Kind;
+        entity.RestrictedRating = model.RestrictedRating;
+        entity.Period = model.Period;
     }
 }

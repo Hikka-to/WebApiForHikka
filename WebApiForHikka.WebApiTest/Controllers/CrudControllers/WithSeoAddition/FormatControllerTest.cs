@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.Formats;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.Formats;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Formats;
@@ -20,7 +21,7 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetFormatDto>
     >
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices()
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -43,7 +44,7 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
 
     }
 
-    protected override async Task<FormatController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<FormatController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in FormatControllerTest");
 

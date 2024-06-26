@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.RestrictedRatings;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.RestrictedRatings;
@@ -21,7 +22,7 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetRestrictedRatingDto>
     >
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices()
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -35,7 +36,7 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
 
 
 
-    protected override async Task<RestrictedRatingController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<RestrictedRatingController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in RestrictedRatingControllerTest");
 

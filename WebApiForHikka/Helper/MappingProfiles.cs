@@ -15,6 +15,7 @@ using WebApiForHikka.Dtos.Dto.Status;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
@@ -98,7 +99,7 @@ public class MappingProfiles : Profile
         CreateMap<CreateTagDto, Tag>();
 
         CreateMap<UpdateTagDto, Tag>();
-        
+
         //Country
 
         CreateMap<Country, GetCountryDto>();
@@ -106,7 +107,7 @@ public class MappingProfiles : Profile
         CreateMap<CreateCountryDto, Country>();
 
         CreateMap<UpdateCountryDto, Country>();
-        
+
         //Studio
 
         CreateMap<Studio, GetStudioDto>();
@@ -114,7 +115,7 @@ public class MappingProfiles : Profile
         CreateMap<CreateStudioDto, Studio>();
 
         CreateMap<UpdateStudioDto, Studio>();
-        
+
         //Dub
 
         CreateMap<Dub, GetDubDto>();
@@ -133,7 +134,22 @@ public class MappingProfiles : Profile
         CreateMap<UpdateMediaplayerDto, Mediaplayer>();
 
 
+        //Anime
 
+        CreateMap<Anime, GetAnimeDto>().ForMember(
+            c => c.KindId,
+            op => op.MapFrom(v => v.Kind!.Id)).ForMember(
+            c => c.StatusId,
+            op => op.MapFrom(v => v.Status!.Id)).ForMember(
+            c => c.PeriodId,
+            op => op.MapFrom(v => v.Period!.Id)).ForMember(
+            c => c.RestrictedRatingId,
+            op => op.MapFrom(v => v.RestrictedRating!.Id)).ForMember(
+            c => c.SourceId,
+            op => op.MapFrom(v => v.Source!.Id));
 
+        CreateMap<CreateAnimeDto, Anime>();
+
+        CreateMap<UpdateAnimeDto, Anime>();
     }
 }

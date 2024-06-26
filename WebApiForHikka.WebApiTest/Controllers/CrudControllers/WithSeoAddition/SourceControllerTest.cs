@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.SeoAdditions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Sources;
@@ -20,7 +21,7 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetSourceDto>
     >
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices()
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -34,7 +35,7 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
 
 
 
-    protected override async Task<SourceController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<SourceController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in SourceControllerTest");
 

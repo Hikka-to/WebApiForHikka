@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Application.SeoAdditions;
 
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
@@ -17,8 +18,7 @@ public class SeoAdditionValidationAttribute : ValidationAttribute
         if (value == null) return new ValidationResult(ErrorMessage);
 
         Guid id = (Guid)value;
-        ISeoAdditionService seoAdditionService = validationContext.GetService(typeof(ISeoAdditionService)) as ISeoAdditionService
-            ?? throw new Exception("SeoAddition service hasn't been registrated");
+        var seoAdditionService = validationContext.GetRequiredService<ISeoAdditionService>();
 
         if (!seoAdditionService.CheckIfTheSeoAdditionExist(id))
         {

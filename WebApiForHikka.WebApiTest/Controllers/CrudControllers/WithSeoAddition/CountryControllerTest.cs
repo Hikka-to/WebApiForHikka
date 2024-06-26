@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.SeoAdditions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Countries;
@@ -22,7 +23,7 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
     >
 
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices()
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -45,7 +46,7 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
 
     }
 
-    protected override async  Task<CountryController>  GetController(AllServicesInController allServicesInController)
+    protected override async Task<CountryController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in CountryControllerTest");
 

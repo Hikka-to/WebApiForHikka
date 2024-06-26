@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.SeoAdditions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
@@ -21,7 +22,7 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetTagDto>
     >
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices()
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -35,7 +36,7 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
 
 
 
-    protected override async Task<TagController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<TagController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in TagControllerTest");
 

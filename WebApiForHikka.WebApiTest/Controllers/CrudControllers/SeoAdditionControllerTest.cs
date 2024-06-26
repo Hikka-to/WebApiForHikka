@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.SeoAdditions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SeoAddition;
 using WebApiForHikka.Dtos.Shared;
@@ -19,7 +20,7 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     ReturnPageDto<GetSeoAdditionDto>
     >
 {
-    protected override async Task<SeoAdditionController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<SeoAdditionController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
 
         return new SeoAdditionController(
@@ -107,7 +108,7 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     }
 
 
-    protected override AllServicesInController GetAllServices()
+    protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
     {
         var db = GetDatabaseContext();
         var res = new SeoAdditionRepository(db);

@@ -19,6 +19,7 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     {
         await DbContext.Set<TModel>().AddAsync(model, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
+        var all = DbContext.Animes.ToList();
         return model.Id;
     }
 

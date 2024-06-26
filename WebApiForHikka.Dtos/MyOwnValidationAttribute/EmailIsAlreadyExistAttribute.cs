@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using WebApiForHikka.Application.Users;
@@ -14,8 +15,7 @@ public class EmailIsAlreadyExistAttribute : ValidationAttribute
         if (value == null) return new ValidationResult(ErrorMessage);
 
         string email = (string)value;
-        IUserService? userService = validationContext.GetService(typeof(IUserService)) as IUserService
-            ?? throw new Exception("The user service hasn't been registrated");
+        var userService = validationContext.GetRequiredService<IUserService>();
 
         if (userService.CheckIfUserWithTheEmailIsAlreadyExist(email))
         {
