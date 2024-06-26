@@ -10,5 +10,5 @@ public static class SharedNumberConstatnts
 
     public const int SlugLenght = 128;
 
-    public const int UrlLenght = 2048;
+    public const int UrlLength = 2048;
 }

@@ -7,6 +7,10 @@ namespace WebApiForHikka.Test.Repository.WithSeoAddition.Animes;
 
 public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, AnimeRepository>
 {
+    public Anime Anime => GetSample();
+
+    public Anime AnimeForUpdate => GetSampleForUpdate();
+
     protected override AnimeRepository GetRepository(HikkaDbContext hikkaDbContext) => new(hikkaDbContext);
 
     protected override Anime GetSample() => new()

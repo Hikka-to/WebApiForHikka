@@ -8,6 +8,10 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.Animes
 {
     public class AnimeServiceTest : SharedServiceTestWithSeoAddition<Anime, AnimeService>
     {
+        public Anime Anime => GetSample();
+
+        public Anime AnimeForUpdate => GetSampleForUpdate();
+
         protected override Anime GetSample() => new()
         {
             Name = "Test",

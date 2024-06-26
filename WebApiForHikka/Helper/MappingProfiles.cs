@@ -14,6 +14,7 @@ using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Dto.Status;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
@@ -138,18 +139,29 @@ public class MappingProfiles : Profile
 
         CreateMap<Anime, GetAnimeDto>().ForMember(
             c => c.KindId,
-            op => op.MapFrom(v => v.Kind!.Id)).ForMember(
+            op => op.MapFrom(v => v.Kind.Id)).ForMember(
             c => c.StatusId,
-            op => op.MapFrom(v => v.Status!.Id)).ForMember(
+            op => op.MapFrom(v => v.Status.Id)).ForMember(
             c => c.PeriodId,
-            op => op.MapFrom(v => v.Period!.Id)).ForMember(
+            op => op.MapFrom(v => v.Period.Id)).ForMember(
             c => c.RestrictedRatingId,
-            op => op.MapFrom(v => v.RestrictedRating!.Id)).ForMember(
+            op => op.MapFrom(v => v.RestrictedRating.Id)).ForMember(
             c => c.SourceId,
-            op => op.MapFrom(v => v.Source!.Id));
+            op => op.MapFrom(v => v.Source.Id));
 
         CreateMap<CreateAnimeDto, Anime>();
 
         CreateMap<UpdateAnimeDto, Anime>();
+
+
+        // AnimeBackdrop
+
+        CreateMap<AnimeBackdrop, GetAnimeBackdropDto>().ForMember(
+            c => c.AnimeId,
+            op => op.MapFrom(v => v.Anime.Id));
+
+        CreateMap<CreateAnimeBackdropDto, AnimeBackdrop>();
+
+        CreateMap<UpdateAnimeBackdropDto, AnimeBackdrop>();
     }
 }

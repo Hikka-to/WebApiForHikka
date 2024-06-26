@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebApiForHikka.Application.WithSeoAddition.Mediaplayers;
+using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Shared;

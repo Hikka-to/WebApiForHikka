@@ -28,6 +28,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetAnimeDto>
     >
 {
+    public Anime Anime => GetModelSample();
+
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();

@@ -35,7 +35,7 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
     [StringLength(AnimeNumberConstants.PosterPathLenght)]
     public required string PosterPath { get; set; }
 
-    public required ICollection<int> PosterColors { get; set; }
+    public required List<int> PosterColors { get; set; }
 
     [Range(0, float.MaxValue)]
     public required float AvgDuration { get; set; }
