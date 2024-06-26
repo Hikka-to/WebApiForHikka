@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
-namespace WebApiForHikka.Application.WithSeoAddition.Mediaplayers;
+namespace WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
 
 public interface IMediaplayerService : ICrudService<Mediaplayer>;

@@ -1,29 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="TS\**" />
-    <EmbeddedResource Remove="TS\**" />
-    <None Remove="TS\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="TS\**" />
+		<EmbeddedResource Remove="TS\**" />
+		<None Remove="TS\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj" />
-    <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
-    <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj" />
+		<ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
+		<ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="TypeGen" Version="5.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="TypeGen" Version="5.0.1" />
+	</ItemGroup>
 
 </Project>

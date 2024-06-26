@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.WithSeoAddition.Mediaplayers;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Shared;
@@ -20,7 +21,7 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
     >
 
 {
-    protected override AllServicesInController GetAllServices()
+    protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -42,7 +43,7 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
 
     }
 
-    protected override async Task<MediaplayerController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<MediaplayerController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInController allServices = allServicesInController;
 

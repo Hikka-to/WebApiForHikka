@@ -41,17 +41,17 @@ public class Anime : ModelWithSeoAddition
     [StringLength(AnimeNumberConstants.PosterPathLenght)]
     public required string PosterPath { get; set; }
 
-    public required ICollection<int> PosterColors { get; set; }
+    public required List<int> PosterColors { get; set; }
 
     [Range(0, float.MaxValue)]
-    public required float AvgDuration;
+    public required float AvgDuration { get; set; }
 
     [Range(0, int.MaxValue)]
-    public required int HowManyEpisodes;
+    public required int HowManyEpisodes { get; set; }
 
-    public required DateTime FirstAirDate;
+    public required DateTime FirstAirDate { get; set; }
 
-    public required DateTime LastAirDate;
+    public required DateTime LastAirDate { get; set; }
 
     public long? TmdbId { get; set; }
     public long? ShikimoriId { get; set; }
@@ -62,7 +62,7 @@ public class Anime : ModelWithSeoAddition
 
     [Range(AnimeNumberConstants.LowestScore, AnimeNumberConstants.MaxScore)]
     public required float TmdbScore { get; set; }
-    
+
     [Range(AnimeNumberConstants.LowestScore, AnimeNumberConstants.MaxScore)]
     public required float ImdbScore { get; set; }
 

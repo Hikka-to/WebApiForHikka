@@ -1,5 +1,4 @@
-﻿using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.Application.Kinds;
+﻿using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Constants.Models.Kinds;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
@@ -13,7 +12,7 @@ public class KindRepository : CrudRepository<Kind>, IKindRepository
 
     protected override IQueryable<Kind> Filter(IQueryable<Kind> query, string filterBy, string filter)
     {
-         return filterBy switch
+        return filterBy switch
         {
             KindStringConstants.SlugName => query.Where(m => m.Slug.Contains(filter, StringComparison.OrdinalIgnoreCase)),
             KindStringConstants.HintName => query.Where(m => m.Hint.Contains(filter, StringComparison.OrdinalIgnoreCase)),

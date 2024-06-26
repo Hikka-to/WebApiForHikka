@@ -191,7 +191,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Formats");
+                    b.ToTable("Formats", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Kind", b =>
@@ -217,7 +217,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Kinds");
+                    b.ToTable("Kinds", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Period", b =>
@@ -238,7 +238,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Periods");
+                    b.ToTable("Periods", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.RestrictedRating", b =>
@@ -271,7 +271,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("RestrictedRatings");
+                    b.ToTable("RestrictedRatings", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.SeoAddition", b =>
@@ -321,7 +321,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SeoAdditions");
+                    b.ToTable("SeoAdditions", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Source", b =>
@@ -337,7 +337,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Sources");
+                    b.ToTable("Sources", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Status", b =>
@@ -358,7 +358,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Statuses", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.User", b =>
@@ -433,8 +433,17 @@ namespace WebApiForHikka.EfPersistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<float>("AvgDuration")
+                        .HasColumnType("real");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("FirstAirDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("HowManyEpisodes")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ImageName")
                         .HasMaxLength(2048)
@@ -449,6 +458,9 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Property<Guid>("KindId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("LastAirDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(156)
@@ -462,7 +474,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Property<Guid>("PeriodId")
                         .HasColumnType("uuid");
 
-                    b.Property<int[]>("PosterColors")
+                    b.Property<List<int>>("PosterColors")
                         .IsRequired()
                         .HasColumnType("integer[]");
 
@@ -519,7 +531,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Animes");
+                    b.ToTable("Animes", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Country", b =>
@@ -545,7 +557,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Dub", b =>
@@ -570,7 +582,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Dubs");
+                    b.ToTable("Dubs", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Studio", b =>
@@ -595,7 +607,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Studios");
+                    b.ToTable("Studios", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Tag", b =>
@@ -633,7 +645,37 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("SeoAdditionId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.AnimeBackdrop", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AnimeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<List<int>>("Colors")
+                        .HasColumnType("integer[]");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimeId");
+
+                    b.ToTable("AnimeBackdrops", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.CountryAnime", b =>
@@ -654,7 +696,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("CountriesId");
 
-                    b.ToTable("CountryAnimes");
+                    b.ToTable("CountryAnimes", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.DubAnime", b =>
@@ -669,7 +711,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("DubsId");
 
-                    b.ToTable("DubAnimes");
+                    b.ToTable("DubAnimes", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.Mediaplayer", b =>
@@ -690,7 +732,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Mediaplayers");
+                    b.ToTable("Mediaplayers", (string)null);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.TagAnime", b =>
@@ -711,7 +753,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("TagAnimes");
+                    b.ToTable("TagAnimes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -930,6 +972,17 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Navigation("ParentTag");
 
                     b.Navigation("SeoAddition");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.AnimeBackdrop", b =>
+                {
+                    b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", "Anime")
+                        .WithMany()
+                        .HasForeignKey("AnimeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Anime");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.CountryAnime", b =>

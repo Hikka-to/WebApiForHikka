@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.Kinds;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Kinds;
@@ -20,7 +21,7 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetKindDto>
     >
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices()
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -34,7 +35,7 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
 
 
 
-    protected override async Task<KindController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<KindController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in KindControllerTest");
 
