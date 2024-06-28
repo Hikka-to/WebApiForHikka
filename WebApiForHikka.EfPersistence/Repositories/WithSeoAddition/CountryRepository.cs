@@ -33,8 +33,7 @@ public class CountryRepository : CrudRepository<Country>, ICountryRepository
 
     protected override void Update(Country model, Country entity)
     {
-        entity.Icon = model.Icon;
-        entity.Name = model.Name;
+        DbContext.Entry(entity).CurrentValues.SetValues(model);
         entity.SeoAddition = model.SeoAddition;
     }
 }

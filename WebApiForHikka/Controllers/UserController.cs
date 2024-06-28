@@ -63,7 +63,12 @@ public class UserController
 
         var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
 
-        return Ok(new RegistratedResponseUserDto() { Message = UserStringConstants.MessageUserRegistrated, JwtToken = tokenString,  Id = (Guid)id }) ;
+        return Ok(new RegistratedResponseUserDto() {
+            Message = UserStringConstants.MessageUserRegistrated,
+            JwtToken = tokenString,
+            Id = (Guid)id }
+        
+        ) ;
     }
 
     [AllowAnonymous]
