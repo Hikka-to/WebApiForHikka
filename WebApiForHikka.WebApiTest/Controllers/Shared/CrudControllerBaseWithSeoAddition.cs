@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
@@ -102,14 +103,16 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
     public override async Task CrudController_Put_ReturnsNoContent()
     {
         //Arrange
-        var services = GetAllServices();
-        TController controller = await GetController(services);
+        var serviceCollection = new ServiceCollection();
+        var services = GetAllServices(serviceCollection);
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+        TController controller = await GetController(services, serviceProvider);
 
 
         //Act
 
         var createDto = GetCreateDtoSample();
-
+        MutationBeforeDtoCreation(createDto, services, serviceProvider);
         CreateResponseDto create = (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
 
         TModel model = await services.CrudService.GetAsync(create.Id, CancellationToken);
@@ -117,7 +120,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
         var updateDto = GetUpdateDtoSample();
         updateDto.Id = model.Id;
         updateDto.SeoAddition.Id = model.SeoAddition.Id;
-
+        MutationBeforeDtoUpdate(updateDto, services, serviceProvider);
         var result = await controller.Put(updateDto, CancellationToken);
 
 

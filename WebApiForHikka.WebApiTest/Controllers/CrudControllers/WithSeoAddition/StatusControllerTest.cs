@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.SeoAdditions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Status;
@@ -21,7 +22,7 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetStatusDto>
     >
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices()
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -35,7 +36,7 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
 
 
 
-    protected override async Task<StatusController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<StatusController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in StatusControllerTest");
 

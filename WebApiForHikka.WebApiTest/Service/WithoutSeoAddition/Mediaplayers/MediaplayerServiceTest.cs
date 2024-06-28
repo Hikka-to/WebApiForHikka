@@ -1,4 +1,4 @@
-﻿using WebApiForHikka.Application.WithSeoAddition.Mediaplayers;
+﻿using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;

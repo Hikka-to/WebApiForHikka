@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
@@ -21,7 +22,7 @@ public class PeriodControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetPeriodDto>
     >
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices()
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -35,7 +36,7 @@ public class PeriodControllerTest : CrudControllerBaseWithSeoAddition<
 
 
 
-    protected override async Task<PeriodController> GetController(AllServicesInController allServicesInController)
+    protected override async Task<PeriodController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in PeriodControllerTest");
 

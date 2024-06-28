@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
-using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
@@ -33,11 +32,7 @@ public abstract class CrudControllerForModelWithSeoAddition
     [HttpPost("Create")]
     public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto, CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(
-            new ThingsToValidateBase()
-            {
-            }
-            );
+        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError)
         {
             return errorEndPoint.GetError();

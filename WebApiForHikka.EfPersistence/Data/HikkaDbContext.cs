@@ -8,7 +8,7 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.EfPersistence.Data;
 
-public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<SeoAddition> SeoAdditions { get; set; }
     public DbSet<Period> Periods { get; set; }
@@ -26,10 +26,7 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<CountryAnime> CountryAnimes { get; set; }
     public DbSet<DubAnime> DubAnimes { get; set; }
     public DbSet<Anime> Animes { get; set; }
-    public HikkaDbContext(DbContextOptions<HikkaDbContext> options) : base(options)
-    {
-        Database.EnsureCreated();
-    }
+    public DbSet<AnimeBackdrop> AnimeBackdrops { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -62,40 +59,17 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             }
         );
 
-        modelBuilder.Entity<Tag>().Navigation(e => e.SeoAddition).AutoInclude();
+        modelBuilder.Entity<AnimeBackdrop>().Navigation(e => e.Anime).AutoInclude();
 
-        modelBuilder.Entity<Period>().Navigation(e => e.SeoAddition).AutoInclude();
-
-        modelBuilder.Entity<Format>().Navigation(e => e.SeoAddition).AutoInclude();
-
-        modelBuilder.Entity<Status>().Navigation(e => e.SeoAddition).AutoInclude();
-
-        modelBuilder.Entity<Kind>().Navigation(e => e.SeoAddition).AutoInclude();
-
-        modelBuilder.Entity<Source>().Navigation(e => e.SeoAddition).AutoInclude();
-
-        modelBuilder.Entity<RestrictedRating>().Navigation(e => e.SeoAddition).AutoInclude();
-
-        modelBuilder.Entity<Country>().Navigation(e => e.SeoAddition).AutoInclude();
-
-        modelBuilder.Entity<Studio>().Navigation(e => e.SeoAddition).AutoInclude();
-
-        modelBuilder.Entity<Dub>().Navigation(e => e.SeoAddition).AutoInclude();
-
-
-        //Anime
-        modelBuilder.Entity<Anime>().Navigation(e => e.SeoAddition).AutoInclude();
-
+        //User
         modelBuilder.Entity<User>().Navigation(e => e.Roles).AutoInclude();
 
         modelBuilder.Entity<User>()
             .HasMany(e => e.Roles)
             .WithMany()
-            .UsingEntity<IdentityUserRole<Guid>>(
-                l => l.HasOne<IdentityRole<Guid>>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.Cascade),
-                r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Cascade)
-            );
+            .UsingEntity<IdentityUserRole<Guid>>();
 
+        //Anime
         modelBuilder.Entity<Anime>()
             .HasMany(e => e.Tags)
             .WithMany(e => e.Animes)
@@ -103,8 +77,6 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
                 l => l.HasOne<Tag>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade),
                 r => r.HasOne<Anime>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade)
             );
-        modelBuilder.Entity<Anime>().Navigation(e => e.Tags).AutoInclude();
-
 
         modelBuilder.Entity<Anime>()
             .HasMany(e => e.Countries)
@@ -113,7 +85,6 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
                 l => l.HasOne<Country>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade),
                 r => r.HasOne<Anime>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade)
             );
-        modelBuilder.Entity<Anime>().Navigation(e => e.Countries).AutoInclude();
 
         modelBuilder.Entity<Anime>()
             .HasMany(e => e.Dubs)
@@ -122,6 +93,11 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
                 l => l.HasOne<Dub>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade),
                 r => r.HasOne<Anime>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade)
             );
+
+        modelBuilder.Entity<Anime>().Navigation(e => e.Tags).AutoInclude();
+
+        modelBuilder.Entity<Anime>().Navigation(e => e.Countries).AutoInclude();
+
         modelBuilder.Entity<Anime>().Navigation(e => e.Dubs).AutoInclude();
 
         modelBuilder.Entity<Anime>().Navigation(e => e.Status).AutoInclude();
@@ -134,7 +110,10 @@ public class HikkaDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
         modelBuilder.Entity<Anime>().Navigation(e => e.Period).AutoInclude();
 
-
-
+        // SeoAddition auto include
+        foreach (var seoAddition in modelBuilder.Model.GetEntityTypes().Where(e => typeof(ModelWithSeoAddition).IsAssignableFrom(e.ClrType)))
+        {
+            modelBuilder.Entity(seoAddition.ClrType).Navigation(nameof(ModelWithSeoAddition.SeoAddition)).AutoInclude();
+        }
     }
 }

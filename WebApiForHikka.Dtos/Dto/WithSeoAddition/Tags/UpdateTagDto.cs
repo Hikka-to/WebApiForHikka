@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Shared;
-using WebApiForHikka.Dtos.MyOwnValidationAttribute;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
