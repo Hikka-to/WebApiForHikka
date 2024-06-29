@@ -7,6 +7,7 @@ using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
+using WebApiForHikka.Constants.Models.Animes;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
@@ -31,7 +32,8 @@ public class AnimeController(
         UpdateAnimeDto,
         CreateAnimeDto,
         IAnimeService,
-        Anime
+        Anime,
+        AnimeStringConstants
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
     public override async Task<IActionResult> Create([FromBody] CreateAnimeDto dto, CancellationToken cancellationToken)

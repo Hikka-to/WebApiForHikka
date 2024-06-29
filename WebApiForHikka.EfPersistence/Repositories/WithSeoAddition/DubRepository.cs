@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.WithSeoAddition.Dubs;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiForHikka.Application.WithSeoAddition.Dubs;
 using WebApiForHikka.Constants.Models.Dubs;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
@@ -15,8 +16,8 @@ public class DubRepository : CrudRepository<Dub>, IDubRepository
     {
         return filterBy switch
         {
-            DubStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            DubStringConstants.IconName => query.Where(m => (m.Icon ?? "").Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            DubStringConstants.NameName => query.Where(m => EF.Functions.ILike(m.Name, $"%{filter}%")),
+            DubStringConstants.IconName => query.Where(m => EF.Functions.ILike(m.Icon ?? "", $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

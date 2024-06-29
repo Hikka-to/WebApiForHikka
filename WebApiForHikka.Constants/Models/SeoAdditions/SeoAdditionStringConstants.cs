@@ -1,6 +1,6 @@
 ﻿namespace WebApiForHikka.Constants.Models.SeoAdditions;
 
-public static class SeoAdditionStringConstants
+public class SeoAdditionStringConstants
 {
     public const string SlugName = "Slug";
 

@@ -6,7 +6,6 @@ using WebApiForHikka.Domain;
 
 namespace WebApiForHikka.Dtos.Dto.SharedDtos;
 
-
 [ExportTsInterface(OutputDir = "./TS/Dto/SharedDtos")]
 public class FilterPaginationDto
 {
@@ -27,7 +26,7 @@ public class FilterPaginationDto
     [DefaultValue(SharedStringConstants.IdName)]
     [TsDefaultValue(SharedStringConstants.IdName)]
     [Required]
-    public string SortColumn { get; set; } = SharedStringConstants.IdName;
+    public string Column { get; set; } = SharedStringConstants.IdName;
 
     [DefaultValue(SortOrder.Asc)]
     [Required]

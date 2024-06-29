@@ -1,41 +1,38 @@
-﻿using WebApiForHikka.Application.WithSeoAddition.Animes;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Constants.Models.Animes;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 
-public class AnimeRepository : CrudRepository<Anime>, IAnimeRepository
+public class AnimeRepository(HikkaDbContext dbContext) : CrudRepository<Anime>(dbContext), IAnimeRepository
 {
-    public AnimeRepository(HikkaDbContext dbContext) : base(dbContext)
-    {
-    }
-
     protected override IQueryable<Anime> Filter(IQueryable<Anime> query, string filterBy, string filter)
     {
         return filterBy switch
         {
             AnimeStringConstants.IdName => query.Where(a => a.Id.ToString().Contains(filter)),
-            AnimeStringConstants.TagsName => query.Where(a => a.TagsString.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.CountriesName => query.Where(a => a.CountriesString.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.DubsName => query.Where(a => a.DubsString.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.KindName => query.Where(a => a.Kind.Slug.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.StatusName => query.Where(a => a.Status.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.PeriodName => query.Where(a => a.Period.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.RestrictedRatingName => query.Where(a => a.RestrictedRating.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.SourceName => query.Where(a => a.Source.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.NameName => query.Where(a => a.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.ImageNameName => query.Where(a => a.ImageName != null && a.ImageName.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.RomajiNameName => query.Where(a => a.RomajiName != null && a.RomajiName.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.NativeNameName => query.Where(a => a.NativeName.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            AnimeStringConstants.PosterPathName => query.Where(a => a.PosterPath.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            AnimeStringConstants.TagsName => query.Where(a => a.Tags.Any(t => EF.Functions.ILike(t.Name, $"%{filter}%"))),
+            AnimeStringConstants.CountriesName => query.Where(a => a.Countries.Any(c => EF.Functions.ILike(c.Name, $"%{filter}%"))),
+            AnimeStringConstants.DubsName => query.Where(a => a.Dubs.Any(d => EF.Functions.ILike(d.Name, $"%{filter}%"))),
+            AnimeStringConstants.KindName => query.Where(a => EF.Functions.ILike(a.Kind.Slug, $"%{filter}%")),
+            AnimeStringConstants.StatusName => query.Where(a => EF.Functions.ILike(a.Status.Name, $"%{filter}%")),
+            AnimeStringConstants.PeriodName => query.Where(a => EF.Functions.ILike(a.Period.Name, $"%{filter}%")),
+            AnimeStringConstants.RestrictedRatingName => query.Where(a => EF.Functions.ILike(a.RestrictedRating.Name, $"%{filter}%")),
+            AnimeStringConstants.SourceName => query.Where(a => EF.Functions.ILike(a.Source.Name, $"%{filter}%")),
+            AnimeStringConstants.NameName => query.Where(a => EF.Functions.ILike(a.Name, $"%{filter}%")),
+            AnimeStringConstants.ImageNameName => query.Where(a => a.ImageName != null && EF.Functions.ILike(a.ImageName, $"%{filter}%")),
+            AnimeStringConstants.RomajiNameName => query.Where(a => a.RomajiName != null && EF.Functions.ILike(a.RomajiName, $"%{filter}%")),
+            AnimeStringConstants.NativeNameName => query.Where(a => EF.Functions.ILike(a.NativeName, $"%{filter}%")),
+            AnimeStringConstants.PosterPathName => query.Where(a => EF.Functions.ILike(a.PosterPath, $"%{filter}%")),
             AnimeStringConstants.PosterColorsName => query.Where(a => a.PosterColors.Any(pc => pc.ToString().Contains(filter))),
             AnimeStringConstants.AvgDurationName => query.Where(a => a.AvgDuration.ToString().Contains(filter)),
             AnimeStringConstants.HowManyEpisodesName => query.Where(a => a.HowManyEpisodes.ToString().Contains(filter)),
             AnimeStringConstants.FirstAirDateName => query.Where(a => a.FirstAirDate.ToString("yyyy-MM-dd").Contains(filter)),
             AnimeStringConstants.LastAirDateName => query.Where(a => a.LastAirDate.ToString("yyyy-MM-dd").Contains(filter)),
-            AnimeStringConstants.TmdbIdName => query.Where(a => a.TmdbId.ToString().Contains(filter)),
-            AnimeStringConstants.ShikimoriIdName => query.Where(a => a.ShikimoriId.ToString().Contains(filter)),
+            AnimeStringConstants.TmdbIdName => query.Where(a => a.TmdbId != null && a.TmdbId.ToString()!.Contains(filter)),
+            AnimeStringConstants.ShikimoriIdName => query.Where(a => a.ShikimoriId != null && a.ShikimoriId.ToString()!.Contains(filter)),
             AnimeStringConstants.ShikimoriScoreName => query.Where(a => a.ShikimoriScore.ToString().Contains(filter)),
             AnimeStringConstants.TmdbScoreName => query.Where(a => a.TmdbScore.ToString().Contains(filter)),
             AnimeStringConstants.ImdbScoreName => query.Where(a => a.ImdbScore.ToString().Contains(filter)),

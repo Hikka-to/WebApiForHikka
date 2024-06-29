@@ -1,4 +1,4 @@
-﻿using WebApiForHikka.EfPersistence.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Formats;
 using WebApiForHikka.Constants.Models.Formats;
 using WebApiForHikka.Domain.Models;
@@ -17,7 +17,7 @@ public class FormatRepository : CrudRepository<Format>, IFormatRepository
     {
         return filterBy switch
         {
-            FormatStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            FormatStringConstants.NameName => query.Where(m => EF.Functions.ILike(m.Name, $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

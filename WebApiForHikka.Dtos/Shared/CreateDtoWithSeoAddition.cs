@@ -1,5 +1,5 @@
 ﻿using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Dtos.Dto.SeoAddition;
+using WebApiForHikka.Dtos.Dto.SeoAdditions;
 
 namespace WebApiForHikka.Dtos.Shared;
 

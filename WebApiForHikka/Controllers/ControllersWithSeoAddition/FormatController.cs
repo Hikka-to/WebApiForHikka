@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.Formats;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Constants.Models.Formats;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Formats;
 using WebApiForHikka.WebApi.Shared;
@@ -14,5 +15,6 @@ public class FormatController
         UpdateFormatDto,
         CreateFormatDto,
         IFormatService,
-        Format
+        Format,
+        FormatStringConstants
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

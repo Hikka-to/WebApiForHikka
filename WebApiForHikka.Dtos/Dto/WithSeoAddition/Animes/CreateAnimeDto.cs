@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Constants.Models.Animes;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 
+[ModelMetadataType(typeof(Anime))]
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Animes")]
 public class CreateAnimeDto : CreateDtoWithSeoAddition
 {
@@ -20,27 +21,20 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
     [SourceValidation]
     public required Guid SourceId { get; set; }
 
-    [StringLength(AnimeNumberConstants.NameLenght)]
     public required string Name { get; set; }
 
-    [StringLength(AnimeNumberConstants.ImageNameLenght)]
     public string? ImageName { get; set; }
 
-    [StringLength(AnimeNumberConstants.RomajiNameLenght)]
     public string? RomajiName { get; set; }
 
-    [StringLength(AnimeNumberConstants.NativeNameLenght)]
     public required string NativeName { get; set; }
 
-    [StringLength(AnimeNumberConstants.PosterPathLenght)]
     public required string PosterPath { get; set; }
 
     public required List<int> PosterColors { get; set; }
 
-    [Range(0, float.MaxValue)]
     public required float AvgDuration { get; set; }
 
-    [Range(0, int.MaxValue)]
     public required int HowManyEpisodes { get; set; }
 
     public required DateTime FirstAirDate { get; set; }
@@ -49,13 +43,10 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
     public long? TmdbId { get; set; }
     public long? ShikimoriId { get; set; }
 
-    [Range(AnimeNumberConstants.LowestScore, AnimeNumberConstants.MaxScore)]
     public required float ShikimoriScore { get; set; }
 
-    [Range(AnimeNumberConstants.LowestScore, AnimeNumberConstants.MaxScore)]
     public required float TmdbScore { get; set; }
 
-    [Range(AnimeNumberConstants.LowestScore, AnimeNumberConstants.MaxScore)]
     public required float ImdbScore { get; set; }
 
     public required bool IsPublished { get; set; }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Constants.Models.Tags;
@@ -18,15 +17,15 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
 
     protected override IQueryable<Tag> Filter(IQueryable<Tag> query, string filterBy, string filter)
     {
-        
+
 
         return filterBy switch
         {
-            TagStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            TagStringConstants.NameName => query.Where(m => EF.Functions.ILike(m.Name, $"%{filter}%")),
             TagStringConstants.AlisesName => query.Where(m => m.Alises.Contains(filter)),
-            TagStringConstants.IsGenreName => query.Where(m => m.IsGenre.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            TagStringConstants.EngNameName => query.Where(m => m.EngName.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            TagStringConstants.ParentTagName => query.Where(m => m.ParentTag != null && m.ParentTag.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            TagStringConstants.IsGenreName => query.Where(m => EF.Functions.ILike(m.IsGenre.ToString(), $"%{filter}%")),
+            TagStringConstants.EngNameName => query.Where(m => EF.Functions.ILike(m.EngName, $"%{filter}%")),
+            TagStringConstants.ParentTagName => query.Where(m => m.ParentTag != null && EF.Functions.ILike(m.ParentTag.Name, $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }
@@ -84,7 +83,7 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
         if (entity is null)
             return;
 
-       
+
 
         Update(model, entity);
         await DbContext.SaveChangesAsync(cancellationToken);

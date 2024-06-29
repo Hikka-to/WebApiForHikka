@@ -1,6 +1,6 @@
 ﻿namespace WebApiForHikka.Constants.Models.Mediaplayers;
 
-public static class MediaplayerStringConstants
+public class MediaplayerStringConstants
 {
     public const string NameName = "Name";
 

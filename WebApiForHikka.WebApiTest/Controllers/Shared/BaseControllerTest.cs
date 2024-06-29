@@ -29,7 +29,7 @@ public abstract class BaseControllerTest : SharedTest
         SearchTerm = "",
         PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
         PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
-        SortColumn = SharedStringConstants.IdName,
+        Column = SharedStringConstants.IdName,
         SortOrder = SortOrder.Asc,
     };
 

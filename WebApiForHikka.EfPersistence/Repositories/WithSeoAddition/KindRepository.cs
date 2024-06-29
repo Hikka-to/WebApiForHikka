@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.Kinds;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Constants.Models.Kinds;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
@@ -14,8 +15,8 @@ public class KindRepository : CrudRepository<Kind>, IKindRepository
     {
         return filterBy switch
         {
-            KindStringConstants.SlugName => query.Where(m => m.Slug.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            KindStringConstants.HintName => query.Where(m => m.Hint.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            KindStringConstants.SlugName => query.Where(m => EF.Functions.ILike(m.Slug, $"%{filter}%")),
+            KindStringConstants.HintName => query.Where(m => EF.Functions.ILike(m.Hint, $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

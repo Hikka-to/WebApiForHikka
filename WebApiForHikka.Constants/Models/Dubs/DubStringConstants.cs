@@ -1,6 +1,6 @@
 ﻿namespace WebApiForHikka.Constants.Models.Dubs;
 
-public static class DubStringConstants
+public class DubStringConstants
 {
     public const string NameName = "Name";
 

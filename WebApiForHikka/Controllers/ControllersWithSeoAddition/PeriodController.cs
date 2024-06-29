@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Constants.Periods;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Periods;
 using WebApiForHikka.WebApi.Shared;
@@ -14,5 +15,6 @@ public class PeriodController
         UpdatePeriodDto,
         CreatePeriodDto,
         IPeriodService,
-        Period
+        Period,
+        PeriodStringConstants
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

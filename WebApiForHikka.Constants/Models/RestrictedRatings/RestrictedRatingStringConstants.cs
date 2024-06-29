@@ -1,5 +1,5 @@
 ﻿namespace WebApiForHikka.Constants.Models.RestrictedRatings;
-public static class RestrictedRatingStringConstants
+public class RestrictedRatingStringConstants
 {
     public const string NameName = "Name";
 

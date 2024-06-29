@@ -1,4 +1,4 @@
-﻿using WebApiForHikka.EfPersistence.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Constants.Models.Statuses;
 using WebApiForHikka.Domain.Models;
@@ -15,7 +15,7 @@ public class StatusRepository : CrudRepository<Status>, IStatusRepository
     {
         return filterBy switch
         {
-            StatusStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            StatusStringConstants.NameName => query.Where(m => EF.Functions.ILike(m.Name, $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.WithSeoAddition.Studios;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiForHikka.Application.WithSeoAddition.Studios;
 using WebApiForHikka.Constants.Models.Studios;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
@@ -15,8 +16,8 @@ public class StudioRepository : CrudRepository<Studio>, IStudioRepository
     {
         return filterBy switch
         {
-            StudioStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            StudioStringConstants.LogoName => query.Where(m => (m.Logo ?? "").Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            StudioStringConstants.NameName => query.Where(m => EF.Functions.ILike(m.Name, $"%{filter}%")),
+            StudioStringConstants.LogoName => query.Where(m => EF.Functions.ILike(m.Logo ?? "", $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

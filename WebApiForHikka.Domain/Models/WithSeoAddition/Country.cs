@@ -6,10 +6,10 @@ namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Country : ModelWithSeoAddition
 {
-    [StringLength(CountryNumberConstants.NameLenght)]
+    [StringLength(CountryNumberConstants.NameLength)]
     public required string Name { get; set; }
 
-    [StringLength(CountryNumberConstants.IconLenght)]
+    [StringLength(CountryNumberConstants.IconLength)]
     public required string Icon { get; set; }
 
     public ICollection<Anime> Animes { get; } = [];

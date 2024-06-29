@@ -5,9 +5,9 @@ namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Studio : ModelWithSeoAddition
 {
-    [StringLength(StudioNumberConstants.NameLenght)]
+    [StringLength(StudioNumberConstants.NameLength)]
     public required string Name { get; set; }
 
-    [StringLength(StudioNumberConstants.LogoLenght)]
-    public string? Logo {  get; set; }
+    [StringLength(StudioNumberConstants.LogoLength)]
+    public string? Logo { get; set; }
 }

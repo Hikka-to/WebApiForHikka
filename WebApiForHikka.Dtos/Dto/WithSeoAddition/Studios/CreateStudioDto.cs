@@ -1,20 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Constants.Models.Studios;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 
+[ModelMetadataType(typeof(Studio))]
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Studios")]
-
 public class CreateStudioDto : CreateDtoWithSeoAddition
 {
-    [StringLength(StudioNumberConstants.NameLenght)]
     public required string Name { get; set; }
 
-    [StringLength(StudioNumberConstants.LogoLenght)]
     public string? Logo { get; set; }
-
-
-
 }

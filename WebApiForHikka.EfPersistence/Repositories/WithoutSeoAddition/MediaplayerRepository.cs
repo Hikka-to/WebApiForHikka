@@ -1,22 +1,19 @@
-﻿using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Constants.Models.Mediaplayers;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 
-public class MediaplayerRepository : CrudRepository<Mediaplayer>, IMediaplayerRepository
+public class MediaplayerRepository(HikkaDbContext dbContext) : CrudRepository<Mediaplayer>(dbContext), IMediaplayerRepository
 {
-    public MediaplayerRepository(HikkaDbContext dbContext) : base(dbContext)
-    {
-    }
-
     protected override IQueryable<Mediaplayer> Filter(IQueryable<Mediaplayer> query, string filterBy, string filter)
     {
         return filterBy switch
         {
-            MediaplayerStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            MediaplayerStringConstants.IconName => query.Where(m => (m.Icon ?? "").Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            MediaplayerStringConstants.NameName => query.Where(m => EF.Functions.ILike(m.Name, $"%{filter}%")),
+            MediaplayerStringConstants.IconName => query.Where(m => EF.Functions.ILike(m.Icon, $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

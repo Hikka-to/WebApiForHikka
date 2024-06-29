@@ -5,6 +5,6 @@ namespace WebApiForHikka.Domain.Models;
 public class Status : ModelWithSeoAddition
 {
 
-    [StringLength(SharedNumberConstatnts.NameLenght)]
+    [StringLength(SharedNumberConstatnts.NameLength)]
     public required string Name { get; set; }
 }

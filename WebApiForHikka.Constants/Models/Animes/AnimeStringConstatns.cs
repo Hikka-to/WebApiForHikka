@@ -1,6 +1,6 @@
 ﻿namespace WebApiForHikka.Constants.Models.Animes;
 
-public static class AnimeStringConstants
+public class AnimeStringConstants
 {
     public const string IdName = "Id";
 

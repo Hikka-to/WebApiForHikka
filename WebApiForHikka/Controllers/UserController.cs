@@ -28,7 +28,7 @@ public class UserController
         IHttpContextAccessor httpContextAccessor
     )
     : MyBaseController(mapper, httpContextAccessor),
-    ICrudController<UpdateUserDto, UserRegistrationDto>
+    ICrudController<UpdateUserDto, UserRegistrationDto, UserStringConstants>
 {
     private readonly IUserService _userService = userService;
     private readonly IConfiguration _configuration = configuration;
@@ -64,12 +64,14 @@ public class UserController
 
         var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
 
-        return Ok(new RegistratedResponseUserDto() {
+        return Ok(new RegistratedResponseUserDto()
+        {
             Message = UserStringConstants.MessageUserRegistrated,
             JwtToken = tokenString,
-            Id = (Guid)id }
-        
-        ) ;
+            Id = (Guid)id
+        }
+
+        );
     }
 
     [AllowAnonymous]
