@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Statuses;
+using WebApiForHikka.Constants.Models.Statuses;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Shared;
@@ -18,7 +19,8 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateStatusDto,
     CreateStatusDto,
     GetStatusDto,
-    ReturnPageDto<GetStatusDto>
+    ReturnPageDto<GetStatusDto>,
+    StatusStringConstants
     >
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)

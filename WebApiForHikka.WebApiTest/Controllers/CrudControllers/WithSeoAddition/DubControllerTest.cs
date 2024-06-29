@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Dubs;
+using WebApiForHikka.Constants.Models.Dubs;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Dtos.Shared;
@@ -19,7 +20,8 @@ class DubControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateDubDto,
     CreateDubDto,
     GetDubDto,
-    ReturnPageDto<GetDubDto>
+    ReturnPageDto<GetDubDto>,
+    DubStringConstants
     >
 
 {

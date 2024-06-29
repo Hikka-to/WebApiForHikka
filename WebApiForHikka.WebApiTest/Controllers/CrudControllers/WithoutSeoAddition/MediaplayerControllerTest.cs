@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
+using WebApiForHikka.Constants.Models.Mediaplayers;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Shared;
@@ -17,7 +18,8 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
     UpdateMediaplayerDto,
     CreateMediaplayerDto,
     GetMediaplayerDto,
-    ReturnPageDto<GetMediaplayerDto>
+    ReturnPageDto<GetMediaplayerDto>,
+    MediaplayerStringConstants
     >
 
 {
