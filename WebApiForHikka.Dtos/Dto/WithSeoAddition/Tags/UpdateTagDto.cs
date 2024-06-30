@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
-[ModelMetadataType(typeof(Tag))]
+
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Tags")]
 public class UpdateTagDto : UpdateDtoWithSeoAddition
 {
+
+    [StringLength(SharedNumberConstatnts.NameLength)]
     public required string Name { get; set; }
 
+    [StringLength(SharedNumberConstatnts.NameLength)]
     public required string EngName { get; set; }
 
     public required List<string> Alises { get; set; }

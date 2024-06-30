@@ -13,6 +13,7 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
 
     protected override AnimeRepository GetRepository(HikkaDbContext hikkaDbContext) => new(hikkaDbContext);
 
+
     protected override Anime GetSample() => new()
     {
         Name = "Test",
@@ -98,6 +99,9 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
             Icon = "Test1",
             Hint = "Test1",
             SeoAddition = GetSeoAdditionSampleUpdate(),
+        },
+        Tags = new List<Tag>() 
+        {
         },
         NativeName = "Test1",
         ImageName = "Test1",

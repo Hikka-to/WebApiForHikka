@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Constants.Models.Periods;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Periods;
 
-[ModelMetadataType(typeof(Period))]
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Periods")]
 public class CreatePeriodDto : CreateDtoWithSeoAddition
 {
+    [StringLength(PeriodNumberConstants.NameLength)]
     public required string Name { get; set; }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Constants.Periods;
+using WebApiForHikka.Constants.Models.Periods;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Periods;
 using WebApiForHikka.WebApi.Shared;

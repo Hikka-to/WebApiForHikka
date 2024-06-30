@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Periods;
+using WebApiForHikka.Constants.Models.Periods;
 
 namespace WebApiForHikka.Domain.Models;
 
