@@ -467,7 +467,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CountryAnimes",
+                name: "CountriesAnimes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -492,7 +492,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DubAnimes",
+                name: "DubsAnimes",
                 columns: table => new
                 {
                     AnimesId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -516,7 +516,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TagAnimes",
+                name: "TagsAnimes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -624,17 +624,17 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_CountryAnimes_AnimesId",
-                table: "CountryAnimes",
+                table: "CountriesAnimes",
                 column: "AnimesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CountryAnimes_CountriesId",
-                table: "CountryAnimes",
+                table: "CountriesAnimes",
                 column: "CountriesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DubAnimes_DubsId",
-                table: "DubAnimes",
+                table: "DubsAnimes",
                 column: "DubsId");
 
             migrationBuilder.CreateIndex(
@@ -679,12 +679,12 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_TagAnimes_AnimesId",
-                table: "TagAnimes",
+                table: "TagsAnimes",
                 column: "AnimesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TagAnimes_TagsId",
-                table: "TagAnimes",
+                table: "TagsAnimes",
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
@@ -717,10 +717,10 @@ namespace WebApiForHikka.EfPersistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CountryAnimes");
+                name: "CountriesAnimes");
 
             migrationBuilder.DropTable(
-                name: "DubAnimes");
+                name: "DubsAnimes");
 
             migrationBuilder.DropTable(
                 name: "Formats");
@@ -732,7 +732,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
                 name: "Studios");
 
             migrationBuilder.DropTable(
-                name: "TagAnimes");
+                name: "TagsAnimes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

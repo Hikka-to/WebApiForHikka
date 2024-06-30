@@ -1,4 +1,7 @@
-﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
+﻿using FluentAssertions;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.Test.Shared.Repository;
@@ -12,6 +15,27 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
     public Anime AnimeForUpdate => GetSampleForUpdate();
 
     protected override AnimeRepository GetRepository(HikkaDbContext hikkaDbContext) => new(hikkaDbContext);
+
+
+    protected Tag GetTagWithName(string name) => new Tag {
+        Name = name,
+        Alises = [],
+        EngName = name,
+        IsGenre = true,
+        SeoAddition = GetSeoAdditionSample(),
+    };
+
+    protected Country GetCountryWithName(string name) => new Country {
+        Icon = name,
+        Name = name,
+        SeoAddition = GetSeoAdditionSample(),
+    };
+    protected Dub GetDubWithName(string name) => new Dub {
+        Icon = name,
+        Name = name,
+        SeoAddition = GetSeoAdditionSample(),
+        
+    };
 
 
     protected override Anime GetSample() => new()
@@ -47,6 +71,15 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
             Hint = "Test",
             SeoAddition = GetSeoAdditionSample(),
         },
+        Countries = [
+            GetCountryWithName("name")
+            ],
+        Dubs = [
+            GetDubWithName("name")
+            ],
+        Tags = [
+            GetTagWithName("test")
+            ],
         NativeName = "Test",
         ImageName = "Test",
         RomajiName = "Test",
@@ -100,9 +133,15 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
             Hint = "Test1",
             SeoAddition = GetSeoAdditionSampleUpdate(),
         },
-        Tags = new List<Tag>() 
-        {
-        },
+        Countries = [
+            GetCountryWithName("name1")
+            ],
+        Dubs = [
+            GetDubWithName("name1")
+            ],
+        Tags = [
+            GetTagWithName("test1")
+            ],
         NativeName = "Test1",
         ImageName = "Test1",
         RomajiName = "Test1",
@@ -122,4 +161,6 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
         UpdatedAt = DateTime.Now,
         CreatedAt = DateTime.Now,
     };
+
+    
 }

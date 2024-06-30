@@ -7,14 +7,14 @@ namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Anime : ModelWithSeoAddition
 {
-    public List<Tag> Tags { get; set; } = [];
-    public IReadOnlyCollection<TagAnime> TagAnimes { get; } = [];
+    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+    public ICollection<TagAnime> TagsAnimes { get; set; } = new List<TagAnime>();
 
-    public List<Country> Countries { get; set; } = [];
-    public IReadOnlyCollection<CountryAnime> CountryAnimes { get; } = [];
+    public ICollection<Country> Countries { get; set; } = new List<Country>();
+    public ICollection<CountryAnime> CountriesAnimes { get; set; } = new List<CountryAnime>();
 
-    public List<Dub> Dubs { get; set; } = [];
-    public IReadOnlyCollection<DubAnime> DubAnimes { get; } = [];
+    public ICollection<Dub> Dubs { get; set; } = new List<Dub>();
+    public ICollection<DubAnime> DubsAnimes { get; set; } = new List<DubAnime>();
 
     public required Kind Kind { get; set; }
 

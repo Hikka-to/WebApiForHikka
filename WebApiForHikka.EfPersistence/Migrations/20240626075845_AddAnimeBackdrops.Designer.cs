@@ -699,7 +699,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("CountriesId");
 
-                    b.ToTable("CountryAnimes");
+                    b.ToTable("CountriesAnimes");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.DubAnime", b =>
@@ -714,7 +714,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("DubsId");
 
-                    b.ToTable("DubAnimes");
+                    b.ToTable("DubsAnimes");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.Mediaplayer", b =>
@@ -756,7 +756,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("TagAnimes");
+                    b.ToTable("TagsAnimes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -991,12 +991,12 @@ namespace WebApiForHikka.EfPersistence.Migrations
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.CountryAnime", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", null)
-                        .WithMany("CountryAnimes")
+                        .WithMany("CountriesAnimes")
                         .HasForeignKey("AnimesId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Country", null)
-                        .WithMany("CountryAnimes")
+                        .WithMany("CountriesAnimes")
                         .HasForeignKey("CountriesId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1004,13 +1004,13 @@ namespace WebApiForHikka.EfPersistence.Migrations
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.DubAnime", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", null)
-                        .WithMany("DubAnimes")
+                        .WithMany("DubsAnimes")
                         .HasForeignKey("AnimesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Dub", null)
-                        .WithMany("DubAnimes")
+                        .WithMany("DubsAnimes")
                         .HasForeignKey("DubsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1019,38 +1019,38 @@ namespace WebApiForHikka.EfPersistence.Migrations
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.TagAnime", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", null)
-                        .WithMany("TagAnimes")
+                        .WithMany("TagsAnimes")
                         .HasForeignKey("AnimesId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Tag", null)
-                        .WithMany("TagAnimes")
+                        .WithMany("TagsAnimes")
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", b =>
                 {
-                    b.Navigation("CountryAnimes");
+                    b.Navigation("CountriesAnimes");
 
-                    b.Navigation("DubAnimes");
+                    b.Navigation("DubsAnimes");
 
-                    b.Navigation("TagAnimes");
+                    b.Navigation("TagsAnimes");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Country", b =>
                 {
-                    b.Navigation("CountryAnimes");
+                    b.Navigation("CountriesAnimes");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Dub", b =>
                 {
-                    b.Navigation("DubAnimes");
+                    b.Navigation("DubsAnimes");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Tag", b =>
                 {
-                    b.Navigation("TagAnimes");
+                    b.Navigation("TagsAnimes");
 
                     b.Navigation("Tags");
                 });

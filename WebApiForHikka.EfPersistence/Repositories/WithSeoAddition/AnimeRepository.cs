@@ -76,6 +76,14 @@ public class AnimeRepository(HikkaDbContext dbContext) : CrudRepository<Anime>(d
     {
         DbContext.Entry(entity).CurrentValues.SetValues(model);
         entity.SeoAddition = model.SeoAddition;
+        entity.Tags = model.Tags;
+        entity.Countries = model.Countries;
+        entity.Dubs = model.Dubs;
+
+        entity.TagsAnimes = model.TagsAnimes;
+        entity.CountriesAnimes = model.CountriesAnimes;
+        entity.DubsAnimes = model.DubsAnimes;
+
         entity.Source = model.Source;
         entity.Status = model.Status;
         entity.Kind = model.Kind;
