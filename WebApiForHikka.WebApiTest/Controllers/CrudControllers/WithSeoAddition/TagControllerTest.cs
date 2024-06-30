@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
+using WebApiForHikka.Constants.Models.Tags;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.Shared;
@@ -19,7 +20,8 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateTagDto,
     CreateTagDto,
     GetTagDto,
-    ReturnPageDto<GetTagDto>
+    ReturnPageDto<GetTagDto>,
+    TagStringConstants
     >
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)

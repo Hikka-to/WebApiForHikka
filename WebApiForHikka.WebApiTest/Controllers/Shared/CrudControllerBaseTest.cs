@@ -13,9 +13,10 @@ namespace WebApiForHikka.Test.Controller.Shared;
 public abstract class CrudControllerBaseTest
     <TController, TCrudService,
     TModel, TIRepository,
-    TUpdateDto, TCreateDto, TGetDto, TReturnPageDto>
+    TUpdateDto, TCreateDto, TGetDto, TReturnPageDto,
+    TStringConstants>
     : BaseControllerTest
-    where TController : ICrudController<TUpdateDto, TCreateDto>
+    where TController : ICrudController<TUpdateDto, TCreateDto, TStringConstants>
     where TCrudService : CrudService<TModel, TIRepository>
     where TModel : class, IModel
     where TIRepository : ICrudRepository<TModel>

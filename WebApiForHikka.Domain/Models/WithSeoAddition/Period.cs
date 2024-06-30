@@ -5,6 +5,6 @@ namespace WebApiForHikka.Domain.Models;
 
 public class Period : ModelWithSeoAddition
 {
-    [StringLength(PeriodNumberConstants.NameLenght)]
+    [StringLength(PeriodNumberConstants.NameLength)]
     public required string Name { get; set; }
 }

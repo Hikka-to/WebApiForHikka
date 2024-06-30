@@ -26,19 +26,19 @@ public class Anime : ModelWithSeoAddition
 
     public required Source Source { get; set; }
 
-    [StringLength(AnimeNumberConstants.NameLenght)]
+    [StringLength(AnimeNumberConstants.NameLength)]
     public required string Name { get; set; }
 
-    [StringLength(AnimeNumberConstants.ImageNameLenght)]
+    [StringLength(AnimeNumberConstants.ImageNameLength)]
     public string? ImageName { get; set; }
 
-    [StringLength(AnimeNumberConstants.RomajiNameLenght)]
+    [StringLength(AnimeNumberConstants.RomajiNameLength)]
     public string? RomajiName { get; set; }
 
-    [StringLength(AnimeNumberConstants.NativeNameLenght)]
+    [StringLength(AnimeNumberConstants.NativeNameLength)]
     public required string NativeName { get; set; }
 
-    [StringLength(AnimeNumberConstants.PosterPathLenght)]
+    [StringLength(AnimeNumberConstants.PosterPathLength)]
     public required string PosterPath { get; set; }
 
     public required List<int> PosterColors { get; set; }

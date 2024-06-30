@@ -27,6 +27,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : Identity
     public DbSet<DubAnime> DubAnimes { get; set; }
     public DbSet<Anime> Animes { get; set; }
     public DbSet<AnimeBackdrop> AnimeBackdrops { get; set; }
+    public DbSet<AnimeVideoKind> AnimeVideoKinds { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

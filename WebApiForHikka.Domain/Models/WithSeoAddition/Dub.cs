@@ -6,10 +6,10 @@ namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Dub : ModelWithSeoAddition
 {
-    [StringLength(DubNumberConstants.NameLenght)]
+    [StringLength(DubNumberConstants.NameLength)]
     public required string Name { get; set; }
 
-    [StringLength(DubNumberConstants.IconLenght)]
+    [StringLength(DubNumberConstants.IconLength)]
     public string? Icon { get; set; }
 
     public ICollection<Anime> Animes { get; } = [];

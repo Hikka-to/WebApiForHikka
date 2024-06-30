@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.SeoAddition;
+using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.Test.Controller.Shared;
@@ -15,11 +15,12 @@ namespace WebApiForHikka.Test.Controllers.Shared;
 
 public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudService,
     TModel, TIRepository,
-    TUpdateDto, TCreateDto, TGetDto, TReturnPageDto>
+    TUpdateDto, TCreateDto, TGetDto, TReturnPageDto,
+    TStringConstants>
     : CrudControllerBaseTest<
-        TController, TCrudService, TModel, TIRepository, TUpdateDto, TCreateDto, TGetDto, TReturnPageDto
+        TController, TCrudService, TModel, TIRepository, TUpdateDto, TCreateDto, TGetDto, TReturnPageDto, TStringConstants
         >
-    where TController : ICrudController<TUpdateDto, TCreateDto>
+    where TController : ICrudController<TUpdateDto, TCreateDto, TStringConstants>
     where TCrudService : CrudService<TModel, TIRepository>
     where TModel : ModelWithSeoAddition
     where TIRepository : ICrudRepository<TModel>

@@ -4,6 +4,6 @@ using WebApiForHikka.Constants.Shared;
 namespace WebApiForHikka.Domain.Models;
 public class Source : ModelWithSeoAddition
 {
-    [StringLength(SharedNumberConstatnts.NameLenght)]
+    [StringLength(SharedNumberConstatnts.NameLength)]
     public required string Name;
 }

@@ -1,6 +1,6 @@
 ﻿namespace WebApiForHikka.Constants.Models.Tags;
 
-public static class TagStringConstants
+public class TagStringConstants
 {
     public const string NameName = "Name";
 

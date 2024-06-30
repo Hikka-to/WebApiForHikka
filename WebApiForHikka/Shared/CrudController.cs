@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
-using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
@@ -14,14 +13,13 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 namespace WebApiForHikka.WebApi.Shared;
 
 [Authorize(Policy = ControllerStringConstants.CanAccessOnlyAdmin)]
-public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService, TModel>
+public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService, TModel, TStringConstants>
     (TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : MyBaseController(mapper, httpContextAccessor),
-    ICrudController<TUpdateDto, TCreateDto>
+    ICrudController<TUpdateDto, TCreateDto, TStringConstants>
     where TModel : class, IModel
     where TUpdateDto : ModelDto
     where TIService : ICrudService<TModel>
-
 {
     protected TIService _crudService = crudService;
 

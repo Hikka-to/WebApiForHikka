@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
+using WebApiForHikka.Constants.Models.Countries;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Countries;
 using WebApiForHikka.WebApi.Shared;
@@ -13,5 +14,6 @@ public class CountryController(ICountryService crudService, ISeoAdditionService 
         UpdateCountryDto,
         CreateCountryDto,
         ICountryService,
-        Country
+        Country,
+        CountryStringConstants
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

@@ -8,13 +8,13 @@ using WebApiForHikka.Dtos.Dto.Formats;
 using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.Dtos.Dto.Periods;
 using WebApiForHikka.Dtos.Dto.RestrictedRatings;
-using WebApiForHikka.Dtos.Dto.SeoAddition;
+using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Sources;
-using WebApiForHikka.Dtos.Dto.Status;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
@@ -154,7 +154,7 @@ public class MappingProfiles : Profile
         CreateMap<UpdateAnimeDto, Anime>();
 
 
-        // AnimeBackdrop
+        //AnimeBackdrop
 
         CreateMap<AnimeBackdrop, GetAnimeBackdropDto>().ForMember(
             c => c.AnimeId,
@@ -163,5 +163,13 @@ public class MappingProfiles : Profile
         CreateMap<CreateAnimeBackdropDto, AnimeBackdrop>();
 
         CreateMap<UpdateAnimeBackdropDto, AnimeBackdrop>();
+
+        //AnimeVideoKind
+
+        CreateMap<AnimeVideoKind, GetAnimeVideoKindDto>();
+
+        CreateMap<CreateAnimeVideoKindDto, AnimeVideoKind>();
+
+        CreateMap<UpdateAnimeVideoKindDto, AnimeVideoKind>();
     }
 }

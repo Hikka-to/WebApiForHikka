@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
+using WebApiForHikka.Constants.Models.Tags;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
@@ -17,7 +18,8 @@ public class TagController
     UpdateTagDto,
     CreateTagDto,
     ITagService,
-    Tag
+    Tag,
+    TagStringConstants
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
 

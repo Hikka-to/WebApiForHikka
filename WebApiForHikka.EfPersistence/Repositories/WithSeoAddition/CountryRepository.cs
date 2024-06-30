@@ -1,22 +1,19 @@
-﻿using WebApiForHikka.Application.WithSeoAddition.Countries;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiForHikka.Application.WithSeoAddition.Countries;
 using WebApiForHikka.Constants.Models.Countries;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 
-public class CountryRepository : CrudRepository<Country>, ICountryRepository
+public class CountryRepository(HikkaDbContext dbContext) : CrudRepository<Country>(dbContext), ICountryRepository
 {
-    public CountryRepository(HikkaDbContext dbContext) : base(dbContext)
-    {
-    }
-
     protected override IQueryable<Country> Filter(IQueryable<Country> query, string filterBy, string filter)
     {
         return filterBy switch
         {
-            CountryStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            CountryStringConstants.IconName => query.Where(m => m.Icon.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            CountryStringConstants.NameName => query.Where(m => EF.Functions.ILike(m.Name, $"%{filter}%")),
+            CountryStringConstants.IconName => query.Where(m => EF.Functions.ILike(m.Icon, $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

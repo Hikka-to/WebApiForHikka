@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Statuses;
+using WebApiForHikka.Constants.Models.Statuses;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.Status;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.WebApi.Shared;
 
@@ -15,5 +15,6 @@ public class StatusController
         UpdateStatusDto,
         CreateStatusDto,
         IStatusService,
-        Status
+        Status,
+        StatusStringConstants
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

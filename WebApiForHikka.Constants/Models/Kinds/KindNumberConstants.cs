@@ -1,5 +1,5 @@
 ﻿namespace WebApiForHikka.Constants.Models.Kinds;
 public class KindNumberConstants
 {
-    public const int HintLenght = 64;
+    public const int HintLength = 64;
 }

@@ -1,4 +1,4 @@
-﻿using WebApiForHikka.EfPersistence.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Constants.Models.Sources;
 using WebApiForHikka.Domain.Models;
@@ -16,7 +16,7 @@ public class SourceRepository : CrudRepository<Source>, ISourceRepository
     {
         return filterBy switch
         {
-            SourceStringConstants.NameName => query.Where(m => m.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)),
+            SourceStringConstants.NameName => query.Where(m => EF.Functions.ILike(m.Name, $"%{filter}%")),
             _ => query.Where(m => m.Id.ToString().Contains(filter)),
         };
     }

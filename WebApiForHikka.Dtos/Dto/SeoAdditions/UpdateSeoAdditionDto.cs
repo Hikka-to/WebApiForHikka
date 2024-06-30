@@ -1,12 +1,18 @@
-﻿using TypeGen.Core.TypeAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using TypeGen.Core.TypeAnnotations;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.SeoAddition;
+namespace WebApiForHikka.Dtos.Dto.SeoAdditions;
 
-
+[ModelMetadataType(typeof(AnimeBackdrop))]
 [ExportTsInterface(OutputDir = "./TS/Dto/SeoAddition")]
-public class GetSeoAdditionDto : ModelDto
+public class UpdateSeoAdditionDto : ModelDto
 {
+    [SeoAdditionValidation]
+    public required override Guid Id { get; set; }
+
     public required string Slug { get; set; }
 
     public required string Title { get; set; }

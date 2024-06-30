@@ -1,6 +1,6 @@
 ﻿namespace WebApiForHikka.Constants.Models.Studios;
 
-public static class StudioStringConstants
+public class StudioStringConstants
 {
     public const string LogoName = "Logo";
 

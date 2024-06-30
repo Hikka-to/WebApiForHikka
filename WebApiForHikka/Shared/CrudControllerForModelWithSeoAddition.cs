@@ -12,14 +12,15 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 public abstract class CrudControllerForModelWithSeoAddition
-    <TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition>
+    <TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition, TStringConstants>
     (TIService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : CrudController<
         TGetDtoWithSeoAddition,
         TUpdateDtoWithSeoAddition,
         TCreateDtoWithSeoAddition,
         TIService,
-        TModelWithSeoAddition
+        TModelWithSeoAddition,
+        TStringConstants
     >(crudService, mapper, httpContextAccessor)
     where TModelWithSeoAddition : ModelWithSeoAddition
     where TGetDtoWithSeoAddition : GetDtoWithSeoAddition

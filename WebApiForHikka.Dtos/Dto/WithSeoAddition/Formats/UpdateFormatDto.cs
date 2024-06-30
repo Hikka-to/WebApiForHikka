@@ -1,14 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Constants.Shared;
+using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Formats;
 
+[ModelMetadataType(typeof(Format))]
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Formats")]
 public class UpdateFormatDto : UpdateDtoWithSeoAddition
 {
-
-    [StringLength(SharedNumberConstatnts.NameLenght)]
     public required string Name { get; set; }
 }

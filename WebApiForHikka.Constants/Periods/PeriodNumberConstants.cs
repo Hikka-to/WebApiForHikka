@@ -1,5 +1,5 @@
 ﻿namespace WebApiForHikka.Constants.Periods;
 public static class PeriodNumberConstants
 {
-    public const int NameLenght = 24;
+    public const int NameLength = 24;
 }

@@ -6,9 +6,9 @@ public static class SharedNumberConstatnts
 
     public const int HowManyDayExpiresForJwt = 7;
 
-    public const int NameLenght = 64;
+    public const int NameLength = 64;
 
-    public const int SlugLenght = 128;
+    public const int SlugLength = 128;
 
     public const int UrlLength = 2048;
 }

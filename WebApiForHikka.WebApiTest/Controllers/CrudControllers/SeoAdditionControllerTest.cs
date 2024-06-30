@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Constants.Models.SeoAdditions;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.SeoAddition;
+using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controller.Shared;
@@ -17,7 +18,8 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     UpdateSeoAdditionDto,
     CreateSeoAdditionDto,
     GetSeoAdditionDto,
-    ReturnPageDto<GetSeoAdditionDto>
+    ReturnPageDto<GetSeoAdditionDto>,
+    SeoAdditionStringConstants
     >
 {
     protected override async Task<SeoAdditionController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)

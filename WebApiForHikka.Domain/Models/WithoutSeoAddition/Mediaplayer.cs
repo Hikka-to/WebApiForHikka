@@ -5,10 +5,10 @@ namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 public class Mediaplayer : Model
 {
-    [StringLength(MediaplayerNumberConstants.NameLenght)]
+    [StringLength(MediaplayerNumberConstants.NameLength)]
     public required string Name { get; set; }
 
-    [StringLength(MediaplayerNumberConstants.IconLenght)]
+    [StringLength(MediaplayerNumberConstants.IconLength)]
     public required string Icon { get; set; }
 
 }

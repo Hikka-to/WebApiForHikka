@@ -2,7 +2,7 @@
 
 public static class CountryNumberConstants
 {
-    public const int NameLenght = 64;
+    public const int NameLength = 64;
 
-    public const int IconLenght = 2048;
+    public const int IconLength = 2048;
 }
