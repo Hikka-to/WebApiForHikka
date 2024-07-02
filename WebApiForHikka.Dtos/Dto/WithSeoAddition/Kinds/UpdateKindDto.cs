@@ -1,18 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Constants.Models.Kinds;
-using WebApiForHikka.Constants.Shared;
+using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Kinds;
 
+[ModelMetadataType(typeof(Kind))]
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Kinds")]
 public class UpdateKindDto : UpdateDtoWithSeoAddition
 {
-
-    [StringLength(SharedNumberConstatnts.SlugLength)]
     public required string Slug { get; set; }
 
-    [StringLength(KindNumberConstants.HintLength)]
     public required string Hint { get; set; }
 }

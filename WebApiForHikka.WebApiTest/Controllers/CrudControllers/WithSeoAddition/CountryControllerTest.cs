@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
-using WebApiForHikka.Constants.Models.Countries;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Countries;
 using WebApiForHikka.Dtos.Shared;
@@ -20,8 +19,7 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateCountryDto,
     CreateCountryDto,
     GetCountryDto,
-    ReturnPageDto<GetCountryDto>,
-    CountryStringConstants
+    ReturnPageDto<GetCountryDto>
     >
 
 {

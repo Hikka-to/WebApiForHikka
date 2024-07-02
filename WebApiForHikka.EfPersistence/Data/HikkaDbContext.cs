@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.ManyToMany;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
@@ -75,24 +76,24 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : Identity
             .HasMany(e => e.Tags)
             .WithMany(e => e.Animes)
             .UsingEntity<TagAnime>(
-                l => l.HasOne<Tag>().WithMany(e => e.TagAnimes).OnDelete(DeleteBehavior.Cascade),
-                r => r.HasOne<Anime>().WithMany(e => e.TagsAnimes).OnDelete(DeleteBehavior.Cascade)
+                l => l.HasOne(e => e.Tag).WithMany().OnDelete(DeleteBehavior.Cascade),
+                r => r.HasOne(e => e.Anime).WithMany().OnDelete(DeleteBehavior.Cascade)
             );
 
         modelBuilder.Entity<Anime>()
             .HasMany(e => e.Countries)
             .WithMany(e => e.Animes)
             .UsingEntity<CountryAnime>(
-                l => l.HasOne<Country>().WithMany(e => e.CountryAnimes).OnDelete(DeleteBehavior.Cascade),
-                r => r.HasOne<Anime>().WithMany(e => e.CountriesAnimes).OnDelete(DeleteBehavior.Cascade)
+                l => l.HasOne(e => e.Country).WithMany().OnDelete(DeleteBehavior.Cascade),
+                r => r.HasOne(e => e.Anime).WithMany().OnDelete(DeleteBehavior.Cascade)
             );
 
         modelBuilder.Entity<Anime>()
             .HasMany(e => e.Dubs)
             .WithMany(e => e.Animes)
             .UsingEntity<DubAnime>(
-                l => l.HasOne<Dub>().WithMany(e => e.DubAnimes).OnDelete(DeleteBehavior.Cascade),
-                r => r.HasOne<Anime>().WithMany(e => e.DubsAnimes).OnDelete(DeleteBehavior.Cascade)
+                l => l.HasOne(e => e.Dub).WithMany().OnDelete(DeleteBehavior.Cascade),
+                r => r.HasOne(e => e.Anime).WithMany().OnDelete(DeleteBehavior.Cascade)
             );
 
         modelBuilder.Entity<Anime>().Navigation(e => e.Tags).AutoInclude();

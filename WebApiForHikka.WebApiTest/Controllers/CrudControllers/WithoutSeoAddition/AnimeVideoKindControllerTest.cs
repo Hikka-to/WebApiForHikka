@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeVideoKinds;
-using WebApiForHikka.Constants.Models.AnimeVideoKinds;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Shared;
@@ -18,8 +17,7 @@ public class AnimeVideoKindControllerTest : CrudControllerBaseTest<
     UpdateAnimeVideoKindDto,
     CreateAnimeVideoKindDto,
     GetAnimeVideoKindDto,
-    ReturnPageDto<GetAnimeVideoKindDto>,
-    AnimeVideoKindStringConstants
+    ReturnPageDto<GetAnimeVideoKindDto>
     >
 {
     protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)

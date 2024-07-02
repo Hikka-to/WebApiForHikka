@@ -32,5 +32,5 @@ public static class ControllerStringConstants
     public const string SeoAdditionDoesntConnectToTheModel = "SeoAddtion with this id wasn't attached to the model please don't chage the id in seoAddition";
 
 
-  
+
 }

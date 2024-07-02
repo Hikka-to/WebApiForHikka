@@ -1,7 +1,4 @@
-﻿using FluentAssertions;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
+﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.Test.Shared.Repository;
@@ -17,7 +14,8 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
     protected override AnimeRepository GetRepository(HikkaDbContext hikkaDbContext) => new(hikkaDbContext);
 
 
-    protected Tag GetTagWithName(string name) => new Tag {
+    protected Tag GetTagWithName(string name) => new Tag
+    {
         Name = name,
         Alises = [],
         EngName = name,
@@ -25,16 +23,18 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
         SeoAddition = GetSeoAdditionSample(),
     };
 
-    protected Country GetCountryWithName(string name) => new Country {
+    protected Country GetCountryWithName(string name) => new Country
+    {
         Icon = name,
         Name = name,
         SeoAddition = GetSeoAdditionSample(),
     };
-    protected Dub GetDubWithName(string name) => new Dub {
+    protected Dub GetDubWithName(string name) => new Dub
+    {
         Icon = name,
         Name = name,
         SeoAddition = GetSeoAdditionSample(),
-        
+
     };
 
 
@@ -162,5 +162,5 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
         CreatedAt = DateTime.Now,
     };
 
-    
+
 }

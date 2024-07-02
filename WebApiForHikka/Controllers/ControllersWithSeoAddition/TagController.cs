@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
-using WebApiForHikka.Constants.Models.Tags;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
@@ -18,8 +17,7 @@ public class TagController
     UpdateTagDto,
     CreateTagDto,
     ITagService,
-    Tag,
-    TagStringConstants
+    Tag
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
 
@@ -71,8 +69,10 @@ public class TagController
 
 
         var model = _mapper.Map<Tag>(dto);
+        var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
+        await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
-        model.SeoAddition = (await _seoAdditionService.GetAsync(_mapper.Map<SeoAddition>(dto.SeoAddition).Id, cancellationToken))!;
+        model.SeoAddition = (await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
 
         if (dto.ParentTagId != null)
         {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Constants.Models.RestrictedRatings;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.Dtos.Shared;
@@ -20,8 +19,7 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateRestrictedRatingDto,
     CreateRestrictedRatingDto,
     GetRestrictedRatingDto,
-    ReturnPageDto<GetRestrictedRatingDto>,
-    RestrictedRatingStringConstants
+    ReturnPageDto<GetRestrictedRatingDto>
     >
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)

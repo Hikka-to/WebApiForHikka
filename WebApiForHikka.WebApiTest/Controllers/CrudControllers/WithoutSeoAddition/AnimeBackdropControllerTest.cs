@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
-using WebApiForHikka.Constants.Models.AnimeBackdrops;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Shared;
@@ -21,8 +20,7 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
     UpdateAnimeBackdropDto,
     CreateAnimeBackdropDto,
     GetAnimeBackdropDto,
-    ReturnPageDto<GetAnimeBackdropDto>,
-    AnimeBackdropStringConstants
+    ReturnPageDto<GetAnimeBackdropDto>
     >
 
 {

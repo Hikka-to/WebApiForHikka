@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
-using WebApiForHikka.Constants.Models.Mediaplayers;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.WebApi.Shared;
@@ -13,7 +12,6 @@ public class MediaplayerController(IMediaplayerService crudService, IMapper mapp
         UpdateMediaplayerDto,
         CreateMediaplayerDto,
         IMediaplayerService,
-        Mediaplayer,
-        MediaplayerStringConstants
+        Mediaplayer
     >(crudService, mapper, httpContextAccessor);
 

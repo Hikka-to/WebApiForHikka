@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
+using WebApiForHikka.EfPersistence.Extensions;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 
@@ -56,10 +58,10 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         var query = DbContext.Set<TModel>().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(dto.SearchTerm))
-            query = Filter(query, dto.SortColumn, dto.SearchTerm);
+            query = Filter(query, dto.Column, dto.SearchTerm);
         var totalItems = await query.CountAsync(cancellationToken);
 
-        var orderBy = string.IsNullOrWhiteSpace(dto.SortColumn) ? SharedStringConstants.IdName : dto.SortColumn;
+        var orderBy = string.IsNullOrWhiteSpace(dto.Column) ? SharedStringConstants.IdName : dto.Column;
 
         query = Sort(query, orderBy, dto.SortOrder == SortOrder.Asc);
 
@@ -83,9 +85,62 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return DbContext.Set<TModel>().FirstOrDefault(e => e.Id == id);
     }
 
-    protected abstract void Update(TModel model, TModel entity);
+    protected virtual void Update(TModel model, TModel entity)
+    {
+        DbContext.Entry(entity).CurrentValues.SetValues(model);
+        var navigations = DbContext.Entry(entity).Navigations.ToList();
 
-    protected abstract IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter);
+        foreach (var navigationEntry in DbContext.Entry(entity).Navigations)
+        {
+            navigationEntry.CurrentValue = DbContext.Entry(model).Navigation(navigationEntry.Metadata.Name).CurrentValue;
+        }
+    }
 
-    protected abstract IQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending);
+    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter)
+    {
+        var entityType = DbContext.Model.FindEntityType(typeof(TModel));
+        Microsoft.EntityFrameworkCore.Metadata.INavigationBase[] navigations = entityType != null ? [
+            ..entityType.GetNavigations(),
+            ..entityType.GetSkipNavigations()
+        ] : [];
+
+        if (entityType?.FindProperty(filterBy) is { } property)
+        {
+            if (property.ClrType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(property.ClrType))
+                query = query.FilterMany(filterBy, filter);
+            else
+                query = query.Filter(filterBy, filter);
+        }
+        else if (navigations.FirstOrDefault(n => n.Name == filterBy) is { } navigation)
+        {
+            var targetType = navigation.TargetEntityType;
+
+            if (navigation.IsCollection)
+            {
+                if (targetType.FindProperty("Slug") != null)
+                    query = query.FilterMany(filterBy, "Slug", filter);
+                else if (targetType.FindProperty("Name") != null)
+                    query = query.FilterMany(filterBy, "Name", filter);
+                else if (targetType.FindPrimaryKey() is { } primaryKey)
+                    query = query.FilterMany(filterBy, primaryKey.Properties[0].Name, filter);
+            }
+            else
+            {
+                if (targetType.FindProperty("Slug") != null)
+                    query = query.Filter(filterBy + ".Slug", filter);
+                else if (targetType.FindProperty("Name") != null)
+                    query = query.Filter(filterBy + ".Name", filter);
+                else if (targetType.FindPrimaryKey() is { } primaryKey)
+                    query = query.Filter(filterBy + "." + primaryKey.Properties[0].Name, filter);
+            }
+        }
+        else if (entityType?.FindPrimaryKey() is { } primaryKey)
+        {
+            query = query.Filter(primaryKey.Properties[0].Name, filter);
+        }
+
+        return query;
+    }
+
+    protected virtual IQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending) => query.Sort(orderBy, isAscending);
 }

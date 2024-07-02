@@ -15,12 +15,11 @@ namespace WebApiForHikka.Test.Controllers.Shared;
 
 public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudService,
     TModel, TIRepository,
-    TUpdateDto, TCreateDto, TGetDto, TReturnPageDto,
-    TStringConstants>
+    TUpdateDto, TCreateDto, TGetDto, TReturnPageDto>
     : CrudControllerBaseTest<
-        TController, TCrudService, TModel, TIRepository, TUpdateDto, TCreateDto, TGetDto, TReturnPageDto, TStringConstants
-        >
-    where TController : ICrudController<TUpdateDto, TCreateDto, TStringConstants>
+        TController, TCrudService, TModel, TIRepository, TUpdateDto, TCreateDto, TGetDto, TReturnPageDto
+    >
+    where TController : ICrudController<TUpdateDto, TCreateDto>
     where TCrudService : CrudService<TModel, TIRepository>
     where TModel : ModelWithSeoAddition
     where TIRepository : ICrudRepository<TModel>

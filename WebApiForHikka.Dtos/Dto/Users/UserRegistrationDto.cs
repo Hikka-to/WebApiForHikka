@@ -9,7 +9,7 @@ namespace WebApiForHikka.Dtos.Dto.Users;
 [ExportTsInterface(OutputDir = "./TS/Dto/Users")]
 public class UserRegistrationDto
 {
-    [StringLength(UserStringConstants.NameLength, ErrorMessage = UserStringConstants.NameIsTooLongErrorMessage)]
+    [StringLength(UserNumberConstants.NameLength, ErrorMessage = UserStringConstants.NameIsTooLongErrorMessage)]
     [UserNameAlreadyExist(ErrorMessage = UserStringConstants.UserNameAlreadyExistErrorMessage)]
     [Required]
     public required string UserName { get; set; }

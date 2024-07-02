@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Dubs;
-using WebApiForHikka.Constants.Models.Dubs;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.WebApi.Shared;
@@ -14,6 +13,5 @@ public class DubController(IDubService crudService, ISeoAdditionService seoAddit
         UpdateDubDto,
         CreateDubDto,
         IDubService,
-        Dub,
-        DubStringConstants
+        Dub
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

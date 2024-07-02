@@ -7,7 +7,6 @@ using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
-using WebApiForHikka.Constants.Models.Animes;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
@@ -32,8 +31,7 @@ public class AnimeController(
         UpdateAnimeDto,
         CreateAnimeDto,
         IAnimeService,
-        Anime,
-        AnimeStringConstants
+        Anime
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
     public override async Task<IActionResult> Create([FromBody] CreateAnimeDto dto, CancellationToken cancellationToken)
@@ -78,8 +76,10 @@ public class AnimeController(
         }
 
         var model = _mapper.Map<Anime>(dto);
+        var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
+        await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
-        model.SeoAddition = (await _seoAdditionService.GetAsync(_mapper.Map<SeoAddition>(dto.SeoAddition).Id, cancellationToken))!;
+        model.SeoAddition = (await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
         model.Kind = (await kindService.GetAsync(dto.KindId, cancellationToken))!;
         model.Status = (await statusService.GetAsync(dto.StatusId, cancellationToken))!;
         model.Period = (await periodService.GetAsync(dto.PeriodId, cancellationToken))!;
