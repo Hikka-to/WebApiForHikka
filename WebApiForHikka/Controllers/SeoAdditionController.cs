@@ -14,6 +14,5 @@ public class SeoAdditionController
         UpdateSeoAdditionDto,
         CreateSeoAdditionDto,
         ISeoAdditionService,
-        SeoAddition,
-        SeoAdditionStringConstants
+        SeoAddition
     >(crudService, mapper, httpContextAccessor);

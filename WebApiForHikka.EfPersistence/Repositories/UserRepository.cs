@@ -62,49 +62,6 @@ public class UserRepository(
         return true;
     }
 
-
-    protected override IQueryable<User> Filter(IQueryable<User> query, string filterBy, string filter)
-    {
-        return filterBy switch
-        {
-            UserStringConstants.EmailName => query.Where(m => m.Email != null && m.Email.Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            UserStringConstants.RoleName => from user in query
-                                            join userRole in DbContext.UserRoles on user.Id equals userRole.UserId
-                                            join role in DbContext.Roles on userRole.RoleId equals role.Id
-                                            where role.Name != null && role.Name.Contains(filter, StringComparison.OrdinalIgnoreCase)
-                                            select user,
-            SharedStringConstants.IdName => query.Where(m => m.Id.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase)),
-            _ => query.Where(m => m.Id.ToString().Contains(filter)),
-        };
-    }
-
-    protected override IQueryable<User> Sort(IQueryable<User> query, string orderBy, bool isAscending)
-    {
-        return orderBy switch
-        {
-            UserStringConstants.EmailName => isAscending ? query.OrderBy(m => m.Email) : query.OrderByDescending(m => m.Email),
-            UserStringConstants.RoleName => isAscending
-                ? (from user in query
-                   join userRole in DbContext.UserRoles on user.Id equals userRole.UserId
-                   join role in DbContext.Roles on userRole.RoleId equals role.Id
-                   orderby role.Name ascending
-                   select user)
-                : (from user in query
-                   join userRole in DbContext.UserRoles on user.Id equals userRole.UserId
-                   join role in DbContext.Roles on userRole.RoleId equals role.Id
-                   orderby role.Name descending
-                   select user),
-            SharedStringConstants.IdName => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id),
-            _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id)
-        };
-    }
-
-    protected override void Update(User model, User entity)
-    {
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-    }
-
-
     public async Task<bool> CheckIfUserWithTheUserNameIsAlreadyExistAsync(string username, CancellationToken cancellationToken)
     {
         return await DbContext.Set<User>().AnyAsync(u => u.UserName == username, cancellationToken);

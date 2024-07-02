@@ -15,6 +15,5 @@ public class PeriodController
         UpdatePeriodDto,
         CreatePeriodDto,
         IPeriodService,
-        Period,
-        PeriodStringConstants
+        Period
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

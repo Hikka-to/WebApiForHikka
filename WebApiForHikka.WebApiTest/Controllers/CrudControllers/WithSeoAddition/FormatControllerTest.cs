@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Formats;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Constants.Models.Formats;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Formats;
 using WebApiForHikka.Dtos.Shared;
@@ -19,8 +18,7 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateFormatDto,
     CreateFormatDto,
     GetFormatDto,
-    ReturnPageDto<GetFormatDto>,
-    FormatStringConstants
+    ReturnPageDto<GetFormatDto>
     >
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)

@@ -13,6 +13,5 @@ public class AnimeVideoKindController(IAnimeVideoKindService crudService, IMappe
         UpdateAnimeVideoKindDto,
         CreateAnimeVideoKindDto,
         IAnimeVideoKindService,
-        AnimeVideoKind,
-        AnimeVideoKindStringConstants
+        AnimeVideoKind
     >(crudService, mapper, httpContextAccessor);

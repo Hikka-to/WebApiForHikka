@@ -15,6 +15,5 @@ public class KindController
         UpdateKindDto,
         CreateKindDto,
         IKindService,
-        Kind,
-        KindStringConstants
+        Kind
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

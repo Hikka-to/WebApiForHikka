@@ -13,5 +13,4 @@ public class Country : ModelWithSeoAddition
     public required string Icon { get; set; }
 
     public ICollection<Anime> Animes { get; } = [];
-    public ICollection<CountryAnime> CountryAnimes { get; } = [];
 }

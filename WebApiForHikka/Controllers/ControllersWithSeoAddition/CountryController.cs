@@ -14,6 +14,5 @@ public class CountryController(ICountryService crudService, ISeoAdditionService 
         UpdateCountryDto,
         CreateCountryDto,
         ICountryService,
-        Country,
-        CountryStringConstants
+        Country
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

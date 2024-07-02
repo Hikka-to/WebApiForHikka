@@ -1,17 +1,6 @@
 ﻿namespace WebApiForHikka.Constants.Models.Users;
 public class UserStringConstants
 {
-
-    //User
-    public const string RoleName = "Name";
-
-    public const string EmailName = "Email";
-
-    public const string PasswordName = "Password";
-
-    //Name
-    public const int NameLength = 255;
-
     //RegExpression
 
     public const string EmailRegExpression = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";

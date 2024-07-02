@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Sources;
-using WebApiForHikka.Constants.Models.Sources;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Shared;
@@ -19,8 +18,7 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateSourceDto,
     CreateSourceDto,
     GetSourceDto,
-    ReturnPageDto<GetSourceDto>,
-    SourceStringConstants
+    ReturnPageDto<GetSourceDto>
     >
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)

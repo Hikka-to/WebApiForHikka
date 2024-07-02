@@ -14,6 +14,5 @@ public class DubController(IDubService crudService, ISeoAdditionService seoAddit
         UpdateDubDto,
         CreateDubDto,
         IDubService,
-        Dub,
-        DubStringConstants
+        Dub
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

@@ -28,7 +28,7 @@ public class UserController
         IHttpContextAccessor httpContextAccessor
     )
     : MyBaseController(mapper, httpContextAccessor),
-    ICrudController<UpdateUserDto, UserRegistrationDto, UserStringConstants>
+    ICrudController<UpdateUserDto, UserRegistrationDto>
 {
     private readonly IUserService _userService = userService;
     private readonly IConfiguration _configuration = configuration;

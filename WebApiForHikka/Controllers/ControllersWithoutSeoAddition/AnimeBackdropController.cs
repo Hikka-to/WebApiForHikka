@@ -21,8 +21,7 @@ public class AnimeBackdropController(
         UpdateAnimeBackdropDto,
         CreateAnimeBackdropDto,
         IAnimeBackdropService,
-        AnimeBackdrop,
-        AnimeBackdropStringConstants
+        AnimeBackdrop
    >(crudService, mapper, httpContextAccessor)
 {
     public override async Task<IActionResult> Create([FromBody] CreateAnimeBackdropDto dto, CancellationToken cancellationToken)

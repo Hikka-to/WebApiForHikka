@@ -18,8 +18,7 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     UpdateSeoAdditionDto,
     CreateSeoAdditionDto,
     GetSeoAdditionDto,
-    ReturnPageDto<GetSeoAdditionDto>,
-    SeoAdditionStringConstants
+    ReturnPageDto<GetSeoAdditionDto>
     >
 {
     protected override async Task<SeoAdditionController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)

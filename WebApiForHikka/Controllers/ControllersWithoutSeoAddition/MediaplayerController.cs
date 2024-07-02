@@ -13,7 +13,6 @@ public class MediaplayerController(IMediaplayerService crudService, IMapper mapp
         UpdateMediaplayerDto,
         CreateMediaplayerDto,
         IMediaplayerService,
-        Mediaplayer,
-        MediaplayerStringConstants
+        Mediaplayer
     >(crudService, mapper, httpContextAccessor);
 

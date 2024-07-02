@@ -13,5 +13,4 @@ public class Dub : ModelWithSeoAddition
     public string? Icon { get; set; }
 
     public ICollection<Anime> Animes { get; } = [];
-    public ICollection<DubAnime> DubAnimes { get; } = [];
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Sources;
-using WebApiForHikka.Constants.Models.Sources;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.WebApi.Shared;
@@ -15,6 +14,5 @@ public class SourceController
         UpdateSourceDto,
         CreateSourceDto,
         ISourceService,
-        Source,
-        SourceStringConstants
+        Source
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Studios;
-using WebApiForHikka.Constants.Models.Studios;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Shared;
@@ -20,8 +19,7 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateStudioDto,
     CreateStudioDto,
     GetStudioDto,
-    ReturnPageDto<GetStudioDto>,
-    StudioStringConstants
+    ReturnPageDto<GetStudioDto>
     >
 
 {

@@ -20,5 +20,4 @@ public class Tag : ModelWithSeoAddition
     public virtual ICollection<Tag> Tags { get; } = [];
 
     public ICollection<Anime> Animes { get; } = [];
-    public ICollection<TagAnime> TagAnimes { get; } = [];
 }

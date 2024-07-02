@@ -40,29 +40,4 @@ public class TagRepositoryTest : SharedRepositoryTestWithSeoAddition<
             SeoAddition = GetSeoAdditionSample(),
         },
     };
-
-    [Fact]
-    public override async Task Repository_UpdateAsync_UpdateModel()
-    {
-        // Arrange
-        var dbContext = GetDatabaseContext();
-        var repository = GetRepository(dbContext);
-        var sample = GetSample();
-        var id = await repository.AddAsync(sample, CancellationToken);
-        var createModel = await repository.GetAsync(id, CancellationToken);
-        sample.Id = createModel.Id;
-        sample.SeoAddition.Id = createModel.SeoAddition.Id;
-        var updatedSample = GetSampleForUpdate();
-        updatedSample.Id = createModel.Id;
-        updatedSample.SeoAddition.Id = createModel.SeoAddition.Id;
-
-        // Act
-        await repository.UpdateAsync(updatedSample, CancellationToken);
-
-        var result = await repository.GetAsync(id, CancellationToken);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(updatedSample);
-    }
 }

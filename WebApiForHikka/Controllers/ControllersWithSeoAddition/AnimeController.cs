@@ -32,8 +32,7 @@ public class AnimeController(
         UpdateAnimeDto,
         CreateAnimeDto,
         IAnimeService,
-        Anime,
-        AnimeStringConstants
+        Anime
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
     public override async Task<IActionResult> Create([FromBody] CreateAnimeDto dto, CancellationToken cancellationToken)

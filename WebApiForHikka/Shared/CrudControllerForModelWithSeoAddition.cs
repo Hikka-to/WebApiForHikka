@@ -12,15 +12,14 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 public abstract class CrudControllerForModelWithSeoAddition
-    <TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition, TStringConstants>
+    <TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition>
     (TIService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : CrudController<
         TGetDtoWithSeoAddition,
         TUpdateDtoWithSeoAddition,
         TCreateDtoWithSeoAddition,
         TIService,
-        TModelWithSeoAddition,
-        TStringConstants
+        TModelWithSeoAddition
     >(crudService, mapper, httpContextAccessor)
     where TModelWithSeoAddition : ModelWithSeoAddition
     where TGetDtoWithSeoAddition : GetDtoWithSeoAddition
@@ -144,7 +143,10 @@ public abstract class CrudControllerForModelWithSeoAddition
         }
 
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
-        var seoAddition = await _seoAdditionService.GetAsync(_mapper.Map<SeoAddition>(dto.SeoAddition).Id, cancellationToken);
+        var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
+        await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
+
+        var seoAddition = await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken);
         model.SeoAddition = seoAddition!;
 
         await _crudService.UpdateAsync(model, cancellationToken);

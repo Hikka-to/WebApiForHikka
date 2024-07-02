@@ -12,11 +12,12 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 
+// ! Don't change TModel position
 [Authorize(Policy = ControllerStringConstants.CanAccessOnlyAdmin)]
-public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService, TModel, TStringConstants>
+public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService, TModel>
     (TIService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : MyBaseController(mapper, httpContextAccessor),
-    ICrudController<TUpdateDto, TCreateDto, TStringConstants>
+    ICrudController<TUpdateDto, TCreateDto>
     where TModel : class, IModel
     where TUpdateDto : ModelDto
     where TIService : ICrudService<TModel>

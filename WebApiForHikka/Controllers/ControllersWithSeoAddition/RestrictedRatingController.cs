@@ -15,6 +15,5 @@ public class RestrictedRatingController
         UpdateRestrictedRatingDto,
         CreateRestrictedRatingDto,
         IRestrictedRatingService,
-        RestrictedRating,
-        RestrictedRatingStringConstants
+        RestrictedRating
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

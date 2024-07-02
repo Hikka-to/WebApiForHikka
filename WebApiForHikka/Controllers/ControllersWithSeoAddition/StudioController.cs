@@ -14,6 +14,5 @@ public class StudioController(IStudioService crudService, ISeoAdditionService se
         UpdateStudioDto,
         CreateStudioDto,
         IStudioService,
-        Studio,
-        StudioStringConstants
+        Studio
     >(crudService, seoAdditionService, mapper, httpContextAccessor);
