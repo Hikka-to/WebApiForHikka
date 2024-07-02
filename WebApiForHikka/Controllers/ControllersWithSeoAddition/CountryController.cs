@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
-using WebApiForHikka.Constants.Models.Countries;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Countries;
 using WebApiForHikka.WebApi.Shared;

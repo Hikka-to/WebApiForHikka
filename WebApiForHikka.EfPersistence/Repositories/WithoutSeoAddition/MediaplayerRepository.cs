@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
-using WebApiForHikka.Constants.Models.Mediaplayers;
+﻿using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 

@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
-using WebApiForHikka.Constants.Models.AnimeBackdrops;
+﻿using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 

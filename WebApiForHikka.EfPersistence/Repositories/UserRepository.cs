@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 

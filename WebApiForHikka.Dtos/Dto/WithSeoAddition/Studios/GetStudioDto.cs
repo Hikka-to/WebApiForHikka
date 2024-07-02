@@ -7,6 +7,6 @@ namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Studios")]
 public class GetStudioDto : GetDtoWithSeoAddition
 {
-    public required string Name {  get; set; }
-    public string? Logo {  get; set; }
+    public required string Name { get; set; }
+    public string? Logo { get; set; }
 }

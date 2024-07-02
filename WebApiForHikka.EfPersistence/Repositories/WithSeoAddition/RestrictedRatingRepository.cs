@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Application.RestrictedRatings;
-using WebApiForHikka.Constants.Models.RestrictedRatings;
+﻿using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 

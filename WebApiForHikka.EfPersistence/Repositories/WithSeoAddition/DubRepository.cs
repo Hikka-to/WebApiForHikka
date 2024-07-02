@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Application.WithSeoAddition.Dubs;
-using WebApiForHikka.Constants.Models.Dubs;
+﻿using WebApiForHikka.Application.WithSeoAddition.Dubs;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 

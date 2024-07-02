@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Application.WithoutSeoAddition.AnimeVideoKinds;
-using WebApiForHikka.Constants.Models.AnimeVideoKinds;
+﻿using WebApiForHikka.Application.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 

@@ -1,17 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Constants.Models.Dubs;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 
+[ModelMetadataType(typeof(Dub))]
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Dubs")]
 public class CreateDubDto : CreateDtoWithSeoAddition
 {
-    [StringLength(DubNumberConstants.NameLength)]
-    public required string Name { get; set; } 
+    public required string Name { get; set; }
 
-
-    [StringLength(DubNumberConstants.IconLength)]
-    public string? Icon { get; set; } 
+    public string? Icon { get; set; }
 }
