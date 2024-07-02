@@ -31,10 +31,4 @@ public class KindRepository : CrudRepository<Kind>, IKindRepository
 
         };
     }
-
-    protected override void Update(Kind model, Kind entity)
-    {
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-        entity.SeoAddition = model.SeoAddition;
-    }
 }

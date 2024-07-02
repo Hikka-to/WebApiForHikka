@@ -83,7 +83,16 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return DbContext.Set<TModel>().FirstOrDefault(e => e.Id == id);
     }
 
-    protected abstract void Update(TModel model, TModel entity);
+    protected virtual void Update(TModel model, TModel entity)
+    {
+        DbContext.Entry(entity).CurrentValues.SetValues(model);
+        var navigations = DbContext.Entry(entity).Navigations.ToList();
+        foreach (var navigationEntry in navigations)
+        {
+            var navigationValue = DbContext.Entry(model).Navigation(navigationEntry.Metadata.Name).CurrentValue;
+            navigationEntry.CurrentValue = navigationValue;
+        }
+    }
 
     protected abstract IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter);
 

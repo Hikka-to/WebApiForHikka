@@ -30,11 +30,4 @@ public class FormatRepository : CrudRepository<Format>, IFormatRepository
             _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id) // Default sorting by Id
         };
     }
-
-    protected override void Update(Format model, Format entity)
-    {
-        entity.Name = model.Name;
-        entity.SeoAddition = model.SeoAddition;
-
-    }
 }

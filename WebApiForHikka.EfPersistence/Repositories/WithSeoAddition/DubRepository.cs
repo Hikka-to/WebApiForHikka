@@ -31,10 +31,4 @@ public class DubRepository : CrudRepository<Dub>, IDubRepository
             _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id) // Default sorting by Id
         };
     }
-
-    protected override void Update(Dub model, Dub entity)
-    {
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-        entity.SeoAddition = model.SeoAddition;
-    }
 }

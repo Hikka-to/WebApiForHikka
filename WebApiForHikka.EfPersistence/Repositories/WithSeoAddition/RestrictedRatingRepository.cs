@@ -36,11 +36,4 @@ public class RestrictedRatingRepository : CrudRepository<RestrictedRating>, IRes
 
         };
     }
-
-    protected override void Update(RestrictedRating model, RestrictedRating entity)
-    {
-
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-        entity.SeoAddition = model.SeoAddition;
-    }
 }

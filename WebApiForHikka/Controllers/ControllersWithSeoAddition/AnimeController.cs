@@ -78,8 +78,10 @@ public class AnimeController(
         }
 
         var model = _mapper.Map<Anime>(dto);
+        var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
+        await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
-        model.SeoAddition = (await _seoAdditionService.GetAsync(_mapper.Map<SeoAddition>(dto.SeoAddition).Id, cancellationToken))!;
+        model.SeoAddition = (await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
         model.Kind = (await kindService.GetAsync(dto.KindId, cancellationToken))!;
         model.Status = (await statusService.GetAsync(dto.StatusId, cancellationToken))!;
         model.Period = (await periodService.GetAsync(dto.PeriodId, cancellationToken))!;

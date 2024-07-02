@@ -29,11 +29,4 @@ public class PeriodRepository : CrudRepository<Period>, IPeriodRepository
 
         };
     }
-
-    protected override void Update(Period model, Period entity)
-    {
-        
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-        entity.SeoAddition = model.SeoAddition;
-    }
 }

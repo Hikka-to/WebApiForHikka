@@ -28,10 +28,4 @@ public class StatusRepository : CrudRepository<Status>, IStatusRepository
             _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id)
         };
     }
-
-    protected override void Update(Status model, Status entity)
-    {
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-        entity.SeoAddition = model.SeoAddition;
-    }
 }

@@ -27,10 +27,4 @@ public class CountryRepository(HikkaDbContext dbContext) : CrudRepository<Countr
             _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id) // Default sorting by Id
         };
     }
-
-    protected override void Update(Country model, Country entity)
-    {
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-        entity.SeoAddition = model.SeoAddition;
-    }
 }

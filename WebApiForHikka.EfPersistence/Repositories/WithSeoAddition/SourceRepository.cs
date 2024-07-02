@@ -30,10 +30,4 @@ public class SourceRepository : CrudRepository<Source>, ISourceRepository
         };
 
     }
-
-    protected override void Update(Source model, Source entity)
-    {
-        entity.SeoAddition = model.SeoAddition;
-        entity.Name = model.Name;
-    }
 }

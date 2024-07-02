@@ -43,15 +43,6 @@ public class TagRepository : CrudRepository<Tag>, ITagRepository
         };
     }
 
-    protected override void Update(Tag model, Tag entity)
-    {
-        var seoAddition = DbContext.SeoAdditions.First(e => e.Id == model.SeoAddition.Id);
-        DbContext.Entry(seoAddition).CurrentValues.SetValues(model.SeoAddition);
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-        entity.SeoAddition = seoAddition;
-
-        entity.ParentTag = model.ParentTag;
-    }
     public override async Task<IReadOnlyCollection<Tag>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await DbContext.Set<Tag>().IgnoreAutoIncludes().Include(e => e.ParentTag).ToArrayAsync(cancellationToken);

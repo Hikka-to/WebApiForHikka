@@ -31,10 +31,4 @@ public class StudioRepository : CrudRepository<Studio>, IStudioRepository
             _ => isAscending ? query.OrderBy(m => m.Id) : query.OrderByDescending(m => m.Id)
         };
     }
-
-    protected override void Update(Studio model, Studio entity)
-    {
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-        entity.SeoAddition = model.SeoAddition;
-    }
 }
