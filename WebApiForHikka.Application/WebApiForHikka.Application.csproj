@@ -7,15 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
-    <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
-    <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj" />
+    <Compile Remove="WithoutSeoAddition\CountryAnime\**" />
+    <Compile Remove="WithoutSeoAddition\DubAnime\**" />
+    <Compile Remove="WithoutSeoAddition\TagAnime\**" />
+    <EmbeddedResource Remove="WithoutSeoAddition\CountryAnime\**" />
+    <EmbeddedResource Remove="WithoutSeoAddition\DubAnime\**" />
+    <EmbeddedResource Remove="WithoutSeoAddition\TagAnime\**" />
+    <None Remove="WithoutSeoAddition\CountryAnime\**" />
+    <None Remove="WithoutSeoAddition\DubAnime\**" />
+    <None Remove="WithoutSeoAddition\TagAnime\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="WithoutSeoAddition\CountryAnime\" />
-    <Folder Include="WithoutSeoAddition\DubAnime\" />
-    <Folder Include="WithoutSeoAddition\TagAnime\" />
+    <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj" />
   </ItemGroup>
 
 </Project>
