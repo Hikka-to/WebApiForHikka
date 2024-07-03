@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
@@ -29,7 +31,8 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
 
     public required string NativeName { get; set; }
 
-    public required string PosterPath { get; set; }
+    [AnimePosterValidation]
+    public required IFormFile PosterImage { get; set; }
 
     public required List<int> PosterColors { get; set; }
 

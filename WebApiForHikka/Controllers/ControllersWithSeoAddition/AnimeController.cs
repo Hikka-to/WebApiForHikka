@@ -12,6 +12,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.ResponseDto;
+using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
@@ -26,7 +27,9 @@ public class AnimeController(
     IStatusService statusService,
     IPeriodService periodService,
     IRestrictedRatingService restrictedRatingService,
-    ISourceService sourceService)
+    ISourceService sourceService,
+    IFileHelper fileHelper
+    )
     : CrudControllerForModelWithSeoAddition<
         GetAnimeDto,
         UpdateAnimeDto,
@@ -36,13 +39,18 @@ public class AnimeController(
         AnimeStringConstants
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
-    public override async Task<IActionResult> Create([FromBody] CreateAnimeDto dto, CancellationToken cancellationToken)
+
+
+    public override  async Task<IActionResult> Create([FromForm] CreateAnimeDto dto, CancellationToken cancellationToken)
     {
         ErrorEndPoint errorEndPoint = ValidateRequest(new());
         if (errorEndPoint.IsError)
         {
             return errorEndPoint.GetError();
         }
+
+
+        string path = fileHelper.UploadFile(dto.PosterImage, ["images", "animes", "posters"]);
 
 
         var model = _mapper.Map<Anime>(dto);
@@ -57,6 +65,7 @@ public class AnimeController(
         model.Period = (await periodService.GetAsync(dto.PeriodId, cancellationToken))!;
         model.RestrictedRating = (await restrictedRatingService.GetAsync(dto.RestrictedRatingId, cancellationToken))!;
         model.Source = (await sourceService.GetAsync(dto.SourceId, cancellationToken))!;
+        model.PosterPath = path;
 
         var createdId = await _crudService.CreateAsync(model, cancellationToken);
 

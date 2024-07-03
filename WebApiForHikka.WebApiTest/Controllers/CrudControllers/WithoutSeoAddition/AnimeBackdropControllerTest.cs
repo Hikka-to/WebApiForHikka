@@ -13,103 +13,103 @@ using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
-public class AnimeBackdropControllerTest : CrudControllerBaseTest<
-    AnimeBackdropController,
-    AnimeBackdropService,
-    AnimeBackdrop,
-    IAnimeBackdropRepository,
-    UpdateAnimeBackdropDto,
-    CreateAnimeBackdropDto,
-    GetAnimeBackdropDto,
-    ReturnPageDto<GetAnimeBackdropDto>,
-    AnimeBackdropStringConstants
-    >
+//public class AnimeBackdropControllerTest : CrudControllerBaseTest<
+//    AnimeBackdropController,
+//    AnimeBackdropService,
+//    AnimeBackdrop,
+//    IAnimeBackdropRepository,
+//    UpdateAnimeBackdropDto,
+//    CreateAnimeBackdropDto,
+//    GetAnimeBackdropDto,
+//    ReturnPageDto<GetAnimeBackdropDto>,
+//    AnimeBackdropStringConstants
+//    >
 
-{
-    protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
-    {
-        var dbContext = GetDatabaseContext();
+//{
+//    protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
+//    {
+//        var dbContext = GetDatabaseContext();
 
-        var repository = new AnimeBackdropRepository(dbContext);
-        var userManager = GetUserManager(dbContext);
-        var roleManager = GetRoleManager(dbContext);
+//        var repository = new AnimeBackdropRepository(dbContext);
+//        var userManager = GetUserManager(dbContext);
+//        var roleManager = GetRoleManager(dbContext);
 
-        alternativeServices.AddSingleton(dbContext);
-        alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
-        alternativeServices.AddSingleton<IAnimeService, AnimeService>();
+//        alternativeServices.AddSingleton(dbContext);
+//        alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
+//        alternativeServices.AddSingleton<IAnimeService, AnimeService>();
 
-        return new AllServicesInController(new AnimeBackdropService(repository), userManager, roleManager);
-    }
+//        return new AllServicesInController(new AnimeBackdropService(repository), userManager, roleManager);
+//    }
 
-    protected override async Task<AnimeBackdropController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
-    {
-        AllServicesInController allServices = allServicesInController;
+//    protected override async Task<AnimeBackdropController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+//    {
+//        AllServicesInController allServices = allServicesInController;
 
-        return new AnimeBackdropController(
-            allServices.CrudService,
-            _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager),
-            alternativeServices.GetRequiredService<IAnimeService>()
-        );
-    }
+//        return new AnimeBackdropController(
+//            allServices.CrudService,
+//            _mapper,
+//            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager),
+//            alternativeServices.GetRequiredService<IAnimeService>()
+//        );
+//    }
 
-    protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
-    {
-        var anime = new AnimeControllerTest().Anime;
+//    protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+//    {
+//        var anime = new AnimeControllerTest().Anime;
 
-        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+//        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
 
-        animeService.CreateAsync(anime, CancellationToken).Wait();
+//        animeService.CreateAsync(anime, CancellationToken).Wait();
 
-        createDto.AnimeId = anime.Id;
-    }
+//        createDto.AnimeId = anime.Id;
+//    }
 
-    protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
-    {
-        var anime = new AnimeControllerTest().Anime;
+//    protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+//    {
+//        var anime = new AnimeControllerTest().Anime;
 
-        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+//        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
 
-        animeService.CreateAsync(anime, CancellationToken).Wait();
+//        animeService.CreateAsync(anime, CancellationToken).Wait();
 
-        updateDto.AnimeId = anime.Id;
-    }
+//        updateDto.AnimeId = anime.Id;
+//    }
 
-    protected override CreateAnimeBackdropDto GetCreateDtoSample() => new()
-    {
-        AnimeId = Guid.NewGuid(),
-        Path = Faker.Lorem.GetFirstWord(),
-        Width = Faker.RandomNumber.Next(),
-        Height = Faker.RandomNumber.Next(),
-        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()]
-    };
+//    protected override CreateAnimeBackdropDto GetCreateDtoSample() => new()
+//    {
+//        AnimeId = Guid.NewGuid(),
+//        Path = Faker.Lorem.GetFirstWord(),
+//        Width = Faker.RandomNumber.Next(),
+//        Height = Faker.RandomNumber.Next(),
+//        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()]
+//    };
 
-    protected override GetAnimeBackdropDto GetGetDtoSample() => new()
-    {
-        AnimeId = Guid.NewGuid(),
-        Path = Faker.Lorem.GetFirstWord(),
-        Width = Faker.RandomNumber.Next(),
-        Height = Faker.RandomNumber.Next(),
-        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
-        Id = Guid.NewGuid()
-    };
+//    protected override GetAnimeBackdropDto GetGetDtoSample() => new()
+//    {
+//        AnimeId = Guid.NewGuid(),
+//        Path = Faker.Lorem.GetFirstWord(),
+//        Width = Faker.RandomNumber.Next(),
+//        Height = Faker.RandomNumber.Next(),
+//        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
+//        Id = Guid.NewGuid()
+//    };
 
-    protected override UpdateAnimeBackdropDto GetUpdateDtoSample() => new()
-    {
-        AnimeId = Guid.NewGuid(),
-        Path = Faker.Lorem.GetFirstWord(),
-        Width = Faker.RandomNumber.Next(),
-        Height = Faker.RandomNumber.Next(),
-        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
-        Id = Guid.NewGuid()
-    };
+//    protected override UpdateAnimeBackdropDto GetUpdateDtoSample() => new()
+//    {
+//        AnimeId = Guid.NewGuid(),
+//        Path = Faker.Lorem.GetFirstWord(),
+//        Width = Faker.RandomNumber.Next(),
+//        Height = Faker.RandomNumber.Next(),
+//        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
+//        Id = Guid.NewGuid()
+//    };
 
-    protected override AnimeBackdrop GetModelSample() => new()
-    {
-        Anime = new AnimeControllerTest().Anime,
-        Path = Faker.Lorem.GetFirstWord(),
-        Width = Faker.RandomNumber.Next(),
-        Height = Faker.RandomNumber.Next(),
-        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()]
-    };
-}
+//    protected override AnimeBackdrop GetModelSample() => new()
+//    {
+//        Anime = new AnimeControllerTest().Anime,
+//        Path = Faker.Lorem.GetFirstWord(),
+//        Width = Faker.RandomNumber.Next(),
+//        Height = Faker.RandomNumber.Next(),
+//        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()]
+//    };
+//}

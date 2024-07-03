@@ -57,6 +57,12 @@ public class AnimeStringConstants
     public const string UpdatedAtName = "UpdatedAt";
 
     public const string CreatedAtName = "CreatedAt";
+
+
+    //Error messages
+
+
+
 }
 
 

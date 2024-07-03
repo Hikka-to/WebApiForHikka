@@ -31,6 +31,12 @@ public static class ControllerStringConstants
 
     public const string SeoAdditionDoesntConnectToTheModel = "SeoAddtion with this id wasn't attached to the model please don't chage the id in seoAddition";
 
+    public const string ThisFileFormatIsntAllowedYouCanUseTheFollowing = "This file format isn't allowed you can use the following: ";
+
+    public const string FileMustNotBeNullErrorMessage = "File must not be null";
+
+    public const string MaximumSizeCanBe = "Maximum size can be ";
+
 
   
 }

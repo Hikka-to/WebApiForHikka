@@ -7,6 +7,7 @@ using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.WebApi.Helper;
+using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.WebApi.Extensions;
 public static class DependencyInjectionExtensions
@@ -50,6 +51,7 @@ public static class DependencyInjectionExtensions
 
         //Helpers
         services.AddScoped<IHashFunctions, HashFunctions>();
+        services.AddScoped<IFileHelper, FileHelper>();
         services.AddScoped<IJwtTokenFactory, JwtTokenFactory>();
 
     }
