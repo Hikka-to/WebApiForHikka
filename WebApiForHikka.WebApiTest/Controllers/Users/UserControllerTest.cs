@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Users;
-using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
@@ -104,7 +103,7 @@ public class UserControllerTest : BaseControllerTest
         var controller = new UserController(userService, jwtTokenFactory, Configuration, roleManager, _mapper, await GetHttpContextAccessForAdminUser(userManager, roleManager));
 
         var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
-        var user = new User { Email = "test@example.com", Roles = [role!], UserName="tets", PasswordHash = "tesds", };
+        var user = new User { Email = "test@example.com", Roles = [role!], UserName = "tets", PasswordHash = "tesds", };
 
         var userId = await userService.CreateAsync(user, CancellationToken);
 

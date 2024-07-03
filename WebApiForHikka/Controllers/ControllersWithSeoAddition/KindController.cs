@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Constants.Models.Kinds;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.WebApi.Shared;
@@ -15,6 +14,5 @@ public class KindController
         UpdateKindDto,
         CreateKindDto,
         IKindService,
-        Kind,
-        KindStringConstants
+        Kind
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Constants.Models.RestrictedRatings;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.WebApi.Shared;
@@ -15,6 +14,5 @@ public class RestrictedRatingController
         UpdateRestrictedRatingDto,
         CreateRestrictedRatingDto,
         IRestrictedRatingService,
-        RestrictedRating,
-        RestrictedRatingStringConstants
+        RestrictedRating
     >(crudService, seoAdditionService, mapper, httpContextAccessor);

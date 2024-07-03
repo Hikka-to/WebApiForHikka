@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Formats\" />
+    <Folder Include="Models\Sources\" />
+    <Folder Include="Models\Statuses\" />
+    <Folder Include="Models\Tags\" />
+  </ItemGroup>
+
 </Project>

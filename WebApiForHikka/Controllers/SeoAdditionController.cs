@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Constants.Models.SeoAdditions;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.WebApi.Shared;
@@ -14,6 +13,5 @@ public class SeoAdditionController
         UpdateSeoAdditionDto,
         CreateSeoAdditionDto,
         ISeoAdditionService,
-        SeoAddition,
-        SeoAdditionStringConstants
+        SeoAddition
     >(crudService, mapper, httpContextAccessor);

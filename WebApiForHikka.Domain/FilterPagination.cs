@@ -6,5 +6,5 @@ public sealed record FilterPagination(
     string SearchTerm = "",
     int PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
     int PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
-    string SortColumn = SharedStringConstants.IdName,
+    string Column = SharedStringConstants.IdName,
     SortOrder SortOrder = SortOrder.Asc);

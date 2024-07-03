@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
-using WebApiForHikka.Constants.Models.AnimeBackdrops;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.ResponseDto;
@@ -21,8 +20,7 @@ public class AnimeBackdropController(
         UpdateAnimeBackdropDto,
         CreateAnimeBackdropDto,
         IAnimeBackdropService,
-        AnimeBackdrop,
-        AnimeBackdropStringConstants
+        AnimeBackdrop
    >(crudService, mapper, httpContextAccessor)
 {
     public override async Task<IActionResult> Create([FromBody] CreateAnimeBackdropDto dto, CancellationToken cancellationToken)

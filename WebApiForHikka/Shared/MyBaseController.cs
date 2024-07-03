@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Dtos.Dto.Authorization;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
@@ -54,11 +53,11 @@ public abstract class MyBaseController
         };
     }
 
-   
+
     protected virtual ErrorEndPoint ValidateRequest(ThingsToValidateBase thingsToValidate)
     {
         ErrorEndPoint errorEndPoint = new();
-        
+
         if (!ModelState.IsValid)
         {
             errorEndPoint.BadRequestObjectResult = BadRequest(GetAllErrorsDuringValidation());

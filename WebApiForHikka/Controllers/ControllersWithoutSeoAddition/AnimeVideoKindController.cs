@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeVideoKinds;
-using WebApiForHikka.Constants.Models.AnimeVideoKinds;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.WebApi.Shared;
@@ -13,6 +12,5 @@ public class AnimeVideoKindController(IAnimeVideoKindService crudService, IMappe
         UpdateAnimeVideoKindDto,
         CreateAnimeVideoKindDto,
         IAnimeVideoKindService,
-        AnimeVideoKind,
-        AnimeVideoKindStringConstants
+        AnimeVideoKind
     >(crudService, mapper, httpContextAccessor);

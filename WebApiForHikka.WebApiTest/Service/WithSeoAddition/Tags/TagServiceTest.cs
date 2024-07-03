@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using WebApiForHikka.Application.WithSeoAddition.Tags;
+﻿using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
@@ -37,29 +36,4 @@ public class TagServiceTest : SharedServiceTestWithSeoAddition<
         SeoAddition = GetSeoAdditionSampleUpdate(),
         ParentTag = GetSample(),
     };
-
-    [Fact]
-    public override async Task Service_UpdateAsync_UpdateModel()
-    {
-        // Arrange
-        var dbContext = GetDatabaseContext();
-        var service = GetService(dbContext);
-        var sample = GetSample();
-        var id = (Guid)(await service.CreateAsync(sample, CancellationToken));
-        var createModel = await service.GetAsync(id, CancellationToken);
-        sample.Id = createModel.Id;
-        sample.SeoAddition.Id = createModel.SeoAddition.Id;
-        var updatedSample = GetSampleForUpdate();
-        updatedSample.Id = createModel.Id;
-        updatedSample.SeoAddition.Id = createModel.SeoAddition.Id;
-
-        // Act
-        await service.UpdateAsync(updatedSample, CancellationToken);
-
-        var result = await service.GetAsync(id, CancellationToken);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(updatedSample);
-    }
 }

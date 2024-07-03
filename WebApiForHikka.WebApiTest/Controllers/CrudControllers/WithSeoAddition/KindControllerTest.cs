@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Constants.Models.Kinds;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.Dtos.Shared;
@@ -19,8 +18,7 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
     UpdateKindDto,
     CreateKindDto,
     GetKindDto,
-    ReturnPageDto<GetKindDto>,
-    KindStringConstants
+    ReturnPageDto<GetKindDto>
     >
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
