@@ -13,6 +13,20 @@ using WebApiForHikka.WebApi.Helper.FileHelper;
 namespace WebApiForHikka.WebApi.Extensions;
 public static class DependencyInjectionExtensions
 {
+    public static void AddBaseClassArchitecture(this IServiceCollection services, Type baseClass, Type baseInterface)
+    {
+        foreach (var service in baseClass.Assembly.GetTypes().Where(t =>
+            !t.IsAbstract &&
+            !t.IsGenericTypeDefinition &&
+            t.GenericIsSubclassOf(baseClass)))
+        {
+            var interfaceType = service.GetInterfaces().Last(i => i.GetInterfaces().Any(si =>
+                si.IsGenericType
+                && (si.GetGenericTypeDefinition() == baseInterface)));
+            services.AddScoped(interfaceType, service);
+        }
+    }
+
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString(AppSettingsStringConstants.DefaultConnection);
@@ -25,32 +39,10 @@ public static class DependencyInjectionExtensions
         var mapper = mapperConfiguration.CreateMapper();
 
         //Repositories
-        var repositoryType = typeof(CrudRepository<>);
-        var repositoryAssembly = repositoryType.Assembly;
-        foreach (var repository in repositoryAssembly.GetTypes().Where(t =>
-            !t.IsAbstract &&
-            !t.IsGenericTypeDefinition &&
-            t.GenericIsSubclassOf(repositoryType)))
-        {
-            var repositoryInterface = repository.GetInterfaces().Last(i => i.GetInterfaces().Any(si =>
-                si.IsGenericType
-                && (si.GetGenericTypeDefinition() == typeof(ICrudRepository<>))));
-            services.AddScoped(repositoryInterface, repository);
-        }
+        services.AddBaseClassArchitecture(typeof(CrudRepository<>), typeof(ICrudRepository<>));
 
         //Services
-        var serviceType = typeof(CrudService<,>);
-        var serviceAssembly = serviceType.Assembly;
-        foreach (var service in serviceAssembly.GetTypes().Where(t =>
-            !t.IsAbstract &&
-            !t.IsGenericTypeDefinition &&
-            t.GenericIsSubclassOf(serviceType)))
-        {
-            var serviceInterface = service.GetInterfaces().Last(i => i.GetInterfaces().Any(si =>
-                si.IsGenericType
-                && (si.GetGenericTypeDefinition() == typeof(ICrudService<>))));
-            services.AddScoped(serviceInterface, service);
-        }
+        services.AddBaseClassArchitecture(typeof(CrudService<,>), typeof(ICrudService<>));
 
         //Helpers
         services.AddScoped<IHashFunctions, HashFunctions>();
