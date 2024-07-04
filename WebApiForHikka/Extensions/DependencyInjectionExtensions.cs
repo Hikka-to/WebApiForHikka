@@ -4,6 +4,7 @@ using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.AppSettings;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.SharedFunction.Extensions;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.WebApi.Helper;
@@ -27,11 +28,11 @@ public static class DependencyInjectionExtensions
         var repositoryType = typeof(CrudRepository<>);
         var repositoryAssembly = repositoryType.Assembly;
         foreach (var repository in repositoryAssembly.GetTypes().Where(t =>
-            (t.BaseType?.IsGenericType ?? false) &&
             !t.IsAbstract &&
-            (t.BaseType.GetGenericTypeDefinition() == repositoryType)))
+            !t.IsGenericTypeDefinition &&
+            t.GenericIsSubclassOf(repositoryType)))
         {
-            var repositoryInterface = repository.GetInterfaces().First(i => i.GetInterfaces().Any(si =>
+            var repositoryInterface = repository.GetInterfaces().Last(i => i.GetInterfaces().Any(si =>
                 si.IsGenericType
                 && (si.GetGenericTypeDefinition() == typeof(ICrudRepository<>))));
             services.AddScoped(repositoryInterface, repository);
@@ -41,11 +42,11 @@ public static class DependencyInjectionExtensions
         var serviceType = typeof(CrudService<,>);
         var serviceAssembly = serviceType.Assembly;
         foreach (var service in serviceAssembly.GetTypes().Where(t =>
-            (t.BaseType?.IsGenericType ?? false) &&
             !t.IsAbstract &&
-            (t.BaseType.GetGenericTypeDefinition() == serviceType)))
+            !t.IsGenericTypeDefinition &&
+            t.GenericIsSubclassOf(serviceType)))
         {
-            var serviceInterface = service.GetInterfaces().First(i => i.GetInterfaces().Any(si =>
+            var serviceInterface = service.GetInterfaces().Last(i => i.GetInterfaces().Any(si =>
                 si.IsGenericType
                 && (si.GetGenericTypeDefinition() == typeof(ICrudService<>))));
             services.AddScoped(serviceInterface, service);

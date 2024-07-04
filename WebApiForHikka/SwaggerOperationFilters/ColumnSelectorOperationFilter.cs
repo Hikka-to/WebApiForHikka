@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.EfPersistence.Data;
+using WebApiForHikka.SharedFunction.Extensions;
 using WebApiForHikka.WebApi.Controllers;
 using WebApiForHikka.WebApi.Shared;
 
@@ -12,30 +13,12 @@ namespace WebApiForHikka.WebApi.SwaggerOperationFilters;
 
 public class ColumnSelectorOperationFilter(IServiceProvider services) : IOperationFilter
 {
-    private bool TryGetCrudController(Type? type, [NotNullWhen(true)] out Type? crudController)
-    {
-        crudController = null;
-
-        while (type != null)
-        {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(CrudController<,,,,>))
-            {
-                crudController = type;
-                return true;
-            }
-
-            type = type.BaseType;
-        }
-
-        return false;
-    }
-
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         if (context.ApiDescription.TryGetMethodInfo(out var methodInfo) &&
             methodInfo.Name == "GetAll" &&
             methodInfo.DeclaringType != null &&
-            (TryGetCrudController(methodInfo.DeclaringType, out var crudController) ||
+            (methodInfo.DeclaringType.TryGetSubclassType(typeof(CrudController<,,,,>), out var crudController) ||
              methodInfo.DeclaringType == typeof(UserController)))
         {
             using var scope = services.CreateScope();
