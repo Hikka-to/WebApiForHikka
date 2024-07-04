@@ -88,7 +88,6 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     protected virtual void Update(TModel model, TModel entity)
     {
         DbContext.Entry(entity).CurrentValues.SetValues(model);
-        var navigations = DbContext.Entry(entity).Navigations.ToList();
 
         foreach (var navigationEntry in DbContext.Entry(entity).Navigations)
         {
