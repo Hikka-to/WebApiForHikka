@@ -27,8 +27,9 @@ public static class DependencyInjectionExtensions
         var repositoryType = typeof(CrudRepository<>);
         var repositoryAssembly = repositoryType.Assembly;
         foreach (var repository in repositoryAssembly.GetTypes().Where(t =>
-            (t.BaseType?.IsGenericType ?? false)
-            && (t.BaseType.GetGenericTypeDefinition() == repositoryType)))
+            (t.BaseType?.IsGenericType ?? false) &&
+            !t.IsAbstract &&
+            (t.BaseType.GetGenericTypeDefinition() == repositoryType)))
         {
             var repositoryInterface = repository.GetInterfaces().First(i => i.GetInterfaces().Any(si =>
                 si.IsGenericType
@@ -40,8 +41,9 @@ public static class DependencyInjectionExtensions
         var serviceType = typeof(CrudService<,>);
         var serviceAssembly = serviceType.Assembly;
         foreach (var service in serviceAssembly.GetTypes().Where(t =>
-            (t.BaseType?.IsGenericType ?? false)
-            && (t.BaseType.GetGenericTypeDefinition() == serviceType)))
+            (t.BaseType?.IsGenericType ?? false) &&
+            !t.IsAbstract &&
+            (t.BaseType.GetGenericTypeDefinition() == serviceType)))
         {
             var serviceInterface = service.GetInterfaces().First(i => i.GetInterfaces().Any(si =>
                 si.IsGenericType
