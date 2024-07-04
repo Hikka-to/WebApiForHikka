@@ -1,16 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
-using WebApiForHikka.Application.WithSeoAddition.Animes;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
-using WebApiForHikka.Dtos.Shared;
-using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
-using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
-using WebApiForHikka.Test.Controller.Shared;
-using WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
-using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
-
-namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
+﻿namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
 //public class AnimeBackdropControllerTest : CrudControllerBaseTest<
 //    AnimeBackdropController,
@@ -20,8 +8,7 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 //    UpdateAnimeBackdropDto,
 //    CreateAnimeBackdropDto,
 //    GetAnimeBackdropDto,
-//    ReturnPageDto<GetAnimeBackdropDto>,
-//    AnimeBackdropStringConstants
+//    ReturnPageDto<GetAnimeBackdropDto>
 //    >
 
 //{

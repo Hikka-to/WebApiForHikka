@@ -7,6 +7,10 @@ namespace WebApiForHikka.Test.Repository.WithoutSeoAddition.AnimeVideoKinds;
 
 public class AnimeVideoKindRepositoryTest : SharedRepositoryTest<AnimeVideoKind, AnimeVideoKindRepository>
 {
+    public AnimeVideoKind Sample => GetSample();
+
+    public AnimeVideoKind SampleForUpdate => GetSampleForUpdate();
+
     protected override AnimeVideoKindRepository GetRepository(HikkaDbContext hikkaDbContext) => new(hikkaDbContext);
 
     protected override AnimeVideoKind GetSample() => new()

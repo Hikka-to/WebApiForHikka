@@ -39,7 +39,7 @@ public class AnimeController(
 {
 
 
-    public override  async Task<IActionResult> Create([FromForm] CreateAnimeDto dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Create([FromForm] CreateAnimeDto dto, CancellationToken cancellationToken)
     {
         ErrorEndPoint errorEndPoint = ValidateRequest(new());
         if (errorEndPoint.IsError)

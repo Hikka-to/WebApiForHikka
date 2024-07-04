@@ -29,6 +29,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : Identity
     public DbSet<Anime> Animes { get; set; }
     public DbSet<AnimeBackdrop> AnimeBackdrops { get; set; }
     public DbSet<AnimeVideoKind> AnimeVideoKinds { get; set; }
+    public DbSet<AnimeVideo> AnimeVideos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -61,7 +62,11 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : Identity
             }
         );
 
+        //AnimeBackdrop
         modelBuilder.Entity<AnimeBackdrop>().Navigation(e => e.Anime).AutoInclude();
+
+        //AnimeVideo
+        modelBuilder.Entity<AnimeVideo>().Navigation(e => e.AnimeVideoKind).AutoInclude();
 
         //User
         modelBuilder.Entity<User>().Navigation(e => e.Roles).AutoInclude();
