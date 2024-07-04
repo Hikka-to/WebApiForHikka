@@ -1,9 +1,4 @@
-﻿using FakeItEasy;
-using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Application.Shared.Relation;
-using WebApiForHikka.Domain.Models;
-
-namespace WebApiForHikka.Test.Shared.Repository;
+﻿namespace WebApiForHikka.Test.Shared.Repository;
 
 //public abstract class SharedRelationRepositoryTest<
 //    TModel, TFirstModel, TSecondModel, 

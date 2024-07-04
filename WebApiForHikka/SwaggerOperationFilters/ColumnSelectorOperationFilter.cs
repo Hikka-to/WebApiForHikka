@@ -1,7 +1,6 @@
 ﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Diagnostics.CodeAnalysis;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.EfPersistence.Data;
@@ -31,9 +30,15 @@ public class ColumnSelectorOperationFilter(IServiceProvider services) : IOperati
             var idString = new OpenApiString("Id");
             sortColumnParameter.Schema.Enum =
             [
-                ..entityType.GetProperties().Select(p => new OpenApiString(p.Name)),
-                ..entityType.GetNavigations().Select(n => new OpenApiString(n.Name)),
-                ..entityType.GetSkipNavigations().Select(n => new OpenApiString(n.Name))
+                ..entityType.GetProperties()
+                    .Where(p => (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.IsPubliclyReadable() ?? false))
+                    .Select(p => new OpenApiString(p.Name)),
+                ..entityType.GetNavigations()
+                    .Where(n => (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.IsPubliclyReadable() ?? false))
+                    .Select(n => new OpenApiString(n.Name)),
+                ..entityType.GetSkipNavigations()
+                    .Where(n => (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.IsPubliclyReadable() ?? false))
+                    .Select(n => new OpenApiString(n.Name))
             ];
             sortColumnParameter.Schema.Default = idString;
             sortColumnParameter.Schema.Type = "string";
