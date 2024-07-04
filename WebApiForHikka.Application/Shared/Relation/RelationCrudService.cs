@@ -1,31 +1,32 @@
-﻿using WebApiForHikka.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Shared.Relation;
 
-public abstract class RelationCrudService<TModel, TRepository> : CrudService<TModel, TRepository>,  IRelationCrudService<TModel> where TModel :  RelationModel where TRepository : IRelationCrudRepository<TModel>
+public abstract class RelationCrudService<TModel, TFirstModel, TSecondModel, TRepository>
+    : CrudService<TModel, TRepository>, IRelationCrudService<TModel, TFirstModel, TSecondModel>
+    where TModel : RelationModel<TFirstModel, TSecondModel>
+    where TRepository : IRelationCrudRepository<TModel, TFirstModel, TSecondModel>
+    where TFirstModel : Model
+    where TSecondModel : Model
 {
     protected RelationCrudService(TRepository repository) : base(repository)
     {
 
     }
 
-    public Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
+    public async Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _repository.DeleteAsync(firstId, secondId, cancellationToken);
     }
 
     public TModel? Get(Guid firstId, Guid secondId)
     {
-        throw new NotImplementedException();
+        return _repository.Get(firstId, secondId);
     }
 
-    public Task<TModel?> Get(Guid firstId, Guid secondId, CancellationToken cancellationToken)
+    public async Task<TModel?> GetAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<TModel?> GetAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
+        return await _repository.GetAsync(firstId, secondId, cancellationToken);
     }
 }

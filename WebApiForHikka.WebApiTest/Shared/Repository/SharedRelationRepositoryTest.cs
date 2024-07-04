@@ -1,9 +1,19 @@
-﻿//using WebApiForHikka.Application.Shared.Relation;
-//using WebApiForHikka.Domain.Models;
+﻿using FakeItEasy;
+using WebApiForHikka.Application.Shared;
+using WebApiForHikka.Application.Shared.Relation;
+using WebApiForHikka.Domain.Models;
 
-//namespace WebApiForHikka.Test.Shared.Repository;
+namespace WebApiForHikka.Test.Shared.Repository;
 
-//public abstract class SharedRelationRepositoryTest<TModel, TRepository> : SharedRepositoryTest<TModel, TRepository> where TModel : RelationModel, TRepository where TRepository : IRelationCrudRepository<TModel>
+//public abstract class SharedRelationRepositoryTest<
+//    TModel, TFirstModel, TSecondModel, 
+//    TRelationRepository, TFirstRepository, TSecondRepository> : SharedRepositoryTest<TModel, TRelationRepository>
+//    where TModel : RelationModel<TFirstModel, TSecondModel>
+//    where TRelationRepository : IRelationCrudRepository<TModel, TFirstModel, TSecondModel>
+//    where TFirstRepository : ICrudRepository<TFirstModel>
+//    where TSecondRepository : ICrudRepository<TSecondModel>
+//    where TFirstModel : Model
+//    where TSecondModel : Model
 //{
 
 //    [Fact]
@@ -11,7 +21,7 @@
 //    {
 //        // Arrange
 //        var dbContext = GetDatabaseContext();
-//        TRepository Repository = GetRepository(dbContext);
+//        TRelationRepository Repository = GetRepository(dbContext);
 //        (Guid firstId, Guid secondId) sample = GetSample();
 
 //        // Act

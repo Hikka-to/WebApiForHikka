@@ -5,7 +5,10 @@ using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
-public class CrudRelationRepository<TModel> : CrudRepository<TModel>, IRelationCrudRepository<TModel> where TModel : RelationModel
+public class CrudRelationRepository<TModel, TFirstModel, TSecondModel> : CrudRepository<TModel>, IRelationCrudRepository<TModel, TFirstModel, TSecondModel>
+    where TModel : RelationModel<TFirstModel, TSecondModel>
+    where TFirstModel : Model
+    where TSecondModel : Model
 {
     public CrudRelationRepository(HikkaDbContext dbContext) : base(dbContext)
     {
