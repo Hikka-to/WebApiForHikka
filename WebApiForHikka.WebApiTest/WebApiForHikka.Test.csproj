@@ -41,4 +41,8 @@
     <ProjectReference Include="..\WebApiForHikka\WebApiForHikka.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\Relation\" />
+  </ItemGroup>
+
 </Project>

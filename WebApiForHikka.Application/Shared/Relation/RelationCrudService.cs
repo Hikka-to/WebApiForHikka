@@ -2,8 +2,7 @@
 
 namespace WebApiForHikka.Application.Shared.Relation;
 
-public abstract class RelationCrudService<TModel, TRepository> : CrudService<TModel, TRepository>,  IRelationCrudService<TModel> where TModel : class, IModel where TRepository : ICrudRepository<TModel>
-
+public abstract class RelationCrudService<TModel, TRepository> : CrudService<TModel, TRepository>,  IRelationCrudService<TModel> where TModel :  RelationModel where TRepository : IRelationCrudRepository<TModel>
 {
     protected RelationCrudService(TRepository repository) : base(repository)
     {

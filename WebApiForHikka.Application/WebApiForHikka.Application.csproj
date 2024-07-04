@@ -12,10 +12,4 @@
     <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="WithoutSeoAddition\CountryAnime\" />
-    <Folder Include="WithoutSeoAddition\DubAnime\" />
-    <Folder Include="WithoutSeoAddition\TagAnime\" />
-  </ItemGroup>
-
 </Project>

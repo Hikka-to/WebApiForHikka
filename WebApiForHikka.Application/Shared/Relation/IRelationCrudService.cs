@@ -2,7 +2,7 @@
 
 namespace WebApiForHikka.Application.Shared.Relation;
 
-public interface IRelationCrudService <TModel> : ICrudService<TModel> where TModel : class, IModel
+public interface IRelationCrudService <TModel> : ICrudService<TModel> where TModel : RelationModel
 {
 
     Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken);

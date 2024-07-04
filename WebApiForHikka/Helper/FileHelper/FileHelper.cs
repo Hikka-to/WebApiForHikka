@@ -7,7 +7,7 @@ public class FileHelper : IFileHelper
 {
     public string UploadFile(IFormFile file, string[] path)
     {
-        // Get the extension of the uploaded file
+        // GetAsync the extension of the uploaded file
         var originalExtension = Path.GetExtension(file.FileName);
 
         // Define the target directory where images will be saved
