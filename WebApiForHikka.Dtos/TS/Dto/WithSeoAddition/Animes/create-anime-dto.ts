@@ -4,6 +4,7 @@
  */
 
 import { CreateDtoWithSeoAddition } from "../../../Shared/create-dto-with-seo-addition";
+import { IFormFile } from "./i-form-file";
 
 export interface CreateAnimeDto extends CreateDtoWithSeoAddition {
     kindId: string;
@@ -15,7 +16,7 @@ export interface CreateAnimeDto extends CreateDtoWithSeoAddition {
     imageName: string;
     romajiName: string;
     nativeName: string;
-    posterPath: string;
+    posterImage: IFormFile;
     posterColors: number[];
     avgDuration: number;
     howManyEpisodes: number;
