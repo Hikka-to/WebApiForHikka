@@ -1,11 +1,11 @@
-﻿using WebApiForHikka.Application.Shared.Relation;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
+using WebApiForHikka.Application.Shared.Relation;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
-using System.Linq.Dynamic.Core;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
-public class CrudRelationRepository<TModel, TFirstModel, TSecondModel> : CrudRepository<TModel>, IRelationCrudRepository<TModel, TFirstModel, TSecondModel>
+public abstract class CrudRelationRepository<TModel, TFirstModel, TSecondModel> : CrudRepository<TModel>, IRelationCrudRepository<TModel, TFirstModel, TSecondModel>
     where TModel : RelationModel<TFirstModel, TSecondModel>
     where TFirstModel : Model
     where TSecondModel : Model

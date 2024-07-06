@@ -15,6 +15,7 @@ using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
@@ -171,5 +172,15 @@ public class MappingProfiles : Profile
         CreateMap<CreateAnimeVideoKindDto, AnimeVideoKind>();
 
         CreateMap<UpdateAnimeVideoKindDto, AnimeVideoKind>();
+
+        //AnimeVideo
+
+        CreateMap<AnimeVideo, GetAnimeVideoDto>().ForMember(
+            c => c.AnimeVideoKindId,
+            op => op.MapFrom(v => v.AnimeVideoKind.Id));
+
+        CreateMap<CreateAnimeVideoDto, AnimeVideo>();
+
+        CreateMap<UpdateAnimeVideoDto, AnimeVideo>();
     }
 }

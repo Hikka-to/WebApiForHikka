@@ -88,7 +88,6 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     protected virtual void Update(TModel model, TModel entity)
     {
         DbContext.Entry(entity).CurrentValues.SetValues(model);
-        var navigations = DbContext.Entry(entity).Navigations.ToList();
 
         foreach (var navigationEntry in DbContext.Entry(entity).Navigations)
         {
@@ -100,11 +99,12 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel));
         Microsoft.EntityFrameworkCore.Metadata.INavigationBase[] navigations = entityType != null ? [
-            ..entityType.GetNavigations(),
-            ..entityType.GetSkipNavigations()
+            ..entityType.GetNavigations().Where(n => (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.GetMethod?.IsPublic ?? false)),
+            ..entityType.GetSkipNavigations().Where(n => (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.GetMethod?.IsPublic ?? false))
         ] : [];
 
-        if (entityType?.FindProperty(filterBy) is { } property)
+        if (entityType?.FindProperty(filterBy) is { } property &&
+            ((property.FieldInfo?.IsPublic ?? false) || (property.PropertyInfo?.GetMethod?.IsPublic ?? false)))
         {
             if (property.ClrType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(property.ClrType))
                 query = query.FilterMany(filterBy, filter);
@@ -114,29 +114,39 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         else if (navigations.FirstOrDefault(n => n.Name == filterBy) is { } navigation)
         {
             var targetType = navigation.TargetEntityType;
+            string[] searchName = [
+                "Slug",
+                "Name"
+            ];
+            string? foundName = null;
+
+            foreach (var name in searchName)
+            {
+                if (targetType.FindProperty(name) is { } searchPropety &&
+                    ((searchPropety.FieldInfo?.IsPublic ?? false) || (searchPropety.PropertyInfo?.GetMethod?.IsPublic ?? false)))
+                {
+                    foundName = name;
+                    break;
+                }
+            }
+
+            if (foundName == null &&
+                targetType.FindPrimaryKey() is { } primaryKey &&
+                primaryKey.Properties.First(p => (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is { } primaryProperty)
+            {
+                query = query.FilterMany(filterBy, primaryProperty.Name, filter);
+            }
+
 
             if (navigation.IsCollection)
-            {
-                if (targetType.FindProperty("Slug") != null)
-                    query = query.FilterMany(filterBy, "Slug", filter);
-                else if (targetType.FindProperty("Name") != null)
-                    query = query.FilterMany(filterBy, "Name", filter);
-                else if (targetType.FindPrimaryKey() is { } primaryKey)
-                    query = query.FilterMany(filterBy, primaryKey.Properties[0].Name, filter);
-            }
+                query = query.FilterMany(filterBy, foundName!, filter);
             else
-            {
-                if (targetType.FindProperty("Slug") != null)
-                    query = query.Filter(filterBy + ".Slug", filter);
-                else if (targetType.FindProperty("Name") != null)
-                    query = query.Filter(filterBy + ".Name", filter);
-                else if (targetType.FindPrimaryKey() is { } primaryKey)
-                    query = query.Filter(filterBy + "." + primaryKey.Properties[0].Name, filter);
-            }
+                query = query.Filter($"{filterBy}.{foundName}", filter);
         }
-        else if (entityType?.FindPrimaryKey() is { } primaryKey)
+        else if (entityType?.FindPrimaryKey() is { } primaryKey &&
+                 primaryKey.Properties.First(p => (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is { } primaryProperty)
         {
-            query = query.Filter(primaryKey.Properties[0].Name, filter);
+            query = query.Filter(primaryProperty.Name, filter);
         }
 
         return query;

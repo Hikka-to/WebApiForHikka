@@ -1,21 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using WebApiForHikka.Application.Kinds;
-using WebApiForHikka.Application.Periods;
-using WebApiForHikka.Application.RestrictedRatings;
-using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Application.Sources;
-using WebApiForHikka.Application.Statuses;
-using WebApiForHikka.Application.WithSeoAddition.Animes;
-using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
-using WebApiForHikka.Dtos.Shared;
-using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
-using WebApiForHikka.Test.Controllers.Shared;
-using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
-
-namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
+﻿namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
 //public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
 //    AnimeController,
@@ -25,8 +8,7 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 //    UpdateAnimeDto,
 //    CreateAnimeDto,
 //    GetAnimeDto,
-//    ReturnPageDto<GetAnimeDto>,
-//    AnimeStringConstants
+//    ReturnPageDto<GetAnimeDto>
 //    >
 //{
 //    public Anime Anime => GetModelSample();
@@ -51,6 +33,7 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 //        alternativeServices.AddSingleton<PeriodService>();
 //        alternativeServices.AddSingleton<RestrictedRatingService>();
 //        alternativeServices.AddSingleton<SourceService>();
+//        alternativeServices.AddSingleton<FileHelper>();
 
 //        return new AllServicesInControllerWithSeoAddition(new AnimeService(animeRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
 //    }
@@ -69,8 +52,9 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 //            alternativeServices.GetRequiredService<StatusService>(),
 //            alternativeServices.GetRequiredService<PeriodService>(),
 //            alternativeServices.GetRequiredService<RestrictedRatingService>(),
-//            alternativeServices.GetRequiredService<SourceService>()
-//            );
+//            alternativeServices.GetRequiredService<SourceService>(),
+//            alternativeServices.GetRequiredService<FileHelper>()
+//        );
 //    }
 
 //    protected override void MutationBeforeDtoCreation(CreateAnimeDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
@@ -193,7 +177,6 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 //        RestrictedRatingId = Guid.NewGuid(),
 //        SourceId = Guid.NewGuid(),
 //        NativeName = Faker.Lorem.GetFirstWord(),
-//        PosterPath = Faker.Lorem.GetFirstWord(),
 //        PosterColors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
 //        AvgDuration = Faker.RandomNumber.Next(),
 //        HowManyEpisodes = Faker.RandomNumber.Next(),
@@ -210,6 +193,7 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 //        TmdbId = Faker.RandomNumber.Next(),
 //        UpdatedAt = DateTime.Now,
 //        CreatedAt = DateTime.Now,
+//        PosterImage
 //    };
 
 //    protected override GetAnimeDto GetGetDtoSample() => new()

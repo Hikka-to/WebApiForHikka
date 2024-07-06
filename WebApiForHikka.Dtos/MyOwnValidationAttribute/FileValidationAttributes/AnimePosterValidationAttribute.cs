@@ -12,7 +12,7 @@ public class AnimePosterValidationAttribute : ValidationAttribute
 
     public override bool IsValid(object? value)
     {
-        if (value == null) 
+        if (value == null)
         {
             ErrorMessage = ControllerStringConstants.FileMustNotBeNullErrorMessage;
             return false;
@@ -30,7 +30,7 @@ public class AnimePosterValidationAttribute : ValidationAttribute
 
         if (formFile.Length > SharedNumberConstatnts.MaxFileSize)
         {
-            ErrorMessage = ControllerStringConstants.MaximumSizeCanBe + SharedNumberConstatnts.MaxFileSize +" bytes";
+            ErrorMessage = ControllerStringConstants.MaximumSizeCanBe + SharedNumberConstatnts.MaxFileSize + " bytes";
             return false;
         }
 

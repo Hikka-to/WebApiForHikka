@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-using WebApiForHikka.Domain.Models;
+﻿using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Shared.Relation;
 
