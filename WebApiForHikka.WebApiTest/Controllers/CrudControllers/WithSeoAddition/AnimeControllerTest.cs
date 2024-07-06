@@ -77,26 +77,26 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 //    {
 //        var kind = new Kind()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Slug = Faker.Lorem.GetFirstWord(),
 //            Hint = Faker.Lorem.GetFirstWord(),
 //        };
 
 //        var status = new Status()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //        };
 
 //        var period = new Period()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //        };
 
 //        var restrictedRating = new RestrictedRating()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //            Icon = Faker.Lorem.GetFirstWord(),
 //            Hint = Faker.Lorem.GetFirstWord(),
@@ -105,7 +105,7 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
 //        var source = new Source()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //        };
 
@@ -132,26 +132,26 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 //    {
 //        var kind = new Kind()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Slug = Faker.Lorem.GetFirstWord(),
 //            Hint = Faker.Lorem.GetFirstWord(),
 //        };
 
 //        var status = new Status()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //        };
 
 //        var period = new Period()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //        };
 
 //        var restrictedRating = new RestrictedRating()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //            Icon = Faker.Lorem.GetFirstWord(),
 //            Hint = Faker.Lorem.GetFirstWord(),
@@ -160,7 +160,7 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
 //        var source = new Source()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //        };
 
@@ -244,30 +244,30 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
 //    protected override Anime GetModelSample() => new()
 //    {
-//        SeoAddition = GetSeoAdditionSample(),
+//        SeoAddition = GetSample(),
 //        Name = Faker.Lorem.GetFirstWord(),
 //        Kind = new()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Slug = Faker.Lorem.GetFirstWord(),
 //            Hint = Faker.Lorem.GetFirstWord(),
 //            Id = Guid.NewGuid(),
 //        },
 //        Status = new()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //            Id = Guid.NewGuid(),
 //        },
 //        Period = new()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //            Id = Guid.NewGuid(),
 //        },
 //        RestrictedRating = new()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //            Icon = Faker.Lorem.GetFirstWord(),
 //            Hint = Faker.Lorem.GetFirstWord(),
@@ -276,7 +276,7 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 //        },
 //        Source = new()
 //        {
-//            SeoAddition = GetSeoAdditionSample(),
+//            SeoAddition = GetSample(),
 //            Name = Faker.Lorem.GetFirstWord(),
 //            Id = Guid.NewGuid(),
 //        },
