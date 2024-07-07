@@ -9,12 +9,20 @@ namespace WebApiForHikka.Test.Repository.WithSeoAddition.Formats;
 public class FormatRepositoryTest : SharedRepositoryTestWithSeoAddition<
     Format,
     FormatRepository
-    >
+>
 {
-    protected override FormatRepository GetRepository(HikkaDbContext hikkaDbContext) =>
-        new(hikkaDbContext);
+    protected override FormatRepository GetRepository(HikkaDbContext hikkaDbContext)
+    {
+        return new FormatRepository(hikkaDbContext);
+    }
 
-    protected override Format GetSample() => GetFormatModels.GetSample();
-    protected override Format GetSampleForUpdate() => GetFormatModels.GetSampleForUpdate();  
-        
-  }
+    protected override Format GetSample()
+    {
+        return GetFormatModels.GetSample();
+    }
+
+    protected override Format GetSampleForUpdate()
+    {
+        return GetFormatModels.GetSampleForUpdate();
+    }
+}

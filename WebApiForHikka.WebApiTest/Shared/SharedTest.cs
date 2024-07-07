@@ -8,6 +8,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.Test.Shared;
+
 public class SharedTest
 {
     protected CancellationToken CancellationToken => new();
@@ -15,7 +16,7 @@ public class SharedTest
     protected HikkaDbContext GetDatabaseContext()
     {
         var options = new DbContextOptionsBuilder<HikkaDbContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).EnableSensitiveDataLogging().Options;
+            .UseInMemoryDatabase(Guid.NewGuid().ToString()).EnableSensitiveDataLogging().Options;
         var databaseContext = new HikkaDbContext(options);
         databaseContext.Database.EnsureCreated();
 

@@ -9,11 +9,20 @@ namespace WebApiForHikka.Test.Repository.WithSeoAddition.Statuses;
 public class StatusRepositoryTest : SharedRepositoryTestWithSeoAddition<
     Status,
     StatusRepository
-    >
+>
 {
-    protected override Status GetSample() => GetStatusModels.GetSample();   
-    protected override Status GetSampleForUpdate() => GetStatusModels.GetSampleForUpdate();
+    protected override Status GetSample()
+    {
+        return GetStatusModels.GetSample();
+    }
 
-    protected override StatusRepository GetRepository(HikkaDbContext hikkaDbContext) =>
-        new(hikkaDbContext);
+    protected override Status GetSampleForUpdate()
+    {
+        return GetStatusModels.GetSampleForUpdate();
+    }
+
+    protected override StatusRepository GetRepository(HikkaDbContext hikkaDbContext)
+    {
+        return new StatusRepository(hikkaDbContext);
+    }
 }

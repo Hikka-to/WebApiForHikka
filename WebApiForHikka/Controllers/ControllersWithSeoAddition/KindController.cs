@@ -7,8 +7,11 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
-public class KindController
-    (IKindService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public class KindController(
+    IKindService crudService,
+    ISeoAdditionService seoAdditionService,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor)
     : CrudControllerForModelWithSeoAddition<
         GetKindDto,
         UpdateKindDto,

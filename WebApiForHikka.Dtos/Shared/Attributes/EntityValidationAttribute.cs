@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Dtos.Shared.Attributes;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public class EntityValidationAttribute<TModel, TCrudService> : ValidationAttribute
     where TModel : class, IModel
     where TCrudService : ICrudService<TModel>
@@ -16,18 +16,17 @@ public class EntityValidationAttribute<TModel, TCrudService> : ValidationAttribu
     {
         if (value == null) return ValidationResult.Success!;
 
-        Guid id = (Guid)value;
+        var id = (Guid)value;
         var service = validationContext.GetRequiredService<TCrudService>();
-        TModel? tag = service.Get(id);
+        var tag = service.Get(id);
 
-        if (tag == null)
-        {
-            return new ValidationResult(ErrorMessage);
-        }
+        if (tag == null) return new ValidationResult(ErrorMessage);
 
         return ValidationResult.Success!;
     }
 
-    public override string FormatErrorMessage(string name) =>
-        $"{_modelName} with this id doesn't exist";
+    public override string FormatErrorMessage(string name)
+    {
+        return $"{_modelName} with this id doesn't exist";
+    }
 }

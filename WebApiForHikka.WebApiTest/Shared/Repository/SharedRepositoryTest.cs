@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
@@ -22,7 +21,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     {
         // Arrange
         var dbContext = GetDatabaseContext();
-        TRepository Repository = GetRepository(dbContext);
+        var Repository = GetRepository(dbContext);
         var sample = GetSample();
 
         // Act
@@ -54,16 +53,13 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     }
 
     [Fact]
-    public async virtual Task Repository_GetAllAsync_ReturnsPage()
+    public virtual async Task Repository_GetAllAsync_ReturnsPage()
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
         var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
-        foreach (var i in data)
-        {
-            await repository.AddAsync(i, CancellationToken);
-        }
+        foreach (var i in data) await repository.AddAsync(i, CancellationToken);
         var dto = new FilterPagination { PageNumber = 1, PageSize = 1 };
 
         // Act
@@ -81,10 +77,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         var dbContext = GetDatabaseContext();
         var repository = GetRepository(dbContext);
 
-        foreach (var i in data)
-        {
-            await repository.AddAsync(i, CancellationToken);
-        }
+        foreach (var i in data) await repository.AddAsync(i, CancellationToken);
         var ids = data.Select(m => m.Id).ToList();
 
         // Act
@@ -95,7 +88,6 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     }
 
 
-
     [Fact]
     public virtual async Task Repository_GetAllModelsByIdsAsync_ReturnsModelsByIds()
     {
@@ -104,10 +96,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         var dbContext = GetDatabaseContext();
 
         var repository = GetRepository(dbContext);
-        foreach (var i in data)
-        {
-            await repository.AddAsync(i, CancellationToken);
-        }
+        foreach (var i in data) await repository.AddAsync(i, CancellationToken);
         var ids = data.Select(m => m.Id).ToList();
 
         // Act
@@ -118,7 +107,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     }
 
     [Fact]
-    public async virtual Task Repository_GetAsync_ReturnsModel()
+    public virtual async Task Repository_GetAsync_ReturnsModel()
     {
         // Arrange
         var dbContext = GetDatabaseContext();
@@ -136,7 +125,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     }
 
     [Fact]
-    public async virtual Task Repository_Get_ReturnsModel()
+    public virtual async Task Repository_Get_ReturnsModel()
     {
         // Arrange
         var dbContext = GetDatabaseContext();

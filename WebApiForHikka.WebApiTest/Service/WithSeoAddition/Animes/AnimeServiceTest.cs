@@ -5,22 +5,28 @@ using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Shared.Service;
 
-namespace WebApiForHikka.Test.Service.WithSeoAddition.Animes
+namespace WebApiForHikka.Test.Service.WithSeoAddition.Animes;
+
+public class AnimeServiceTest : SharedServiceTestWithSeoAddition<Anime, AnimeService>
 {
-    public class AnimeServiceTest : SharedServiceTestWithSeoAddition<Anime, AnimeService>
+    public Anime Anime => GetSample();
+
+    public Anime AnimeForUpdate => GetSampleForUpdate();
+
+    protected override Anime GetSample()
     {
-        public Anime Anime => GetSample();
+        return GetAnimeModels.GetSample();
+    }
 
-        public Anime AnimeForUpdate => GetSampleForUpdate();
+    protected override Anime GetSampleForUpdate()
+    {
+        return GetAnimeModels.GetSampleForUpdate();
+    }
 
-        protected override Anime GetSample() => GetAnimeModels.GetSample();
-        protected override Anime GetSampleForUpdate() => GetAnimeModels.GetSampleForUpdate();
-        
-        protected override AnimeService GetService(HikkaDbContext hikkaDbContext)
-        {
-            AnimeRepository animeRepository = new(hikkaDbContext);
+    protected override AnimeService GetService(HikkaDbContext hikkaDbContext)
+    {
+        AnimeRepository animeRepository = new(hikkaDbContext);
 
-            return new AnimeService(animeRepository);
-        }
+        return new AnimeService(animeRepository);
     }
 }

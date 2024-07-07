@@ -7,7 +7,11 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
-public class StudioController(IStudioService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public class StudioController(
+    IStudioService crudService,
+    ISeoAdditionService seoAdditionService,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor)
     : CrudControllerForModelWithSeoAddition<
         GetStudioDto,
         UpdateStudioDto,

@@ -18,6 +18,5 @@ public class CreateTagDto : CreateDtoWithSeoAddition
 
     public required bool IsGenre { get; set; }
 
-    [TagValidation]
-    public Guid? ParentTagId { get; set; }
+    [TagValidation] public Guid? ParentTagId { get; set; }
 }

@@ -9,7 +9,7 @@ public class TagRepository(HikkaDbContext dbContext) : CrudRepository<Tag>(dbCon
 {
     public override async Task<IReadOnlyCollection<Tag>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await DbContext.Set<Tag>().IgnoreAutoIncludes().Include(e => e.ParentTag).ToArrayAsync(cancellationToken);
+        return await DbContext.Set<Tag>().IgnoreAutoIncludes().Include(e => e.ParentTag)
+            .ToArrayAsync(cancellationToken);
     }
 }
-

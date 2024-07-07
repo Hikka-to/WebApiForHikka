@@ -2,4 +2,5 @@
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Periods;
+
 public interface IPeriodRepository : ICrudRepository<Period>;

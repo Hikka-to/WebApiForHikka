@@ -19,33 +19,43 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
     CreateSeoAdditionDto,
     GetSeoAdditionDto,
     ReturnPageDto<GetSeoAdditionDto>
-    >
+>
 {
-    protected override async Task<SeoAdditionController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<SeoAdditionController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-
         return new SeoAdditionController(
             allServicesInController.CrudService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
-            );
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager)
+        );
     }
 
-    protected override CreateSeoAdditionDto GetCreateDtoSample() => GetSeoAdditionModels.GetCreateDtoSample();
+    protected override CreateSeoAdditionDto GetCreateDtoSample()
+    {
+        return GetSeoAdditionModels.GetCreateDtoSample();
+    }
 
-    protected override SeoAddition GetModelSample() => GetSeoAdditionModels.GetSample();
-    
-    protected override UpdateSeoAdditionDto GetUpdateDtoSample() => GetSeoAdditionModels.GetUpdateDtoSample();
-    
-    protected override GetSeoAdditionDto GetGetDtoSample() => GetSeoAdditionModels.GetGetDtoSample();
+    protected override SeoAddition GetModelSample()
+    {
+        return GetSeoAdditionModels.GetSample();
+    }
+
+    protected override UpdateSeoAdditionDto GetUpdateDtoSample()
+    {
+        return GetSeoAdditionModels.GetUpdateDtoSample();
+    }
+
+    protected override GetSeoAdditionDto GetGetDtoSample()
+    {
+        return GetSeoAdditionModels.GetGetDtoSample();
+    }
 
     protected override ICollection<SeoAddition> GetCollectionOfModels(int howMany)
     {
         ICollection<SeoAddition> seoAdditions = new List<SeoAddition>();
-        for (int i = 0; i < howMany; ++i)
-        {
-            seoAdditions.Add(GetModelSample());
-        }
+        for (var i = 0; i < howMany; ++i) seoAdditions.Add(GetModelSample());
         return seoAdditions;
     }
 

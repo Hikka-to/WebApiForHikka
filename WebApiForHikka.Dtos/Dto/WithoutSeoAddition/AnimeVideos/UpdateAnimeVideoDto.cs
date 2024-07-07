@@ -10,8 +10,7 @@ namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 [ExportTsInterface(OutputDir = "./TS/Dto/WithoutSeoAddition/AnimeVideos")]
 public class UpdateAnimeVideoDto : ModelDto
 {
-    [AnimeVideoKindValidation]
-    public required Guid AnimeVideoKindId { get; set; }
+    [AnimeVideoKindValidation] public required Guid AnimeVideoKindId { get; set; }
 
     public required string Name { get; set; }
 

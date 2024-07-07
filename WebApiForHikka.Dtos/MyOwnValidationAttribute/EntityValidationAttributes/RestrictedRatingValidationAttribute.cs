@@ -4,4 +4,5 @@ using WebApiForHikka.Dtos.Shared.Attributes;
 
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
 
-public class RestrictedRatingValidationAttribute : EntityValidationAttribute<RestrictedRating, IRestrictedRatingService>;
+public class
+    RestrictedRatingValidationAttribute : EntityValidationAttribute<RestrictedRating, IRestrictedRatingService>;

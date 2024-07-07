@@ -9,8 +9,7 @@ namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 [ExportTsClass(OutputDir = "./TS/Dto/WithoutSeoAddition/AnimeBackdrops")]
 public class CreateAnimeBackdropDto
 {
-    [AnimeValidation]
-    public required Guid AnimeId { get; set; }
+    [AnimeValidation] public required Guid AnimeId { get; set; }
 
     public required string Path { get; set; }
 

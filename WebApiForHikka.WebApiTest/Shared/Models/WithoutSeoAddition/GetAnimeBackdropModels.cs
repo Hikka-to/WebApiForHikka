@@ -5,21 +5,27 @@ namespace WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
 public class GetAnimeBackdropModels
 {
-    public static AnimeBackdrop GetSample() => new()
+    public static AnimeBackdrop GetSample()
     {
-        Anime = GetAnimeModels.GetSample(),
-        Path = "Test",
-        Width = 1,
-        Height = 1,
-        Colors = [1, 2, 3],
-    };
+        return new AnimeBackdrop
+        {
+            Anime = GetAnimeModels.GetSample(),
+            Path = "Test",
+            Width = 1,
+            Height = 1,
+            Colors = [1, 2, 3]
+        };
+    }
 
-    public static AnimeBackdrop GetSampleForUpdate() => new()
+    public static AnimeBackdrop GetSampleForUpdate()
     {
-        Anime = GetAnimeModels.GetSampleForUpdate(),
-        Path = "Test1",
-        Width = 2,
-        Height = 2,
-        Colors = [4, 5, 6],
-    };
+        return new AnimeBackdrop
+        {
+            Anime = GetAnimeModels.GetSampleForUpdate(),
+            Path = "Test1",
+            Width = 2,
+            Height = 2,
+            Colors = [4, 5, 6]
+        };
+    }
 }

@@ -8,8 +8,18 @@ namespace WebApiForHikka.Test.Repository.WithoutSeoAddition.AnimeBackdrops;
 
 public class AnimeBackdropRepositoryTest : SharedRepositoryTest<AnimeBackdrop, AnimeBackdropRepository>
 {
-    protected override AnimeBackdropRepository GetRepository(HikkaDbContext hikkaDbContext) => new(hikkaDbContext);
+    protected override AnimeBackdropRepository GetRepository(HikkaDbContext hikkaDbContext)
+    {
+        return new AnimeBackdropRepository(hikkaDbContext);
+    }
 
-    protected override AnimeBackdrop GetSample() => GetAnimeBackdropModels.GetSample();
-    protected override AnimeBackdrop GetSampleForUpdate() => GetAnimeBackdropModels.GetSample();
+    protected override AnimeBackdrop GetSample()
+    {
+        return GetAnimeBackdropModels.GetSample();
+    }
+
+    protected override AnimeBackdrop GetSampleForUpdate()
+    {
+        return GetAnimeBackdropModels.GetSample();
+    }
 }

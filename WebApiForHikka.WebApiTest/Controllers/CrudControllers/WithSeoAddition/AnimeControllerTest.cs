@@ -42,7 +42,6 @@
 //    {
 //        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in AnimeControllerTest");
 
-
 //        return new AnimeController(
 //            allServices.CrudService,
 //            allServices.SeoAdditionService,
@@ -284,7 +283,6 @@
 //        TmdbId = Faker.RandomNumber.Next(),
 //        Id = Guid.NewGuid(),
 //    };
-
 
 //    protected override UpdateAnimeDto GetUpdateDtoSample() => new()
 //    {

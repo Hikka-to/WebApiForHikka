@@ -5,12 +5,12 @@ namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Tag : ModelWithSeoAddition
 {
-
     [StringLength(SharedNumberConstatnts.NameLength)]
     public required string Name { get; set; }
 
     [StringLength(SharedNumberConstatnts.NameLength)]
     public required string EngName { get; set; }
+
     public required List<string> Alises { get; set; }
     public required bool IsGenre { get; set; }
 

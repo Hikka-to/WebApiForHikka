@@ -10,20 +10,15 @@ namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Animes")]
 public class UpdateAnimeDto : UpdateDtoWithSeoAddition
 {
-    [KindValidation]
-    public required Guid KindId { get; set; }
+    [KindValidation] public required Guid KindId { get; set; }
 
-    [StatusValidation]
-    public required Guid StatusId { get; set; }
+    [StatusValidation] public required Guid StatusId { get; set; }
 
-    [PeriodValidation]
-    public required Guid PeriodId { get; set; }
+    [PeriodValidation] public required Guid PeriodId { get; set; }
 
-    [RestrictedRatingValidation]
-    public required Guid RestrictedRatingId { get; set; }
+    [RestrictedRatingValidation] public required Guid RestrictedRatingId { get; set; }
 
-    [SourceValidation]
-    public required Guid SourceId { get; set; }
+    [SourceValidation] public required Guid SourceId { get; set; }
 
     public required string Name { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+﻿using Faker;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 
 namespace WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
@@ -7,58 +8,58 @@ public class GetMediaplayerModels
 {
     public static Mediaplayer GetSample()
     {
-        return new Mediaplayer()
+        return new Mediaplayer
         {
             Icon = "Icon",
-            Name = "Name",
+            Name = "Name"
         };
     }
 
     public static Mediaplayer GetSampleForUpdate()
     {
-        return new Mediaplayer()
+        return new Mediaplayer
         {
             Icon = "Icon1",
-            Name = "Name1",
+            Name = "Name1"
         };
     }
 
     public static CreateMediaplayerDto GetCreateDtoSample()
     {
-        return new CreateMediaplayerDto()
+        return new CreateMediaplayerDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
+            Icon = Lorem.GetFirstWord()
         };
     }
 
     public static GetMediaplayerDto GetGetDtoSample()
     {
-        return new GetMediaplayerDto()
+        return new GetMediaplayerDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
+            Name = Lorem.GetFirstWord(),
+            Icon = Lorem.GetFirstWord(),
+            Id = new Guid()
         };
     }
 
     public static Mediaplayer GetModelSample()
     {
-        return new Mediaplayer()
+        return new Mediaplayer
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
+            Name = Lorem.GetFirstWord(),
+            Icon = Lorem.GetFirstWord(),
+            Id = new Guid()
         };
     }
 
     public static UpdateMediaplayerDto GetUpdateDtoSample()
     {
-        return new UpdateMediaplayerDto()
+        return new UpdateMediaplayerDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
+            Name = Lorem.GetFirstWord(),
+            Icon = Lorem.GetFirstWord(),
+            Id = new Guid()
         };
     }
 }

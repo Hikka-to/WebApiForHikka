@@ -9,11 +9,20 @@ namespace WebApiForHikka.Test.Repository.WithSeoAddition.Tags;
 public class TagRepositoryTest : SharedRepositoryTestWithSeoAddition<
     Tag,
     TagRepository
-    >
+>
 {
-    protected override TagRepository GetRepository(HikkaDbContext hikkaDbContext) =>
-        new(hikkaDbContext);
+    protected override TagRepository GetRepository(HikkaDbContext hikkaDbContext)
+    {
+        return new TagRepository(hikkaDbContext);
+    }
 
-    protected override Tag GetSample() => GetTagModels.GetSample();
-    protected override Tag GetSampleForUpdate() => GetTagModels.GetSampleForUpdate();
+    protected override Tag GetSample()
+    {
+        return GetTagModels.GetSample();
+    }
+
+    protected override Tag GetSampleForUpdate()
+    {
+        return GetTagModels.GetSampleForUpdate();
+    }
 }

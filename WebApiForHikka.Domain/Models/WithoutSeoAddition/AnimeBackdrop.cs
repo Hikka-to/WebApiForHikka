@@ -11,11 +11,9 @@ public class AnimeBackdrop : Model
     [StringLength(AnimeBackdropNumberConstants.PathLength)]
     public required string Path { get; set; }
 
-    [Range(0, int.MaxValue)]
-    public required int Width { get; set; }
+    [Range(0, int.MaxValue)] public required int Width { get; set; }
 
-    [Range(0, int.MaxValue)]
-    public required int Height { get; set; }
+    [Range(0, int.MaxValue)] public required int Height { get; set; }
 
     public List<int>? Colors { get; set; }
 }

@@ -6,7 +6,10 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
-public class MediaplayerController(IMediaplayerService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public class MediaplayerController(
+    IMediaplayerService crudService,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor)
     : CrudController<
         GetMediaplayerDto,
         UpdateMediaplayerDto,
@@ -14,4 +17,3 @@ public class MediaplayerController(IMediaplayerService crudService, IMapper mapp
         IMediaplayerService,
         Mediaplayer
     >(crudService, mapper, httpContextAccessor);
-

@@ -13,7 +13,18 @@ public class AnimeVideoKindServiceTest : SharedServiceTest<AnimeVideoKind, Anime
 
     public AnimeVideoKind SampleForUpdate => GetSampleForUpdate();
 
-    protected override AnimeVideoKind GetSample() => GetAnimeVideoKindModels.GetSample();
-    protected override AnimeVideoKind GetSampleForUpdate() => GetAnimeVideoKindModels.GetSampleForUpdate();
-    protected override AnimeVideoKindService GetService(HikkaDbContext hikkaDbContext) => new(new AnimeVideoKindRepository(hikkaDbContext));
+    protected override AnimeVideoKind GetSample()
+    {
+        return GetAnimeVideoKindModels.GetSample();
+    }
+
+    protected override AnimeVideoKind GetSampleForUpdate()
+    {
+        return GetAnimeVideoKindModels.GetSampleForUpdate();
+    }
+
+    protected override AnimeVideoKindService GetService(HikkaDbContext hikkaDbContext)
+    {
+        return new AnimeVideoKindService(new AnimeVideoKindRepository(hikkaDbContext));
+    }
 }

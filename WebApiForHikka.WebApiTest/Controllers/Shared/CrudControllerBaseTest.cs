@@ -11,7 +11,7 @@ using WebApiForHikka.WebApi.Shared;
 namespace WebApiForHikka.Test.Controller.Shared;
 
 public abstract class CrudControllerBaseTest
-    <TController, TCrudService,
+<TController, TCrudService,
     TModel, TIRepository,
     TUpdateDto, TCreateDto, TGetDto, TReturnPageDto>
     : BaseControllerTest
@@ -23,25 +23,30 @@ public abstract class CrudControllerBaseTest
     where TReturnPageDto : ReturnPageDto<TGetDto>
 
 {
-    protected abstract Task<TController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices);
+    protected abstract Task<TController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices);
+
     protected abstract TCreateDto GetCreateDtoSample();
     protected abstract TUpdateDto GetUpdateDtoSample();
     protected abstract TGetDto GetGetDtoSample();
     protected abstract TModel GetModelSample();
     protected abstract AllServicesInController GetAllServices(IServiceCollection alternativeServices);
 
-    protected virtual void MutationBeforeDtoCreation(TCreateDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices) { }
-    protected virtual void MutationBeforeDtoUpdate(TUpdateDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices) { }
+    protected virtual void MutationBeforeDtoCreation(TCreateDto createDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    {
+    }
+
+    protected virtual void MutationBeforeDtoUpdate(TUpdateDto updateDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    {
+    }
 
     protected virtual ICollection<TModel> GetCollectionOfModels(int howMany)
     {
         ICollection<TModel> seoAdditions = new List<TModel>();
-        for (int i = 0; i < howMany; ++i)
-        {
-            seoAdditions.Add(GetModelSample());
-        }
+        for (var i = 0; i < howMany; ++i) seoAdditions.Add(GetModelSample());
         return seoAdditions;
-
     }
 
 
@@ -52,7 +57,7 @@ public abstract class CrudControllerBaseTest
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        TController controller = await GetController(services, serviceProvider);
+        var controller = await GetController(services, serviceProvider);
 
         //Act
 
@@ -61,7 +66,6 @@ public abstract class CrudControllerBaseTest
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<NotFoundResult>();
-
     }
 
 
@@ -72,7 +76,7 @@ public abstract class CrudControllerBaseTest
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        TController controller = await GetController(services, serviceProvider);
+        var controller = await GetController(services, serviceProvider);
         foreach (var item in GetCollectionOfModels(10))
         {
             MutationBeforeDtoCreation(GetCreateDtoSample(), services, serviceProvider);
@@ -91,7 +95,6 @@ public abstract class CrudControllerBaseTest
         var returnPageDto = result.Value as TReturnPageDto;
 
         returnPageDto.Should().BeOfType<TReturnPageDto>();
-
     }
 
 
@@ -102,7 +105,7 @@ public abstract class CrudControllerBaseTest
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        TController controller = await GetController(services, serviceProvider);
+        var controller = await GetController(services, serviceProvider);
 
         //Act
         var dtoSample = GetCreateDtoSample();
@@ -125,7 +128,7 @@ public abstract class CrudControllerBaseTest
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var id = await services.CrudService.CreateAsync(GetModelSample(), CancellationToken);
-        TController controller = await GetController(services, serviceProvider);
+        var controller = await GetController(services, serviceProvider);
 
         //Act
         var result = await controller.Delete(id, CancellationToken);
@@ -133,7 +136,6 @@ public abstract class CrudControllerBaseTest
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<NoContentResult>();
-
     }
 
 
@@ -144,7 +146,7 @@ public abstract class CrudControllerBaseTest
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        TController controller = await GetController(services, serviceProvider);
+        var controller = await GetController(services, serviceProvider);
 
         var model = GetModelSample();
         var id = await services.CrudService.CreateAsync(model, CancellationToken);
@@ -166,14 +168,15 @@ public abstract class CrudControllerBaseTest
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        TController controller = await GetController(services, serviceProvider);
+        var controller = await GetController(services, serviceProvider);
 
 
         //Act
 
         var createDto = GetCreateDtoSample();
         MutationBeforeDtoCreation(createDto, services, serviceProvider);
-        CreateResponseDto create = (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
+        var create =
+            (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
         var updateDto = GetUpdateDtoSample();
         updateDto.Id = create.Id;
         MutationBeforeDtoUpdate(updateDto, services, serviceProvider);
@@ -183,8 +186,6 @@ public abstract class CrudControllerBaseTest
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<NoContentResult>();
-
-
     }
 
 
@@ -195,14 +196,15 @@ public abstract class CrudControllerBaseTest
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        TController controller = await GetController(services, serviceProvider);
+        var controller = await GetController(services, serviceProvider);
 
 
         //Act
 
         var createDto = GetCreateDtoSample();
         MutationBeforeDtoCreation(createDto, services, serviceProvider);
-        CreateResponseDto create = (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
+        var create =
+            (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
 
         var updateDto = GetUpdateDtoSample();
         MutationBeforeDtoUpdate(updateDto, services, serviceProvider);
@@ -215,13 +217,14 @@ public abstract class CrudControllerBaseTest
     }
 
 
-    protected record AllServicesInController(TCrudService crudService, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+    protected record AllServicesInController(
+        TCrudService crudService,
+        UserManager<User> userManager,
+        RoleManager<IdentityRole<Guid>> roleManager)
     {
         public TCrudService CrudService => crudService;
         public UserManager<User> UserManager => userManager;
 
         public RoleManager<IdentityRole<Guid>> RoleManager => roleManager;
     }
-
-
 }

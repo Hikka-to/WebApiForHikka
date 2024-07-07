@@ -7,8 +7,11 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
-public class SourceController
-    (ISourceService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public class SourceController(
+    ISourceService crudService,
+    ISeoAdditionService seoAdditionService,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor)
     : CrudControllerForModelWithSeoAddition<
         GetSourceDto,
         UpdateSourceDto,

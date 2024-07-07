@@ -1,14 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
-
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public class SeoAdditionValidationAttribute : ValidationAttribute
 {
-    public SeoAdditionValidationAttribute() : base()
+    public SeoAdditionValidationAttribute()
     {
         ErrorMessage = "SeoAddition with this id doesn't exist";
     }
@@ -17,17 +16,16 @@ public class SeoAdditionValidationAttribute : ValidationAttribute
     {
         if (value == null) return new ValidationResult(ErrorMessage);
 
-        Guid id = (Guid)value;
+        var id = (Guid)value;
         var seoAdditionService = validationContext.GetRequiredService<ISeoAdditionService>();
 
-        if (!seoAdditionService.CheckIfTheSeoAdditionExist(id))
-        {
-            return new ValidationResult(ErrorMessage);
-        }
+        if (!seoAdditionService.CheckIfTheSeoAdditionExist(id)) return new ValidationResult(ErrorMessage);
 
         return ValidationResult.Success!;
     }
 
-    public override string FormatErrorMessage(string name) =>
-        ErrorMessage!;
+    public override string FormatErrorMessage(string name)
+    {
+        return ErrorMessage!;
+    }
 }

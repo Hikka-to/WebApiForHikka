@@ -9,7 +9,8 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.EfPersistence.Data;
 
-public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
+public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
+    : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<SeoAddition> SeoAdditions { get; set; }
     public DbSet<Period> Periods { get; set; }
@@ -37,9 +38,9 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : Identity
 
         // Configure the self-referencing relationship
         modelBuilder.Entity<Tag>()
-           .HasOne(t => t.ParentTag)
-           .WithMany(t => t.Tags)
-           .HasForeignKey("ParentId");
+            .HasOne(t => t.ParentTag)
+            .WithMany(t => t.Tags)
+            .HasForeignKey("ParentId");
 
         modelBuilder.Entity<IdentityRole<Guid>>().HasData(
             new IdentityRole<Guid>
@@ -109,9 +110,8 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options) : Identity
         modelBuilder.Entity<Anime>().Navigation(e => e.Period).AutoInclude();
 
         // SeoAddition auto include
-        foreach (var seoAddition in modelBuilder.Model.GetEntityTypes().Where(e => typeof(ModelWithSeoAddition).IsAssignableFrom(e.ClrType)))
-        {
+        foreach (var seoAddition in modelBuilder.Model.GetEntityTypes()
+                     .Where(e => typeof(ModelWithSeoAddition).IsAssignableFrom(e.ClrType)))
             modelBuilder.Entity(seoAddition.ClrType).Navigation(nameof(ModelWithSeoAddition.SeoAddition)).AutoInclude();
-        }
     }
 }

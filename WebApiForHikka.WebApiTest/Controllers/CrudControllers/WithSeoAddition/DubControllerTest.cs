@@ -12,7 +12,7 @@ using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
-class DubControllerTest : CrudControllerBaseWithSeoAddition<
+internal class DubControllerTest : CrudControllerBaseWithSeoAddition<
     DubController,
     DubService,
     Dub,
@@ -21,7 +21,7 @@ class DubControllerTest : CrudControllerBaseWithSeoAddition<
     CreateDubDto,
     GetDubDto,
     ReturnPageDto<GetDubDto>
-    >
+>
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
@@ -32,36 +32,49 @@ class DubControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new DubService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new DubService(countryRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override ICollection<Dub> GetCollectionOfModels(int howMany)
     {
         ICollection<Dub> seoAdditions = new List<Dub>();
-        for (int i = 0; i < howMany; ++i)
-        {
-            seoAdditions.Add(GetModelSample());
-        }
+        for (var i = 0; i < howMany; ++i) seoAdditions.Add(GetModelSample());
         return seoAdditions;
-
     }
 
-    protected override async Task<DubController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<DubController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in DubControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in DubControllerTest");
 
         return new DubController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
-            );
+        );
     }
 
 
-    protected override CreateDubDto GetCreateDtoSample() => GetDubModels.GetCreateDtoSample();
-    protected override GetDubDto GetGetDtoSample() => GetDubModels.GetGetDtoSample();
-    protected override Dub GetModelSample() => GetDubModels.GetSample();
-    protected override UpdateDubDto GetUpdateDtoSample() => GetDubModels.GetUpdateDtoSample();
-        
+    protected override CreateDubDto GetCreateDtoSample()
+    {
+        return GetDubModels.GetCreateDtoSample();
+    }
+
+    protected override GetDubDto GetGetDtoSample()
+    {
+        return GetDubModels.GetGetDtoSample();
+    }
+
+    protected override Dub GetModelSample()
+    {
+        return GetDubModels.GetSample();
+    }
+
+    protected override UpdateDubDto GetUpdateDtoSample()
+    {
+        return GetDubModels.GetUpdateDtoSample();
+    }
 }

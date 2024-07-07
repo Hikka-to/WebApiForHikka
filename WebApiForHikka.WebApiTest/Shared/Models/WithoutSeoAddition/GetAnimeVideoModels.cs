@@ -1,56 +1,70 @@
-﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+﻿using Faker;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 
 namespace WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
 public static class GetAnimeVideoModels
 {
-
-    public static AnimeVideo GetSample() => new()
+    public static AnimeVideo GetSample()
     {
-        AnimeVideoKind = GetAnimeVideoKindModels.GetSample(),
-        Name = "Name1",
-        Url = "Url1",
-        ImageUrl = "ImageUrl1",
-        EmbedUrl = "EmbedUrl1",
-    };
+        return new AnimeVideo
+        {
+            AnimeVideoKind = GetAnimeVideoKindModels.GetSample(),
+            Name = "Name1",
+            Url = "Url1",
+            ImageUrl = "ImageUrl1",
+            EmbedUrl = "EmbedUrl1"
+        };
+    }
 
-    public static AnimeVideo GetSampleForUpdate() => new()
+    public static AnimeVideo GetSampleForUpdate()
     {
-        AnimeVideoKind = GetAnimeVideoKindModels.GetSampleForUpdate(),
-        Name = "Name2",
-        Url = "Url2",
-        ImageUrl = "ImageUrl2",
-        EmbedUrl = "EmbedUrl2",
-    };
+        return new AnimeVideo
+        {
+            AnimeVideoKind = GetAnimeVideoKindModels.GetSampleForUpdate(),
+            Name = "Name2",
+            Url = "Url2",
+            ImageUrl = "ImageUrl2",
+            EmbedUrl = "EmbedUrl2"
+        };
+    }
 
-    public static CreateAnimeVideoDto GetCreateDtoSample() => new()
+    public static CreateAnimeVideoDto GetCreateDtoSample()
     {
-        AnimeVideoKindId = Guid.NewGuid(),
-        Name = Faker.Lorem.GetFirstWord(),
-        Url = Faker.Lorem.GetFirstWord(),
-        ImageUrl = Faker.Lorem.GetFirstWord(),
-        EmbedUrl = Faker.Lorem.GetFirstWord(),
-    };
+        return new CreateAnimeVideoDto
+        {
+            AnimeVideoKindId = Guid.NewGuid(),
+            Name = Lorem.GetFirstWord(),
+            Url = Lorem.GetFirstWord(),
+            ImageUrl = Lorem.GetFirstWord(),
+            EmbedUrl = Lorem.GetFirstWord()
+        };
+    }
 
-    public static GetAnimeVideoDto GetGetDtoSample() => new()
+    public static GetAnimeVideoDto GetGetDtoSample()
     {
-        AnimeVideoKindId = Guid.NewGuid(),
-        Name = Faker.Lorem.GetFirstWord(),
-        Url = Faker.Lorem.GetFirstWord(),
-        ImageUrl = Faker.Lorem.GetFirstWord(),
-        EmbedUrl = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
+        return new GetAnimeVideoDto
+        {
+            AnimeVideoKindId = Guid.NewGuid(),
+            Name = Lorem.GetFirstWord(),
+            Url = Lorem.GetFirstWord(),
+            ImageUrl = Lorem.GetFirstWord(),
+            EmbedUrl = Lorem.GetFirstWord(),
+            Id = Guid.NewGuid()
+        };
+    }
 
-    public static UpdateAnimeVideoDto GetUpdateDtoSample() => new()
+    public static UpdateAnimeVideoDto GetUpdateDtoSample()
     {
-        AnimeVideoKindId = Guid.NewGuid(),
-        Name = Faker.Lorem.GetFirstWord(),
-        Url = Faker.Lorem.GetFirstWord(),
-        ImageUrl = Faker.Lorem.GetFirstWord(),
-        EmbedUrl = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
-
+        return new UpdateAnimeVideoDto
+        {
+            AnimeVideoKindId = Guid.NewGuid(),
+            Name = Lorem.GetFirstWord(),
+            Url = Lorem.GetFirstWord(),
+            ImageUrl = Lorem.GetFirstWord(),
+            EmbedUrl = Lorem.GetFirstWord(),
+            Id = Guid.NewGuid()
+        };
+    }
 }

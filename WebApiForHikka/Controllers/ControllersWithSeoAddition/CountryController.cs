@@ -7,7 +7,11 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
-public class CountryController(ICountryService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public class CountryController(
+    ICountryService crudService,
+    ISeoAdditionService seoAdditionService,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor)
     : CrudControllerForModelWithSeoAddition<
         GetCountryDto,
         UpdateCountryDto,

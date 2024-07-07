@@ -20,7 +20,7 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
     CreateStatusDto,
     GetStatusDto,
     ReturnPageDto<GetStatusDto>
-    >
+>
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
@@ -31,26 +31,43 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new StatusService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new StatusService(formatRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
-
-    protected override async Task<StatusController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<StatusController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in StatusControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in StatusControllerTest");
 
         return new StatusController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
-            );
+        );
     }
 
 
-    protected override CreateStatusDto GetCreateDtoSample() => GetStatusModels.GetCreateDtoSample();
-    protected override GetStatusDto GetGetDtoSample() => GetStatusModels.GetGetDtoSample();
-    protected override Status GetModelSample()=> GetStatusModels.GetSample();
-    protected override UpdateStatusDto GetUpdateDtoSample() => GetStatusModels.GetUpdateDtoSample();
+    protected override CreateStatusDto GetCreateDtoSample()
+    {
+        return GetStatusModels.GetCreateDtoSample();
+    }
+
+    protected override GetStatusDto GetGetDtoSample()
+    {
+        return GetStatusModels.GetGetDtoSample();
+    }
+
+    protected override Status GetModelSample()
+    {
+        return GetStatusModels.GetSample();
+    }
+
+    protected override UpdateStatusDto GetUpdateDtoSample()
+    {
+        return GetStatusModels.GetUpdateDtoSample();
+    }
 }

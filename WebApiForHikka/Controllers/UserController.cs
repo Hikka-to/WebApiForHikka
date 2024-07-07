@@ -12,37 +12,31 @@ using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.WebApi.Shared;
-using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers;
 
-
 [Authorize(ControllerStringConstants.CanAccessOnlyAdmin)]
-public class UserController
-    (
-        IUserService userService,
-        IJwtTokenFactory jwtTokenFactory,
-        IConfiguration configuration,
-        RoleManager<IdentityRole<Guid>> roleManager,
-        IMapper mapper,
-        IHttpContextAccessor httpContextAccessor
-    )
+public class UserController(
+    IUserService userService,
+    IJwtTokenFactory jwtTokenFactory,
+    IConfiguration configuration,
+    RoleManager<IdentityRole<Guid>> roleManager,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor
+)
     : MyBaseController(mapper, httpContextAccessor),
-    ICrudController<UpdateUserDto, UserRegistrationDto>
+        ICrudController<UpdateUserDto, UserRegistrationDto>
 {
-    private readonly IUserService _userService = userService;
     private readonly IConfiguration _configuration = configuration;
     private readonly IJwtTokenFactory _jwtTokenFactory = jwtTokenFactory;
+    private readonly IUserService _userService = userService;
 
     [AllowAnonymous]
     [HttpPost("Registrate")]
     [ProducesResponseType(typeof(RegistratedResponseUserDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
-        }
+        if (!ModelState.IsValid) return BadRequest(GetAllErrorsDuringValidation());
 
         var role = await roleManager.FindByNameAsync(model.Role);
 
@@ -52,67 +46,42 @@ public class UserController
             UserName = model.UserName,
             Email = model.Email,
             PasswordHash = model.Password,
-            Roles = [role!],
+            Roles = [role!]
         };
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
 
-        if (id == null)
-        {
-            return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
-        }
+        if (id == null) return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
 
         var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
 
-        return Ok(new RegistratedResponseUserDto()
-        {
-            Message = UserStringConstants.MessageUserRegistrated,
-            JwtToken = tokenString,
-            Id = (Guid)id
-        }
-
+        return Ok(new RegistratedResponseUserDto
+            {
+                Message = UserStringConstants.MessageUserRegistrated,
+                JwtToken = tokenString,
+                Id = (Guid)id
+            }
         );
     }
 
-    [AllowAnonymous]
-    [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] UserLoginDto model, CancellationToken cancellationToken)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(GetAllErrorsDuringValidation());
-        }
-
-        var user = await _userService.AuthenticateUserAsync(model.Email, model.Password, cancellationToken);
-        if (user == null) return Unauthorized();
-
-
-        var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
-
-        return Ok(new LoginResponseUserDto() { Token = tokenString! });
-    }
-
     [HttpGet("GetAll")]
-    public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
+        CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase() { });
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        FilterPagination filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await _userService.GetAllAsync(filterPagination, cancellationToken);
 
         var users = _mapper.Map<List<GetUserDto>>(paginationCollection.Models);
         return Ok(
-            new ReturnUserPageDto()
+            new ReturnUserPageDto
             {
                 HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
-                Models = users,
+                Models = users
             }
-
         );
     }
 
@@ -129,23 +98,14 @@ public class UserController
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(
-            new ThingsToValidateBase()
-            {
-            }
-            );
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var user = _mapper.Map<User>(dto);
 
         var userWithPassword = await _userService.GetAsync(dto.Id, cancellationToken);
-        if (userWithPassword == null)
-        {
-            return BadRequest($"user with {dto.Id} doesn't exist");
-        }
+        if (userWithPassword == null) return BadRequest($"user with {dto.Id} doesn't exist");
         await _userService.UpdateAsync(user, cancellationToken);
         return NoContent();
     }
@@ -155,5 +115,20 @@ public class UserController
     {
         await _userService.DeleteAsync(id, cancellationToken);
         return NoContent();
+    }
+
+    [AllowAnonymous]
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] UserLoginDto model, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid) return BadRequest(GetAllErrorsDuringValidation());
+
+        var user = await _userService.AuthenticateUserAsync(model.Email, model.Password, cancellationToken);
+        if (user == null) return Unauthorized();
+
+
+        var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
+
+        return Ok(new LoginResponseUserDto { Token = tokenString! });
     }
 }

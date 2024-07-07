@@ -20,7 +20,7 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
     CreateSourceDto,
     GetSourceDto,
     ReturnPageDto<GetSourceDto>
-    >
+>
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
@@ -31,27 +31,44 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new SourceService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new SourceService(formatRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
-
-    protected override async Task<SourceController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<SourceController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in SourceControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in SourceControllerTest");
 
         return new SourceController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
-            );
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager)
+        );
     }
 
 
-    protected override CreateSourceDto GetCreateDtoSample() => GetSourceModels.GetCreateDtoSample();
-    protected override GetSourceDto GetGetDtoSample() => GetSourceModels.GetGetDtoSample();
-    protected override Source GetModelSample() => GetSourceModels.GetSample();
-    protected override UpdateSourceDto GetUpdateDtoSample()=> GetSourceModels.GetUpdateDtoSample();
+    protected override CreateSourceDto GetCreateDtoSample()
+    {
+        return GetSourceModels.GetCreateDtoSample();
+    }
 
+    protected override GetSourceDto GetGetDtoSample()
+    {
+        return GetSourceModels.GetGetDtoSample();
+    }
+
+    protected override Source GetModelSample()
+    {
+        return GetSourceModels.GetSample();
+    }
+
+    protected override UpdateSourceDto GetUpdateDtoSample()
+    {
+        return GetSourceModels.GetUpdateDtoSample();
+    }
 }

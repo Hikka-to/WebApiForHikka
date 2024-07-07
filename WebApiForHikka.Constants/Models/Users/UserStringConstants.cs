@@ -1,4 +1,5 @@
 ﻿namespace WebApiForHikka.Constants.Models.Users;
+
 public class UserStringConstants
 {
     //RegExpression
@@ -36,17 +37,18 @@ public class UserStringConstants
 
     public const string BannedRole = "Banned";
 
-    //List of roles
-
-    public static readonly IReadOnlyCollection<string> UsersRolesList = [
-        UserRole.ToLower(),
-        AdminRole.ToLower(),
-        BannedRole.ToLower(),
-    ];
-
     //API answered
 
     public const string MessageUserRegistrated = "User created successfully";
 
     public const string MessageUserIsntRegistrated = "Something went wrong during registration";
+
+    //List of roles
+
+    public static readonly IReadOnlyCollection<string> UsersRolesList =
+    [
+        UserRole.ToLower(),
+        AdminRole.ToLower(),
+        BannedRole.ToLower()
+    ];
 }

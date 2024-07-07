@@ -5,7 +5,6 @@ using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.Test.Shared;
 
-
 namespace WebApiForHikka.WebApiTest.Repository.Users;
 
 public class UserRepositoryTest : SharedTest
@@ -26,18 +25,19 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
         await userRepository.AddAsync(new User
         {
             UserName = testUser.UserName,
             Email = testUser.Email,
             PasswordHash = testUser.PasswordHash,
-            Roles = [role!],
+            Roles = [role!]
         }, new CancellationToken());
 
         // Act
-        var result = await userRepository.AuthenticateUserAsync(testUser.Email, testUser.PasswordHash, new CancellationToken());
+        var result =
+            await userRepository.AuthenticateUserAsync(testUser.Email, testUser.PasswordHash, new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
@@ -58,24 +58,27 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
         await userRepository.AddAsync(new User
         {
             UserName = testUser.UserName,
             Email = testUser.Email,
             PasswordHash = testUser.PasswordHash,
-            Roles = [role!],
+            Roles = [role!]
         }, new CancellationToken());
 
         // Act
-        var result = await userRepository.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash, new CancellationToken());
+        var result =
+            await userRepository.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash,
+                new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
         result!.Email.Should().Be(testUser.Email);
         result!.Roles.Should().Contain(role!);
     }
+
     [Fact]
     public async Task UserRepository_AuthenticateUserWithAdminRoleAsync_ReturnsNull()
     {
@@ -90,18 +93,20 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
         await userRepository.AddAsync(new User
         {
             UserName = testUser.UserName,
             Email = testUser.Email,
             PasswordHash = testUser.PasswordHash,
-            Roles = [role!],
+            Roles = [role!]
         }, new CancellationToken());
 
         // Act
-        var result = await userRepository.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash, new CancellationToken());
+        var result =
+            await userRepository.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash,
+                new CancellationToken());
 
         // Assert
         result.Should().BeNull();
@@ -122,12 +127,13 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userRepository.CheckIfUserWithTheEmailIsAlreadyExistAsync(testUser.Email, new CancellationToken());
+        var result =
+            await userRepository.CheckIfUserWithTheEmailIsAlreadyExistAsync(testUser.Email, new CancellationToken());
 
         // Assert
         result.Should().BeTrue();
@@ -147,7 +153,7 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
@@ -173,11 +179,11 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
 
         // Act
-        var result = (Guid)(await userRepository.AddAsync(testUser, new CancellationToken()));
+        var result = await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Assert
         result.Should().NotBeEmpty();
@@ -200,15 +206,15 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
-        Guid addedUserId = (Guid)(await userRepository.AddAsync(testUser, new CancellationToken()));
+        var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
         var updatedUser = new User
         {
             Id = addedUserId,
             Email = "updated@example.com",
             PasswordHash = "newpassword",
-            Roles = [role!],
+            Roles = [role!]
         };
 
         // Act
@@ -234,9 +240,9 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
-        var addedUserId = (Guid)(await userRepository.AddAsync(testUser, new CancellationToken()));
+        var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
         await userRepository.DeleteAsync(addedUserId, new CancellationToken());
@@ -260,9 +266,9 @@ public class UserRepositoryTest : SharedTest
             UserName = "test",
             Email = "test@example.com",
             PasswordHash = "Password123!",
-            Roles = [role!],
+            Roles = [role!]
         };
-        var addedUserId = (Guid)(await userRepository.AddAsync(testUser, new CancellationToken()));
+        var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
         var result = await userRepository.GetAsync(addedUserId, new CancellationToken());
