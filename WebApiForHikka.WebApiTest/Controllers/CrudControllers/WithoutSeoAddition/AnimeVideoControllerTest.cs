@@ -75,4 +75,5 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
     protected override GetAnimeVideoDto GetGetDtoSample() => GetAnimeVideoModels.GetGetDtoSample();
     protected override UpdateAnimeVideoDto GetUpdateDtoSample() => GetAnimeVideoModels.GetUpdateDtoSample();
 
+    protected override AnimeVideo GetModelSample() => GetAnimeVideoModels.GetSample();
 }
