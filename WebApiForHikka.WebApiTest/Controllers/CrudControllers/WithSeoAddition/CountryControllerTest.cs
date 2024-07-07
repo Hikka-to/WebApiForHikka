@@ -7,6 +7,7 @@ using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -59,46 +60,10 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
     }
 
 
-    protected override CreateCountryDto GetCreateDtoSample()
-    {
-        return new CreateCountryDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionCreateDtoSample(),
-        };
-    }
-
-    protected override GetCountryDto GetGetDtoSample()
-    {
-        return new GetCountryDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionGetDtoSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override Country GetModelSample()
-    {
-        return new Country()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateCountryDto GetUpdateDtoSample()
-    {
-        return new UpdateCountryDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAddtionUpdateDtoSample(),
-            Id = new Guid(),
-        };
-    }
+    protected override CreateCountryDto GetCreateDtoSample() => GetCountryModels.GetCreateDtoSample();
+    protected override GetCountryDto GetGetDtoSample() => GetCountryModels.GetGetDtoSample();
+    protected override Country GetModelSample() => GetCountryModels.GetSample();
+    protected override UpdateCountryDto GetUpdateDtoSample() => GetCountryModels.GetUpdateDtoSample();
+        
+        
 }

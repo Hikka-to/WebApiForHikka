@@ -7,6 +7,7 @@ using WebApiForHikka.Dtos.Dto.Periods;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -49,42 +50,10 @@ public class PeriodControllerTest : CrudControllerBaseWithSeoAddition<
     }
 
 
-    protected override CreatePeriodDto GetCreateDtoSample()
-    {
-        return new CreatePeriodDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionCreateDtoSample(),
-        };
-    }
+    protected override CreatePeriodDto GetCreateDtoSample() => GetPeriodModels.GetCreateDtoSample();
+    protected override GetPeriodDto GetGetDtoSample() => GetPeriodModels.GetGetDtoSample();
+    protected override Period GetModelSample() => GetPeriodModels.GetSample();
+    protected override UpdatePeriodDto GetUpdateDtoSample() => GetPeriodModels.GetUpdateDtoSample();
 
-    protected override GetPeriodDto GetGetDtoSample()
-    {
-        return new GetPeriodDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionGetDtoSample(),
-            Id = new Guid(),
-        };
-    }
 
-    protected override Period GetModelSample()
-    {
-        return new Period()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdatePeriodDto GetUpdateDtoSample()
-    {
-        return new UpdatePeriodDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAddtionUpdateDtoSample(),
-            Id = new Guid(),
-        };
-    }
 }

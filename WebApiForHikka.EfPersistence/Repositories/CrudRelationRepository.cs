@@ -18,7 +18,7 @@ public abstract class CrudRelationRepository<TModel, TFirstModel, TSecondModel> 
     {
 
 
-        var entity = await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == firstId && e.SecondId == secondId);
+        var entity = await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.FirstId == firstId && e.SecondId == secondId);
 
         if (entity is null)
             return;
@@ -30,12 +30,12 @@ public abstract class CrudRelationRepository<TModel, TFirstModel, TSecondModel> 
 
     public TModel? Get(Guid firstId, Guid secondId)
     {
-        return DbContext.Set<TModel>().FirstOrDefault(e => e.Id == firstId && e.SecondId == secondId);
+        return DbContext.Set<TModel>().FirstOrDefault(e => e.FirstId == firstId && e.SecondId == secondId);
     }
 
     public async Task<TModel?> GetAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
     {
-        return await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == firstId && e.SecondId == secondId);
+        return await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.FirstId == firstId && e.SecondId == secondId);
     }
 
 }

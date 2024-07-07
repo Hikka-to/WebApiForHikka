@@ -1,4 +1,5 @@
 ﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
@@ -24,4 +25,47 @@ public static class GetDubModels
             SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
         };
     }
+    public static CreateDubDto GetCreateDtoSample()
+    {
+        return new CreateDubDto()
+        {
+            Name = Faker.Lorem.GetFirstWord(),
+            Icon = Faker.Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+        };
+    }
+
+    public static GetDubDto GetGetDtoSample()
+    {
+        return new GetDubDto()
+        {
+            Name = Faker.Lorem.GetFirstWord(),
+            Icon = Faker.Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
+            Id = new Guid(),
+        };
+    }
+
+    public static Dub GetModelSample()
+    {
+        return new Dub()
+        {
+            Name = Faker.Lorem.GetFirstWord(),
+            Icon = Faker.Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetSample(),
+            Id = new Guid(),
+        };
+    }
+
+    public static UpdateDubDto GetUpdateDtoSample()
+    {
+        return new UpdateDubDto()
+        {
+            Name = Faker.Lorem.GetFirstWord(),
+            Icon = Faker.Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
+            Id = new Guid(),
+        };
+    }
+
 }

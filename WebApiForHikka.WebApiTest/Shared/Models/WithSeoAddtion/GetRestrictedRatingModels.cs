@@ -1,4 +1,5 @@
 ﻿using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
@@ -22,4 +23,40 @@ public static class GetRestrictedRatingModels
         Value = 2,
         SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
     };
+    public static CreateRestrictedRatingDto GetCreateDtoSample()
+    {
+        return new CreateRestrictedRatingDto()
+        {
+            Hint = Faker.Lorem.GetFirstWord(),
+            Name = Faker.Lorem.GetFirstWord(),
+            Value = 2,
+            Icon = Faker.Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+        };
+    }
+
+    public static GetRestrictedRatingDto GetGetDtoSample()
+    {
+        return new GetRestrictedRatingDto()
+        {
+            Hint = Faker.Lorem.GetFirstWord(),
+            Icon = Faker.Lorem.GetFirstWord(),
+            Name = Faker.Lorem.GetFirstWord(),
+            Value = 1,
+            SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
+            Id = new Guid(),
+        };
+    }
+    public static UpdateRestrictedRatingDto GetUpdateDtoSample()
+    {
+        return new UpdateRestrictedRatingDto()
+        {
+            Hint = Faker.Lorem.GetFirstWord(),
+            Name = Faker.Lorem.GetFirstWord(),
+            Value = 1,
+            Icon = Faker.Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
+            Id = new Guid(),
+        };
+    }
 }

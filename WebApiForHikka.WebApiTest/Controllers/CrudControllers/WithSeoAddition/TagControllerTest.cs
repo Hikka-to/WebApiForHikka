@@ -7,6 +7,7 @@ using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -49,55 +50,9 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
     }
 
 
-    protected override CreateTagDto GetCreateDtoSample()
-    {
-        return new CreateTagDto()
-        {
-            Alises = Faker.Lorem.Words(2).ToList(),
-            EngName = Faker.Lorem.GetFirstWord(),
-            IsGenre = Faker.Boolean.Random(),
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionCreateDtoSample(),
-        };
-    }
-
-    protected override GetTagDto GetGetDtoSample()
-    {
-        return new GetTagDto()
-        {
-            Alises = Faker.Lorem.Words(2).ToList(),
-            EngName = Faker.Lorem.GetFirstWord(),
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionGetDtoSample(),
-            IsGenre = Faker.Boolean.Random(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override Tag GetModelSample()
-    {
-        return new Tag()
-        {
-            Alises = Faker.Lorem.Words(2).ToList(),
-            EngName = Faker.Lorem.GetFirstWord(),
-            IsGenre = Faker.Boolean.Random(),
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateTagDto GetUpdateDtoSample()
-    {
-        return new UpdateTagDto()
-        {
-            Alises = Faker.Lorem.Words(2).ToList(),
-            EngName = Faker.Lorem.GetFirstWord(),
-            IsGenre = Faker.Boolean.Random(),
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAddtionUpdateDtoSample(),
-            Id = new Guid(),
-        };
-    }
+    protected override CreateTagDto GetCreateDtoSample() => GetTagModels.GetCreateDtoSample();
+    protected override GetTagDto GetGetDtoSample() => GetTagModels.GetGetDtoSample();
+    protected override Tag GetModelSample() => GetTagModels.GetModelSample();
+    protected override UpdateTagDto GetUpdateDtoSample()=> GetTagModels.GetUpdateDtoSample();
 
 }

@@ -6,6 +6,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controller.Shared;
+using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
@@ -70,42 +71,8 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
         updateDto.AnimeVideoKindId = animeVideoKind.Id;
     }
 
-    protected override CreateAnimeVideoDto GetCreateDtoSample() => new()
-    {
-        AnimeVideoKindId = Guid.NewGuid(),
-        Name = Faker.Lorem.GetFirstWord(),
-        Url = Faker.Lorem.GetFirstWord(),
-        ImageUrl = Faker.Lorem.GetFirstWord(),
-        EmbedUrl = Faker.Lorem.GetFirstWord(),
-    };
+    protected override CreateAnimeVideoDto GetCreateDtoSample() => GetAnimeVideoModels.GetCreateDtoSample();
+    protected override GetAnimeVideoDto GetGetDtoSample() => GetAnimeVideoModels.GetGetDtoSample();
+    protected override UpdateAnimeVideoDto GetUpdateDtoSample() => GetAnimeVideoModels.GetUpdateDtoSample();
 
-    protected override GetAnimeVideoDto GetGetDtoSample() => new()
-    {
-        AnimeVideoKindId = Guid.NewGuid(),
-        Name = Faker.Lorem.GetFirstWord(),
-        Url = Faker.Lorem.GetFirstWord(),
-        ImageUrl = Faker.Lorem.GetFirstWord(),
-        EmbedUrl = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
-
-    protected override UpdateAnimeVideoDto GetUpdateDtoSample() => new()
-    {
-        AnimeVideoKindId = Guid.NewGuid(),
-        Name = Faker.Lorem.GetFirstWord(),
-        Url = Faker.Lorem.GetFirstWord(),
-        ImageUrl = Faker.Lorem.GetFirstWord(),
-        EmbedUrl = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
-
-    protected override AnimeVideo GetModelSample() => new()
-    {
-        AnimeVideoKind = new AnimeVideoKindControllerTest().Sample,
-        Name = Faker.Lorem.GetFirstWord(),
-        Url = Faker.Lorem.GetFirstWord(),
-        ImageUrl = Faker.Lorem.GetFirstWord(),
-        EmbedUrl = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
 }

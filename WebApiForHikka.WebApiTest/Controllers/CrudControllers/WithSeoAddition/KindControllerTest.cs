@@ -6,6 +6,7 @@ using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -48,46 +49,11 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
     }
 
 
-    protected override CreateKindDto GetCreateDtoSample()
-    {
-        return new CreateKindDto()
-        {
-            Hint = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionCreateDtoSample(),
-        };
-    }
+    protected override CreateKindDto GetCreateDtoSample() => GetKindModels.GetCreateDtoSample();
+    protected override GetKindDto GetGetDtoSample() => GetKindModels.GetGetDtoSample();
 
-    protected override GetKindDto GetGetDtoSample()
-    {
-        return new GetKindDto()
-        {
-            Hint = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionGetDtoSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override Kind GetModelSample()
-    {
-        return new Kind()
-        {
-            Hint = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateKindDto GetUpdateDtoSample()
-    {
-        return new UpdateKindDto()
-        {
-            Hint = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAddtionUpdateDtoSample(),
-            Id = new Guid(),
-        };
-    }
+    protected override Kind GetModelSample() => GetKindModels.GetSample();
+    protected override UpdateKindDto GetUpdateDtoSample() => GetKindModels.GetUpdateDtoSample();
+        
+        
 }
