@@ -6,6 +6,7 @@ using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -48,42 +49,8 @@ public class StatusControllerTest : CrudControllerBaseWithSeoAddition<
     }
 
 
-    protected override CreateStatusDto GetCreateDtoSample()
-    {
-        return new CreateStatusDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionCreateDtoSample(),
-        };
-    }
-
-    protected override GetStatusDto GetGetDtoSample()
-    {
-        return new GetStatusDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionGetDtoSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override Status GetModelSample()
-    {
-        return new Status()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateStatusDto GetUpdateDtoSample()
-    {
-        return new UpdateStatusDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAddtionUpdateDtoSample(),
-            Id = new Guid(),
-        };
-    }
+    protected override CreateStatusDto GetCreateDtoSample() => GetStatusModels.GetCreateDtoSample();
+    protected override GetStatusDto GetGetDtoSample() => GetStatusModels.GetGetDtoSample();
+    protected override Status GetModelSample()=> GetStatusModels.GetSample();
+    protected override UpdateStatusDto GetUpdateDtoSample() => GetStatusModels.GetUpdateDtoSample();
 }

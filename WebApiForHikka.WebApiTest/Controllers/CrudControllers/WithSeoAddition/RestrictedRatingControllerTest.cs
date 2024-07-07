@@ -6,6 +6,7 @@ using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -49,54 +50,8 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
     }
 
 
-    protected override CreateRestrictedRatingDto GetCreateDtoSample()
-    {
-        return new CreateRestrictedRatingDto()
-        {
-            Hint = Faker.Lorem.GetFirstWord(),
-            Name = Faker.Lorem.GetFirstWord(),
-            Value = 2,
-            Icon = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionCreateDtoSample(),
-        };
-    }
-
-    protected override GetRestrictedRatingDto GetGetDtoSample()
-    {
-        return new GetRestrictedRatingDto()
-        {
-            Hint = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            Name = Faker.Lorem.GetFirstWord(),
-            Value = 1,
-            SeoAddition = GetSeoAdditionGetDtoSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override RestrictedRating GetModelSample()
-    {
-        return new RestrictedRating()
-        {
-            Hint = Faker.Lorem.GetFirstWord(),
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            Value = 1,
-            SeoAddition = GetSeoAdditionSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateRestrictedRatingDto GetUpdateDtoSample()
-    {
-        return new UpdateRestrictedRatingDto()
-        {
-            Hint = Faker.Lorem.GetFirstWord(),
-            Name = Faker.Lorem.GetFirstWord(),
-            Value = 1,
-            Icon = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAddtionUpdateDtoSample(),
-            Id = new Guid(),
-        };
-    }
+    protected override CreateRestrictedRatingDto GetCreateDtoSample() => GetRestrictedRatingModels.GetCreateDtoSample();
+    protected override GetRestrictedRatingDto GetGetDtoSample() => GetRestrictedRatingModels.GetGetDtoSample();
+    protected override RestrictedRating GetModelSample()=> GetRestrictedRatingModels.GetSample();
+    protected override UpdateRestrictedRatingDto GetUpdateDtoSample() => GetRestrictedRatingModels.GetUpdateDtoSample();
 }

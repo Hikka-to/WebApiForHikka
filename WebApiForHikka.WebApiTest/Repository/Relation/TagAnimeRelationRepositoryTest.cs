@@ -47,7 +47,7 @@ public class TagAnimeRelationRepositoryTest : SharedRelationRepositoryTest<
     {
         return new TagAnime()
         {
-            Id = firstId,
+            FirstId = firstId,
             SecondId = secondId,
         };
     }
@@ -55,55 +55,5 @@ public class TagAnimeRelationRepositoryTest : SharedRelationRepositoryTest<
     protected override TagAnimeRelationRepository GetRepository(HikkaDbContext hikkaDbContext)
     {
         return new TagAnimeRelationRepository(hikkaDbContext);
-    }
-
-    protected override TagAnime GetSample()
-    {
-        throw new NotImplementedException("Don't use this method in RelationRepositories tests");
-    }
-
-    protected override TagAnime GetSampleForUpdate()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Task Repository_AddAsync_ReturnsModelAndId()
-    {
-        return base.Repository_AddAsync_ReturnsModelAndId();
-    }
-
-    public override Task Repository_Deletesync_DeleteModel()
-    {
-        return base.Repository_Deletesync_DeleteModel();
-    }
-
-    public override Task Repository_GetAllAsync_ReturnsPage()
-    {
-        return base.Repository_GetAllAsync_ReturnsPage();
-    }
-
-    public override Task Repository_GetAsync_ReturnsModel()
-    {
-        return base.Repository_GetAsync_ReturnsModel();
-    }
-
-    public override Task Repository_UpdateAsync_UpdateModel()
-    {
-        return base.Repository_UpdateAsync_UpdateModel();
-    }
-
-    public override Task RepositoryRelation_DeleteByTwoIdsAsync_DeleteModel()
-    {
-        return base.RepositoryRelation_DeleteByTwoIdsAsync_DeleteModel();
-    }
-
-    public override Task RepositoryRelation_GetAsync_ReturnsModel()
-    {
-        return base.RepositoryRelation_GetAsync_ReturnsModel();
-    }
-
-    public override Task RepositoryRelation_Get_ReturnModel()
-    {
-        return base.RepositoryRelation_Get_ReturnModel();
     }
 }

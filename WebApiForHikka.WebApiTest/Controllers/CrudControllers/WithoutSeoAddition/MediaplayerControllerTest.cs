@@ -5,6 +5,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controller.Shared;
+using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
@@ -55,42 +56,9 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
     }
 
 
-    protected override CreateMediaplayerDto GetCreateDtoSample()
-    {
-        return new CreateMediaplayerDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-        };
-    }
+    protected override CreateMediaplayerDto GetCreateDtoSample() => GetMediaplayerModels.GetCreateDtoSample();
+    protected override GetMediaplayerDto GetGetDtoSample() => GetMediaplayerModels.GetGetDtoSample();
+    protected override Mediaplayer GetModelSample() => GetMediaplayerModels.GetModelSample();
+    protected override UpdateMediaplayerDto GetUpdateDtoSample() => GetMediaplayerModels.GetUpdateDtoSample();
 
-    protected override GetMediaplayerDto GetGetDtoSample()
-    {
-        return new GetMediaplayerDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override Mediaplayer GetModelSample()
-    {
-        return new Mediaplayer()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateMediaplayerDto GetUpdateDtoSample()
-    {
-        return new UpdateMediaplayerDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
-        };
-    }
 }

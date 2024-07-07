@@ -5,6 +5,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controller.Shared;
+using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
@@ -44,26 +45,9 @@ public class AnimeVideoKindControllerTest : CrudControllerBaseTest<
             );
     }
 
-    protected override CreateAnimeVideoKindDto GetCreateDtoSample() => new()
-    {
-        Name = Faker.Lorem.GetFirstWord()
-    };
+    protected override CreateAnimeVideoKindDto GetCreateDtoSample() => GetAnimeVideoKindModels.GetCreateDtoSample();
+    protected override GetAnimeVideoKindDto GetGetDtoSample() => GetAnimeVideoKindModels.GetGetDtoSample();
+    protected override UpdateAnimeVideoKindDto GetUpdateDtoSample() => GetAnimeVideoKindModels.GetUpdateDtoSample();
+    protected override AnimeVideoKind GetModelSample() => GetAnimeVideoKindModels.GetSample();
 
-    protected override GetAnimeVideoKindDto GetGetDtoSample() => new()
-    {
-        Name = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
-
-    protected override UpdateAnimeVideoKindDto GetUpdateDtoSample() => new()
-    {
-        Name = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
-
-    protected override AnimeVideoKind GetModelSample() => new()
-    {
-        Name = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
 }

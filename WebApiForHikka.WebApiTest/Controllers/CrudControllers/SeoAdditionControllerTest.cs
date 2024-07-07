@@ -5,6 +5,7 @@ using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controller.Shared;
+using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 using WebApiForHikka.WebApi.Controllers;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers;
@@ -30,72 +31,13 @@ public class SeoAdditionControllerTest : CrudControllerBaseTest<
             );
     }
 
-    protected override CreateSeoAdditionDto GetCreateDtoSample()
-    {
-        return new CreateSeoAdditionDto()
-        {
-            Description = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            Title = Faker.Lorem.GetFirstWord(),
-            Image = Faker.Lorem.GetFirstWord(),
-            ImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialImage = Faker.Lorem.GetFirstWord(),
-            SocialImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialTitle = Faker.Lorem.GetFirstWord(),
-            SocialType = Faker.Lorem.GetFirstWord(),
-        };
-    }
+    protected override CreateSeoAdditionDto GetCreateDtoSample() => GetSeoAdditionModels.GetCreateDtoSample();
 
-    protected override SeoAddition GetModelSample()
-    {
-        return new SeoAddition()
-        {
-            Description = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            Title = Faker.Lorem.GetFirstWord(),
-            Image = Faker.Lorem.GetFirstWord(),
-            ImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialImage = Faker.Lorem.GetFirstWord(),
-            SocialImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialTitle = Faker.Lorem.GetFirstWord(),
-            SocialType = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateSeoAdditionDto GetUpdateDtoSample()
-    {
-        return new UpdateSeoAdditionDto()
-        {
-            Description = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            Title = Faker.Lorem.GetFirstWord(),
-            Image = Faker.Lorem.GetFirstWord(),
-            ImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialImage = Faker.Lorem.GetFirstWord(),
-            SocialImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialTitle = Faker.Lorem.GetFirstWord(),
-            SocialType = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override GetSeoAdditionDto GetGetDtoSample()
-    {
-        return new GetSeoAdditionDto()
-        {
-            Description = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            Title = Faker.Lorem.GetFirstWord(),
-            Image = Faker.Lorem.GetFirstWord(),
-            ImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialImage = Faker.Lorem.GetFirstWord(),
-            SocialImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialTitle = Faker.Lorem.GetFirstWord(),
-            SocialType = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
-        };
-    }
+    protected override SeoAddition GetModelSample() => GetSeoAdditionModels.GetSample();
+    
+    protected override UpdateSeoAdditionDto GetUpdateDtoSample() => GetSeoAdditionModels.GetUpdateDtoSample();
+    
+    protected override GetSeoAdditionDto GetGetDtoSample() => GetSeoAdditionModels.GetGetDtoSample();
 
     protected override ICollection<SeoAddition> GetCollectionOfModels(int howMany)
     {

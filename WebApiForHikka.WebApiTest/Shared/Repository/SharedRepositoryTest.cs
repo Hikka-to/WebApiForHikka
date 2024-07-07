@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
@@ -73,7 +74,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     }
 
     [Fact]
-    public async Task Repository_GetAllAsync_ReturnsAllModels()
+    public virtual async Task Repository_GetAllAsync_ReturnsAllModels()
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
@@ -96,7 +97,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
 
 
     [Fact]
-    public async Task Repository_GetAllModelsByIdsAsync_ReturnsModelsByIds()
+    public virtual async Task Repository_GetAllModelsByIdsAsync_ReturnsModelsByIds()
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
@@ -133,6 +134,25 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(sample);
     }
+  
+    [Fact]
+    public async virtual Task Repository_Get_ReturnsModel()
+    {
+        // Arrange
+        var dbContext = GetDatabaseContext();
+        var repository = GetRepository(dbContext);
+        var sample = GetSample();
+        var id = await repository.AddAsync(sample, CancellationToken);
+        sample.Id = id;
+
+        // Act
+        var result =  repository.Get(id);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(sample);
+    }
+
 
     [Fact]
     public virtual async Task Repository_UpdateAsync_UpdateModel()

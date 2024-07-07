@@ -2,29 +2,16 @@
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
+using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 using WebApiForHikka.Test.Shared.Service;
 
 namespace WebApiForHikka.Test.Service.WithoutSeoAddition.Mediaplayers;
 
 public class MediaplayerServiceTest : SharedServiceTest<Mediaplayer, MediaplayerService>
 {
-    protected override Mediaplayer GetSample()
-    {
-        return new Mediaplayer()
-        {
-            Icon = "Icon",
-            Name = "Name",
-        };
-    }
+    protected override Mediaplayer GetSample() => GetMediaplayerModels.GetSample();
 
-    protected override Mediaplayer GetSampleForUpdate()
-    {
-        return new Mediaplayer()
-        {
-            Icon = "Icon1",
-            Name = "Name1",
-        };
-    }
+    protected override Mediaplayer GetSampleForUpdate()=> GetMediaplayerModels.GetSampleForUpdate();
 
     protected override MediaplayerService GetService(HikkaDbContext hikkaDbContext)
     {

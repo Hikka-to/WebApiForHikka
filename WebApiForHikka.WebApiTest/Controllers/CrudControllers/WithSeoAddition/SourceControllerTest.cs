@@ -6,6 +6,7 @@ using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -48,42 +49,9 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
     }
 
 
-    protected override CreateSourceDto GetCreateDtoSample()
-    {
-        return new CreateSourceDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionCreateDtoSample(),
-        };
-    }
+    protected override CreateSourceDto GetCreateDtoSample() => GetSourceModels.GetCreateDtoSample();
+    protected override GetSourceDto GetGetDtoSample() => GetSourceModels.GetGetDtoSample();
+    protected override Source GetModelSample() => GetSourceModels.GetSample();
+    protected override UpdateSourceDto GetUpdateDtoSample()=> GetSourceModels.GetUpdateDtoSample();
 
-    protected override GetSourceDto GetGetDtoSample()
-    {
-        return new GetSourceDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionGetDtoSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override Source GetModelSample()
-    {
-        return new Source()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateSourceDto GetUpdateDtoSample()
-    {
-        return new UpdateSourceDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAddtionUpdateDtoSample(),
-            Id = new Guid(),
-        };
-    }
 }

@@ -6,6 +6,7 @@ using WebApiForHikka.Dtos.Dto.Formats;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
@@ -57,42 +58,9 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
     }
 
 
-    protected override CreateFormatDto GetCreateDtoSample()
-    {
-        return new CreateFormatDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionCreateDtoSample(),
-        };
-    }
+    protected override CreateFormatDto GetCreateDtoSample() => GetFormatModels.GetCreateDtoSample();
+    protected override GetFormatDto GetGetDtoSample() => GetFormatModels.GetGetDtoSample();
+    protected override Format GetModelSample() => GetFormatModels.GetModelSample();
+    protected override UpdateFormatDto GetUpdateDtoSample()=> GetFormatModels.GetUpdateDtoSample();
 
-    protected override GetFormatDto GetGetDtoSample()
-    {
-        return new GetFormatDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionGetDtoSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override Format GetModelSample()
-    {
-        return new Format()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionSample(),
-            Id = new Guid(),
-        };
-    }
-
-    protected override UpdateFormatDto GetUpdateDtoSample()
-    {
-        return new UpdateFormatDto()
-        {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAddtionUpdateDtoSample(),
-            Id = new Guid(),
-        };
-    }
 }

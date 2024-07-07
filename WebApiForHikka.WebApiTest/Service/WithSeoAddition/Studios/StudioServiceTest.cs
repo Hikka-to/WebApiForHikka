@@ -2,6 +2,7 @@
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Shared.Service;
 
 namespace WebApiForHikka.Test.Service.WithSeoAddition.Studios;
@@ -11,19 +12,10 @@ public class StudioServiceTest : SharedServiceTestWithSeoAddition<
     StudioService
     >
 {
-    protected override Studio GetSample() => new()
-    {
-        Name = "test",
-        Logo = "test",
-        SeoAddition = GetSeoAdditionSample()
-    };
+    protected override Studio GetSample() => GetStudioModels.GetSample();
 
-
-    protected override Studio GetSampleForUpdate() => new()
-    {
-        Name = "test1",
-        SeoAddition = GetSeoAdditionSampleUpdate()
-    };
+    protected override Studio GetSampleForUpdate() => GetStudioModels.GetSampleForUpdate();
+    
     protected override StudioService GetService(HikkaDbContext hikkaDbContext)
     {
         StudioRepository statusRepository = new(hikkaDbContext);
