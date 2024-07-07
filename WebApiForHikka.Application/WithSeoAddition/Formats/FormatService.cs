@@ -2,4 +2,6 @@
 using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Formats;
-public class FormatService(IFormatRepository repository) : CrudService<Format, IFormatRepository>(repository), IFormatService;
+
+public class FormatService(IFormatRepository repository)
+    : CrudService<Format, IFormatRepository>(repository), IFormatService;

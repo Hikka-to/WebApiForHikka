@@ -20,7 +20,7 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
     CreateKindDto,
     GetKindDto,
     ReturnPageDto<GetKindDto>
-    >
+>
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
@@ -31,29 +31,44 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new KindService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new KindService(formatRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
-
-    protected override async Task<KindController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<KindController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in KindControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in KindControllerTest");
 
         return new KindController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
-            );
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager)
+        );
     }
 
 
-    protected override CreateKindDto GetCreateDtoSample() => GetKindModels.GetCreateDtoSample();
-    protected override GetKindDto GetGetDtoSample() => GetKindModels.GetGetDtoSample();
+    protected override CreateKindDto GetCreateDtoSample()
+    {
+        return GetKindModels.GetCreateDtoSample();
+    }
 
-    protected override Kind GetModelSample() => GetKindModels.GetSample();
-    protected override UpdateKindDto GetUpdateDtoSample() => GetKindModels.GetUpdateDtoSample();
-        
-        
+    protected override GetKindDto GetGetDtoSample()
+    {
+        return GetKindModels.GetGetDtoSample();
+    }
+
+    protected override Kind GetModelSample()
+    {
+        return GetKindModels.GetSample();
+    }
+
+    protected override UpdateKindDto GetUpdateDtoSample()
+    {
+        return GetKindModels.GetUpdateDtoSample();
+    }
 }

@@ -9,8 +9,16 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.Sources;
 
 public class SourceServiceTest : SharedServiceTestWithSeoAddition<Source, SourceService>
 {
-    protected override Source GetSample() => GetSourceModels.GetSample();
-    protected override Source GetSampleForUpdate() => GetSourceModels.GetSampleForUpdate();
+    protected override Source GetSample()
+    {
+        return GetSourceModels.GetSample();
+    }
+
+    protected override Source GetSampleForUpdate()
+    {
+        return GetSourceModels.GetSampleForUpdate();
+    }
+
     protected override SourceService GetService(HikkaDbContext hikkaDbContext)
     {
         SourceRepository sourceRepository = new(hikkaDbContext);

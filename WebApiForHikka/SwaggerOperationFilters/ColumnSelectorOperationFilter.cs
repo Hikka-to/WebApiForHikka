@@ -25,7 +25,7 @@ public class ColumnSelectorOperationFilter(IServiceProvider services) : IOperati
             var modelType = crudController != null ? crudController.GetGenericArguments()[4] : typeof(User);
             var sortColumnParameter = operation.Parameters.First(p => p.Name == nameof(FilterPaginationDto.Column));
             var entityType = dbContext.Model.FindEntityType(modelType) ??
-                throw new InvalidOperationException($"Entity type for {modelType} not found.");
+                             throw new InvalidOperationException($"Entity type for {modelType} not found.");
 
             var idString = new OpenApiString("Id");
             sortColumnParameter.Schema.Enum =

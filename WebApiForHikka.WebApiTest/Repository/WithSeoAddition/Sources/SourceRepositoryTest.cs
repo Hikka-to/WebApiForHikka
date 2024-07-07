@@ -1,5 +1,4 @@
 ﻿using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
@@ -10,12 +9,20 @@ namespace WebApiForHikka.Test.Repository.WithSeoAddition.Sources;
 public class SourceRepositoryTest : SharedRepositoryTestWithSeoAddition<
     Source,
     SourceRepository
-    >
+>
 {
-    protected override SourceRepository GetRepository(HikkaDbContext hikkaDbContext) =>
-        new(hikkaDbContext);
+    protected override SourceRepository GetRepository(HikkaDbContext hikkaDbContext)
+    {
+        return new SourceRepository(hikkaDbContext);
+    }
 
-    protected override Source GetSample() => GetSourceModels.GetSample();
-    protected override Source GetSampleForUpdate() => GetSourceModels.GetSampleForUpdate();
+    protected override Source GetSample()
+    {
+        return GetSourceModels.GetSample();
+    }
 
+    protected override Source GetSampleForUpdate()
+    {
+        return GetSourceModels.GetSampleForUpdate();
+    }
 }

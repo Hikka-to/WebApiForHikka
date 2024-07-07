@@ -5,4 +5,4 @@ namespace WebApiForHikka.Application.WithoutSeoAddition.AnimeVideoKinds;
 
 public class AnimeVideoKindService(IAnimeVideoKindRepository repository)
     : CrudService<AnimeVideoKind, IAnimeVideoKindRepository>(repository),
-    IAnimeVideoKindService;
+        IAnimeVideoKindService;

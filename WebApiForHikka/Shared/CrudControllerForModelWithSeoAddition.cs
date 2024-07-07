@@ -11,9 +11,13 @@ using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
+
 public abstract class CrudControllerForModelWithSeoAddition
-    <TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition>
-    (TIService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    <TGetDtoWithSeoAddition, TUpdateDtoWithSeoAddition, TCreateDtoWithSeoAddition, TIService, TModelWithSeoAddition>(
+        TIService crudService,
+        ISeoAdditionService seoAdditionService,
+        IMapper mapper,
+        IHttpContextAccessor httpContextAccessor)
     : CrudController<
         TGetDtoWithSeoAddition,
         TUpdateDtoWithSeoAddition,
@@ -30,13 +34,11 @@ public abstract class CrudControllerForModelWithSeoAddition
     protected ISeoAdditionService _seoAdditionService = seoAdditionService;
 
     [HttpPost("Create")]
-    public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto,
+        CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase());
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
         var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
@@ -45,27 +47,18 @@ public abstract class CrudControllerForModelWithSeoAddition
 
         Guid? id = await _crudService.CreateAsync(model, cancellationToken);
 
-        if (id == null)
-        {
-            return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
-        }
+        if (id == null) return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
 
-        return Ok(new CreateResponseDto() { Id = (Guid)id });
+        return Ok(new CreateResponseDto { Id = (Guid)id });
     }
 
 
     [HttpDelete("{id:Guid}")]
     public override async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(
-            new ThingsToValidateBase()
-            {
-            }
-            );
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = await _crudService.GetAsync(id, cancellationToken);
 
@@ -79,15 +72,9 @@ public abstract class CrudControllerForModelWithSeoAddition
     [HttpGet("{id:Guid}")]
     public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(
-            new ThingsToValidateBase()
-            {
-            }
-            );
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = _mapper.Map<TGetDtoWithSeoAddition>(await _crudService.GetAsync(id, cancellationToken));
         if (model is null)
@@ -98,49 +85,40 @@ public abstract class CrudControllerForModelWithSeoAddition
 
 
     [HttpGet("GetAll")]
-    public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
+        CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(
-            new ThingsToValidateBase()
-            {
-            }
-            );
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        FilterPagination filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await _crudService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = _mapper.Map<List<TGetDtoWithSeoAddition>>(paginationCollection.Models);
         return Ok(
-            new ReturnPageDto<TGetDtoWithSeoAddition>()
+            new ReturnPageDto<TGetDtoWithSeoAddition>
             {
                 HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
-                Models = models,
+                Models = models
             }
-
         );
     }
 
 
     [HttpPut("Update")]
-    public override async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto,
+        CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(
-            new ThingsToValidateWithSeoAdditionForUpdate()
+        var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(
+            new ThingsToValidateWithSeoAdditionForUpdate
             {
                 UpdateDto = dto,
-                IdForSeoAddition = dto.SeoAddition.Id,
+                IdForSeoAddition = dto.SeoAddition.Id
             }
-
-            );
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        );
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = _mapper.Map<TModelWithSeoAddition>(dto);
         var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
@@ -154,18 +132,17 @@ public abstract class CrudControllerForModelWithSeoAddition
     }
 
 
-    protected ErrorEndPoint ValidateRequestForUpdateWithSeoAddtionEndPoint(ThingsToValidateWithSeoAdditionForUpdate thingsToValidate)
+    protected ErrorEndPoint ValidateRequestForUpdateWithSeoAddtionEndPoint(
+        ThingsToValidateWithSeoAdditionForUpdate thingsToValidate)
     {
-        ErrorEndPoint errorEndPoint = base.ValidateRequestForUpdateEndPoint(thingsToValidate);
+        var errorEndPoint = base.ValidateRequestForUpdateEndPoint(thingsToValidate);
 
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint;
-        }
+        if (errorEndPoint.IsError) return errorEndPoint;
 
         if (thingsToValidate.UpdateDto.SeoAddition.Id != thingsToValidate.IdForSeoAddition)
         {
-            errorEndPoint.BadRequestObjectResult = BadRequest(ControllerStringConstants.SeoAdditionDoesntConnectToTheModel);
+            errorEndPoint.BadRequestObjectResult =
+                BadRequest(ControllerStringConstants.SeoAdditionDoesntConnectToTheModel);
             return errorEndPoint;
         }
 

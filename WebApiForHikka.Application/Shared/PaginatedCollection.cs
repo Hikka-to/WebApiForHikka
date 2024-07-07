@@ -3,9 +3,16 @@ using WebApiForHikka.Domain.Models;
 
 namespace WebApiForHikka.Application.Shared;
 
-public sealed record PaginatedCollection<TModel>(IReadOnlyCollection<TModel> Models, int Total) : IEnumerable<TModel> where TModel : class, IModel
+public sealed record PaginatedCollection<TModel>(IReadOnlyCollection<TModel> Models, int Total)
+    : IEnumerable<TModel> where TModel : class, IModel
 {
-    public IEnumerator<TModel> GetEnumerator() => Models.GetEnumerator();
+    public IEnumerator<TModel> GetEnumerator()
+    {
+        return Models.GetEnumerator();
+    }
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }

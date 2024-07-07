@@ -19,7 +19,7 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
     CreateMediaplayerDto,
     GetMediaplayerDto,
     ReturnPageDto<GetMediaplayerDto>
-    >
+>
 
 {
     protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
@@ -36,29 +36,41 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
     protected override ICollection<Mediaplayer> GetCollectionOfModels(int howMany)
     {
         ICollection<Mediaplayer> seoAdditions = new List<Mediaplayer>();
-        for (int i = 0; i < howMany; ++i)
-        {
-            seoAdditions.Add(GetModelSample());
-        }
+        for (var i = 0; i < howMany; ++i) seoAdditions.Add(GetModelSample());
         return seoAdditions;
-
     }
 
-    protected override async Task<MediaplayerController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<MediaplayerController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInController allServices = allServicesInController;
+        var allServices = allServicesInController;
 
         return new MediaplayerController(
             allServices.CrudService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
-            );
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager)
+        );
     }
 
 
-    protected override CreateMediaplayerDto GetCreateDtoSample() => GetMediaplayerModels.GetCreateDtoSample();
-    protected override GetMediaplayerDto GetGetDtoSample() => GetMediaplayerModels.GetGetDtoSample();
-    protected override Mediaplayer GetModelSample() => GetMediaplayerModels.GetModelSample();
-    protected override UpdateMediaplayerDto GetUpdateDtoSample() => GetMediaplayerModels.GetUpdateDtoSample();
+    protected override CreateMediaplayerDto GetCreateDtoSample()
+    {
+        return GetMediaplayerModels.GetCreateDtoSample();
+    }
 
+    protected override GetMediaplayerDto GetGetDtoSample()
+    {
+        return GetMediaplayerModels.GetGetDtoSample();
+    }
+
+    protected override Mediaplayer GetModelSample()
+    {
+        return GetMediaplayerModels.GetModelSample();
+    }
+
+    protected override UpdateMediaplayerDto GetUpdateDtoSample()
+    {
+        return GetMediaplayerModels.GetUpdateDtoSample();
+    }
 }

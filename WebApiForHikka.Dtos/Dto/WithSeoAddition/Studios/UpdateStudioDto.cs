@@ -13,4 +13,3 @@ public class UpdateStudioDto : UpdateDtoWithSeoAddition
 
     public string? Logo { get; set; }
 }
-

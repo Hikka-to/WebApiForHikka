@@ -16,7 +16,8 @@ public static class TypeExtensions
 
             return types.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == subclassType);
         }
-        else if (subclassType.IsInterface)
+
+        if (subclassType.IsInterface)
         {
             Type[] types =
             [
@@ -26,26 +27,19 @@ public static class TypeExtensions
 
             return types.FirstOrDefault(t => t == subclassType);
         }
-        else if (subclassType.IsGenericTypeDefinition)
+
+        if (subclassType.IsGenericTypeDefinition)
         {
             for (var baseType = type; baseType != null; baseType = baseType.BaseType)
-            {
                 if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == subclassType)
-                {
                     return baseType;
-                }
-            }
 
             return null;
         }
 
         for (var baseType = type; baseType != null; baseType = baseType.BaseType)
-        {
             if (baseType == subclassType)
-            {
                 return baseType;
-            }
-        }
 
         return null;
     }

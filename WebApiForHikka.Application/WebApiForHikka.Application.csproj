@@ -1,27 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="WithoutSeoAddition\CountryAnime\**" />
-    <Compile Remove="WithoutSeoAddition\DubAnime\**" />
-    <Compile Remove="WithoutSeoAddition\TagAnime\**" />
-    <EmbeddedResource Remove="WithoutSeoAddition\CountryAnime\**" />
-    <EmbeddedResource Remove="WithoutSeoAddition\DubAnime\**" />
-    <EmbeddedResource Remove="WithoutSeoAddition\TagAnime\**" />
-    <None Remove="WithoutSeoAddition\CountryAnime\**" />
-    <None Remove="WithoutSeoAddition\DubAnime\**" />
-    <None Remove="WithoutSeoAddition\TagAnime\**" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="WithoutSeoAddition\CountryAnime\**"/>
+        <Compile Remove="WithoutSeoAddition\DubAnime\**"/>
+        <Compile Remove="WithoutSeoAddition\TagAnime\**"/>
+        <EmbeddedResource Remove="WithoutSeoAddition\CountryAnime\**"/>
+        <EmbeddedResource Remove="WithoutSeoAddition\DubAnime\**"/>
+        <EmbeddedResource Remove="WithoutSeoAddition\TagAnime\**"/>
+        <None Remove="WithoutSeoAddition\CountryAnime\**"/>
+        <None Remove="WithoutSeoAddition\DubAnime\**"/>
+        <None Remove="WithoutSeoAddition\TagAnime\**"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
-    <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
-    <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj"/>
+    </ItemGroup>
 
 </Project>

@@ -11,24 +11,27 @@ namespace WebApiForHikka.Test.Repository.Relation;
 public class CountryAnimeRepositoryTest : SharedRelationRepositoryTest<
     CountryAnime, Country, Anime,
     CountryAnimeRelationRepository, CountryRepository, AnimeRepository
-    >
+>
 {
-    protected override async Task<(Guid firstId, Guid secondId)> CreateFirstAndSecondModels((CountryRepository firstRepository, AnimeRepository secondRepository) repostiroeis)
+    protected override async Task<(Guid firstId, Guid secondId)> CreateFirstAndSecondModels(
+        (CountryRepository firstRepository, AnimeRepository secondRepository) repostiroeis)
     {
         var firstId = await repostiroeis.firstRepository.AddAsync(GetCountryModels.GetSample(), CancellationToken);
 
-        var secondId = await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSampleWithoutManyToMany(), CancellationToken);
+        var secondId =
+            await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSampleWithoutManyToMany(),
+                CancellationToken);
 
         return (firstId, secondId);
     }
 
-    protected override (CountryRepository firstRepository, AnimeRepository secondRepository) GetFirstAndSecondRepositories(HikkaDbContext hikkaDbContext)
+    protected override (CountryRepository firstRepository, AnimeRepository secondRepository)
+        GetFirstAndSecondRepositories(HikkaDbContext hikkaDbContext)
     {
         return (
             new CountryRepository(hikkaDbContext),
             new AnimeRepository(hikkaDbContext)
-            );
-
+        );
     }
 
     protected override Country GetFirstModelSample()
@@ -43,10 +46,10 @@ public class CountryAnimeRepositoryTest : SharedRelationRepositoryTest<
 
     protected override CountryAnime GetRelationModel(Guid firstId, Guid secondId)
     {
-        return new CountryAnime()
+        return new CountryAnime
         {
             FirstId = firstId,
-            SecondId = secondId,
+            SecondId = secondId
         };
     }
 
@@ -55,4 +58,3 @@ public class CountryAnimeRepositoryTest : SharedRelationRepositoryTest<
         return new CountryAnimeRelationRepository(hikkaDbContext);
     }
 }
-

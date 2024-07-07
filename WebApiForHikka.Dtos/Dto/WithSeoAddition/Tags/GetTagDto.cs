@@ -3,7 +3,6 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
-
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Tags")]
 public class GetTagDto : GetDtoWithSeoAddition
 {

@@ -9,9 +9,15 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.Dubs;
 
 public class DubServiceTest : SharedServiceTestWithSeoAddition<Dub, DubService>
 {
-    protected override Dub GetSample() => GetDubModels.GetSample();
+    protected override Dub GetSample()
+    {
+        return GetDubModels.GetSample();
+    }
 
-    protected override Dub GetSampleForUpdate()=> GetDubModels.GetSampleForUpdate();
+    protected override Dub GetSampleForUpdate()
+    {
+        return GetDubModels.GetSampleForUpdate();
+    }
 
     protected override DubService GetService(HikkaDbContext hikkaDbContext)
     {

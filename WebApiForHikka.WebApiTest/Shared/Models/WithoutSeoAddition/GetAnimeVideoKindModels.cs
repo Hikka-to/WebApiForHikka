@@ -1,35 +1,50 @@
-﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+﻿using Faker;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 
 namespace WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
 public class GetAnimeVideoKindModels
 {
-    public static AnimeVideoKind GetSample() => new()
+    public static AnimeVideoKind GetSample()
     {
-        Name = "Name",
-    };
+        return new AnimeVideoKind
+        {
+            Name = "Name"
+        };
+    }
 
-    public static AnimeVideoKind GetSampleForUpdate() => new()
+    public static AnimeVideoKind GetSampleForUpdate()
     {
-        Name = "Name1",
-    };
-    public static CreateAnimeVideoKindDto GetCreateDtoSample() => new()
+        return new AnimeVideoKind
+        {
+            Name = "Name1"
+        };
+    }
+
+    public static CreateAnimeVideoKindDto GetCreateDtoSample()
     {
-        Name = Faker.Lorem.GetFirstWord()
-    };
+        return new CreateAnimeVideoKindDto
+        {
+            Name = Lorem.GetFirstWord()
+        };
+    }
 
-    public static GetAnimeVideoKindDto GetGetDtoSample() => new()
+    public static GetAnimeVideoKindDto GetGetDtoSample()
     {
-        Name = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
+        return new GetAnimeVideoKindDto
+        {
+            Name = Lorem.GetFirstWord(),
+            Id = Guid.NewGuid()
+        };
+    }
 
-    public static UpdateAnimeVideoKindDto GetUpdateDtoSample() => new()
+    public static UpdateAnimeVideoKindDto GetUpdateDtoSample()
     {
-        Name = Faker.Lorem.GetFirstWord(),
-        Id = Guid.NewGuid()
-    };
-
-
+        return new UpdateAnimeVideoKindDto
+        {
+            Name = Lorem.GetFirstWord(),
+            Id = Guid.NewGuid()
+        };
+    }
 }

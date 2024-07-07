@@ -23,6 +23,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
 namespace WebApiForHikka.WebApi.Helper;
+
 public class MappingProfiles : Profile
 {
     public MappingProfiles()

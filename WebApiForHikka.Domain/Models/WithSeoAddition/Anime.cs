@@ -39,11 +39,9 @@ public class Anime : ModelWithSeoAddition
 
     public required List<int> PosterColors { get; set; }
 
-    [Range(0, float.MaxValue)]
-    public required float AvgDuration { get; set; }
+    [Range(0, float.MaxValue)] public required float AvgDuration { get; set; }
 
-    [Range(0, int.MaxValue)]
-    public required int HowManyEpisodes { get; set; }
+    [Range(0, int.MaxValue)] public required int HowManyEpisodes { get; set; }
 
     public required DateTime FirstAirDate { get; set; }
 
@@ -62,8 +60,7 @@ public class Anime : ModelWithSeoAddition
     [Range(AnimeNumberConstants.LowestScore, AnimeNumberConstants.MaxScore)]
     public required float ImdbScore { get; set; }
 
-    [DefaultValue(false)]
-    public required bool IsPublished { get; set; }
+    [DefaultValue(false)] public required bool IsPublished { get; set; }
 
     public DateTime? PublishedAt { get; set; }
 
@@ -74,5 +71,4 @@ public class Anime : ModelWithSeoAddition
     public string TagsString => string.Join(", ", Tags.Select(t => t.Name));
     public string CountriesString => string.Join(", ", Countries.Select(t => t.Name));
     public string DubsString => string.Join(", ", Dubs.Select(t => t.Name));
-
 }

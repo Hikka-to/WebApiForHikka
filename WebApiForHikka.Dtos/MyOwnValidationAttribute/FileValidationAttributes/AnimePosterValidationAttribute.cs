@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Shared;
 
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public class AnimePosterValidationAttribute : ValidationAttribute
 {
-
-
     public override bool IsValid(object? value)
     {
         if (value == null)
@@ -18,13 +16,14 @@ public class AnimePosterValidationAttribute : ValidationAttribute
             return false;
         }
 
-        IFormFile formFile = value as IFormFile;
+        var formFile = value as IFormFile;
 
-        string extention = Path.GetExtension(formFile.FileName);
+        var extention = Path.GetExtension(formFile.FileName);
 
         if (!SharedStringConstants.AllowedExtensionsList.Contains(extention))
         {
-            ErrorMessage = ControllerStringConstants.ThisFileFormatIsntAllowedYouCanUseTheFollowing + String.Join(", ", SharedStringConstants.AllowedExtensionsList);
+            ErrorMessage = ControllerStringConstants.ThisFileFormatIsntAllowedYouCanUseTheFollowing +
+                           string.Join(", ", SharedStringConstants.AllowedExtensionsList);
             return false;
         }
 
@@ -38,8 +37,8 @@ public class AnimePosterValidationAttribute : ValidationAttribute
     }
 
 
-
-    public override string FormatErrorMessage(string name) =>
-       ErrorMessage!;
-
+    public override string FormatErrorMessage(string name)
+    {
+        return ErrorMessage!;
+    }
 }

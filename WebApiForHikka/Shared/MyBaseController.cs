@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Dtos.Dto.Authorization;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
@@ -8,12 +8,11 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 namespace WebApiForHikka.WebApi.Shared;
 
 [Route("api/[controller]")]
-public abstract class MyBaseController
-    (IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public abstract class MyBaseController(IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : ControllerBase
 {
-    protected readonly IMapper _mapper = mapper;
     protected readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    protected readonly IMapper _mapper = mapper;
 
     protected JwtTokenContentDto GetJwtTokenAuthorizationFromHeader()
     {
@@ -22,34 +21,34 @@ public abstract class MyBaseController
         var headerString = authHeader.ToString();
 
         if (headerString != null)
-        {
             try
             {
                 var handler = new JwtSecurityTokenHandler();
                 var jwtToken = handler.ReadJwtToken(headerString);
-                string? userEmail = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.EmailClaim).Value.ToString();
-                string? userRole = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.RoleClaim).Value.ToString();
-                string? userId = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.IdClaim).Value.ToString();
+                var userEmail = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.EmailClaim).Value
+                    .ToString();
+                var userRole = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.RoleClaim).Value
+                    .ToString();
+                var userId = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.IdClaim).Value
+                    .ToString();
 
-                return new JwtTokenContentDto() { Email = userEmail, Role = UserStringConstants.UserRole, Id = userId };
+                return new JwtTokenContentDto { Email = userEmail, Role = UserStringConstants.UserRole, Id = userId };
             }
             catch (Exception)
             {
-
-                return new JwtTokenContentDto()
+                return new JwtTokenContentDto
                 {
                     Email = null,
                     Role = null,
-                    Id = null,
+                    Id = null
                 };
             }
-        }
 
-        return new JwtTokenContentDto()
+        return new JwtTokenContentDto
         {
             Email = null,
             Role = null,
-            Id = null,
+            Id = null
         };
     }
 
@@ -63,6 +62,7 @@ public abstract class MyBaseController
             errorEndPoint.BadRequestObjectResult = BadRequest(GetAllErrorsDuringValidation());
             return errorEndPoint;
         }
+
         return errorEndPoint;
     }
 

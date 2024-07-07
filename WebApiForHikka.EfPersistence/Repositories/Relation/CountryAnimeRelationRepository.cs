@@ -5,4 +5,5 @@ using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.EfPersistence.Repositories.Relation;
 
-public class CountryAnimeRelationRepository(HikkaDbContext dbContext) : CrudRelationRepository<CountryAnime, Country, Anime>(dbContext), ICountryAnimeRelationRepository;
+public class CountryAnimeRelationRepository(HikkaDbContext dbContext)
+    : CrudRelationRepository<CountryAnime, Country, Anime>(dbContext), ICountryAnimeRelationRepository;

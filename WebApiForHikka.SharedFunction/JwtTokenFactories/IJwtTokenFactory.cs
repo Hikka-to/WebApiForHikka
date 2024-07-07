@@ -6,5 +6,4 @@ namespace WebApiForHikka.SharedFunction.JwtTokenFactories;
 public interface IJwtTokenFactory
 {
     public Task<string?> GetJwtTokenAsync(User user, IConfiguration configuration);
-
 }

@@ -3,8 +3,6 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.RestrictedRatings;
 
-
-
 [ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/RestrictedRatings")]
 public class GetRestrictedRatingDto : GetDtoWithSeoAddition
 {

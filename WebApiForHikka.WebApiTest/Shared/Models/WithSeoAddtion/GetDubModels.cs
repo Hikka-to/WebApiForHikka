@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
+﻿using Faker;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
@@ -8,64 +9,64 @@ public static class GetDubModels
 {
     public static Dub GetSample()
     {
-        return new Dub()
+        return new Dub
         {
             Icon = "Icon",
             Name = "Name",
-            SeoAddition = GetSeoAdditionModels.GetSample(),
+            SeoAddition = GetSeoAdditionModels.GetSample()
         };
     }
 
     public static Dub GetSampleForUpdate()
     {
-        return new Dub()
+        return new Dub
         {
             Icon = "Icon1",
             Name = "Name1",
-            SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
+            SeoAddition = GetSeoAdditionModels.GetSampleForUpdate()
         };
     }
+
     public static CreateDubDto GetCreateDtoSample()
     {
-        return new CreateDubDto()
+        return new CreateDubDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+            Name = Lorem.GetFirstWord(),
+            Icon = Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
         };
     }
 
     public static GetDubDto GetGetDtoSample()
     {
-        return new GetDubDto()
+        return new GetDubDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
+            Icon = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 
     public static Dub GetModelSample()
     {
-        return new Dub()
+        return new Dub
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
+            Icon = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 
     public static UpdateDubDto GetUpdateDtoSample()
     {
-        return new UpdateDubDto()
+        return new UpdateDubDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Icon = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
+            Icon = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
-
 }

@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Domain.Models;
+﻿using Faker;
+using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Periods;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
@@ -6,43 +7,50 @@ namespace WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 
 public static class GetPeriodModels
 {
-    public static Period GetSample() => new()
+    public static Period GetSample()
     {
-        Name = "test",
-        SeoAddition = GetSeoAdditionModels.GetSample(),
-    };
+        return new Period
+        {
+            Name = "test",
+            SeoAddition = GetSeoAdditionModels.GetSample()
+        };
+    }
 
-    public static Period GetSampleForUpdate() => new()
+    public static Period GetSampleForUpdate()
     {
-        Name = "test1",
-        SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
-    };
+        return new Period
+        {
+            Name = "test1",
+            SeoAddition = GetSeoAdditionModels.GetSampleForUpdate()
+        };
+    }
+
     public static CreatePeriodDto GetCreateDtoSample()
     {
-        return new CreatePeriodDto()
+        return new CreatePeriodDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+            Name = Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
         };
     }
 
     public static GetPeriodDto GetGetDtoSample()
     {
-        return new GetPeriodDto()
+        return new GetPeriodDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 
     public static UpdatePeriodDto GetUpdateDtoSample()
     {
-        return new UpdatePeriodDto()
+        return new UpdatePeriodDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 }

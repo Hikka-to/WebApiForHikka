@@ -11,7 +11,6 @@ public abstract class RelationCrudService<TModel, TFirstModel, TSecondModel, TRe
 {
     protected RelationCrudService(TRepository repository) : base(repository)
     {
-
     }
 
     public async Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)

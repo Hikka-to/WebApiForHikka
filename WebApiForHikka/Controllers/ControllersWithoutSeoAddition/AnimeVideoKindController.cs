@@ -6,7 +6,10 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
-public class AnimeVideoKindController(IAnimeVideoKindService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public class AnimeVideoKindController(
+    IAnimeVideoKindService crudService,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor)
     : CrudController<
         GetAnimeVideoKindDto,
         UpdateAnimeVideoKindDto,

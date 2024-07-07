@@ -21,7 +21,7 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
     CreateStudioDto,
     GetStudioDto,
     ReturnPageDto<GetStudioDto>
-    >
+>
 
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
@@ -33,36 +33,49 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new StudioService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new StudioService(countryRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override ICollection<Studio> GetCollectionOfModels(int howMany)
     {
         ICollection<Studio> seoAdditions = new List<Studio>();
-        for (int i = 0; i < howMany; ++i)
-        {
-            seoAdditions.Add(GetModelSample());
-        }
+        for (var i = 0; i < howMany; ++i) seoAdditions.Add(GetModelSample());
         return seoAdditions;
-
     }
 
-    protected override async Task<StudioController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<StudioController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in StudioControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in StudioControllerTest");
 
         return new StudioController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
-            );
+        );
     }
 
 
-    protected override CreateStudioDto GetCreateDtoSample() => GetStudioModels.GetCreateDtoSample();
-    protected override GetStudioDto GetGetDtoSample() => GetStudioModels.GetGetDtoSample();
-    protected override Studio GetModelSample() => GetStudioModels.GetModelSample();
-    protected override UpdateStudioDto GetUpdateDtoSample() => GetStudioModels.GetUpdateDtoSample();
+    protected override CreateStudioDto GetCreateDtoSample()
+    {
+        return GetStudioModels.GetCreateDtoSample();
+    }
 
+    protected override GetStudioDto GetGetDtoSample()
+    {
+        return GetStudioModels.GetGetDtoSample();
+    }
+
+    protected override Studio GetModelSample()
+    {
+        return GetStudioModels.GetModelSample();
+    }
+
+    protected override UpdateStudioDto GetUpdateDtoSample()
+    {
+        return GetStudioModels.GetUpdateDtoSample();
+    }
 }

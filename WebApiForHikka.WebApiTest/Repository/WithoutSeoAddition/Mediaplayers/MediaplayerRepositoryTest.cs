@@ -1,5 +1,4 @@
 ﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
@@ -10,7 +9,7 @@ namespace WebApiForHikka.Test.Repository.WithoutSeoAddition.Mediaplayers;
 public class MediaplayerRepositoryTest : SharedRepositoryTest<
     Mediaplayer,
     MediaplayerRepository
-    >
+>
 
 {
     protected override MediaplayerRepository GetRepository(HikkaDbContext hikkaDbContext)
@@ -18,8 +17,13 @@ public class MediaplayerRepositoryTest : SharedRepositoryTest<
         return new MediaplayerRepository(hikkaDbContext);
     }
 
-    protected override Mediaplayer GetSample() => GetMediaplayerModels.GetSample();
-    protected override Mediaplayer GetSampleForUpdate() => GetMediaplayerModels.GetSampleForUpdate();
+    protected override Mediaplayer GetSample()
+    {
+        return GetMediaplayerModels.GetSample();
+    }
 
+    protected override Mediaplayer GetSampleForUpdate()
+    {
+        return GetMediaplayerModels.GetSampleForUpdate();
+    }
 }
-

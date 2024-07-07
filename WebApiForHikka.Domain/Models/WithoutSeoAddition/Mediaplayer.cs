@@ -10,5 +10,4 @@ public class Mediaplayer : Model
 
     [StringLength(MediaplayerNumberConstants.IconLength)]
     public required string Icon { get; set; }
-
 }

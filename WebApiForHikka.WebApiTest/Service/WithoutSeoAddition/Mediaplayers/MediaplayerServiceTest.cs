@@ -9,9 +9,15 @@ namespace WebApiForHikka.Test.Service.WithoutSeoAddition.Mediaplayers;
 
 public class MediaplayerServiceTest : SharedServiceTest<Mediaplayer, MediaplayerService>
 {
-    protected override Mediaplayer GetSample() => GetMediaplayerModels.GetSample();
+    protected override Mediaplayer GetSample()
+    {
+        return GetMediaplayerModels.GetSample();
+    }
 
-    protected override Mediaplayer GetSampleForUpdate()=> GetMediaplayerModels.GetSampleForUpdate();
+    protected override Mediaplayer GetSampleForUpdate()
+    {
+        return GetMediaplayerModels.GetSampleForUpdate();
+    }
 
     protected override MediaplayerService GetService(HikkaDbContext hikkaDbContext)
     {

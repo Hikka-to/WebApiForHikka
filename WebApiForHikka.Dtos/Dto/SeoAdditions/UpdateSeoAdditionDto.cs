@@ -10,8 +10,7 @@ namespace WebApiForHikka.Dtos.Dto.SeoAdditions;
 [ExportTsInterface(OutputDir = "./TS/Dto/SeoAddition")]
 public class UpdateSeoAdditionDto : ModelDto
 {
-    [SeoAdditionValidation]
-    public required override Guid Id { get; set; }
+    [SeoAdditionValidation] public override required Guid Id { get; set; }
 
     public required string Slug { get; set; }
 

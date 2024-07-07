@@ -21,7 +21,7 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
     CreateCountryDto,
     GetCountryDto,
     ReturnPageDto<GetCountryDto>
-    >
+>
 
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
@@ -33,37 +33,49 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new CountryService(countryRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new CountryService(countryRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override ICollection<Country> GetCollectionOfModels(int howMany)
     {
         ICollection<Country> seoAdditions = new List<Country>();
-        for (int i = 0; i < howMany; ++i)
-        {
-            seoAdditions.Add(GetModelSample());
-        }
+        for (var i = 0; i < howMany; ++i) seoAdditions.Add(GetModelSample());
         return seoAdditions;
-
     }
 
-    protected override async Task<CountryController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<CountryController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in CountryControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in CountryControllerTest");
 
         return new CountryController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
-            );
+        );
     }
 
 
-    protected override CreateCountryDto GetCreateDtoSample() => GetCountryModels.GetCreateDtoSample();
-    protected override GetCountryDto GetGetDtoSample() => GetCountryModels.GetGetDtoSample();
-    protected override Country GetModelSample() => GetCountryModels.GetSample();
-    protected override UpdateCountryDto GetUpdateDtoSample() => GetCountryModels.GetUpdateDtoSample();
-        
-        
+    protected override CreateCountryDto GetCreateDtoSample()
+    {
+        return GetCountryModels.GetCreateDtoSample();
+    }
+
+    protected override GetCountryDto GetGetDtoSample()
+    {
+        return GetCountryModels.GetGetDtoSample();
+    }
+
+    protected override Country GetModelSample()
+    {
+        return GetCountryModels.GetSample();
+    }
+
+    protected override UpdateCountryDto GetUpdateDtoSample()
+    {
+        return GetCountryModels.GetUpdateDtoSample();
+    }
 }

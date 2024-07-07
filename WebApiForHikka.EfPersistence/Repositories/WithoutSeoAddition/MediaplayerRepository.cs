@@ -4,4 +4,5 @@ using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 
-public class MediaplayerRepository(HikkaDbContext dbContext) : CrudRepository<Mediaplayer>(dbContext), IMediaplayerRepository;
+public class MediaplayerRepository(HikkaDbContext dbContext)
+    : CrudRepository<Mediaplayer>(dbContext), IMediaplayerRepository;

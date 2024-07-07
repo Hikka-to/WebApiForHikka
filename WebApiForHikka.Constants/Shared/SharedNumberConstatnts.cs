@@ -1,4 +1,5 @@
 ﻿namespace WebApiForHikka.Constants.Shared;
+
 public static class SharedNumberConstatnts
 {
     public const int DefaultItemsInOnePage = 50;

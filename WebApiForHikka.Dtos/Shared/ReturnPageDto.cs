@@ -1,9 +1,6 @@
-﻿
-using TypeGen.Core.TypeAnnotations;
+﻿using TypeGen.Core.TypeAnnotations;
 
 namespace WebApiForHikka.Dtos.Shared;
-
-
 
 [ExportTsInterface(OutputDir = "./TS/Shared/")]
 public class ReturnPageDto<T>

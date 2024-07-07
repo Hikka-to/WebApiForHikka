@@ -6,7 +6,6 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.WebApi.Shared;
-using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
@@ -21,15 +20,13 @@ public class AnimeBackdropController(
         CreateAnimeBackdropDto,
         IAnimeBackdropService,
         AnimeBackdrop
-   >(crudService, mapper, httpContextAccessor)
+    >(crudService, mapper, httpContextAccessor)
 {
-    public override async Task<IActionResult> Create([FromBody] CreateAnimeBackdropDto dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Create([FromBody] CreateAnimeBackdropDto dto,
+        CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(new());
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = _mapper.Map<AnimeBackdrop>(dto);
 
@@ -37,19 +34,17 @@ public class AnimeBackdropController(
 
         var createdId = await _crudService.CreateAsync(model, cancellationToken);
 
-        return Ok(new CreateResponseDto() { Id = createdId });
+        return Ok(new CreateResponseDto { Id = createdId });
     }
 
-    public override async Task<IActionResult> Put([FromBody] UpdateAnimeBackdropDto dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Put([FromBody] UpdateAnimeBackdropDto dto,
+        CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequestForUpdateEndPoint(new()
+        var errorEndPoint = ValidateRequestForUpdateEndPoint(new ThingsToValidateForUpdate
         {
             UpdateDto = dto
         });
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = _mapper.Map<AnimeBackdrop>(dto);
 

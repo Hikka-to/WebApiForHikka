@@ -3,4 +3,5 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Application.WithoutSeoAddition.AnimeVideos;
 
-public class AnimeVideoService(IAnimeVideoRepository repository) : CrudService<AnimeVideo, IAnimeVideoRepository>(repository), IAnimeVideoService;
+public class AnimeVideoService(IAnimeVideoRepository repository)
+    : CrudService<AnimeVideo, IAnimeVideoRepository>(repository), IAnimeVideoService;

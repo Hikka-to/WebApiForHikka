@@ -1,85 +1,93 @@
-﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
+﻿using Faker;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
+using Boolean = Faker.Boolean;
 
 namespace WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 
 public static class GetTagModels
 {
-    public static Tag GetSample() => new()
+    public static Tag GetSample()
     {
-        Alises = ["test"],
-        EngName = "test",
-        IsGenre = true,
-        Name = "test",
-        SeoAddition = GetSeoAdditionModels.GetSample(),
-    };
-
-    public static Tag GetSampleForUpdate() => new()
-    {
-        Alises = ["test1"],
-        EngName = "test1",
-        IsGenre = false,
-        Name = "test1",
-        SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
-        ParentTag = new()
+        return new Tag
         {
             Alises = ["test"],
             EngName = "test",
             IsGenre = true,
             Name = "test",
-            SeoAddition = GetSeoAdditionModels.GetSample(),
-        },
-    };
+            SeoAddition = GetSeoAdditionModels.GetSample()
+        };
+    }
+
+    public static Tag GetSampleForUpdate()
+    {
+        return new Tag
+        {
+            Alises = ["test1"],
+            EngName = "test1",
+            IsGenre = false,
+            Name = "test1",
+            SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
+            ParentTag = new Tag
+            {
+                Alises = ["test"],
+                EngName = "test",
+                IsGenre = true,
+                Name = "test",
+                SeoAddition = GetSeoAdditionModels.GetSample()
+            }
+        };
+    }
 
     public static CreateTagDto GetCreateDtoSample()
     {
-        return new CreateTagDto()
+        return new CreateTagDto
         {
-            Alises = Faker.Lorem.Words(2).ToList(),
-            EngName = Faker.Lorem.GetFirstWord(),
-            IsGenre = Faker.Boolean.Random(),
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+            Alises = Lorem.Words(2).ToList(),
+            EngName = Lorem.GetFirstWord(),
+            IsGenre = Boolean.Random(),
+            Name = Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
         };
     }
 
     public static GetTagDto GetGetDtoSample()
     {
-        return new GetTagDto()
+        return new GetTagDto
         {
-            Alises = Faker.Lorem.Words(2).ToList(),
-            EngName = Faker.Lorem.GetFirstWord(),
-            Name = Faker.Lorem.GetFirstWord(),
+            Alises = Lorem.Words(2).ToList(),
+            EngName = Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
-            IsGenre = Faker.Boolean.Random(),
-            Id = new Guid(),
+            IsGenre = Boolean.Random(),
+            Id = new Guid()
         };
     }
 
     public static Tag GetModelSample()
     {
-        return new Tag()
+        return new Tag
         {
-            Alises = Faker.Lorem.Words(2).ToList(),
-            EngName = Faker.Lorem.GetFirstWord(),
-            IsGenre = Faker.Boolean.Random(),
-            Name = Faker.Lorem.GetFirstWord(),
+            Alises = Lorem.Words(2).ToList(),
+            EngName = Lorem.GetFirstWord(),
+            IsGenre = Boolean.Random(),
+            Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 
     public static UpdateTagDto GetUpdateDtoSample()
     {
-        return new UpdateTagDto()
+        return new UpdateTagDto
         {
-            Alises = Faker.Lorem.Words(2).ToList(),
-            EngName = Faker.Lorem.GetFirstWord(),
-            IsGenre = Faker.Boolean.Random(),
-            Name = Faker.Lorem.GetFirstWord(),
+            Alises = Lorem.Words(2).ToList(),
+            EngName = Lorem.GetFirstWord(),
+            IsGenre = Boolean.Random(),
+            Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 }

@@ -12,10 +12,18 @@ public class AnimeVideoKindRepositoryTest : SharedRepositoryTest<AnimeVideoKind,
 
     public AnimeVideoKind SampleForUpdate => GetSampleForUpdate();
 
-    protected override AnimeVideoKindRepository GetRepository(HikkaDbContext hikkaDbContext) => new(hikkaDbContext);
+    protected override AnimeVideoKindRepository GetRepository(HikkaDbContext hikkaDbContext)
+    {
+        return new AnimeVideoKindRepository(hikkaDbContext);
+    }
 
-    protected override AnimeVideoKind GetSample() => GetAnimeVideoKindModels.GetSample();
+    protected override AnimeVideoKind GetSample()
+    {
+        return GetAnimeVideoKindModels.GetSample();
+    }
 
-    protected override AnimeVideoKind GetSampleForUpdate() => GetAnimeVideoKindModels.GetSampleForUpdate();
-
+    protected override AnimeVideoKind GetSampleForUpdate()
+    {
+        return GetAnimeVideoKindModels.GetSampleForUpdate();
+    }
 }

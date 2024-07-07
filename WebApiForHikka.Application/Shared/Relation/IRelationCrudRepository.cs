@@ -10,5 +10,4 @@ public interface IRelationCrudRepository<TModel, TFirstModel, TSecondModel> : IC
     Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken);
     Task<TModel?> GetAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken);
     TModel? Get(Guid firstId, Guid secondId);
-
 }
