@@ -7,6 +7,7 @@ using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
@@ -71,9 +72,9 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
         updateDto.AnimeVideoKindId = animeVideoKind.Id;
     }
 
-    protected override CreateAnimeVideoDto GetCreateDtoSample() => GetAnimeVideoModels.GetCreateDtoSample();
-    protected override GetAnimeVideoDto GetGetDtoSample() => GetAnimeVideoModels.GetGetDtoSample();
-    protected override UpdateAnimeVideoDto GetUpdateDtoSample() => GetAnimeVideoModels.GetUpdateDtoSample();
+    protected override CreateAnimeVideoDto GetCreateDtoSample() =>  GetAnimeVideoModels.GetCreateDtoSample();
+    protected override GetAnimeVideoDto GetGetDtoSample() =>  GetAnimeVideoModels.GetGetDtoSample();
+    protected override UpdateAnimeVideoDto GetUpdateDtoSample() =>  GetAnimeVideoModels.GetUpdateDtoSample();
 
     protected override AnimeVideo GetModelSample() => GetAnimeVideoModels.GetSample();
 }
