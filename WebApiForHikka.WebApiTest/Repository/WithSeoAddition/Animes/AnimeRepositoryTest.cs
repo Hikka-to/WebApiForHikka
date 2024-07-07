@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
+﻿using FluentAssertions;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
@@ -18,5 +19,4 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
 
     protected override Anime GetSample() => GetAnimeModels.GetSample();
     protected override Anime GetSampleForUpdate() => GetAnimeModels.GetSampleForUpdate();
-
 }

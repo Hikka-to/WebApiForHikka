@@ -180,7 +180,6 @@ public abstract class SharedRelationRepositoryTest<
 
         for (int i = 0; i < 2; i++)
         {
-
             relationModelsIds.Add(await repository.AddAsync(GetRelationModel(sampleIds[i].firstId, sampleIds[i].secondId), CancellationToken));
         }
 
@@ -206,7 +205,6 @@ public abstract class SharedRelationRepositoryTest<
 
         List<Guid> relationModelsIds = new();
 
-
         for (int i = 0; i < 2; i++)
         {
             (Guid firstId, Guid secondId) sample = await CreateFirstAndSecondModels(firstAndSecondRepositories);
@@ -215,7 +213,6 @@ public abstract class SharedRelationRepositoryTest<
 
         for (int i = 0; i < 2; i++)
         {
-
             relationModelsIds.Add(await repository.AddAsync(GetRelationModel(sampleIds[i].firstId, sampleIds[i].secondId), CancellationToken));
         }
 
@@ -309,7 +306,7 @@ public abstract class SharedRelationRepositoryTest<
     [Fact]
     public override async Task Repository_UpdateAsync_UpdateModel()
     {
-         // Arrange
+        // Arrange
         var dbContext = GetDatabaseContext();
         var firstAndSecondRepositories = GetFirstAndSecondRepositories(dbContext);
         TRelationRepository repository = GetRepository(dbContext);

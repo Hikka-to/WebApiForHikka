@@ -4,6 +4,7 @@ using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.ManyToMany;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Extensions;
 
@@ -21,7 +22,6 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     {
         await DbContext.Set<TModel>().AddAsync(model, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
-        var all = DbContext.Animes.ToList();
         return model.Id;
     }
 
@@ -87,11 +87,27 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
 
     protected virtual void Update(TModel model, TModel entity)
     {
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
-
-        foreach (var navigationEntry in DbContext.Entry(entity).Navigations)
+        var modelEntry = DbContext.Entry(model);
+        var entityEntry = DbContext.Entry(entity);
+        foreach (var property in DbContext.Entry(entity).Properties)
         {
-            navigationEntry.CurrentValue = DbContext.Entry(model).Navigation(navigationEntry.Metadata.Name).CurrentValue;
+            if (property.Metadata.IsPrimaryKey()) continue;
+            else if (property.Metadata.Name == "CreatedAt") continue;
+            else if (property.Metadata.Name == "UpdatedAt") property.CurrentValue = DateTime.UtcNow;
+            else property.CurrentValue = modelEntry.Property(property.Metadata.Name).CurrentValue;
+        }
+
+        foreach (var navigation in entityEntry.Navigations)
+        {
+            var modelNavigation = modelEntry.Navigation(navigation.Metadata.Name);
+            var navigationMetadata = navigation.Metadata as Microsoft.EntityFrameworkCore.Metadata.INavigation;
+            var foreignKey = navigationMetadata?.ForeignKey.Properties.First();
+            var modelForeignKey = foreignKey != null ? modelEntry.CurrentValues[foreignKey.Name] : null;
+            var entityForeignKey = foreignKey != null ? entityEntry.CurrentValues[foreignKey.Name] : null;
+            if (modelNavigation.CurrentValue == null && foreignKey != null && !foreignKey.IsNullable) continue;
+            if (modelNavigation.CurrentValue == null && modelForeignKey != null && modelForeignKey != entityForeignKey) continue;
+
+            navigation.CurrentValue = modelNavigation.CurrentValue;
         }
     }
 

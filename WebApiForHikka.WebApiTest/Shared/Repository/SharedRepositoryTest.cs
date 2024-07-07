@@ -134,7 +134,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(sample);
     }
-  
+
     [Fact]
     public async virtual Task Repository_Get_ReturnsModel()
     {
@@ -146,7 +146,7 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         sample.Id = id;
 
         // Act
-        var result =  repository.Get(id);
+        var result = repository.Get(id);
 
         // Assert
         result.Should().NotBeNull();
@@ -170,6 +170,12 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
         await repository.UpdateAsync(updatedSample, CancellationToken);
 
         var result = await repository.GetAsync(id, CancellationToken);
+
+        if (typeof(TModel).GetProperty("UpdatedAt") is { } updateProperty)
+            updateProperty.SetValue(updatedSample, updateProperty.GetValue(result));
+
+        if (typeof(TModel).GetProperty("CreatedAt") is { } createProperty)
+            createProperty.SetValue(updatedSample, createProperty.GetValue(result));
 
         // Assert
         result.Should().NotBeNull();

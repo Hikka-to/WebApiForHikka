@@ -29,7 +29,24 @@ public static class GetAnimeModels
     };
 
 
-    public static  Anime GetSample() => new()
+    public static Anime GetSample()
+    {
+        var sample = GetSampleWithoutManyToMany();
+
+        sample.Countries = [
+            GetCountryWithName("name")
+        ];
+        sample.Dubs = [
+            GetDubWithName("name")
+        ];
+        sample.Tags = [
+            GetTagWithName("test")
+        ];
+
+        return sample;
+    }
+
+    public static Anime GetSampleWithoutManyToMany() => new()
     {
         Name = "Test",
         SeoAddition = GetSeoAdditionModels.GetSample(),
@@ -62,15 +79,6 @@ public static class GetAnimeModels
             Hint = "Test",
             SeoAddition = GetSeoAdditionModels.GetSample(),
         },
-        Countries = [
-            GetCountryWithName("name")
-            ],
-        Dubs = [
-            GetDubWithName("name")
-            ],
-        Tags = [
-            GetTagWithName("test")
-            ],
         NativeName = "Test",
         ImageName = "Test",
         RomajiName = "Test",
@@ -91,7 +99,24 @@ public static class GetAnimeModels
         CreatedAt = DateTime.Today,
     };
 
-    public static  Anime GetSampleForUpdate() => new()
+    public static Anime GetSampleForUpdate()
+    {
+        var sample = GetSampleForUpdateWithoutManyToMany();
+
+        sample.Countries = [
+            GetCountryWithName("name1")
+        ];
+        sample.Dubs = [
+            GetDubWithName("name1")
+        ];
+        sample.Tags = [
+            GetTagWithName("test1")
+        ];
+
+        return sample;
+    }
+
+    public static Anime GetSampleForUpdateWithoutManyToMany() => new()
     {
         Name = "Test1",
         SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
@@ -124,15 +149,6 @@ public static class GetAnimeModels
             Hint = "Test1",
             SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
         },
-        Countries = [
-            GetCountryWithName("name1")
-            ],
-        Dubs = [
-            GetDubWithName("name1")
-            ],
-        Tags = [
-            GetTagWithName("test1")
-            ],
         NativeName = "Test1",
         ImageName = "Test1",
         RomajiName = "Test1",
