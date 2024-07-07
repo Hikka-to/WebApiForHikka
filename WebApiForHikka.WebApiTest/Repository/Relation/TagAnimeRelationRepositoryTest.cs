@@ -19,7 +19,7 @@ public class TagAnimeRelationRepositoryTest : SharedRelationRepositoryTest<
     {
         var firstId = await repostiroeis.firstRepository.AddAsync(GetTagModels.GetSample(), CancellationToken);
 
-        var secondId = await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSample(), CancellationToken);
+        var secondId = await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSampleWithoutManyToMany(), CancellationToken);
 
         return (firstId, secondId);
     }
@@ -35,12 +35,12 @@ public class TagAnimeRelationRepositoryTest : SharedRelationRepositoryTest<
 
     protected override Tag GetFirstModelSample()
     {
-        return GetTagModels.GetSample(); 
+        return GetTagModels.GetSample();
     }
 
     protected override Anime GetSecondModelSample()
     {
-        return GetAnimeModels.GetSample(); 
+        return GetAnimeModels.GetSample();
     }
 
     protected override TagAnime GetRelationModel(Guid firstId, Guid secondId)

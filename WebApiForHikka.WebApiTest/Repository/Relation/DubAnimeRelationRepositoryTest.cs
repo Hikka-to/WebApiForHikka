@@ -17,7 +17,7 @@ public class DubAnimeRelationRepositoryTest : SharedRelationRepositoryTest<
     {
         var firstId = await repostiroeis.firstRepository.AddAsync(GetDubModels.GetSample(), CancellationToken);
 
-        var secondId = await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSample(), CancellationToken);
+        var secondId = await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSampleWithoutManyToMany(), CancellationToken);
 
         return (firstId, secondId);
     }
@@ -33,12 +33,12 @@ public class DubAnimeRelationRepositoryTest : SharedRelationRepositoryTest<
 
     protected override Dub GetFirstModelSample()
     {
-        return GetDubModels.GetSample(); 
+        return GetDubModels.GetSample();
     }
 
     protected override Anime GetSecondModelSample()
     {
-        return GetAnimeModels.GetSample(); 
+        return GetAnimeModels.GetSample();
     }
 
     protected override DubAnime GetRelationModel(Guid firstId, Guid secondId)

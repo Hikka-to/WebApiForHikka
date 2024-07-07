@@ -8,7 +8,7 @@ using WebApiForHikka.Test.Shared.Repository;
 
 namespace WebApiForHikka.Test.Repository.Relation;
 
-class CountryAnimeRepositoryTest : SharedRelationRepositoryTest<
+public class CountryAnimeRepositoryTest : SharedRelationRepositoryTest<
     CountryAnime, Country, Anime,
     CountryAnimeRelationRepository, CountryRepository, AnimeRepository
     >
@@ -17,7 +17,7 @@ class CountryAnimeRepositoryTest : SharedRelationRepositoryTest<
     {
         var firstId = await repostiroeis.firstRepository.AddAsync(GetCountryModels.GetSample(), CancellationToken);
 
-        var secondId = await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSample(), CancellationToken);
+        var secondId = await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSampleWithoutManyToMany(), CancellationToken);
 
         return (firstId, secondId);
     }
@@ -33,12 +33,12 @@ class CountryAnimeRepositoryTest : SharedRelationRepositoryTest<
 
     protected override Country GetFirstModelSample()
     {
-        return GetCountryModels.GetSample(); 
+        return GetCountryModels.GetSample();
     }
 
     protected override Anime GetSecondModelSample()
     {
-        return GetAnimeModels.GetSample(); 
+        return GetAnimeModels.GetSample();
     }
 
     protected override CountryAnime GetRelationModel(Guid firstId, Guid secondId)

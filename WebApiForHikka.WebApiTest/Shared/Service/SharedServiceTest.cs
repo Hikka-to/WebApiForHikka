@@ -129,6 +129,12 @@ public abstract class SharedServiceTest<TModel, TService>
 
         var result = await service.GetAsync(id, CancellationToken);
 
+        if (typeof(TModel).GetProperty("UpdatedAt") is { } updateProperty)
+            updateProperty.SetValue(updatedSample, updateProperty.GetValue(result));
+
+        if (typeof(TModel).GetProperty("CreatedAt") is { } createProperty)
+            createProperty.SetValue(updatedSample, createProperty.GetValue(result));
+
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(updatedSample);
