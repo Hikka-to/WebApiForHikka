@@ -3,6 +3,4 @@
 public interface IFileHelper
 {
     public string UploadFile(IFormFile file, string[] path);
-
-
 }

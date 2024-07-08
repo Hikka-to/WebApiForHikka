@@ -2,6 +2,7 @@
 using WebApiForHikka.Constants.Models.SeoAdditions;
 
 namespace WebApiForHikka.Domain.Models;
+
 public class SeoAddition : Model
 {
     [StringLength(SeoAdditionNumberConstants.SlugLength)]

@@ -13,5 +13,4 @@ public static class LoggingMiddlewareExtensions
     {
         return app.UseMiddleware<LoggingMiddleware>();
     }
-
 }

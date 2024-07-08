@@ -11,7 +11,6 @@ public static class ControllerStringConstants
     public const string CanAccessOnlyAdmin = "CanAccessOnlyAdmin";
 
 
-
     //Error messages
     public const string ErrorMessageThisEndpointCanAccess = "This endpoint can access only users with the next rolls: ";
 
@@ -27,16 +26,16 @@ public static class ControllerStringConstants
 
     public const string ThereIsNoSeoAdditionWithThisId = "There isn't seoAddition with this id";
 
-    public const string ModelWithThisIdDoesntExistForUpdateEndPoint = "Model with this id doesn't exit this endpoint only for update models it can't handler ids that don't exist";
+    public const string ModelWithThisIdDoesntExistForUpdateEndPoint =
+        "Model with this id doesn't exit this endpoint only for update models it can't handler ids that don't exist";
 
-    public const string SeoAdditionDoesntConnectToTheModel = "SeoAddtion with this id wasn't attached to the model please don't chage the id in seoAddition";
+    public const string SeoAdditionDoesntConnectToTheModel =
+        "SeoAddtion with this id wasn't attached to the model please don't chage the id in seoAddition";
 
-    public const string ThisFileFormatIsntAllowedYouCanUseTheFollowing = "This file format isn't allowed you can use the following: ";
+    public const string ThisFileFormatIsntAllowedYouCanUseTheFollowing =
+        "This file format isn't allowed you can use the following: ";
 
     public const string FileMustNotBeNullErrorMessage = "File must not be null";
 
     public const string MaximumSizeCanBe = "Maximum size can be ";
-
-
-
 }

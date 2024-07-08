@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections;
+﻿using System.Collections;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
-using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Extensions;
+using IModel = WebApiForHikka.Domain.Models.IModel;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 
@@ -17,11 +18,11 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     {
         DbContext = dbContext;
     }
+
     public virtual async Task<Guid> AddAsync(TModel model, CancellationToken cancellationToken)
     {
         await DbContext.Set<TModel>().AddAsync(model, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
-        var all = DbContext.Animes.ToList();
         return model.Id;
     }
 
@@ -50,7 +51,8 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 
-    public virtual async Task<PaginatedCollection<TModel>> GetAllAsync(FilterPagination dto, CancellationToken cancellationToken)
+    public virtual async Task<PaginatedCollection<TModel>> GetAllAsync(FilterPagination dto,
+        CancellationToken cancellationToken)
     {
         var skip = (dto.PageNumber - 1) * dto.PageSize;
         var take = dto.PageSize;
@@ -75,7 +77,8 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return await DbContext.Set<TModel>().ToArrayAsync(cancellationToken);
     }
 
-    public virtual async Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids, CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids,
+        CancellationToken cancellationToken)
     {
         return await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id)).ToArrayAsync(cancellationToken);
     }
@@ -87,21 +90,41 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
 
     protected virtual void Update(TModel model, TModel entity)
     {
-        DbContext.Entry(entity).CurrentValues.SetValues(model);
+        var modelEntry = DbContext.Entry(model);
+        var entityEntry = DbContext.Entry(entity);
+        foreach (var property in DbContext.Entry(entity).Properties)
+            if (property.Metadata.IsPrimaryKey()) continue;
+            else if (property.Metadata.Name == "CreatedAt") continue;
+            else if (property.Metadata.Name == "UpdatedAt") property.CurrentValue = DateTime.UtcNow;
+            else property.CurrentValue = modelEntry.Property(property.Metadata.Name).CurrentValue;
 
-        foreach (var navigationEntry in DbContext.Entry(entity).Navigations)
+        foreach (var navigation in entityEntry.Navigations)
         {
-            navigationEntry.CurrentValue = DbContext.Entry(model).Navigation(navigationEntry.Metadata.Name).CurrentValue;
+            var modelNavigation = modelEntry.Navigation(navigation.Metadata.Name);
+            var navigationMetadata = navigation.Metadata as INavigation;
+            var foreignKey = navigationMetadata?.ForeignKey.Properties.First();
+            var modelForeignKey = foreignKey != null ? modelEntry.CurrentValues[foreignKey.Name] : null;
+            var entityForeignKey = foreignKey != null ? entityEntry.CurrentValues[foreignKey.Name] : null;
+            if (modelNavigation.CurrentValue == null && foreignKey != null && !foreignKey.IsNullable) continue;
+            if (modelNavigation.CurrentValue == null && modelForeignKey != null &&
+                modelForeignKey != entityForeignKey) continue;
+
+            navigation.CurrentValue = modelNavigation.CurrentValue;
         }
     }
 
     protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter)
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel));
-        Microsoft.EntityFrameworkCore.Metadata.INavigationBase[] navigations = entityType != null ? [
-            ..entityType.GetNavigations().Where(n => (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.GetMethod?.IsPublic ?? false)),
-            ..entityType.GetSkipNavigations().Where(n => (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.GetMethod?.IsPublic ?? false))
-        ] : [];
+        INavigationBase[] navigations = entityType != null
+            ?
+            [
+                ..entityType.GetNavigations().Where(n =>
+                    (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.GetMethod?.IsPublic ?? false)),
+                ..entityType.GetSkipNavigations().Where(n =>
+                    (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.GetMethod?.IsPublic ?? false))
+            ]
+            : [];
 
         if (entityType?.FindProperty(filterBy) is { } property &&
             ((property.FieldInfo?.IsPublic ?? false) || (property.PropertyInfo?.GetMethod?.IsPublic ?? false)))
@@ -114,28 +137,28 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         else if (navigations.FirstOrDefault(n => n.Name == filterBy) is { } navigation)
         {
             var targetType = navigation.TargetEntityType;
-            string[] searchName = [
+            string[] searchName =
+            [
                 "Slug",
                 "Name"
             ];
             string? foundName = null;
 
             foreach (var name in searchName)
-            {
                 if (targetType.FindProperty(name) is { } searchPropety &&
-                    ((searchPropety.FieldInfo?.IsPublic ?? false) || (searchPropety.PropertyInfo?.GetMethod?.IsPublic ?? false)))
+                    ((searchPropety.FieldInfo?.IsPublic ?? false) ||
+                     (searchPropety.PropertyInfo?.GetMethod?.IsPublic ?? false)))
                 {
                     foundName = name;
                     break;
                 }
-            }
 
             if (foundName == null &&
                 targetType.FindPrimaryKey() is { } primaryKey &&
-                primaryKey.Properties.First(p => (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is { } primaryProperty)
-            {
+                primaryKey.Properties.First(p =>
+                        (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is
+                    { } primaryProperty)
                 query = query.FilterMany(filterBy, primaryProperty.Name, filter);
-            }
 
 
             if (navigation.IsCollection)
@@ -144,7 +167,9 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
                 query = query.Filter($"{filterBy}.{foundName}", filter);
         }
         else if (entityType?.FindPrimaryKey() is { } primaryKey &&
-                 primaryKey.Properties.First(p => (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is { } primaryProperty)
+                 primaryKey.Properties.First(p =>
+                         (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is
+                     { } primaryProperty)
         {
             query = query.Filter(primaryProperty.Name, filter);
         }
@@ -152,5 +177,8 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return query;
     }
 
-    protected virtual IQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending) => query.Sort(orderBy, isAscending);
+    protected virtual IQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending)
+    {
+        return query.Sort(orderBy, isAscending);
+    }
 }

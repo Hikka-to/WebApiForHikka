@@ -3,7 +3,6 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.SeoAdditions;
 
-
 [ExportTsInterface(OutputDir = "./TS/Dto/SeoAddition")]
 public class GetSeoAdditionDto : ModelDto
 {

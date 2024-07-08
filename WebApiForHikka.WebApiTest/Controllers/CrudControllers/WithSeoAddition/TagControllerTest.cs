@@ -21,7 +21,7 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
     CreateTagDto,
     GetTagDto,
     ReturnPageDto<GetTagDto>
-    >
+>
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
@@ -32,27 +32,44 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new TagService(tagRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new TagService(tagRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
-
-    protected override async Task<TagController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<TagController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in TagControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in TagControllerTest");
 
         return new TagController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
-            );
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager)
+        );
     }
 
 
-    protected override CreateTagDto GetCreateDtoSample() => GetTagModels.GetCreateDtoSample();
-    protected override GetTagDto GetGetDtoSample() => GetTagModels.GetGetDtoSample();
-    protected override Tag GetModelSample() => GetTagModels.GetModelSample();
-    protected override UpdateTagDto GetUpdateDtoSample()=> GetTagModels.GetUpdateDtoSample();
+    protected override CreateTagDto GetCreateDtoSample()
+    {
+        return GetTagModels.GetCreateDtoSample();
+    }
 
+    protected override GetTagDto GetGetDtoSample()
+    {
+        return GetTagModels.GetGetDtoSample();
+    }
+
+    protected override Tag GetModelSample()
+    {
+        return GetTagModels.GetModelSample();
+    }
+
+    protected override UpdateTagDto GetUpdateDtoSample()
+    {
+        return GetTagModels.GetUpdateDtoSample();
+    }
 }

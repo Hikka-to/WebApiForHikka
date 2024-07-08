@@ -12,11 +12,19 @@ public class AnimeRepositoryTest : SharedRepositoryTestWithSeoAddition<Anime, An
 
     public Anime AnimeForUpdate => GetSampleForUpdate();
 
-    protected override AnimeRepository GetRepository(HikkaDbContext hikkaDbContext) => new(hikkaDbContext);
+    protected override AnimeRepository GetRepository(HikkaDbContext hikkaDbContext)
+    {
+        return new AnimeRepository(hikkaDbContext);
+    }
 
 
+    protected override Anime GetSample()
+    {
+        return GetAnimeModels.GetSample();
+    }
 
-    protected override Anime GetSample() => GetAnimeModels.GetSample();
-    protected override Anime GetSampleForUpdate() => GetAnimeModels.GetSampleForUpdate();
-
+    protected override Anime GetSampleForUpdate()
+    {
+        return GetAnimeModels.GetSampleForUpdate();
+    }
 }

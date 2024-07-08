@@ -7,30 +7,26 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.WebApi.Shared;
-using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
-public class TagController
-    (ITagService crudService, ISeoAdditionService seoAdditionService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public class TagController(
+    ITagService crudService,
+    ISeoAdditionService seoAdditionService,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor)
     : CrudControllerForModelWithSeoAddition<GetTagDto,
-    UpdateTagDto,
-    CreateTagDto,
-    ITagService,
-    Tag
+        UpdateTagDto,
+        CreateTagDto,
+        ITagService,
+        Tag
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
-
     [HttpPost("Create")]
     public override async Task<IActionResult> Create([FromBody] CreateTagDto dto, CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(new ThingsToValidateBase()
-        {
-        });
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
         var model = _mapper.Map<Tag>(dto);
@@ -41,31 +37,24 @@ public class TagController
         model.SeoAddition = seoAddition;
 
         if (dto.ParentTagId != null)
-        {
             model.ParentTag = await _crudService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
-        }
 
         var createdId = await _crudService.CreateAsync(model, cancellationToken);
 
 
-        return Ok(new CreateResponseDto() { Id = createdId });
+        return Ok(new CreateResponseDto { Id = createdId });
     }
 
 
     [HttpPut("Update")]
     public override async Task<IActionResult> Put([FromBody] UpdateTagDto dto, CancellationToken cancellationToken)
     {
-
-        ErrorEndPoint errorEndPoint = this.ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate()
+        var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate
         {
             UpdateDto = dto,
-            IdForSeoAddition = dto.SeoAddition.Id,
-
+            IdForSeoAddition = dto.SeoAddition.Id
         });
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
         var model = _mapper.Map<Tag>(dto);
@@ -75,9 +64,7 @@ public class TagController
         model.SeoAddition = (await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
 
         if (dto.ParentTagId != null)
-        {
             model.ParentTag = await _crudService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
-        }
 
         await _crudService.UpdateAsync(model, cancellationToken);
 

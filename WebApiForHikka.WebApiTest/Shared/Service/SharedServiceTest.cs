@@ -20,7 +20,7 @@ public abstract class SharedServiceTest<TModel, TService>
     {
         // Arrange
         var dbContext = GetDatabaseContext();
-        TService Service = GetService(dbContext);
+        var Service = GetService(dbContext);
         var sample = GetSample();
 
         // Act
@@ -52,16 +52,13 @@ public abstract class SharedServiceTest<TModel, TService>
     }
 
     [Fact]
-    public async virtual Task Repostiroy_GetAllAsync_ReturnsPage()
+    public virtual async Task Repostiroy_GetAllAsync_ReturnsPage()
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };
         var dbContext = GetDatabaseContext();
         var service = GetService(dbContext);
-        foreach (var i in data)
-        {
-            await service.CreateAsync(i, CancellationToken);
-        }
+        foreach (var i in data) await service.CreateAsync(i, CancellationToken);
         var dto = new FilterPagination { PageNumber = 1, PageSize = 1 };
 
         // Act
@@ -72,7 +69,6 @@ public abstract class SharedServiceTest<TModel, TService>
     }
 
 
-
     [Fact]
     public async Task Service_GetAllModelsByIdsAsync_ReturnsModelsByIds()
     {
@@ -81,10 +77,7 @@ public abstract class SharedServiceTest<TModel, TService>
         var dbContext = GetDatabaseContext();
 
         var service = GetService(dbContext);
-        foreach (var i in data)
-        {
-            await service.CreateAsync(i, CancellationToken);
-        }
+        foreach (var i in data) await service.CreateAsync(i, CancellationToken);
         var ids = data.Select(m => m.Id).ToList();
 
         // Act
@@ -95,7 +88,7 @@ public abstract class SharedServiceTest<TModel, TService>
     }
 
     [Fact]
-    public async virtual Task Service_GetAsync_ReturnsModel()
+    public virtual async Task Service_GetAsync_ReturnsModel()
     {
         // Arrange
         var dbContext = GetDatabaseContext();
@@ -128,6 +121,12 @@ public abstract class SharedServiceTest<TModel, TService>
         await service.UpdateAsync(updatedSample, CancellationToken);
 
         var result = await service.GetAsync(id, CancellationToken);
+
+        if (typeof(TModel).GetProperty("UpdatedAt") is { } updateProperty)
+            updateProperty.SetValue(updatedSample, updateProperty.GetValue(result));
+
+        if (typeof(TModel).GetProperty("CreatedAt") is { } createProperty)
+            createProperty.SetValue(updatedSample, createProperty.GetValue(result));
 
         // Assert
         result.Should().NotBeNull();

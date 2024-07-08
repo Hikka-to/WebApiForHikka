@@ -19,44 +19,41 @@ namespace WebApiForHikka.Test.Controller.Shared;
 
 public abstract class BaseControllerTest : SharedTest
 {
-    protected readonly IMapper _mapper;
-
     private readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
+    protected readonly IMapper _mapper;
     protected readonly IConfiguration Configuration = A.Fake<IConfiguration>();
-
-    protected FilterPaginationDto FilterPaginationDto => new FilterPaginationDto()
-    {
-        SearchTerm = "",
-        PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
-        PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
-        Column = SharedStringConstants.IdName,
-        SortOrder = SortOrder.Asc,
-    };
-
-    // !!!!!!!!! Need to fix new roles
-    protected User SampleUser => new User()
-    {
-        Email = "test@gmail.com",
-        UserName = "Test",
-        Id = new Guid(),
-        Roles = [],
-        PasswordHash = "ersdsadwdmkavdkjvwe",
-        SecurityStamp = "tesfaas",
-    };
 
     public BaseControllerTest()
     {
         A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
         _mapper = mapperConfiguration.CreateMapper();
-
     }
+
+    protected FilterPaginationDto FilterPaginationDto => new()
+    {
+        SearchTerm = "",
+        PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
+        PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
+        Column = SharedStringConstants.IdName,
+        SortOrder = SortOrder.Asc
+    };
+
+    // !!!!!!!!! Need to fix new roles
+    protected User SampleUser => new()
+    {
+        Email = "test@gmail.com",
+        UserName = "Test",
+        Id = new Guid(),
+        Roles = [],
+        PasswordHash = "ersdsadwdmkavdkjvwe",
+        SecurityStamp = "tesfaas"
+    };
 
     protected IJwtTokenFactory GetJwtTokenFactory(UserManager<User> userManager)
     {
         var options = new IdentityOptions(
-
-            );
+        );
         var optionsAccessor = Options.Create(options);
 
         var userClaimsPrincipalFactory = new UserClaimsPrincipalFactory<User>(userManager, optionsAccessor);
@@ -64,15 +61,15 @@ public abstract class BaseControllerTest : SharedTest
         return jwtTokenFactory;
     }
 
-    protected async Task<IHttpContextAccessor> GetHttpContextAccessForAdminUser(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+    protected async Task<IHttpContextAccessor> GetHttpContextAccessForAdminUser(UserManager<User> userManager,
+        RoleManager<IdentityRole<Guid>> roleManager)
     {
         // Generate JWT Token
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
-        User user = SampleUser;
+        var user = SampleUser;
 
         await userManager.CreateAsync(user, user.PasswordHash!);
         await userManager.AddToRoleAsync(user, UserStringConstants.AdminRole);
-
 
 
         var jwtToken = await jwtTokenFactory.GetJwtTokenAsync(user, Configuration);
@@ -93,15 +90,15 @@ public abstract class BaseControllerTest : SharedTest
         return httpContextAccessorMock.Object;
     }
 
-    protected async Task<IHttpContextAccessor> GetHttpContextAccessForUserUser(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+    protected async Task<IHttpContextAccessor> GetHttpContextAccessForUserUser(UserManager<User> userManager,
+        RoleManager<IdentityRole<Guid>> roleManager)
     {
         // Generate JWT Token
         var jwtTokenFactory = GetJwtTokenFactory(userManager);
-        User user = SampleUser;
+        var user = SampleUser;
 
         await userManager.CreateAsync(user, user.PasswordHash!);
         await userManager.AddToRoleAsync(user, UserStringConstants.UserRole);
-
 
 
         var jwtToken = await jwtTokenFactory.GetJwtTokenAsync(user, Configuration);
@@ -124,7 +121,6 @@ public abstract class BaseControllerTest : SharedTest
 
     protected IHttpContextAccessor GetHttpContextAccessForAnonymUser()
     {
-
         // CrudController_ mocks for HttpRequest and HttpContext
         var httpRequestMock = new Mock<HttpRequest>();
         var httpContextMock = new Mock<HttpContext>();
@@ -140,5 +136,4 @@ public abstract class BaseControllerTest : SharedTest
 
         return httpContextAccessorMock.Object;
     }
-
 }

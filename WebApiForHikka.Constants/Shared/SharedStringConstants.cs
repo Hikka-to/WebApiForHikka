@@ -1,4 +1,5 @@
 ﻿namespace WebApiForHikka.Constants.Shared;
+
 public static class SharedStringConstants
 {
     //General
@@ -11,11 +12,10 @@ public static class SharedStringConstants
 
     //file extensions
 
-    public static readonly IReadOnlyCollection<string> AllowedExtensionsList = [
+    public static readonly IReadOnlyCollection<string> AllowedExtensionsList =
+    [
         ".png",
         ".jpg",
         ".web"
     ];
-
-
 }

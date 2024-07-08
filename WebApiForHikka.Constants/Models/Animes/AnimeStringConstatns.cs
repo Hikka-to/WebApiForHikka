@@ -60,9 +60,4 @@ public class AnimeStringConstants
 
 
     //Error messages
-
-
-
 }
-
-

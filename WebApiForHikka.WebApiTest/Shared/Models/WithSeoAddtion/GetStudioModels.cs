@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
+﻿using Faker;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
@@ -6,59 +7,66 @@ namespace WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 
 public class GetStudioModels
 {
-    public static Studio GetSample() => new()
+    public static Studio GetSample()
     {
-        Name = "Test",
-        Logo = "Test",
-        SeoAddition = GetSeoAdditionModels.GetSample(),
-    };
+        return new Studio
+        {
+            Name = "Test",
+            Logo = "Test",
+            SeoAddition = GetSeoAdditionModels.GetSample()
+        };
+    }
 
-    public static Studio GetSampleForUpdate() => new()
+    public static Studio GetSampleForUpdate()
     {
-        Name = "test1",
-        Logo = "logo1",
-        SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
-    };
+        return new Studio
+        {
+            Name = "test1",
+            Logo = "logo1",
+            SeoAddition = GetSeoAdditionModels.GetSampleForUpdate()
+        };
+    }
+
     public static CreateStudioDto GetCreateDtoSample()
     {
-        return new CreateStudioDto()
+        return new CreateStudioDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Logo = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+            Name = Lorem.GetFirstWord(),
+            Logo = Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
         };
     }
 
     public static GetStudioDto GetGetDtoSample()
     {
-        return new GetStudioDto()
+        return new GetStudioDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Logo = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
+            Logo = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 
     public static Studio GetModelSample()
     {
-        return new Studio()
+        return new Studio
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Logo = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
+            Logo = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 
     public static UpdateStudioDto GetUpdateDtoSample()
     {
-        return new UpdateStudioDto()
+        return new UpdateStudioDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            Logo = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
+            Logo = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 }

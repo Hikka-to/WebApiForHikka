@@ -4,7 +4,6 @@ namespace WebApiForHikka.Constants.Models.Animes;
 
 public class AnimeNumberConstants
 {
-
     public const int NameLength = 156;
 
     public const int ImageNameLength = SharedNumberConstatnts.UrlLength;

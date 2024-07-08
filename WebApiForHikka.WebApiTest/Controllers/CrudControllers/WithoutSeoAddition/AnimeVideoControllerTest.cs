@@ -7,7 +7,6 @@ using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
-using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
@@ -21,7 +20,7 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
     CreateAnimeVideoDto,
     GetAnimeVideoDto,
     ReturnPageDto<GetAnimeVideoDto>
-    >
+>
 {
     protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
     {
@@ -38,19 +37,22 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
         return new AllServicesInController(new AnimeVideoService(repository), userManager, roleManager);
     }
 
-    protected override async Task<AnimeVideoController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<AnimeVideoController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInController allServices = allServicesInController;
+        var allServices = allServicesInController;
 
         return new AnimeVideoController(
             allServices.CrudService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager),
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IAnimeVideoKindService>()
         );
     }
 
-    protected override void MutationBeforeDtoCreation(CreateAnimeVideoDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override void MutationBeforeDtoCreation(CreateAnimeVideoDto createDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         var animeVideoKind = new AnimeVideoKindControllerTest().Sample;
 
@@ -61,7 +63,8 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
         createDto.AnimeVideoKindId = animeVideoKind.Id;
     }
 
-    protected override void MutationBeforeDtoUpdate(UpdateAnimeVideoDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override void MutationBeforeDtoUpdate(UpdateAnimeVideoDto updateDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         var animeVideoKind = new AnimeVideoKindControllerTest().Sample;
 
@@ -72,9 +75,23 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
         updateDto.AnimeVideoKindId = animeVideoKind.Id;
     }
 
-    protected override CreateAnimeVideoDto GetCreateDtoSample() =>  GetAnimeVideoModels.GetCreateDtoSample();
-    protected override GetAnimeVideoDto GetGetDtoSample() =>  GetAnimeVideoModels.GetGetDtoSample();
-    protected override UpdateAnimeVideoDto GetUpdateDtoSample() =>  GetAnimeVideoModels.GetUpdateDtoSample();
+    protected override CreateAnimeVideoDto GetCreateDtoSample()
+    {
+        return GetAnimeVideoModels.GetCreateDtoSample();
+    }
 
-    protected override AnimeVideo GetModelSample() => GetAnimeVideoModels.GetSample();
+    protected override GetAnimeVideoDto GetGetDtoSample()
+    {
+        return GetAnimeVideoModels.GetGetDtoSample();
+    }
+
+    protected override UpdateAnimeVideoDto GetUpdateDtoSample()
+    {
+        return GetAnimeVideoModels.GetUpdateDtoSample();
+    }
+
+    protected override AnimeVideo GetModelSample()
+    {
+        return GetAnimeVideoModels.GetSample();
+    }
 }

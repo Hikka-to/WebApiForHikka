@@ -9,7 +9,7 @@ namespace WebApiForHikka.Test.Repository.WithSeoAddition.Countries;
 public class CountryRepositoryTest : SharedRepositoryTestWithSeoAddition<
     Country,
     CountryRepository
-    >
+>
 
 {
     protected override CountryRepository GetRepository(HikkaDbContext hikkaDbContext)
@@ -17,6 +17,13 @@ public class CountryRepositoryTest : SharedRepositoryTestWithSeoAddition<
         return new CountryRepository(hikkaDbContext);
     }
 
-    protected override Country GetSample() => GetCountryModels.GetSample();
-    protected override Country GetSampleForUpdate() => GetCountryModels.GetSampleForUpdate();
+    protected override Country GetSample()
+    {
+        return GetCountryModels.GetSample();
+    }
+
+    protected override Country GetSampleForUpdate()
+    {
+        return GetCountryModels.GetSampleForUpdate();
+    }
 }

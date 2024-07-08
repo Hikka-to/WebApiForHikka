@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Faker;
+using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,76 +27,70 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
     where TUpdateDto : UpdateDtoWithSeoAddition
     where TReturnPageDto : ReturnPageDto<TGetDto>
 {
-
-    protected record AllServicesInControllerWithSeoAddition(TCrudService crudService, ISeoAdditionService seoAdditionService, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager) : AllServicesInController(crudService, userManager, roleManager)
-    {
-        public ISeoAdditionService SeoAdditionService = seoAdditionService;
-    }
-
     protected CreateSeoAdditionDto GetSeoAdditionCreateDtoSample()
     {
-        return new CreateSeoAdditionDto()
+        return new CreateSeoAdditionDto
         {
-            Description = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            Title = Faker.Lorem.GetFirstWord(),
-            Image = Faker.Lorem.GetFirstWord(),
-            ImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialImage = Faker.Lorem.GetFirstWord(),
-            SocialImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialTitle = Faker.Lorem.GetFirstWord(),
-            SocialType = Faker.Lorem.GetFirstWord(),
+            Description = Lorem.GetFirstWord(),
+            Slug = Lorem.GetFirstWord(),
+            Title = Lorem.GetFirstWord(),
+            Image = Lorem.GetFirstWord(),
+            ImageAlt = Lorem.GetFirstWord(),
+            SocialImage = Lorem.GetFirstWord(),
+            SocialImageAlt = Lorem.GetFirstWord(),
+            SocialTitle = Lorem.GetFirstWord(),
+            SocialType = Lorem.GetFirstWord()
         };
     }
 
     protected SeoAddition GetSeoAdditionSample()
     {
-        return new SeoAddition()
+        return new SeoAddition
         {
-            Description = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            Title = Faker.Lorem.GetFirstWord(),
-            Image = Faker.Lorem.GetFirstWord(),
-            ImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialImage = Faker.Lorem.GetFirstWord(),
-            SocialImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialTitle = Faker.Lorem.GetFirstWord(),
-            SocialType = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
+            Description = Lorem.GetFirstWord(),
+            Slug = Lorem.GetFirstWord(),
+            Title = Lorem.GetFirstWord(),
+            Image = Lorem.GetFirstWord(),
+            ImageAlt = Lorem.GetFirstWord(),
+            SocialImage = Lorem.GetFirstWord(),
+            SocialImageAlt = Lorem.GetFirstWord(),
+            SocialTitle = Lorem.GetFirstWord(),
+            SocialType = Lorem.GetFirstWord(),
+            Id = new Guid()
         };
     }
 
     protected UpdateSeoAdditionDto GetSeoAddtionUpdateDtoSample()
     {
-        return new UpdateSeoAdditionDto()
+        return new UpdateSeoAdditionDto
         {
-            Description = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            Title = Faker.Lorem.GetFirstWord(),
-            Image = Faker.Lorem.GetFirstWord(),
-            ImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialImage = Faker.Lorem.GetFirstWord(),
-            SocialImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialTitle = Faker.Lorem.GetFirstWord(),
-            SocialType = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
+            Description = Lorem.GetFirstWord(),
+            Slug = Lorem.GetFirstWord(),
+            Title = Lorem.GetFirstWord(),
+            Image = Lorem.GetFirstWord(),
+            ImageAlt = Lorem.GetFirstWord(),
+            SocialImage = Lorem.GetFirstWord(),
+            SocialImageAlt = Lorem.GetFirstWord(),
+            SocialTitle = Lorem.GetFirstWord(),
+            SocialType = Lorem.GetFirstWord(),
+            Id = new Guid()
         };
     }
 
     protected GetSeoAdditionDto GetSeoAdditionGetDtoSample()
     {
-        return new GetSeoAdditionDto()
+        return new GetSeoAdditionDto
         {
-            Description = Faker.Lorem.GetFirstWord(),
-            Slug = Faker.Lorem.GetFirstWord(),
-            Title = Faker.Lorem.GetFirstWord(),
-            Image = Faker.Lorem.GetFirstWord(),
-            ImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialImage = Faker.Lorem.GetFirstWord(),
-            SocialImageAlt = Faker.Lorem.GetFirstWord(),
-            SocialTitle = Faker.Lorem.GetFirstWord(),
-            SocialType = Faker.Lorem.GetFirstWord(),
-            Id = new Guid(),
+            Description = Lorem.GetFirstWord(),
+            Slug = Lorem.GetFirstWord(),
+            Title = Lorem.GetFirstWord(),
+            Image = Lorem.GetFirstWord(),
+            ImageAlt = Lorem.GetFirstWord(),
+            SocialImage = Lorem.GetFirstWord(),
+            SocialImageAlt = Lorem.GetFirstWord(),
+            SocialTitle = Lorem.GetFirstWord(),
+            SocialType = Lorem.GetFirstWord(),
+            Id = new Guid()
         };
     }
 
@@ -106,16 +101,17 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        TController controller = await GetController(services, serviceProvider);
+        var controller = await GetController(services, serviceProvider);
 
 
         //Act
 
         var createDto = GetCreateDtoSample();
         MutationBeforeDtoCreation(createDto, services, serviceProvider);
-        CreateResponseDto create = (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
+        var create =
+            (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
 
-        TModel model = await services.CrudService.GetAsync(create.Id, CancellationToken);
+        var model = await services.CrudService.GetAsync(create.Id, CancellationToken);
 
         var updateDto = GetUpdateDtoSample();
         updateDto.Id = model.Id;
@@ -127,8 +123,14 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<NoContentResult>();
-
-
     }
 
+    protected record AllServicesInControllerWithSeoAddition(
+        TCrudService crudService,
+        ISeoAdditionService seoAdditionService,
+        UserManager<User> userManager,
+        RoleManager<IdentityRole<Guid>> roleManager) : AllServicesInController(crudService, userManager, roleManager)
+    {
+        public ISeoAdditionService SeoAdditionService = seoAdditionService;
+    }
 }

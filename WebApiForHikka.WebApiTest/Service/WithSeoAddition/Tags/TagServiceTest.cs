@@ -10,7 +10,7 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.Tags;
 public class TagServiceTest : SharedServiceTestWithSeoAddition<
     Tag,
     TagService
-    >
+>
 {
     protected override TagService GetService(HikkaDbContext hikkaDbContext)
     {
@@ -19,7 +19,13 @@ public class TagServiceTest : SharedServiceTestWithSeoAddition<
         return new TagService(rep);
     }
 
-    protected override Tag GetSample() => GetTagModels.GetSample();
-    protected override Tag GetSampleForUpdate() => GetTagModels.GetSampleForUpdate();
+    protected override Tag GetSample()
+    {
+        return GetTagModels.GetSample();
+    }
 
+    protected override Tag GetSampleForUpdate()
+    {
+        return GetTagModels.GetSampleForUpdate();
+    }
 }

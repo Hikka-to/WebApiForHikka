@@ -4,4 +4,5 @@ using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 
-public class AnimeVideoKindRepository(HikkaDbContext dbContext) : CrudRepository<AnimeVideoKind>(dbContext), IAnimeVideoKindRepository;
+public class AnimeVideoKindRepository(HikkaDbContext dbContext)
+    : CrudRepository<AnimeVideoKind>(dbContext), IAnimeVideoKindRepository;

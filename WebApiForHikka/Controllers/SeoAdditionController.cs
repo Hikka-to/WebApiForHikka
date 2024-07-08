@@ -6,8 +6,10 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers;
 
-public class SeoAdditionController
-    (ISeoAdditionService crudService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+public class SeoAdditionController(
+    ISeoAdditionService crudService,
+    IMapper mapper,
+    IHttpContextAccessor httpContextAccessor)
     : CrudController<
         GetSeoAdditionDto,
         UpdateSeoAdditionDto,

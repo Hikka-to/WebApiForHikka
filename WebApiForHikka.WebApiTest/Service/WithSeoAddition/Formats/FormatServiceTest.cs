@@ -9,8 +9,15 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.Formats;
 
 public class FormatServiceTest : SharedServiceTestWithSeoAddition<Format, FormatService>
 {
-    protected override Format GetSample() => GetFormatModels.GetSample();
-    protected override Format GetSampleForUpdate() => GetFormatModels.GetSampleForUpdate();
+    protected override Format GetSample()
+    {
+        return GetFormatModels.GetSample();
+    }
+
+    protected override Format GetSampleForUpdate()
+    {
+        return GetFormatModels.GetSampleForUpdate();
+    }
 
     protected override FormatService GetService(HikkaDbContext hikkaDbContext)
     {

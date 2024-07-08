@@ -9,7 +9,13 @@ public abstract class SharedRepositoryTestWithSeoAddition<TModel, TRepository>
     where TModel : ModelWithSeoAddition
     where TRepository : ICrudRepository<TModel>
 {
-    protected SeoAddition GetSeoAdditionSample() => GetSeoAdditionModels.GetSample();
-        
-    protected SeoAddition GetSeoAdditionSampleUpdate() => GetSeoAdditionModels.GetSampleForUpdate();
- }
+    protected SeoAddition GetSeoAdditionSample()
+    {
+        return GetSeoAdditionModels.GetSample();
+    }
+
+    protected SeoAddition GetSeoAdditionSampleUpdate()
+    {
+        return GetSeoAdditionModels.GetSampleForUpdate();
+    }
+}

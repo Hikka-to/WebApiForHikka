@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Domain.Models;
+﻿using Faker;
+using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Formats;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
@@ -6,53 +7,60 @@ namespace WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 
 public static class GetFormatModels
 {
-    public static Format GetSample() => new()
+    public static Format GetSample()
     {
-        Name = "test",
-        SeoAddition = GetSeoAdditionModels.GetSample(),
-    };
+        return new Format
+        {
+            Name = "test",
+            SeoAddition = GetSeoAdditionModels.GetSample()
+        };
+    }
 
-    public static Format GetSampleForUpdate() => new()
+    public static Format GetSampleForUpdate()
     {
-        Name = "test1",
-        SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
-    };
+        return new Format
+        {
+            Name = "test1",
+            SeoAddition = GetSeoAdditionModels.GetSampleForUpdate()
+        };
+    }
+
     public static CreateFormatDto GetCreateDtoSample()
     {
-        return new CreateFormatDto()
+        return new CreateFormatDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+            Name = Lorem.GetFirstWord(),
+            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
         };
     }
 
     public static GetFormatDto GetGetDtoSample()
     {
-        return new GetFormatDto()
+        return new GetFormatDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 
     public static Format GetModelSample()
     {
-        return new Format()
+        return new Format
         {
-            Name = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 
     public static UpdateFormatDto GetUpdateDtoSample()
     {
-        return new UpdateFormatDto()
+        return new UpdateFormatDto
         {
-            Name = Faker.Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
-            Id = new Guid(),
+            Id = new Guid()
         };
     }
 }

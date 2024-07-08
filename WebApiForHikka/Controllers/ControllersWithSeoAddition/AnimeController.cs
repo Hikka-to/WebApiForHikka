@@ -13,7 +13,6 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
-using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
@@ -28,7 +27,7 @@ public class AnimeController(
     IRestrictedRatingService restrictedRatingService,
     ISourceService sourceService,
     IFileHelper fileHelper
-    )
+)
     : CrudControllerForModelWithSeoAddition<
         GetAnimeDto,
         UpdateAnimeDto,
@@ -37,18 +36,13 @@ public class AnimeController(
         Anime
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
-
-
     public override async Task<IActionResult> Create([FromForm] CreateAnimeDto dto, CancellationToken cancellationToken)
     {
-        ErrorEndPoint errorEndPoint = ValidateRequest(new());
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        string path = fileHelper.UploadFile(dto.PosterImage, ["images", "animes", "posters"]);
+        var path = fileHelper.UploadFile(dto.PosterImage, ["images", "animes", "posters"]);
 
 
         var model = _mapper.Map<Anime>(dto);
@@ -68,21 +62,17 @@ public class AnimeController(
         var createdId = await _crudService.CreateAsync(model, cancellationToken);
 
 
-        return Ok(new CreateResponseDto() { Id = createdId });
+        return Ok(new CreateResponseDto { Id = createdId });
     }
 
     public override async Task<IActionResult> Put([FromBody] UpdateAnimeDto dto, CancellationToken cancellationToken)
     {
-
-        ErrorEndPoint errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate()
+        var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate
         {
             UpdateDto = dto,
-            IdForSeoAddition = dto.SeoAddition.Id,
+            IdForSeoAddition = dto.SeoAddition.Id
         });
-        if (errorEndPoint.IsError)
-        {
-            return errorEndPoint.GetError();
-        }
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = _mapper.Map<Anime>(dto);
         var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);

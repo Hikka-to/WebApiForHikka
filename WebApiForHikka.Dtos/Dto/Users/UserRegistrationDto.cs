@@ -20,7 +20,8 @@ public class UserRegistrationDto
     public required string Email { get; set; }
 
     [Required]
-    [RegularExpression(UserStringConstants.SimplePasswordRegExpression, ErrorMessage = UserStringConstants.SimplePasswordErrorMessage)]
+    [RegularExpression(UserStringConstants.SimplePasswordRegExpression,
+        ErrorMessage = UserStringConstants.SimplePasswordErrorMessage)]
     public required string Password { get; set; }
 
     [Required]

@@ -20,7 +20,7 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
     CreateFormatDto,
     GetFormatDto,
     ReturnPageDto<GetFormatDto>
-    >
+>
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
@@ -31,36 +31,49 @@ public class FormatControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new FormatService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new FormatService(formatRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override ICollection<Format> GetCollectionOfModels(int howMany)
     {
         ICollection<Format> seoAdditions = new List<Format>();
-        for (int i = 0; i < howMany; ++i)
-        {
-            seoAdditions.Add(GetModelSample());
-        }
+        for (var i = 0; i < howMany; ++i) seoAdditions.Add(GetModelSample());
         return seoAdditions;
-
     }
 
-    protected override async Task<FormatController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<FormatController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in FormatControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in FormatControllerTest");
 
         return new FormatController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
-            );
+        );
     }
 
 
-    protected override CreateFormatDto GetCreateDtoSample() => GetFormatModels.GetCreateDtoSample();
-    protected override GetFormatDto GetGetDtoSample() => GetFormatModels.GetGetDtoSample();
-    protected override Format GetModelSample() => GetFormatModels.GetModelSample();
-    protected override UpdateFormatDto GetUpdateDtoSample()=> GetFormatModels.GetUpdateDtoSample();
+    protected override CreateFormatDto GetCreateDtoSample()
+    {
+        return GetFormatModels.GetCreateDtoSample();
+    }
 
+    protected override GetFormatDto GetGetDtoSample()
+    {
+        return GetFormatModels.GetGetDtoSample();
+    }
+
+    protected override Format GetModelSample()
+    {
+        return GetFormatModels.GetModelSample();
+    }
+
+    protected override UpdateFormatDto GetUpdateDtoSample()
+    {
+        return GetFormatModels.GetUpdateDtoSample();
+    }
 }

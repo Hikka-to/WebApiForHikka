@@ -19,7 +19,7 @@ public class AnimeVideoKindControllerTest : CrudControllerBaseTest<
     CreateAnimeVideoKindDto,
     GetAnimeVideoKindDto,
     ReturnPageDto<GetAnimeVideoKindDto>
-    >
+>
 {
     public AnimeVideoKind Sample => GetModelSample();
 
@@ -34,20 +34,36 @@ public class AnimeVideoKindControllerTest : CrudControllerBaseTest<
         return new AllServicesInController(new AnimeVideoKindService(repository), userManager, roleManager);
     }
 
-    protected override async Task<AnimeVideoKindController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<AnimeVideoKindController> GetController(
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        AllServicesInController allServices = allServicesInController;
+        var allServices = allServicesInController;
 
         return new AnimeVideoKindController(
             allServices.CrudService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager)
-            );
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager)
+        );
     }
 
-    protected override CreateAnimeVideoKindDto GetCreateDtoSample() => GetAnimeVideoKindModels.GetCreateDtoSample();
-    protected override GetAnimeVideoKindDto GetGetDtoSample() => GetAnimeVideoKindModels.GetGetDtoSample();
-    protected override UpdateAnimeVideoKindDto GetUpdateDtoSample() => GetAnimeVideoKindModels.GetUpdateDtoSample();
-    protected override AnimeVideoKind GetModelSample() => GetAnimeVideoKindModels.GetSample();
+    protected override CreateAnimeVideoKindDto GetCreateDtoSample()
+    {
+        return GetAnimeVideoKindModels.GetCreateDtoSample();
+    }
 
+    protected override GetAnimeVideoKindDto GetGetDtoSample()
+    {
+        return GetAnimeVideoKindModels.GetGetDtoSample();
+    }
+
+    protected override UpdateAnimeVideoKindDto GetUpdateDtoSample()
+    {
+        return GetAnimeVideoKindModels.GetUpdateDtoSample();
+    }
+
+    protected override AnimeVideoKind GetModelSample()
+    {
+        return GetAnimeVideoKindModels.GetSample();
+    }
 }

@@ -9,8 +9,15 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.Periods;
 
 public class PeriodServiceTest : SharedServiceTestWithSeoAddition<Period, PeriodService>
 {
-    protected override Period GetSample() => GetPeriodModels.GetSample();
-    protected override Period GetSampleForUpdate() => GetPeriodModels.GetSampleForUpdate();
+    protected override Period GetSample()
+    {
+        return GetPeriodModels.GetSample();
+    }
+
+    protected override Period GetSampleForUpdate()
+    {
+        return GetPeriodModels.GetSampleForUpdate();
+    }
 
     protected override PeriodService GetService(HikkaDbContext hikkaDbContext)
     {

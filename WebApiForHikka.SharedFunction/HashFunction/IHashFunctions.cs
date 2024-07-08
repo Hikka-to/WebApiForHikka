@@ -1,5 +1,5 @@
-﻿
-namespace WebApiForHikka.SharedFunction.HashFunction;
+﻿namespace WebApiForHikka.SharedFunction.HashFunction;
+
 public interface IHashFunctions
 {
     public string HashPassword(string password);

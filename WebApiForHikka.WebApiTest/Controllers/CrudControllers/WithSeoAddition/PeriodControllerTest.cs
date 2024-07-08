@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
@@ -21,7 +20,7 @@ public class PeriodControllerTest : CrudControllerBaseWithSeoAddition<
     CreatePeriodDto,
     GetPeriodDto,
     ReturnPageDto<GetPeriodDto>
-    >
+>
 {
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
@@ -32,28 +31,43 @@ public class PeriodControllerTest : CrudControllerBaseWithSeoAddition<
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new PeriodService(formatRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new PeriodService(formatRepository),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
 
-
-    protected override async Task<PeriodController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<PeriodController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in PeriodControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in PeriodControllerTest");
 
         return new PeriodController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
-            );
+        );
     }
 
 
-    protected override CreatePeriodDto GetCreateDtoSample() => GetPeriodModels.GetCreateDtoSample();
-    protected override GetPeriodDto GetGetDtoSample() => GetPeriodModels.GetGetDtoSample();
-    protected override Period GetModelSample() => GetPeriodModels.GetSample();
-    protected override UpdatePeriodDto GetUpdateDtoSample() => GetPeriodModels.GetUpdateDtoSample();
+    protected override CreatePeriodDto GetCreateDtoSample()
+    {
+        return GetPeriodModels.GetCreateDtoSample();
+    }
 
+    protected override GetPeriodDto GetGetDtoSample()
+    {
+        return GetPeriodModels.GetGetDtoSample();
+    }
 
+    protected override Period GetModelSample()
+    {
+        return GetPeriodModels.GetSample();
+    }
+
+    protected override UpdatePeriodDto GetUpdateDtoSample()
+    {
+        return GetPeriodModels.GetUpdateDtoSample();
+    }
 }

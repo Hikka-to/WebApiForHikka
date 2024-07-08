@@ -1,5 +1,5 @@
-﻿
-namespace WebApiForHikka.Constants.AppSettings;
+﻿namespace WebApiForHikka.Constants.AppSettings;
+
 public static class AppSettingsStringConstants
 {
     //Shared

@@ -1,5 +1,4 @@
-﻿
-using FluentAssertions;
+﻿using FluentAssertions;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
@@ -8,6 +7,7 @@ using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.Test.Shared;
 
 namespace WebApiForHikka.Test.Service.Users;
+
 public class UserServiceTest : SharedTest
 {
     private readonly IHashFunctions _hashFunctions = new HashFunctions();
@@ -23,7 +23,8 @@ public class UserServiceTest : SharedTest
         var userService = new UserService(userRepository);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+        var testUser = new User
+            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -44,11 +45,14 @@ public class UserServiceTest : SharedTest
         var userService = new UserService(userRepository);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+        var testUser = new User
+            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, "Password123!", new CancellationToken());
+        var result =
+            await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, "Password123!",
+                new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
@@ -66,11 +70,14 @@ public class UserServiceTest : SharedTest
         var userService = new UserService(userRepository);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+        var testUser = new User
+            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash, new CancellationToken());
+        var result =
+            await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash,
+                new CancellationToken());
 
         // Assert
         result.Should().BeNull();
@@ -86,11 +93,13 @@ public class UserServiceTest : SharedTest
         var userService = new UserService(userRepository);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+        var testUser = new User
+            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userService.CheckIfUserWithTheEmailIsAlreadyExistAsync(testUser.Email, new CancellationToken());
+        var result =
+            await userService.CheckIfUserWithTheEmailIsAlreadyExistAsync(testUser.Email, new CancellationToken());
 
         // Assert
         result.Should().BeTrue();
@@ -106,7 +115,8 @@ public class UserServiceTest : SharedTest
         var userService = new UserService(userRepository);
         var roleManager = GetRoleManager(dbContext);
         var role = roleManager.FindByNameAsync(UserStringConstants.UserRole).Result;
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+        var testUser = new User
+            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
         // Act
@@ -126,7 +136,8 @@ public class UserServiceTest : SharedTest
         var userService = new UserService(userRepository);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        var testUser = new User { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+        var testUser = new User
+            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
         await userService.RegisterUserAsync(testUser, new CancellationToken());
 
         // Act

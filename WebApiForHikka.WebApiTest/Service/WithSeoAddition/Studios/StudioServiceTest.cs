@@ -10,12 +10,18 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.Studios;
 public class StudioServiceTest : SharedServiceTestWithSeoAddition<
     Studio,
     StudioService
-    >
+>
 {
-    protected override Studio GetSample() => GetStudioModels.GetSample();
+    protected override Studio GetSample()
+    {
+        return GetStudioModels.GetSample();
+    }
 
-    protected override Studio GetSampleForUpdate() => GetStudioModels.GetSampleForUpdate();
-    
+    protected override Studio GetSampleForUpdate()
+    {
+        return GetStudioModels.GetSampleForUpdate();
+    }
+
     protected override StudioService GetService(HikkaDbContext hikkaDbContext)
     {
         StudioRepository statusRepository = new(hikkaDbContext);

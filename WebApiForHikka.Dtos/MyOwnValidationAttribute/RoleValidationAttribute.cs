@@ -1,23 +1,19 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Models.Users;
 
 namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public class RoleValidationAttribute : ValidationAttribute
 {
     public override bool IsValid(object? value)
     {
         if (value == null) return false;
 
-        string role = (value as string)!.ToLower();
+        var role = (value as string)!.ToLower();
 
 
-        if (!UserStringConstants.UsersRolesList.Contains(role))
-        {
-            return false;
-        }
+        if (!UserStringConstants.UsersRolesList.Contains(role)) return false;
 
         return true;
     }

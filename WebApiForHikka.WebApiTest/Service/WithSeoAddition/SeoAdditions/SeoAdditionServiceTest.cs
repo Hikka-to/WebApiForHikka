@@ -9,14 +9,20 @@ namespace WebApiForHikka.Test.Service.WithSeoAddition.SeoAdditions;
 
 public class SeoAdditionServiceTest : SharedServiceTest<SeoAddition, SeoAdditionService>
 {
-    protected override SeoAddition GetSample() => GetSeoAdditionModels.GetSample();
-    protected override SeoAddition GetSampleForUpdate() => GetSeoAdditionModels.GetSampleForUpdate();
+    protected override SeoAddition GetSample()
+    {
+        return GetSeoAdditionModels.GetSample();
+    }
+
+    protected override SeoAddition GetSampleForUpdate()
+    {
+        return GetSeoAdditionModels.GetSampleForUpdate();
+    }
 
     protected override SeoAdditionService GetService(HikkaDbContext hikkaDbContext)
     {
         SeoAdditionRepository repository = new(hikkaDbContext);
 
         return new SeoAdditionService(repository);
-
     }
 }
