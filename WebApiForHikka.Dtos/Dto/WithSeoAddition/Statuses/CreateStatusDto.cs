@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.Statuses;
 
 [ModelMetadataType(typeof(Status))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Statuses")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Statuses")]
 public class CreateStatusDto : CreateDtoWithSeoAddition
 {
     public required string Name { get; set; }

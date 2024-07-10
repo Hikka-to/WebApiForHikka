@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/Users")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/Users")]
 public class UserRegistrationDto
 {
     [StringLength(UserNumberConstants.NameLength, ErrorMessage = UserStringConstants.NameIsTooLongErrorMessage)]

@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.Formats;
 
 [ModelMetadataType(typeof(Format))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Formats")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Formats")]
 public class UpdateFormatDto : UpdateDtoWithSeoAddition
 {
     public required string Name { get; set; }

@@ -2,7 +2,7 @@
 
 namespace WebApiForHikka.Dtos.Dto.Authorization;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/Authorization")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/Authorization")]
 public record JwtTokenContentDto
 {
     public required string? Email;

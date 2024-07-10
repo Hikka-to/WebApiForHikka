@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Animes")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Animes")]
 public class GetAnimeDto : GetDtoWithSeoAddition
 {
     public required Guid KindId { get; set; }

@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 
 [ModelMetadataType(typeof(AnimeVideo))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithoutSeoAddition/AnimeVideos")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithoutSeoAddition/AnimeVideos")]
 public class CreateAnimeVideoDto
 {
     [AnimeVideoKindValidation] public required Guid AnimeVideoKindId { get; set; }

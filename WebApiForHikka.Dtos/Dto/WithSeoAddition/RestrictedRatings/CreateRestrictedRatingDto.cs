@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.RestrictedRatings;
 
 [ModelMetadataType(typeof(RestrictedRating))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/RestrictedRatings")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/RestrictedRatings")]
 public class CreateRestrictedRatingDto : CreateDtoWithSeoAddition
 {
     public required string Name { get; set; }

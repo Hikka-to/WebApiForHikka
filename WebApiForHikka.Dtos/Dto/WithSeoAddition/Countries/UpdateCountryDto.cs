@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.Countries;
 
 [ModelMetadataType(typeof(Country))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Countries")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Countries")]
 public class UpdateCountryDto : UpdateDtoWithSeoAddition
 {
     public required string Name { get; set; }

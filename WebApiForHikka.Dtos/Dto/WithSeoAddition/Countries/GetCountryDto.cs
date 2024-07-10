@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Countries;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Countries")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Countries")]
 public class GetCountryDto : GetDtoWithSeoAddition
 {
     public required string Name { get; set; }

@@ -6,7 +6,7 @@ using WebApiForHikka.Domain;
 
 namespace WebApiForHikka.Dtos.Dto.SharedDtos;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/SharedDtos")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/SharedDtos")]
 public class FilterPaginationDto
 {
     [DefaultValue("")]

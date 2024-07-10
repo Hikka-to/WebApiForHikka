@@ -4,7 +4,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.SeoAdditions;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/SeoAddition")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/SeoAddition")]
 public class GetSeoAdditionDto : ModelDto
 {
     public required string Slug { get; set; }

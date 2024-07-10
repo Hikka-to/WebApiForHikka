@@ -8,7 +8,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.SeoAdditions;
 
 [ModelMetadataType(typeof(AnimeBackdrop))]
-[ExportTsInterface(OutputDir = "./TS/Dto/SeoAddition")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/SeoAddition")]
 public class UpdateSeoAdditionDto : ModelDto
 {
     [SeoAdditionValidation] public override required Guid Id { get; set; }

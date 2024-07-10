@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.Kinds;
 
 [ModelMetadataType(typeof(Kind))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Kinds")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Kinds")]
 public class UpdateKindDto : UpdateDtoWithSeoAddition
 {
     public required string Slug { get; set; }

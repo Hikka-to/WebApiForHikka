@@ -2,7 +2,7 @@
 
 namespace WebApiForHikka.Dtos.ResponseDto;
 
-[ExportTsInterface(OutputDir = "./TS/ResponseDto/")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/ResponseDto/")]
 public class LoginResponseUserDto
 {
     public required string Token { get; set; }

@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.Sources;
 
 [ModelMetadataType(typeof(Source))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Sources")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Sources")]
 public class CreateSourceDto : CreateDtoWithSeoAddition
 {
     public required string Name { get; set; }

@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 
 [ModelMetadataType(typeof(AnimeBackdrop))]
-[ExportTsClass(OutputDir = "./TS/Dto/WithoutSeoAddition/AnimeBackdrops")]
+[ExportTsClass(OutputDir = "./../admin-panel-hikka/models/Dto/WithoutSeoAddition/AnimeBackdrops")]
 public class CreateAnimeBackdropDto
 {
     [AnimeValidation] public required Guid AnimeId { get; set; }

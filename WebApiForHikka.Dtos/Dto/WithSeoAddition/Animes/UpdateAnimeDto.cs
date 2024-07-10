@@ -7,7 +7,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 
 [ModelMetadataType(typeof(Anime))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Animes")]
+[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Animes")]
 public class UpdateAnimeDto : UpdateDtoWithSeoAddition
 {
     [KindValidation] public required Guid KindId { get; set; }
