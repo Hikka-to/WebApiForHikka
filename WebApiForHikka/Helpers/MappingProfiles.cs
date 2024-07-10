@@ -140,18 +140,26 @@ public class MappingProfiles : Profile
         //Anime
 
         CreateMap<Anime, GetAnimeDto>().ForMember(
-            c => c.KindId,
-            op => op.MapFrom(v => v.Kind.Id)).ForMember(
-            c => c.StatusId,
-            op => op.MapFrom(v => v.Status.Id)).ForMember(
-            c => c.PeriodId,
-            op => op.MapFrom(v => v.Period.Id)).ForMember(
-            c => c.RestrictedRatingId,
-            op => op.MapFrom(v => v.RestrictedRating.Id)).ForMember(
-            c => c.SourceId,
-            op => op.MapFrom(v => v.Source.Id));
+            c => c.Kind,
+            op => op.MapFrom(v => v.Kind)).ForMember(
+            c => c.Status,
+            op => op.MapFrom(v => v.Status)).ForMember(
+            c => c.Period,
+            op => op.MapFrom(v => v.Period)).ForMember(
+            c => c.RestrictedRating,
+            op => op.MapFrom(v => v.RestrictedRating)).ForMember(
+            c => c.Source,
+            op => op.MapFrom(v => v.Source)).ForMember(
+            c => c.PosterPathUrl,
+            op => op.MapFrom(v => v.PosterPath)
+            ).ForMember(
+            c => c.Tags,
+            op => op.MapFrom(v => v.Tags)
+            );
 
-        CreateMap<CreateAnimeDto, Anime>();
+        CreateMap<CreateAnimeDto, Anime>().ForMember(
+            c => c.Tags,
+            op => op.Ignore());
 
         CreateMap<UpdateAnimeDto, Anime>();
 

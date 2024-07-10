@@ -38,4 +38,6 @@ public static class ControllerStringConstants
     public const string FileMustNotBeNullErrorMessage = "File must not be null";
 
     public const string MaximumSizeCanBe = "Maximum size can be ";
+
+    public const string ThisFieldCantBeNull = "This field can't be null";
 }

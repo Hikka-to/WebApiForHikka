@@ -441,3 +441,4 @@ fabric.properties
 *.json
 /WebApiForHikka/appsettings.json
 '
+/WebApiForHikka/images/animes/posters/00000000-0000-0000-0000-000000000000.webp

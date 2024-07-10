@@ -11,7 +11,6 @@ public class FilterPaginationDto
 {
     [DefaultValue("")]
     [TsDefaultValue("")]
-    [Required]
     public string SearchTerm { get; set; } = "";
 
     [DefaultValue(SharedNumberConstatnts.DefaultPageToStartWith)]
@@ -25,10 +24,8 @@ public class FilterPaginationDto
 
     [DefaultValue(SharedStringConstants.IdName)]
     [TsDefaultValue(SharedStringConstants.IdName)]
-    [Required]
     public string Column { get; set; } = SharedStringConstants.IdName;
 
     [DefaultValue(SortOrder.Asc)]
-    [Required]
     public SortOrder SortOrder { get; set; } = SortOrder.Asc;
 }

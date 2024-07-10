@@ -7,7 +7,7 @@ using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
 
 namespace WebApiForHikka.WebApi.Shared;
 
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 public abstract class MyBaseController(IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : ControllerBase
 {
