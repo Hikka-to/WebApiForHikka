@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Studios")]
+[ExportTsInterface]
 public class GetStudioDto : GetDtoWithSeoAddition
 {
     public required string Name { get; set; }

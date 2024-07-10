@@ -7,7 +7,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 
 [ModelMetadataType(typeof(AnimeVideo))]
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithoutSeoAddition/AnimeVideos")]
+[ExportTsInterface]
 public class UpdateAnimeVideoDto : ModelDto
 {
     [AnimeVideoKindValidation] public required Guid AnimeVideoKindId { get; set; }

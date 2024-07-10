@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
 
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/Users")]
+[ExportTsInterface]
 public class GetUserDto : ModelDto
 {
     public required string Email { get; set; }

@@ -7,7 +7,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
 [ModelMetadataType(typeof(Tag))]
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Tags")]
+[ExportTsInterface]
 public class CreateTagDto : CreateDtoWithSeoAddition
 {
     public required string Name { get; set; }

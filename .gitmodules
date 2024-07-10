@@ -1,3 +1,3 @@
-[submodule "admin-panel-hikka"]
-	path = admin-panel-hikka
-	url = https://github.com/Denys1209/admin-panel-hikka.git
+[submodule "HikkaTsDtos"]
+	path = HikkaTsDtos
+	url = https://github.com/Denys1209/HikkaTsDtos.git

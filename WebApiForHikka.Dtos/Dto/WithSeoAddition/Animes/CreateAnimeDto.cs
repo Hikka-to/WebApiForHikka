@@ -9,7 +9,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 
 [ModelMetadataType(typeof(Anime))]
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Animes")]
+[ExportTsInterface]
 public class CreateAnimeDto : CreateDtoWithSeoAddition
 {
     [KindValidation] public required Guid KindId { get; set; }

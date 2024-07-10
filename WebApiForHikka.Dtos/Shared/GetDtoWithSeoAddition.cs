@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Dto.SeoAdditions;
 
 namespace WebApiForHikka.Dtos.Shared;
 
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Shared/")]
+[ExportTsInterface]
 public class GetDtoWithSeoAddition : ModelDto
 {
     public required GetSeoAdditionDto SeoAddition { get; set; }

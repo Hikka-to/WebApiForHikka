@@ -3,7 +3,7 @@ using TypeGen.Core.TypeAnnotations;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
 
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/Users")]
+[ExportTsInterface]
 public record UserLoginDto
 {
     [EmailAddress] public required string Email { get; set; }

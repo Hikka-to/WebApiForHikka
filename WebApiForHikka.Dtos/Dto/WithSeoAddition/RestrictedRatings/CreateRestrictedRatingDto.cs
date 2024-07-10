@@ -3,10 +3,10 @@ using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.RestrictedRatings;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
 
 [ModelMetadataType(typeof(RestrictedRating))]
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/RestrictedRatings")]
+[ExportTsInterface]
 public class CreateRestrictedRatingDto : CreateDtoWithSeoAddition
 {
     public required string Name { get; set; }

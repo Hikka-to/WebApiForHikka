@@ -1,9 +1,9 @@
 ﻿using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.Formats;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;
 
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Formats")]
+[ExportTsInterface]
 public class GetFormatDto : GetDtoWithSeoAddition
 {
     public required string Name { get; set; }

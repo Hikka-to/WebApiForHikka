@@ -3,10 +3,10 @@ using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.Countries;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 
 [ModelMetadataType(typeof(Country))]
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Countries")]
+[ExportTsInterface]
 public class UpdateCountryDto : UpdateDtoWithSeoAddition
 {
     public required string Name { get; set; }

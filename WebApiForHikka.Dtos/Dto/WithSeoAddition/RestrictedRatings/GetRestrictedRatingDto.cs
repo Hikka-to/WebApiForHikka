@@ -1,9 +1,9 @@
 ﻿using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.RestrictedRatings;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
 
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/RestrictedRatings")]
+[ExportTsInterface]
 public class GetRestrictedRatingDto : GetDtoWithSeoAddition
 {
     public required string Name { get; set; }

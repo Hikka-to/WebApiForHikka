@@ -3,10 +3,10 @@ using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.Periods;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Periods;
 
 [ModelMetadataType(typeof(Period))]
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Periods")]
+[ExportTsInterface]
 public class CreatePeriodDto : CreateDtoWithSeoAddition
 {
     public required string Name { get; set; }

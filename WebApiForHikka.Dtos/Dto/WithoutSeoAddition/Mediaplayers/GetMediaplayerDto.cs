@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithoutSeoAddition/Mediaplayers")]
+[ExportTsInterface]
 public class GetMediaplayerDto : ModelDto
 {
     public required string Name { get; set; }

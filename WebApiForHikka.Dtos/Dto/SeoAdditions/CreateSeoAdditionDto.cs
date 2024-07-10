@@ -6,7 +6,7 @@ using WebApiForHikka.Domain.Models;
 namespace WebApiForHikka.Dtos.Dto.SeoAdditions;
 
 [ModelMetadataType(typeof(SeoAddition))]
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/SeoAddition")]
+[ExportTsInterface]
 public class CreateSeoAdditionDto
 {
     public required string Slug { get; set; }

@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 
 [ModelMetadataType(typeof(Studio))]
-[ExportTsInterface(OutputDir = "./../admin-panel-hikka/models/Dto/WithSeoAddition/Studios")]
+[ExportTsInterface]
 public class UpdateStudioDto : UpdateDtoWithSeoAddition
 {
     public required string Name { get; set; }

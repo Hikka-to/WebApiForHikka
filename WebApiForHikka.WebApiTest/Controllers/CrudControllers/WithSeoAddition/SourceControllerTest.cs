@@ -2,7 +2,7 @@
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.Sources;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;

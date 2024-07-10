@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 
-[ExportTsClass(OutputDir = "./../admin-panel-hikka/models/Dto/WithoutSeoAddition/AnimeVideoKinds")]
+[ExportTsInterface]
 public class GetAnimeVideoKindDto : ModelDto
 {
     public required string Name { get; set; }
