@@ -22,7 +22,7 @@ public class DtoTsGenerationSpec : GenerationSpec
         AddTypes<ExportTsEnumAttribute>((t, o) => AddEnum(t, o));
     }
 
-    private void AddTypes<TAttribute>(Func<Type, string, SpecBuilderBase> method)
+    private static void AddTypes<TAttribute>(Func<Type, string, SpecBuilderBase> method)
         where TAttribute : Attribute
     {
         var types = Assembly.GetTypes().Where(t =>
