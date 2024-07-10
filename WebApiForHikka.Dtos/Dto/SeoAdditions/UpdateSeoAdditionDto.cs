@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
+using WebApiForHikka.Domain.Enums;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.Shared;
@@ -24,7 +25,7 @@ public class UpdateSeoAdditionDto : ModelDto
 
     public string? SocialTitle { get; set; }
 
-    public string? SocialType { get; set; } // Consider using an enum type here if you have specific values
+    public SocialType? SocialType { get; set; } // Consider using an enum type here if you have specific values
 
     public string? SocialImage { get; set; }
 

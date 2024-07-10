@@ -4,6 +4,7 @@
  */
 
 import { ModelDto } from "../../Shared/model-dto";
+import { SocialType } from "./social-type";
 
 export interface GetSeoAdditionDto extends ModelDto {
     slug: string;
@@ -12,7 +13,7 @@ export interface GetSeoAdditionDto extends ModelDto {
     image: string;
     imageAlt: string;
     socialTitle: string;
-    socialType: string;
+    socialType: SocialType;
     socialImage: string;
     socialImageAlt: string;
 }

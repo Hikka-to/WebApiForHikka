@@ -8,7 +8,7 @@ using WebApiForHikka.SharedFunction.Extensions;
 using WebApiForHikka.WebApi.Controllers;
 using WebApiForHikka.WebApi.Shared;
 
-namespace WebApiForHikka.WebApi.SwaggerOperationFilters;
+namespace WebApiForHikka.WebApi.SwaggerFilters;
 
 public class ColumnSelectorOperationFilter(IServiceProvider services) : IOperationFilter
 {

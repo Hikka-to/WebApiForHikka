@@ -3,6 +3,8 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
+import { SocialType } from "./social-type";
+
 export interface CreateSeoAdditionDto {
     slug: string;
     title: string;
@@ -10,7 +12,7 @@ export interface CreateSeoAdditionDto {
     image: string;
     imageAlt: string;
     socialTitle: string;
-    socialType: string;
+    socialType: SocialType;
     socialImage: string;
     socialImageAlt: string;
 }

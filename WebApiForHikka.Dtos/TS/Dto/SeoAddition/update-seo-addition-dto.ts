@@ -4,6 +4,7 @@
  */
 
 import { ModelDto } from "../../Shared/model-dto";
+import { SocialType } from "./social-type";
 
 export interface UpdateSeoAdditionDto extends ModelDto {
     id: string;
@@ -13,7 +14,7 @@ export interface UpdateSeoAdditionDto extends ModelDto {
     image: string;
     imageAlt: string;
     socialTitle: string;
-    socialType: string;
+    socialType: SocialType;
     socialImage: string;
     socialImageAlt: string;
 }

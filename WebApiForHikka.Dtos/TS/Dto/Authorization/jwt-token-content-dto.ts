@@ -5,6 +5,6 @@
 
 export interface JwtTokenContentDto {
     email: string;
-    role: string;
     id: string;
+    role: string;
 }
