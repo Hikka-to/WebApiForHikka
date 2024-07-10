@@ -7,7 +7,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 
 [ModelMetadataType(typeof(AnimeBackdrop))]
-[ExportTsClass(OutputDir = "./TS/Dto/WithoutSeoAddition/AnimeBackdrops")]
+[ExportTsInterface]
 public class UpdateAnimeBackdropDto : ModelDto
 {
     [AnimeValidation] public required Guid AnimeId { get; set; }

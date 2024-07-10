@@ -2,7 +2,7 @@
 
 namespace WebApiForHikka.Dtos.Shared;
 
-[ExportTsInterface(OutputDir = "./TS/Shared/")]
+[ExportTsInterface]
 public class ReturnPageDto<T>
 {
     public required IReadOnlyCollection<T> Models { get; set; }

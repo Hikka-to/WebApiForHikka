@@ -3,10 +3,10 @@ using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.Formats;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;
 
 [ModelMetadataType(typeof(Format))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Formats")]
+[ExportTsInterface]
 public class CreateFormatDto : CreateDtoWithSeoAddition
 {
     public required string Name { get; set; }

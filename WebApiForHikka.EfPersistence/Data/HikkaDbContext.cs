@@ -36,6 +36,18 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     {
         base.OnModelCreating(modelBuilder);
 
+        // Enums
+        var modelsAssembly = typeof(IModel).Assembly;
+        var enumTypes = modelsAssembly.GetTypes().Where(t =>
+            (t.Namespace?.Contains("Enums") ?? false) && t.IsEnum);
+        var hasPostgresEnum = typeof(NpgsqlModelBuilderExtensions).GetMethods().First(m => m is
+        {
+            Name: nameof(NpgsqlModelBuilderExtensions.HasPostgresEnum),
+            IsGenericMethod: true
+        });
+        foreach (var enumType in enumTypes)
+            hasPostgresEnum.MakeGenericMethod(enumType).Invoke(null, [modelBuilder, null, null, null]);
+
         // Configure the self-referencing relationship
         modelBuilder.Entity<Tag>()
             .HasOne(t => t.ParentTag)

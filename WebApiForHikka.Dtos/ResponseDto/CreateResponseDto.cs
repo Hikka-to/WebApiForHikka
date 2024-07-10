@@ -2,7 +2,7 @@
 
 namespace WebApiForHikka.Dtos.ResponseDto;
 
-[ExportTsInterface(OutputDir = "./TS/ResponseDto/")]
+[ExportTsInterface]
 public class CreateResponseDto
 {
     public Guid Id { get; set; }

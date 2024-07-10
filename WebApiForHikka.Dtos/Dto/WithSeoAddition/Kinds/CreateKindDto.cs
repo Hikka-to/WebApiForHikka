@@ -3,10 +3,10 @@ using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.Kinds;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
 
 [ModelMetadataType(typeof(Kind))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Kinds")]
+[ExportTsInterface]
 public class CreateKindDto : CreateDtoWithSeoAddition
 {
     public required string Slug { get; set; }
