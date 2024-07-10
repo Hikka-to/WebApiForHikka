@@ -23,7 +23,7 @@ public class DtoTsGenerationSpec : GenerationSpec
     }
 
     private static void AddTypes<TAttribute>(Func<Type, string, SpecBuilderBase> method)
-        where TAttribute : Attribute
+        where TAttribute : ExportAttribute
     {
         var types = Assembly.GetTypes().Where(t =>
             t.GetCustomAttributes(false).Any(a => a.GetType() == typeof(TAttribute))
@@ -33,8 +33,7 @@ public class DtoTsGenerationSpec : GenerationSpec
             var attribute = type.GetCustomAttribute<TAttribute>()!;
             var fullPath = Path.GetFullPath(OutputDir);
             var namespacePath = "./" + type.Namespace?.Replace("WebApiForHikka.Dtos.", "").Replace(".", "/");
-            var outputDir = Path.Combine(fullPath, namespacePath,
-                attribute.GetType().Name.Replace("Attribute", "") + "s");
+            var outputDir = Path.Combine(fullPath, namespacePath, attribute.OutputDir ?? "");
             outputDir = Path.GetFullPath(outputDir)
                 .Replace(fullPath, OutputDir)
                 .Replace("\\", "/")
