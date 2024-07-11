@@ -2,7 +2,7 @@
 using WebApiForHikka.Application.Formats;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.Formats;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;

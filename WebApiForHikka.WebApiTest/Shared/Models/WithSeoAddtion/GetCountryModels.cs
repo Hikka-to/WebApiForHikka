@@ -1,5 +1,5 @@
 ﻿using Faker;
-using WebApiForHikka.Dtos.Dto.Countries;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 using Country = WebApiForHikka.Domain.Models.WithSeoAddition.Country;
 

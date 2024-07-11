@@ -1,6 +1,8 @@
 ﻿using Faker;
+using WebApiForHikka.Domain.Enums;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
+using Enum = Faker.Enum;
 
 namespace WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
@@ -46,7 +48,7 @@ public static class GetSeoAdditionModels
             SocialImage = Lorem.GetFirstWord(),
             SocialImageAlt = Lorem.GetFirstWord(),
             SocialTitle = Lorem.GetFirstWord(),
-            SocialType = Lorem.GetFirstWord()
+            SocialType = Enum.Random<SocialType>()
         };
     }
 
@@ -62,7 +64,7 @@ public static class GetSeoAdditionModels
             SocialImage = Lorem.GetFirstWord(),
             SocialImageAlt = Lorem.GetFirstWord(),
             SocialTitle = Lorem.GetFirstWord(),
-            SocialType = Lorem.GetFirstWord(),
+            SocialType = Enum.Random<SocialType>(),
             Id = new Guid()
         };
     }
@@ -79,7 +81,7 @@ public static class GetSeoAdditionModels
             SocialImage = Lorem.GetFirstWord(),
             SocialImageAlt = Lorem.GetFirstWord(),
             SocialTitle = Lorem.GetFirstWord(),
-            SocialType = Lorem.GetFirstWord(),
+            SocialType = Enum.Random<SocialType>(),
             Id = new Guid()
         };
     }
@@ -96,7 +98,7 @@ public static class GetSeoAdditionModels
             SocialImage = Lorem.GetFirstWord(),
             SocialImageAlt = Lorem.GetFirstWord(),
             SocialTitle = Lorem.GetFirstWord(),
-            SocialType = Lorem.GetFirstWord(),
+            SocialType = Enum.Random<SocialType>(),
             Id = new Guid()
         };
     }

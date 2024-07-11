@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 
-[ExportTsClass(OutputDir = "./TS/Dto/WithoutSeoAddition/AnimeBackdrops")]
+[ExportTsInterface]
 public class GetAnimeBackdropDto : ModelDto
 {
     public required Guid AnimeId { get; set; }

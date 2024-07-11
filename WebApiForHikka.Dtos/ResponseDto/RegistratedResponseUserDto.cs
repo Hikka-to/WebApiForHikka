@@ -3,7 +3,7 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.ResponseDto;
 
-[ExportTsInterface(OutputDir = "./TS/ResponseDto/")]
+[ExportTsInterface]
 public class RegistratedResponseUserDto : ModelDto
 {
     public required string Message { get; set; }

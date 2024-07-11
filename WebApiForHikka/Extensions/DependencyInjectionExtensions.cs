@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.AppSettings;
+using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.Extensions;
@@ -32,7 +34,14 @@ public static class DependencyInjectionExtensions
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString(AppSettingsStringConstants.DefaultConnection);
-        services.AddDbContext<HikkaDbContext>(options => { options.UseNpgsql(connectionString); });
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+        var modelsAssembly = typeof(IModel).Assembly;
+        var enumTypes = modelsAssembly.GetTypes().Where(t =>
+            (t.Namespace?.Contains("Enums") ?? false) && t.IsEnum);
+        foreach (var enumType in enumTypes)
+            dataSourceBuilder.MapEnum(enumType);
+        var dataSource = dataSourceBuilder.Build();
+        services.AddDbContext<HikkaDbContext>(options => { options.UseNpgsql(dataSource); });
 
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
         var mapper = mapperConfiguration.CreateMapper();

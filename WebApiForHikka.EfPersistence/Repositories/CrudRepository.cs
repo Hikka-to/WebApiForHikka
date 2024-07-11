@@ -155,19 +155,18 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
 
             if (foundName == null &&
                 targetType.FindPrimaryKey() is { } primaryKey &&
-                primaryKey.Properties.First(p =>
+                primaryKey.Properties.FirstOrDefault(p =>
                         (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is
                     { } primaryProperty)
                 query = query.FilterMany(filterBy, primaryProperty.Name, filter);
 
 
-            if (navigation.IsCollection)
-                query = query.FilterMany(filterBy, foundName!, filter);
-            else
-                query = query.Filter($"{filterBy}.{foundName}", filter);
+            query = navigation.IsCollection
+                ? query.FilterMany(filterBy, foundName!, filter)
+                : query.Filter($"{filterBy}.{foundName}", filter);
         }
         else if (entityType?.FindPrimaryKey() is { } primaryKey &&
-                 primaryKey.Properties.First(p =>
+                 primaryKey.Properties.FirstOrDefault(p =>
                          (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is
                      { } primaryProperty)
         {

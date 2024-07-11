@@ -2,7 +2,7 @@
 using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.Periods;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Periods;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
