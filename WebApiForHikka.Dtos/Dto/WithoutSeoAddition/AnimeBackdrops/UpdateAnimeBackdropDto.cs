@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
@@ -11,12 +12,5 @@ namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 public class UpdateAnimeBackdropDto : ModelDto
 {
     [AnimeValidation] public required Guid AnimeId { get; set; }
-
-    public required string Path { get; set; }
-
-    public required int Width { get; set; }
-
-    public required int Height { get; set; }
-
-    public required List<int> Colors { get; set; }
+    public required IFormFile Image { get; set; }
 }

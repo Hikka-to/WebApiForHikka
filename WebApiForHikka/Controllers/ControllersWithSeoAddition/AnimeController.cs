@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
-using Microsoft.VisualBasic;
-using System.Drawing;
 using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.RestrictedRatings;
@@ -12,6 +9,7 @@ using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
+using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
@@ -48,9 +46,6 @@ public class AnimeController(
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
 
-    protected string[] PathOfImage = ["images", "animes", "posters"];
-
-    protected const string MimeType = "image/webp";
 
     public override async Task<IActionResult> Create([FromForm] CreateAnimeDto dto, CancellationToken cancellationToken)
     {
@@ -79,12 +74,15 @@ public class AnimeController(
 
         model.Tags = tags;
 
-        var path = _fileHelper.UploadFileImage(dto.PosterImage, PathOfImage);
+        var path = _fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
 
         model.PosterPath = path;
 
         model.PosterColors = _colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
+        model.CreatedAt = DateTime.UtcNow;
+
+        model.UpdatedAt = DateTime.UtcNow;
 
         var createdId = await _crudService.CreateAsync(model, cancellationToken);
 
@@ -104,7 +102,6 @@ public class AnimeController(
 
         var model = _mapper.Map<Anime>(dto);
 
-        var posterPath = await _crudService.GetPosterPathAsync(model.Id);
 
         var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
         await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
@@ -119,14 +116,12 @@ public class AnimeController(
 
         string? path = _crudService.GetPosterPath(model.Id);
 
-        if (path != null)
+        if (path == null) model.PosterPath = _fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
+        else
         {
-            _fileHelper.DeleteFile(path);
-        }
-
-        _fileHelper.OverrideFileImage(dto.PosterImage, path!);
-
-        model.PosterPath = path!;
+            _fileHelper.OverrideFileImage(dto.PosterImage, path!);
+            model.PosterPath = path;
+        };
 
         model.PosterColors = _colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
@@ -150,9 +145,9 @@ public class AnimeController(
     public IActionResult GetImage([FromRoute] string imageName)
     {
 
-        byte[] file = _fileHelper.GetFile(PathOfImage, imageName);
+        byte[] file = _fileHelper.GetFile(ControllerStringConstants.AnimePosterPath, imageName);
 
-        return File(file, MimeType, imageName);
+        return File(file, ControllerStringConstants.JsonImageReturnType, imageName);
 
 
     }

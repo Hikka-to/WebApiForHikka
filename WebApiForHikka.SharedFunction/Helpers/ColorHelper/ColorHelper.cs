@@ -60,4 +60,6 @@ public class ColorHelper : IColorHelper
 
         return pixelColors;
     }
+
+
 }

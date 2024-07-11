@@ -8,7 +8,7 @@ public class GetAnimeBackdropDto : ModelDto
 {
     public required Guid AnimeId { get; set; }
 
-    public required string Path { get; set; }
+    public required string ImageUrl { get; set; }
 
     public required int Width { get; set; }
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
+using System.Drawing;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace WebApiForHikka.WebApi.Helper.FileHelper;
 
@@ -8,12 +10,27 @@ public class FileHelper : IFileHelper
 {
     public void DeleteFile(string[] path, string fileName)
     {
+        try
+        {
+
         File.Delete(Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path)) + fileName);
+        }
+        catch (DirectoryNotFoundException)
+        {
+        }
     }
 
     public void DeleteFile(string path) 
     {
-        File.Delete(path);
+        try
+        {
+
+            File.Delete(path);
+        }
+        catch (DirectoryNotFoundException)
+        {
+
+        }
     }
 
     public byte[] GetFile(string path)
@@ -30,7 +47,7 @@ public class FileHelper : IFileHelper
 
     public void OverrideFileImage(IFormFile file, string path)
     {
-        using var image = Image.Load(file.OpenReadStream());
+        using var image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
         var encoderOptions = new WebpEncoder { Quality = 80 }; // Adjust quality as needed
         image.Save(path, encoderOptions);
     }
@@ -102,6 +119,20 @@ public class FileHelper : IFileHelper
         }
 
         return filePath;
+
+    }
+
+    public (int height, int width) GetHeightAndWidthOfImage(IFormFile file) 
+    {
+        using var memoryStream = new MemoryStream();
+        file.CopyTo(memoryStream);
+        var image = new Bitmap(memoryStream);
+
+        // Get the width and height of the image
+        int width = image.Width;
+        int height = image.Height;
+        
+        return (height, width);
 
     }
 

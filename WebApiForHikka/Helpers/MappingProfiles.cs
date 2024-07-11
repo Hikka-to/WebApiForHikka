@@ -168,7 +168,10 @@ public class MappingProfiles : Profile
 
         CreateMap<AnimeBackdrop, GetAnimeBackdropDto>().ForMember(
             c => c.AnimeId,
-            op => op.MapFrom(v => v.Anime.Id));
+            op => op.MapFrom(v => v.Anime.Id)).ForMember(
+            c => c.ImageUrl,
+            op => op.MapFrom(v => v.Path)
+            );
 
         CreateMap<CreateAnimeBackdropDto, AnimeBackdrop>();
 

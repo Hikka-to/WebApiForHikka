@@ -49,6 +49,4 @@ public class UpdateAnimeDto : UpdateDtoWithSeoAddition
     public required float ImdbScore { get; set; }
     public required bool IsPublished { get; set; }
     public DateTime? PublishedAt { get; set; }
-    public required DateTime UpdatedAt { get; set; }
-    public required DateTime CreatedAt { get; set; }
 }
