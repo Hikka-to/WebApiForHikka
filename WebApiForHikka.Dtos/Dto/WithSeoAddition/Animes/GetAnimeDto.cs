@@ -1,9 +1,10 @@
 ﻿using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Periods;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.Kinds;
+using WebApiForHikka.Dtos.Dto.Periods;
+using WebApiForHikka.Dtos.Dto.RestrictedRatings;
+using WebApiForHikka.Dtos.Dto.Sources;
+using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.Shared;
 

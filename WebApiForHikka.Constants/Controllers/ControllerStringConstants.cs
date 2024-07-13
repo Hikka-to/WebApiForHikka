@@ -2,6 +2,14 @@
 
 public static class ControllerStringConstants
 {
+    public static readonly string[] AnimePosterPath = ["images", "anime", "poster"];
+
+    public static readonly string[] AnimeBackdropPath = ["images", "anime", "backdrop"];
+
+
+    public const string JsonImageReturnType = "image/webp";
+
+
     //Policies
 
     public const string CanAccessEveryone = "CanAccessEveryone";
@@ -38,4 +46,6 @@ public static class ControllerStringConstants
     public const string FileMustNotBeNullErrorMessage = "File must not be null";
 
     public const string MaximumSizeCanBe = "Maximum size can be ";
+
+    public const string ThisFieldCantBeNull = "This field can't be null";
 }

@@ -22,6 +22,8 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
 
     [SourceValidation] public required Guid SourceId { get; set; }
 
+    [TagListValidation] public required List<Guid> Tags { get; set; }
+
     public required string Name { get; set; }
 
     public string? ImageName { get; set; }
@@ -31,8 +33,6 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
     public required string NativeName { get; set; }
 
     [AnimePosterValidation] public required IFormFile PosterImage { get; set; }
-
-    public required List<int> PosterColors { get; set; }
 
     public required float AvgDuration { get; set; }
 
@@ -53,6 +53,4 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
     public required bool IsPublished { get; set; }
     public DateTime? PublishedAt { get; set; }
 
-    public required DateTime UpdatedAt { get; set; }
-    public required DateTime CreatedAt { get; set; }
 }
