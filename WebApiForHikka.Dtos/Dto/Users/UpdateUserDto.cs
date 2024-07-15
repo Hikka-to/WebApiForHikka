@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/Users")]
+[ExportTsInterface]
 public class UpdateUserDto
 {
     [Required(ErrorMessage = ControllerStringConstants.IdIsRequiredErrorMessage)]

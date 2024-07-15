@@ -31,10 +31,23 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<AnimeBackdrop> AnimeBackdrops { get; set; }
     public DbSet<AnimeVideoKind> AnimeVideoKinds { get; set; }
     public DbSet<AnimeVideo> AnimeVideos { get; set; }
+    public DbSet<AlternativeName> AlternativeNames { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        // Enums
+        var modelsAssembly = typeof(IModel).Assembly;
+        var enumTypes = modelsAssembly.GetTypes().Where(t =>
+            (t.Namespace?.Contains("Enums") ?? false) && t.IsEnum);
+        var hasPostgresEnum = typeof(NpgsqlModelBuilderExtensions).GetMethods().First(m => m is
+        {
+            Name: nameof(NpgsqlModelBuilderExtensions.HasPostgresEnum),
+            IsGenericMethod: true
+        });
+        foreach (var enumType in enumTypes)
+            hasPostgresEnum.MakeGenericMethod(enumType).Invoke(null, [modelBuilder, null, null, null]);
 
         // Configure the self-referencing relationship
         modelBuilder.Entity<Tag>()
@@ -62,6 +75,9 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
                 NormalizedName = UserStringConstants.BannedRole.ToUpper()
             }
         );
+
+        //AlternativeName
+        modelBuilder.Entity<AlternativeName>().Navigation(e => e.Anime).AutoInclude();
 
         //AnimeBackdrop
         modelBuilder.Entity<AnimeBackdrop>().Navigation(e => e.Anime).AutoInclude();

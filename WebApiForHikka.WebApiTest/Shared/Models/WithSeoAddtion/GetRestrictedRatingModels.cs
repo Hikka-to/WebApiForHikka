@@ -1,6 +1,6 @@
 ﻿using Faker;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.RestrictedRatings;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Shared.Models.WithSeoAddtion;

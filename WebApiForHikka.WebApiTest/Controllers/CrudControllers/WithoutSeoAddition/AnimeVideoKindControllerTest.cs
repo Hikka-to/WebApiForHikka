@@ -21,8 +21,6 @@ public class AnimeVideoKindControllerTest : CrudControllerBaseTest<
     ReturnPageDto<GetAnimeVideoKindDto>
 >
 {
-    public AnimeVideoKind Sample => GetModelSample();
-
     protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();

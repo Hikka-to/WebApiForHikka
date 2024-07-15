@@ -6,12 +6,14 @@ using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
+
+
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Animes")]
+[ExportTsInterface]
 public class GetAnimeDto : GetDtoWithSeoAddition
 {
     public required GetKindDto Kind { get; set; }

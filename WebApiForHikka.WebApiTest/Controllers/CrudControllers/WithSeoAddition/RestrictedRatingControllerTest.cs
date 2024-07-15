@@ -2,7 +2,7 @@
 using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.Dto.RestrictedRatings;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;

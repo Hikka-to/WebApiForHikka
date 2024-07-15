@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes.ListEntityValidation;
@@ -10,7 +9,6 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 
 [ModelMetadataType(typeof(Anime))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Animes")]
 public class CreateAnimeDto : CreateDtoWithSeoAddition
 {
     [KindValidation] public required Guid KindId { get; set; }
@@ -55,5 +53,4 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
 
     public required bool IsPublished { get; set; }
     public DateTime? PublishedAt { get; set; }
-
 }

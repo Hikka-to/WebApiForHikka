@@ -55,7 +55,7 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
     protected override void MutationBeforeDtoCreation(CreateAnimeVideoDto createDto,
         AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        var animeVideoKind = new AnimeVideoKindControllerTest().Sample;
+        var animeVideoKind = GetAnimeVideoKindModels.GetSample();
 
         var animeVideoKindService = alternativeServices.GetRequiredService<IAnimeVideoKindService>();
 
@@ -67,7 +67,7 @@ public class AnimeVideoControllerTest : CrudControllerBaseTest<
     protected override void MutationBeforeDtoUpdate(UpdateAnimeVideoDto updateDto,
         AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        var animeVideoKind = new AnimeVideoKindControllerTest().Sample;
+        var animeVideoKind = GetAnimeVideoKindModels.GetSample();
 
         var animeVideoKindService = alternativeServices.GetRequiredService<IAnimeVideoKindService>();
 
