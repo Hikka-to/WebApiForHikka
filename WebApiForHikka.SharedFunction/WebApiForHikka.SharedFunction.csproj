@@ -7,16 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-        <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
-        <PackageReference Include="System.Drawing.Common" Version="8.0.7" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0"/>
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4"/>
+        <PackageReference Include="System.Drawing.Common" Version="8.0.7"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.3"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
+        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj"/>
     </ItemGroup>
 
 </Project>

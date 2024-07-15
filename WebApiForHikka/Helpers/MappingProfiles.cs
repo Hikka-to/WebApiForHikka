@@ -6,6 +6,7 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AlternativeNames;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
@@ -152,10 +153,10 @@ public class MappingProfiles : Profile
             op => op.MapFrom(v => v.Source)).ForMember(
             c => c.PosterPathUrl,
             op => op.MapFrom(v => v.PosterPath)
-            ).ForMember(
+        ).ForMember(
             c => c.Tags,
             op => op.MapFrom(v => v.Tags)
-            );
+        );
 
         CreateMap<CreateAnimeDto, Anime>().ForMember(
             c => c.Tags,
@@ -171,7 +172,7 @@ public class MappingProfiles : Profile
             op => op.MapFrom(v => v.Anime.Id)).ForMember(
             c => c.ImageUrl,
             op => op.MapFrom(v => v.Path)
-            );
+        );
 
         CreateMap<CreateAnimeBackdropDto, AnimeBackdrop>();
 
@@ -194,5 +195,15 @@ public class MappingProfiles : Profile
         CreateMap<CreateAnimeVideoDto, AnimeVideo>();
 
         CreateMap<UpdateAnimeVideoDto, AnimeVideo>();
+
+        //AlternativeName
+
+        CreateMap<AlternativeName, GetAlternativeNameDto>().ForMember(
+            c => c.AnimeId,
+            op => op.MapFrom(v => v.Anime.Id));
+
+        CreateMap<CreateAlternativeNameDto, AlternativeName>();
+
+        CreateMap<UpdateAlternativeNameDto, AlternativeName>();
     }
 }

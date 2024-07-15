@@ -31,6 +31,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<AnimeBackdrop> AnimeBackdrops { get; set; }
     public DbSet<AnimeVideoKind> AnimeVideoKinds { get; set; }
     public DbSet<AnimeVideo> AnimeVideos { get; set; }
+    public DbSet<AlternativeName> AlternativeNames { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -74,6 +75,9 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
                 NormalizedName = UserStringConstants.BannedRole.ToUpper()
             }
         );
+
+        //AlternativeName
+        modelBuilder.Entity<AlternativeName>().Navigation(e => e.Anime).AutoInclude();
 
         //AnimeBackdrop
         modelBuilder.Entity<AnimeBackdrop>().Navigation(e => e.Anime).AutoInclude();
