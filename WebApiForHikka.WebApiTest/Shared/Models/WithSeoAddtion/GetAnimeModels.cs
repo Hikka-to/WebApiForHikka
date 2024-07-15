@@ -1,6 +1,8 @@
 ﻿using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
+using WebApiForHikka.Test.Shared.MyDataFaker;
 
 namespace WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 
@@ -190,4 +192,167 @@ public static class GetAnimeModels
             CreatedAt = DateTime.Now
         };
     }
+
+
+    public static CreateAnimeDto GetCreateDtoSample() => new()
+    {
+        SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+        PosterImage = MyDataFaker.MyDataFaker.GetFakeImage(),
+        Tags = [
+               Guid.NewGuid(),
+            Guid.NewGuid()
+               ],
+        Name = Faker.Lorem.GetFirstWord(),
+        KindId = Guid.NewGuid(),
+        StatusId = Guid.NewGuid(),
+        PeriodId = Guid.NewGuid(),
+        RestrictedRatingId = Guid.NewGuid(),
+        SourceId = Guid.NewGuid(),
+        NativeName = Faker.Lorem.GetFirstWord(),
+        AvgDuration = Faker.RandomNumber.Next(),
+        HowManyEpisodes = Faker.RandomNumber.Next(),
+        FirstAirDate = DateTime.Now,
+        LastAirDate = DateTime.Now,
+        ShikimoriScore = Faker.RandomNumber.Next(),
+        TmdbScore = Faker.RandomNumber.Next(),
+        ImdbScore = Faker.RandomNumber.Next(),
+        IsPublished = Faker.Boolean.Random(),
+        ImageName = Faker.Lorem.GetFirstWord(),
+        ShikimoriId = Faker.RandomNumber.Next(),
+        PublishedAt = DateTime.Now,
+        RomajiName = Faker.Lorem.GetFirstWord(),
+        TmdbId = Faker.RandomNumber.Next(),
+    };
+
+    public static GetAnimeDto GetGetDtoSample() => new()
+    {
+        SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
+        Tags = [
+            GetTagModels.GetGetDtoSample(),
+            GetTagModels.GetGetDtoSample(),
+            GetTagModels.GetGetDtoSample(),
+
+            ],
+        Name = Faker.Lorem.GetFirstWord(),
+        Kind = GetKindModels.GetGetDtoSample(),
+        Status = GetStatusModels.GetGetDtoSample(),
+        Period = GetPeriodModels.GetGetDtoSample(),
+        RestrictedRating = GetRestrictedRatingModels.GetGetDtoSample(),
+        Source = GetSourceModels.GetGetDtoSample(),
+        NativeName = Faker.Lorem.GetFirstWord(),
+        PosterPathUrl = Faker.Lorem.GetFirstWord(),
+        PosterColors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
+        AvgDuration = Faker.RandomNumber.Next(),
+        HowManyEpisodes = Faker.RandomNumber.Next(),
+        FirstAirDate = DateTime.Now,
+        LastAirDate = DateTime.Now,
+        ShikimoriScore = Faker.RandomNumber.Next(),
+        TmdbScore = Faker.RandomNumber.Next(),
+        ImdbScore = Faker.RandomNumber.Next(),
+        IsPublished = Faker.Boolean.Random(),
+        ImageName = Faker.Lorem.GetFirstWord(),
+        ShikimoriId = Faker.RandomNumber.Next(),
+        PublishedAt = DateTime.Now,
+        RomajiName = Faker.Lorem.GetFirstWord(),
+        TmdbId = Faker.RandomNumber.Next(),
+        UpdatedAt = DateTime.Now,
+        CreatedAt = DateTime.Now,
+        Id = Guid.NewGuid(),
+    };
+
+
+    public static Anime GetModelSample() => new()
+    {
+        SeoAddition = GetSeoAdditionModels.GetSample(),
+        Name = Faker.Lorem.GetFirstWord(),
+        Kind = new()
+        {
+            SeoAddition = GetSeoAdditionModels.GetSample(),
+            Slug = Faker.Lorem.GetFirstWord(),
+            Hint = Faker.Lorem.GetFirstWord(),
+            Id = Guid.NewGuid(),
+        },
+        Status = new()
+        {
+            SeoAddition = GetSeoAdditionModels.GetSample(),
+            Name = Faker.Lorem.GetFirstWord(),
+            Id = Guid.NewGuid(),
+        },
+        Period = new()
+        {
+            SeoAddition = GetSeoAdditionModels.GetSample(),
+            Name = Faker.Lorem.GetFirstWord(),
+            Id = Guid.NewGuid(),
+        },
+        RestrictedRating = new()
+        {
+            SeoAddition = GetSeoAdditionModels.GetSample(),
+            Name = Faker.Lorem.GetFirstWord(),
+            Icon = Faker.Lorem.GetFirstWord(),
+            Hint = Faker.Lorem.GetFirstWord(),
+            Value = Faker.RandomNumber.Next(),
+            Id = Guid.NewGuid(),
+        },
+        Source = new()
+        {
+            SeoAddition = GetSeoAdditionModels.GetSample(),
+            Name = Faker.Lorem.GetFirstWord(),
+            Id = Guid.NewGuid(),
+        },
+        Tags = [
+            GetTagModels.GetModelSample(),
+            GetTagModels.GetModelSample(),
+            GetTagModels.GetModelSample(),
+            GetTagModels.GetModelSample()
+            ],
+        UpdatedAt = DateTime.Now,
+        CreatedAt = DateTime.Now,
+        NativeName = Faker.Lorem.GetFirstWord(),
+        PosterPath = "fdsfsdf;adf\\dsdsds\\dsdfdsfdsfsf",
+        PosterColors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
+        AvgDuration = Faker.RandomNumber.Next(),
+        HowManyEpisodes = Faker.RandomNumber.Next(),
+        FirstAirDate = DateTime.Now,
+        LastAirDate = DateTime.Now,
+        ShikimoriScore = Faker.RandomNumber.Next(),
+        TmdbScore = Faker.RandomNumber.Next(),
+        ImdbScore = Faker.RandomNumber.Next(),
+        IsPublished = Faker.Boolean.Random(),
+        ImageName = Faker.Lorem.GetFirstWord(),
+        ShikimoriId = Faker.RandomNumber.Next(),
+        PublishedAt = DateTime.Now,
+        RomajiName = Faker.Lorem.GetFirstWord(),
+        TmdbId = Faker.RandomNumber.Next(),
+        Id = Guid.NewGuid(),
+    };
+
+    public static UpdateAnimeDto GetUpdateDtoSample() => new()
+    {
+        Tags = [
+            Guid.NewGuid()
+            ],
+        SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
+        PosterImage = MyDataFaker.MyDataFaker.GetFakeImage(),
+        Name = Faker.Lorem.GetFirstWord(),
+        KindId = Guid.NewGuid(),
+        StatusId = Guid.NewGuid(),
+        PeriodId = Guid.NewGuid(),
+        RestrictedRatingId = Guid.NewGuid(),
+        SourceId = Guid.NewGuid(),
+        NativeName = Faker.Lorem.GetFirstWord(),
+        AvgDuration = Faker.RandomNumber.Next(),
+        HowManyEpisodes = Faker.RandomNumber.Next(),
+        FirstAirDate = DateTime.Now,
+        LastAirDate = DateTime.Now,
+        ShikimoriScore = Faker.RandomNumber.Next(),
+        TmdbScore = Faker.RandomNumber.Next(),
+        ImdbScore = Faker.RandomNumber.Next(),
+        IsPublished = Faker.Boolean.Random(),
+        ImageName = Faker.Lorem.GetFirstWord(),
+        ShikimoriId = Faker.RandomNumber.Next(),
+        PublishedAt = DateTime.Now,
+        RomajiName = Faker.Lorem.GetFirstWord(),
+        TmdbId = Faker.RandomNumber.Next(),
+        Id = Guid.NewGuid(),
+    };
 }

@@ -1,10 +1,11 @@
 ﻿using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.Countries;
 using WebApiForHikka.Dtos.Dto.Kinds;
 using WebApiForHikka.Dtos.Dto.Periods;
 using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.Dtos.Dto.Sources;
 using WebApiForHikka.Dtos.Dto.Statuses;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.Shared;
 
@@ -20,6 +21,9 @@ public class GetAnimeDto : GetDtoWithSeoAddition
     public required GetSourceDto Source { get; set; }
 
     public required List<GetTagDto> Tags { get; set; }
+    public required List<GetCountryDto> Countries { get; set; }
+    public required List<GetDubDto> Dubs { get; set; }
+
     public required string Name { get; set; }
     public string? ImageName { get; set; }
     public string? RomajiName { get; set; }

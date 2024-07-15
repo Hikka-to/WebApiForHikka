@@ -161,7 +161,9 @@ public class MappingProfiles : Profile
             c => c.Tags,
             op => op.Ignore());
 
-        CreateMap<UpdateAnimeDto, Anime>();
+        CreateMap<UpdateAnimeDto, Anime>().ForMember(
+            c => c.Tags,
+            op => op.Ignore());
 
 
         //AnimeBackdrop

@@ -4,10 +4,10 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Application.Relation.TagAnimes;
 
-public class TagAnimeRealtionService : RelationCrudService<TagAnime, Tag, Anime, ITagAnimeRelationRepository>,
+public class TagAnimeRelationService : RelationCrudService<TagAnime, Tag, Anime, ITagAnimeRelationRepository>,
     ITagAnimeRelationService
 {
-    public TagAnimeRealtionService(ITagAnimeRelationRepository repository) : base(repository)
+    public TagAnimeRelationService(ITagAnimeRelationRepository repository) : base(repository)
     {
     }
 }

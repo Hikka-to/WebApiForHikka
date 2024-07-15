@@ -142,7 +142,8 @@ public class AnimeBackdropController(
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = await _crudService.GetAsync(id, cancellationToken);
-
+        if (model is null)
+            NoContent();
 
         await _crudService.DeleteAsync(model!.Id, cancellationToken);
         _fileHelper.DeleteFile(model.Path);
@@ -158,10 +159,11 @@ public class AnimeBackdropController(
 
         var model = _mapper.Map<GetAnimeBackdropDto>(await _crudService.GetAsync(id, cancellationToken));
 
-        model.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" + Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" + model.ImageUrl.Split('\\').Last();
-
         if (model is null)
             return NotFound();
+
+        model.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" + Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" + model.ImageUrl.Split('\\').Last();
+
 
         return Ok(model);
     }

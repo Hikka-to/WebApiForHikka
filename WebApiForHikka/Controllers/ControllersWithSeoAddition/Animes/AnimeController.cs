@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using WebApiForHikka.Application.Kinds;
 using WebApiForHikka.Application.Periods;
 using WebApiForHikka.Application.RestrictedRatings;
@@ -8,6 +9,8 @@ using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
+using WebApiForHikka.Application.WithSeoAddition.Countries;
+using WebApiForHikka.Application.WithSeoAddition.Dubs;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Domain;
@@ -21,7 +24,7 @@ using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
 using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
 
-namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
+namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Animes;
 
 public class AnimeController(
     IAnimeService crudService,
@@ -34,6 +37,8 @@ public class AnimeController(
     IRestrictedRatingService restrictedRatingService,
     ISourceService sourceService,
     ITagService tagService,
+    ICountryService countryService,
+    IDubService dubService,
     IFileHelper _fileHelper,
     IColorHelper _colorHelper
 )
@@ -45,6 +50,8 @@ public class AnimeController(
         Anime
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
+
+
 
 
     public override async Task<IActionResult> Create([FromForm] CreateAnimeDto dto, CancellationToken cancellationToken)
@@ -72,7 +79,22 @@ public class AnimeController(
             tags.Add((await tagService.GetAsync(item, cancellationToken))!);
         }
 
+        List<Country> countries = new List<Country>();
+        foreach (var item in dto.Countries)
+        {
+            countries.Add((await countryService.GetAsync(item, cancellationToken))!);
+        }
+
+        List<Dub> dubs = new List<Dub>();
+        foreach (var item in dto.Dubs)
+        {
+            dubs.Add((await dubService.GetAsync(item, cancellationToken))!);
+        }
+
+
         model.Tags = tags;
+        model.Countries = countries;
+        model.Dubs = dubs;
 
         var path = _fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
 
@@ -126,13 +148,26 @@ public class AnimeController(
         model.PosterColors = _colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
         List<Tag> tags = new List<Tag>();
-
         foreach (var item in dto.Tags)
         {
             tags.Add((await tagService.GetAsync(item, cancellationToken))!);
         }
 
+        List<Country> countries = new List<Country>();
+        foreach (var item in dto.Countries)
+        {
+            countries.Add((await countryService.GetAsync(item, cancellationToken))!);
+        }
+
+        List<Dub> dubs = new List<Dub>();
+        foreach (var item in dto.Dubs)
+        {
+            dubs.Add((await dubService.GetAsync(item, cancellationToken))!);
+        }
+
         model.Tags = tags;
+        model.Countries = countries;
+        model.Dubs = dubs;
 
         await _crudService.UpdateAsync(model, cancellationToken);
 
@@ -210,13 +245,16 @@ public class AnimeController(
 
         var model = _mapper.Map<GetAnimeDto>(await _crudService.GetAsync(id, cancellationToken));
 
-        model.PosterPathUrl = $"{Request.Scheme}://{Request.Host.Value}" + Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" + model.PosterPathUrl.Split('\\').Last();
-
         if (model is null)
             return NotFound();
 
+        model.PosterPathUrl = $"{Request.Scheme}://{Request.Host.Value}" + Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" + model.PosterPathUrl.Split('\\').Last();
+
+
         return Ok(model);
     }
+
+
 
 
 

@@ -62,6 +62,9 @@ public abstract class CrudControllerForModelWithSeoAddition
 
         var model = await _crudService.GetAsync(id, cancellationToken);
 
+        if (model is null)
+            return NoContent();
+
 
         await _crudService.DeleteAsync(model!.Id, cancellationToken);
         await _seoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
