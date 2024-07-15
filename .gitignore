@@ -441,5 +441,6 @@ fabric.properties
 # My ignorence
 *.json
 /WebApiForHikka/appsettings.json
-'
+
 /WebApiForHikka/images
+

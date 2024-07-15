@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes.ListEntityValidation;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
 using WebApiForHikka.Dtos.Shared;
 
@@ -21,6 +22,8 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
     [SourceValidation] public required Guid SourceId { get; set; }
 
     [TagListValidation] public required List<Guid> Tags { get; set; }
+    [CountryListValidationAtrribute] public required List<Guid> Countries { get; set; }
+    [DubListValidation] public required List<Guid> Dubs { get; set; }
 
     public required string Name { get; set; }
 

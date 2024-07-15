@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using WebApiForHikka.WebApi.Extensions;
-using WebApiForHikka.WebApi.SwaggerFilters;
+using WebApiForHikka.WebApi.Shared;
+using WebApiForHikka.WebApi.SwaggerOperationFilters;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +59,7 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddPolicies();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

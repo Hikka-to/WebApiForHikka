@@ -14,6 +14,7 @@ public abstract class MyBaseController(IMapper mapper, IHttpContextAccessor http
     protected readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     protected readonly IMapper _mapper = mapper;
 
+
     protected JwtTokenContentDto GetJwtTokenAuthorizationFromHeader()
     {
         var authHeader = _httpContextAccessor.HttpContext!.Request.Headers.Authorization;

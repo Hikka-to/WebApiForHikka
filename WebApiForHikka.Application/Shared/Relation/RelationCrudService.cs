@@ -6,11 +6,16 @@ public abstract class RelationCrudService<TModel, TFirstModel, TSecondModel, TRe
     : CrudService<TModel, TRepository>, IRelationCrudService<TModel, TFirstModel, TSecondModel>
     where TModel : RelationModel<TFirstModel, TSecondModel>
     where TRepository : IRelationCrudRepository<TModel, TFirstModel, TSecondModel>
-    where TFirstModel : Model
-    where TSecondModel : Model
+    where TFirstModel : class, IModel
+    where TSecondModel : class, IModel
 {
     protected RelationCrudService(TRepository repository) : base(repository)
     {
+    }
+
+    public bool CheckIfModelsWithThisIdsExist(Guid firstId, Guid secondId)
+    {
+        return _repository.CheckIfModelsWithThisIdsExist(firstId, secondId);
     }
 
     public async Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebApiForHikka.Application.Shared.Relation;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
@@ -13,6 +14,19 @@ public abstract class CrudRelationRepository<TModel, TFirstModel, TSecondModel> 
 {
     public CrudRelationRepository(HikkaDbContext dbContext) : base(dbContext)
     {
+    }
+
+    public bool CheckIfModelsWithThisIdsExist(Guid firstId, Guid secondId)
+    {
+        var firstEntity = DbContext.Set<TFirstModel>()
+            .FirstOrDefault(e => e.Id == firstId);
+        if (firstEntity == null) return false;
+
+        var secondEntity = DbContext.Set<TSecondModel>()
+            .FirstOrDefault(e => e.Id == secondId);
+        if (secondEntity == null) return false;
+
+        return true;
     }
 
     public virtual async Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
