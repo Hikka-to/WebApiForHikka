@@ -1,7 +1,9 @@
-﻿using NpgsqlTypes;
+﻿using System.Text.Json.Serialization;
+using NpgsqlTypes;
 
 namespace WebApiForHikka.Domain.Enums;
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum SocialType
 {
     [PgName("website")] Website,
