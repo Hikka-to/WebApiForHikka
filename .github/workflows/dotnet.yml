@@ -1,45 +1,45 @@
-# name: .NET
+ name: .NET
 
-# on:
-#   push:
-#     branches: [ "main" ]
-#   pull_request:
-#     branches: [ "main" ]
+ on:
+   push:
+     branches: [ "main" ]
+   pull_request:
+     branches: [ "main" ]
 
-# jobs:
-#   build:
+ jobs:
+   build:
 
-#     # Changeable region
-#     strategy:
-#       matrix:
-#         configuration: [Debug, Release]
+     # Changeable region
+     strategy:
+       matrix:
+         configuration: [Debug, Release]
 
-#     env:
-#       project: WebApiForHikka
-#     # Endregion
+     env:
+       project: WebApiForHikka
+     # Endregion
               
-#     runs-on: windows-latest
+     runs-on: windows-latest
     
-#     steps:
-#     - name: Checkout
-#       uses: actions/checkout@v4
+     steps:
+     - name: Checkout
+       uses: actions/checkout@v4
     
-#     - name: Setup .NET
-#       uses: actions/setup-dotnet@v4
-#       with:
-#         dotnet-version: 8.0.x
+     - name: Setup .NET
+       uses: actions/setup-dotnet@v4
+       with:
+         dotnet-version: 8.0.x
       
-#     # - name: Restore dependencies
-#     #   run: dotnet restore /p:Configuration=${{ matrix.configuration }}
-      
-#     # - name: Build
-#     #   run: dotnet build --configuration ${{ matrix.configuration }} --no-restore
-      
-#     # - name: Test
-#     #   run: dotnet test --no-build --verbosity normal --configuration ${{ matrix.configuration }}
+     - name: Restore dependencies
+       run: dotnet restore /p:Configuration=${{ matrix.configuration }}
+     
+     - name: Build
+       run: dotnet build --configuration ${{ matrix.configuration }} --no-restore
+     
+     - name: Test
+       run: dotnet test --no-build --verbosity normal --configuration ${{ matrix.configuration }}
 
-#     - name: Upload build artifacts
-#       uses: actions/upload-artifact@v4
-#       with:
-#         name: ${{ github.event.repository.name }} (${{ matrix.configuration }})
-#         path: ${{ env.project }}\bin
+     - name: Upload build artifacts
+       uses: actions/upload-artifact@v4
+       with:
+         name: ${{ github.event.repository.name }} (${{ matrix.configuration }})
+         path: ${{ env.project }}\bin
