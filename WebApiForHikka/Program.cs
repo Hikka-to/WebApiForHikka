@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using WebApiForHikka.WebApi.Extensions;
-using WebApiForHikka.WebApi.Shared;
-using WebApiForHikka.WebApi.SwaggerOperationFilters;
+using WebApiForHikka.WebApi.SwaggerFilters;
 
 
 var builder = WebApplication.CreateBuilder(args);
