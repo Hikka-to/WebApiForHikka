@@ -3,7 +3,7 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 
-public interface IAnimeBackdropService : ICrudService<AnimeBackdrop> 
+public interface IAnimeBackdropService : ICrudService<AnimeBackdrop>
 {
-    public  Task<string?> GetImagePathAsync(Guid id);
+    public Task<string?> GetImagePathAsync(Guid id);
 }

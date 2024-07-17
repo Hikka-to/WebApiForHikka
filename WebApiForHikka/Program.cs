@@ -1,21 +1,21 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using WebApiForHikka.WebApi.Conventions;
 using WebApiForHikka.WebApi.Extensions;
-using WebApiForHikka.WebApi.Shared;
-using WebApiForHikka.WebApi.SwaggerOperationFilters;
+using WebApiForHikka.WebApi.SwaggerFilters;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddMvcOptions(o => o.Conventions.Add(new RelationControllerModelConvention()));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SchemaFilter<ReadableEnumsShemaFilter>();
     c.OperationFilter<ColumnSelectorOperationFilter>();
     c.SwaggerDoc("v1", new OpenApiInfo
     {

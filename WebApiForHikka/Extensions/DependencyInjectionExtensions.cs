@@ -17,7 +17,6 @@ namespace WebApiForHikka.WebApi.Extensions;
 
 public static class DependencyInjectionExtensions
 {
-   
     public static void AddBaseClassArchitecture(this IServiceCollection services, Type baseClass, Type baseInterface)
     {
         foreach (var service in baseClass.Assembly.GetTypes().Where(t =>

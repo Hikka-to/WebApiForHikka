@@ -17,6 +17,6 @@ public static class SharedStringConstants
         ".png",
         ".jpg",
         ".web",
-        ".jpeg",
+        ".jpeg"
     ];
 }

@@ -4,10 +4,10 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Application.Relation.CountryAnimes;
 
-public class CountryAnimeRealtionService :
+public class CountryAnimeRelationService :
     RelationCrudService<CountryAnime, Country, Anime, ICountryAnimeRelationRepository>, ICountryAnimeRelationService
 {
-    public CountryAnimeRealtionService(ICountryAnimeRelationRepository repository) : base(repository)
+    public CountryAnimeRelationService(ICountryAnimeRelationRepository repository) : base(repository)
     {
     }
 }

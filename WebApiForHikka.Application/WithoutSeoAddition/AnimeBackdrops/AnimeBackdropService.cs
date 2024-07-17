@@ -7,7 +7,6 @@ public class AnimeBackdropService(IAnimeBackdropRepository repository)
     : CrudService<AnimeBackdrop, IAnimeBackdropRepository>(repository),
         IAnimeBackdropService
 {
-
     public Task<string?> GetImagePathAsync(Guid id)
     {
         return _repository.GetImagePathAsync(id);
