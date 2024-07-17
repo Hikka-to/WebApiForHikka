@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Drawing;
+using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
-using System.Drawing;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace WebApiForHikka.WebApi.Helper.FileHelper;
@@ -12,24 +12,21 @@ public class FileHelper : IFileHelper
     {
         try
         {
-
-        File.Delete(Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path)) + fileName);
+            File.Delete(Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path)) + fileName);
         }
         catch (DirectoryNotFoundException)
         {
         }
     }
 
-    public void DeleteFile(string path) 
+    public void DeleteFile(string path)
     {
         try
         {
-
             File.Delete(path);
         }
         catch (DirectoryNotFoundException)
         {
-
         }
     }
 
@@ -37,6 +34,7 @@ public class FileHelper : IFileHelper
     {
         return File.ReadAllBytes(path);
     }
+
     public byte[] GetFile(string[] path, string fileName)
     {
         var targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
@@ -47,7 +45,7 @@ public class FileHelper : IFileHelper
 
     public void OverrideFileImage(IFormFile file, string path)
     {
-        using var image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
+        using var image = Image.Load(file.OpenReadStream());
         var encoderOptions = new WebpEncoder { Quality = 80 }; // Adjust quality as needed
         image.Save(path, encoderOptions);
     }
@@ -65,7 +63,7 @@ public class FileHelper : IFileHelper
         Directory.CreateDirectory(targetDirectory);
 
         // Generate a unique filename using a GUID
-        Guid fileNameWithoutExtension = Guid.NewGuid();
+        var fileNameWithoutExtension = Guid.NewGuid();
         var webPFileName = $"{fileNameWithoutExtension}.webp";
 
         // Full path to save the converted image
@@ -119,21 +117,18 @@ public class FileHelper : IFileHelper
         }
 
         return filePath;
-
     }
 
-    public (int height, int width) GetHeightAndWidthOfImage(IFormFile file) 
+    public (int height, int width) GetHeightAndWidthOfImage(IFormFile file)
     {
         using var memoryStream = new MemoryStream();
         file.CopyTo(memoryStream);
         var image = new Bitmap(memoryStream);
 
         // Get the width and height of the image
-        int width = image.Width;
-        int height = image.Height;
-        
+        var width = image.Width;
+        var height = image.Height;
+
         return (height, width);
-
     }
-
-   }
+}

@@ -26,6 +26,5 @@ public class FilterPaginationDto
     [TsDefaultValue(SharedStringConstants.IdName)]
     public string Column { get; set; } = SharedStringConstants.IdName;
 
-    [DefaultValue(SortOrder.Asc)]
-    public SortOrder SortOrder { get; set; } = SortOrder.Asc;
+    [DefaultValue(SortOrder.Asc)] public SortOrder SortOrder { get; set; } = SortOrder.Asc;
 }

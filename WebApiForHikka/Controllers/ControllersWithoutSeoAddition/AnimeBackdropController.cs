@@ -23,7 +23,7 @@ public class AnimeBackdropController(
     IAnimeService animeService,
     IFileHelper _fileHelper,
     IColorHelper _colorHelper
-    )
+)
     : CrudController<
         GetAnimeBackdropDto,
         UpdateAnimeBackdropDto,
@@ -32,17 +32,14 @@ public class AnimeBackdropController(
         AnimeBackdrop
     >(crudService, mapper, httpContextAccessor)
 {
-
     [AllowAnonymous]
     [HttpGet("dowloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
-        byte[] file = _fileHelper.GetFile(ControllerStringConstants.AnimeBackdropPath, imageName);
+        var file = _fileHelper.GetFile(ControllerStringConstants.AnimeBackdropPath, imageName);
 
         return File(file, ControllerStringConstants.JsonImageReturnType, imageName);
-
     }
-
 
 
     public override async Task<IActionResult> Create([FromForm] CreateAnimeBackdropDto dto,
@@ -59,7 +56,7 @@ public class AnimeBackdropController(
 
         model.Colors = _colorHelper.GetListOfColorsFromImage(dto.Image);
 
-        (int height, int width) heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);
+        var heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);
 
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
@@ -82,18 +79,24 @@ public class AnimeBackdropController(
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
-        string path = await _crudService.GetImagePathAsync(dto.Id);
+        var path = await _crudService.GetImagePathAsync(dto.Id);
 
-        if (path == null) model.Path = _fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
-        else {
+        if (path == null)
+        {
+            model.Path = _fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
+        }
+        else
+        {
             _fileHelper.OverrideFileImage(dto.Image, path!);
             model.Path = path;
-        };
+        }
+
+        ;
 
 
         model.Colors = _colorHelper.GetListOfColorsFromImage(dto.Image);
 
-        (int height, int width) heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);
+        var heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);
 
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
@@ -105,10 +108,10 @@ public class AnimeBackdropController(
 
     [AllowAnonymous]
     public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
-           CancellationToken cancellationToken)
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
-           new ThingsToValidateBase());
+            new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
@@ -118,10 +121,9 @@ public class AnimeBackdropController(
         var models = _mapper.Map<List<GetAnimeBackdropDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-        {
-            item.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" + Request.Path.Value.Replace("GetAll", string.Empty) + "dowloadFile/" + item.ImageUrl.Split('\\').Last();
-        }
-
+            item.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" +
+                            Request.Path.Value.Replace("GetAll", string.Empty) + "dowloadFile/" +
+                            item.ImageUrl.Split('\\').Last();
 
 
         return Ok(
@@ -162,10 +164,11 @@ public class AnimeBackdropController(
         if (model is null)
             return NotFound();
 
-        model.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" + Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" + model.ImageUrl.Split('\\').Last();
+        model.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" +
+                         Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" +
+                         model.ImageUrl.Split('\\').Last();
 
 
         return Ok(model);
     }
-
 }
