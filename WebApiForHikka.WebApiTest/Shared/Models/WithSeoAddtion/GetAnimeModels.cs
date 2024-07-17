@@ -202,16 +202,6 @@ public static class GetAnimeModels
                Guid.NewGuid(),
             Guid.NewGuid()
                ],
- Countries = [
-
-            Guid.NewGuid()
-            ],
-        Dubs = [
-            
-            Guid.NewGuid()
-
-            ],
-
         Name = Faker.Lorem.GetFirstWord(),
         KindId = Guid.NewGuid(),
         StatusId = Guid.NewGuid(),
@@ -243,14 +233,6 @@ public static class GetAnimeModels
             GetTagModels.GetGetDtoSample(),
 
             ],
-        Countries = [
-            GetCountryModels.GetGetDtoSample()
-            ],
-        Dubs = [
-            
-            GetDubModels.GetGetDtoSample()
-            ],
-
         Name = Faker.Lorem.GetFirstWord(),
         Kind = GetKindModels.GetGetDtoSample(),
         Status = GetStatusModels.GetGetDtoSample(),
@@ -347,12 +329,6 @@ public static class GetAnimeModels
     public static UpdateAnimeDto GetUpdateDtoSample() => new()
     {
         Tags = [
-            Guid.NewGuid()
-            ],
-        Countries = [
-            Guid.NewGuid()
-            ],
-        Dubs = [
             Guid.NewGuid()
             ],
         SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),

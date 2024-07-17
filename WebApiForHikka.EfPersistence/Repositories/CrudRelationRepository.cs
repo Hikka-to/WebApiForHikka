@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebApiForHikka.Application.Shared.Relation;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
@@ -24,9 +23,7 @@ public abstract class CrudRelationRepository<TModel, TFirstModel, TSecondModel> 
 
         var secondEntity = DbContext.Set<TSecondModel>()
             .FirstOrDefault(e => e.Id == secondId);
-        if (secondEntity == null) return false;
-
-        return true;
+        return secondEntity != null;
     }
 
     public virtual async Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
