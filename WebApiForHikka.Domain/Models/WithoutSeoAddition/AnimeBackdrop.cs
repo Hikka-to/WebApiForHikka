@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.AnimeBackdrops;
+using WebApiForHikka.Constants.Models.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
