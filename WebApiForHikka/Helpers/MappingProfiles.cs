@@ -11,6 +11,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
@@ -207,5 +208,13 @@ public class MappingProfiles : Profile
         CreateMap<CreateAlternativeNameDto, AlternativeName>();
 
         CreateMap<UpdateAlternativeNameDto, AlternativeName>();
+
+        //RelatedType
+        CreateMap<RelatedType, GetRelatedTypeDto>();
+
+        CreateMap<CreateRelatedTypeDto, RelatedType>();
+
+        CreateMap<UpdateRelatedTypeDto, RelatedType>();
+
     }
 }

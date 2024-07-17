@@ -7,18 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="Models\Formats\**"/>
-        <Compile Remove="Models\Sources\**"/>
-        <Compile Remove="Models\Statuses\**"/>
-        <Compile Remove="Models\Tags\**"/>
-        <EmbeddedResource Remove="Models\Formats\**"/>
-        <EmbeddedResource Remove="Models\Sources\**"/>
-        <EmbeddedResource Remove="Models\Statuses\**"/>
-        <EmbeddedResource Remove="Models\Tags\**"/>
-        <None Remove="Models\Formats\**"/>
-        <None Remove="Models\Sources\**"/>
-        <None Remove="Models\Statuses\**"/>
-        <None Remove="Models\Tags\**"/>
+        <Compile Remove="Models\Formats\**" />
+        <Compile Remove="Models\Sources\**" />
+        <Compile Remove="Models\Statuses\**" />
+        <Compile Remove="Models\Tags\**" />
+        <EmbeddedResource Remove="Models\Formats\**" />
+        <EmbeddedResource Remove="Models\Sources\**" />
+        <EmbeddedResource Remove="Models\Statuses\**" />
+        <EmbeddedResource Remove="Models\Tags\**" />
+        <None Remove="Models\Formats\**" />
+        <None Remove="Models\Sources\**" />
+        <None Remove="Models\Statuses\**" />
+        <None Remove="Models\Tags\**" />
     </ItemGroup>
 
 </Project>
