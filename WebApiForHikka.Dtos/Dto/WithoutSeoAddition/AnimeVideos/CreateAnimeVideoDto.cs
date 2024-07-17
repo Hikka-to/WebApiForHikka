@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.MyOwnValidationAttribute;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 
@@ -9,7 +9,7 @@ namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 [ExportTsInterface]
 public class CreateAnimeVideoDto
 {
-    [EntityValidation<AnimeVideoKind>] public required Guid AnimeVideoKindId { get; set; }
+    [AnimeVideoKindValidation] public required Guid AnimeVideoKindId { get; set; }
 
     public required string Name { get; set; }
 

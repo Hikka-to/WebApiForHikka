@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Domain;
@@ -26,7 +27,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
 {
     protected TIService _crudService = crudService;
 
-
+   
     [HttpPost("Create")]
     public virtual async Task<IActionResult> Create([FromBody] TCreateDto dto, CancellationToken cancellationToken)
     {
@@ -51,6 +52,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
+
 
 
         await _crudService.DeleteAsync(id, cancellationToken);

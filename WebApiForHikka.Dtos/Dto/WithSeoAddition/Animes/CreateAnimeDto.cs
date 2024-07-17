@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Dtos.MyOwnValidationAttribute;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes;
+using WebApiForHikka.Dtos.MyOwnValidationAttribute.EntityValidationAttributes.ListEntityValidation;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
 using WebApiForHikka.Dtos.Shared;
 
@@ -11,19 +11,19 @@ namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 [ModelMetadataType(typeof(Anime))]
 public class CreateAnimeDto : CreateDtoWithSeoAddition
 {
-    [EntityValidation<Kind>] public required Guid KindId { get; set; }
+    [KindValidation] public required Guid KindId { get; set; }
 
-    [EntityValidation<Status>] public required Guid StatusId { get; set; }
+    [StatusValidation] public required Guid StatusId { get; set; }
 
-    [EntityValidation<Period>] public required Guid PeriodId { get; set; }
+    [PeriodValidation] public required Guid PeriodId { get; set; }
 
-    [EntityValidation<RestrictedRating>] public required Guid RestrictedRatingId { get; set; }
+    [RestrictedRatingValidation] public required Guid RestrictedRatingId { get; set; }
 
-    [EntityValidation<Source>] public required Guid SourceId { get; set; }
+    [SourceValidation] public required Guid SourceId { get; set; }
 
-    [EntityValidation<Tag>] public required List<Guid> Tags { get; set; }
-    [EntityValidation<Country>] public required List<Guid> Countries { get; set; }
-    [EntityValidation<Dub>] public required List<Guid> Dubs { get; set; }
+    [TagListValidation] public required List<Guid> Tags { get; set; }
+    [CountryListValidationAtrribute] public required List<Guid> Countries { get; set; }
+    [DubListValidation] public required List<Guid> Dubs { get; set; }
 
     public required string Name { get; set; }
 

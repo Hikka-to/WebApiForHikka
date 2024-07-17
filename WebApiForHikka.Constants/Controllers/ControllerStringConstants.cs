@@ -2,6 +2,11 @@
 
 public static class ControllerStringConstants
 {
+    public static readonly string[] AnimePosterPath = ["images", "anime", "poster"];
+
+    public static readonly string[] AnimeBackdropPath = ["images", "anime", "backdrop"];
+
+
     public const string JsonImageReturnType = "image/webp";
 
 
@@ -43,7 +48,4 @@ public static class ControllerStringConstants
     public const string MaximumSizeCanBe = "Maximum size can be ";
 
     public const string ThisFieldCantBeNull = "This field can't be null";
-    public static readonly string[] AnimePosterPath = ["images", "anime", "poster"];
-
-    public static readonly string[] AnimeBackdropPath = ["images", "anime", "backdrop"];
 }

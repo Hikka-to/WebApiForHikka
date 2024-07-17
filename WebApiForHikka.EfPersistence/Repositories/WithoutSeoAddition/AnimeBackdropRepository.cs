@@ -10,6 +10,7 @@ public class AnimeBackdropRepository(HikkaDbContext dbContext)
 {
     public async Task<string?> GetImagePathAsync(Guid id)
     {
+
         return (await DbContext.Set<AnimeBackdrop>().FirstOrDefaultAsync(i => i.Id == id))?.Path;
     }
 }

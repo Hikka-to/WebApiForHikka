@@ -6,18 +6,15 @@ using WebApiForHikka.WebApi.Shared.RelationController;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Animes;
 
-public class DubAnimeController(
-    IDubAnimeRelationService relationService,
-    IMapper mapper,
-    IHttpContextAccessor httpContextAccessor) : RelationCrudController<
+public class DubAnimeController(DubAnimeRelationService relationService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : RelationCrudController<
     DubAnime,
     Dub,
     Anime,
-    IDubAnimeRelationService
->(relationService, mapper, httpContextAccessor)
+    DubAnimeRelationService
+    >(relationService, mapper, httpContextAccessor)
 {
     protected override DubAnime CreateRelationModel(Guid firstId, Guid secondId)
     {
-        return new DubAnime { FirstId = firstId, SecondId = secondId };
+        return new DubAnime() { FirstId = firstId, SecondId = secondId };
     }
 }
