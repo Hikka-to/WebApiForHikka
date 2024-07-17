@@ -1,9 +1,9 @@
 ﻿using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.Countries;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Countries")]
+[ExportTsInterface]
 public class GetCountryDto : GetDtoWithSeoAddition
 {
     public required string Name { get; set; }

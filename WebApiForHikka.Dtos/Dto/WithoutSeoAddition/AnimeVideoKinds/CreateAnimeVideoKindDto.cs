@@ -5,7 +5,7 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 
 [ModelMetadataType(typeof(AnimeVideoKind))]
-[ExportTsClass(OutputDir = "./TS/Dto/WithoutSeoAddition/AnimeVideoKinds")]
+[ExportTsInterface]
 public class CreateAnimeVideoKindDto
 {
     public required string Name { get; set; }

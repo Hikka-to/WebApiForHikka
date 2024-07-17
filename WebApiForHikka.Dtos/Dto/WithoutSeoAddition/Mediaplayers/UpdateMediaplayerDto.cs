@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 
 [ModelMetadataType(typeof(Mediaplayer))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithoutSeoAddition/Mediaplayers")]
+[ExportTsInterface]
 public class UpdateMediaplayerDto : ModelDto
 {
     public required string Name { get; set; }

@@ -3,10 +3,10 @@ using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.Sources;
+namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
 
 [ModelMetadataType(typeof(Source))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Sources")]
+[ExportTsInterface]
 public class UpdateSourceDto : UpdateDtoWithSeoAddition
 {
     public required string Name { get; set; }

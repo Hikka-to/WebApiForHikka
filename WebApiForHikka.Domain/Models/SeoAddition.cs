@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Models.SeoAdditions;
+using WebApiForHikka.Domain.Enums;
 
 namespace WebApiForHikka.Domain.Models;
 
@@ -23,8 +24,7 @@ public class SeoAddition : Model
     [StringLength(SeoAdditionNumberConstants.SocialTitleLength)]
     public string? SocialTitle { get; set; }
 
-    [StringLength(SeoAdditionNumberConstants.SocialTypeLength)]
-    public string? SocialType { get; set; } // Consider using an enum type here if you have specific values
+    public SocialType? SocialType { get; set; } // Consider using an enum type here if you have specific values
 
     [StringLength(SeoAdditionNumberConstants.SocialImageLength)]
     public string? SocialImage { get; set; }

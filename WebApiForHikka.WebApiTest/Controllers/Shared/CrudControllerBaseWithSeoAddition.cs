@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Shared;
+using WebApiForHikka.Domain.Enums;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.WebApi.Shared;
+using Enum = Faker.Enum;
 
 namespace WebApiForHikka.Test.Controllers.Shared;
 
@@ -39,7 +41,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
             SocialImage = Lorem.GetFirstWord(),
             SocialImageAlt = Lorem.GetFirstWord(),
             SocialTitle = Lorem.GetFirstWord(),
-            SocialType = Lorem.GetFirstWord()
+            SocialType = Enum.Random<SocialType>()
         };
     }
 
@@ -55,7 +57,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
             SocialImage = Lorem.GetFirstWord(),
             SocialImageAlt = Lorem.GetFirstWord(),
             SocialTitle = Lorem.GetFirstWord(),
-            SocialType = Lorem.GetFirstWord(),
+            SocialType = Enum.Random<SocialType>(),
             Id = new Guid()
         };
     }
@@ -72,7 +74,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
             SocialImage = Lorem.GetFirstWord(),
             SocialImageAlt = Lorem.GetFirstWord(),
             SocialTitle = Lorem.GetFirstWord(),
-            SocialType = Lorem.GetFirstWord(),
+            SocialType = Enum.Random<SocialType>(),
             Id = new Guid()
         };
     }
@@ -89,7 +91,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
             SocialImage = Lorem.GetFirstWord(),
             SocialImageAlt = Lorem.GetFirstWord(),
             SocialTitle = Lorem.GetFirstWord(),
-            SocialType = Lorem.GetFirstWord(),
+            SocialType = Enum.Random<SocialType>(),
             Id = new Guid()
         };
     }

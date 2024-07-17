@@ -7,38 +7,38 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="images\animes\**" />
-      <Content Remove="images\animes\**" />
-      <EmbeddedResource Remove="images\animes\**" />
-      <None Remove="images\animes\**" />
+        <Compile Remove="images\animes\**"/>
+        <Content Remove="images\animes\**"/>
+        <EmbeddedResource Remove="images\animes\**"/>
+        <None Remove="images\animes\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="13.0.1" />
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
-        <PackageReference Include="System.Drawing.Common" Version="8.0.7" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2"/>
+        <PackageReference Include="System.Drawing.Common" Version="8.0.7"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj" />
+        <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="images\anime\backdrop\" />
-      <Folder Include="images\anime\poster\" />
+        <Folder Include="images\anime\backdrop\"/>
+        <Folder Include="images\anime\poster\"/>
     </ItemGroup>
 
 </Project>

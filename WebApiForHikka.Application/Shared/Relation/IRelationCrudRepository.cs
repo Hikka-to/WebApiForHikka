@@ -12,5 +12,4 @@ public interface IRelationCrudRepository<TModel, TFirstModel, TSecondModel> : IC
     TModel? Get(Guid firstId, Guid secondId);
 
     bool CheckIfModelsWithThisIdsExist(Guid firstId, Guid secondId);
-
 }

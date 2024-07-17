@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using WebApiForHikka.Domain.Enums;
 using WebApiForHikka.EfPersistence.Data;
 
 #nullable disable
@@ -18,9 +19,10 @@ namespace WebApiForHikka.EfPersistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "social_type", new[] { "website", "article", "book", "profile", "video.other", "video.movie", "video.episode", "video.tv_show", "music.song", "music.album", "music.playlist", "music.radio_station" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -373,9 +375,8 @@ namespace WebApiForHikka.EfPersistence.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<string>("SocialType")
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                    b.Property<SocialType?>("SocialType")
+                        .HasColumnType("social_type");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -714,6 +715,27 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.HasIndex("SeoAdditionId");
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.AlternativeName", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AnimeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(156)
+                        .HasColumnType("character varying(156)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimeId");
+
+                    b.ToTable("AlternativeNames");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.AnimeBackdrop", b =>
@@ -1095,6 +1117,17 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Navigation("ParentTag");
 
                     b.Navigation("SeoAddition");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.AlternativeName", b =>
+                {
+                    b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", "Anime")
+                        .WithMany()
+                        .HasForeignKey("AnimeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Anime");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.AnimeBackdrop", b =>

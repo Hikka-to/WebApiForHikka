@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 
 [ModelMetadataType(typeof(Dub))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithSeoAddition/Dubs")]
+[ExportTsInterface]
 public class CreateDubDto : CreateDtoWithSeoAddition
 {
     public required string Name { get; set; }

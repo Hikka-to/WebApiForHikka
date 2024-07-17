@@ -3,23 +3,23 @@ using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Dtos.Dto.Countries;
-using WebApiForHikka.Dtos.Dto.Formats;
-using WebApiForHikka.Dtos.Dto.Kinds;
-using WebApiForHikka.Dtos.Dto.Periods;
-using WebApiForHikka.Dtos.Dto.RestrictedRatings;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
-using WebApiForHikka.Dtos.Dto.Sources;
-using WebApiForHikka.Dtos.Dto.Statuses;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AlternativeNames;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Periods;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
@@ -153,10 +153,10 @@ public class MappingProfiles : Profile
             op => op.MapFrom(v => v.Source)).ForMember(
             c => c.PosterPathUrl,
             op => op.MapFrom(v => v.PosterPath)
-            ).ForMember(
+        ).ForMember(
             c => c.Tags,
             op => op.MapFrom(v => v.Tags)
-            );
+        );
 
         CreateMap<CreateAnimeDto, Anime>().ForMember(
             c => c.Tags,
@@ -174,7 +174,7 @@ public class MappingProfiles : Profile
             op => op.MapFrom(v => v.Anime.Id)).ForMember(
             c => c.ImageUrl,
             op => op.MapFrom(v => v.Path)
-            );
+        );
 
         CreateMap<CreateAnimeBackdropDto, AnimeBackdrop>();
 
@@ -198,12 +198,16 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateAnimeVideoDto, AnimeVideo>();
 
-        //RelatedType
-        CreateMap<RelatedType, GetRelatedTypeDto>();
+        //AlternativeName
 
-        CreateMap<CreateRelatedTypeDto, RelatedType>();
+        CreateMap<AlternativeName, GetAlternativeNameDto>().ForMember(
+            c => c.AnimeId,
+            op => op.MapFrom(v => v.Anime.Id));
 
-        CreateMap<UpdateRelatedTypeDto, RelatedType>();
+        CreateMap<CreateAlternativeNameDto, AlternativeName>();
+
+        CreateMap<UpdateAlternativeNameDto, AlternativeName>();
+
 
     }
 }
