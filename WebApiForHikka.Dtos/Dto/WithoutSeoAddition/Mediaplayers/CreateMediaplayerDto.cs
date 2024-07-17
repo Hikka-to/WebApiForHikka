@@ -5,7 +5,7 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 
 [ModelMetadataType(typeof(Mediaplayer))]
-[ExportTsInterface(OutputDir = "./TS/Dto/WithoutSeoAddition/Mediaplayers")]
+[ExportTsInterface]
 public class CreateMediaplayerDto
 {
     public required string Name { get; set; }
