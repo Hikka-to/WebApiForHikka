@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApiForHikka.Domain.Models;
 
+[Index(nameof(FirstId), nameof(SecondId), IsUnique = true)]
 public abstract class RelationModel<TFirst, TSecond> : Model
 {
     public required Guid FirstId { get; set; }

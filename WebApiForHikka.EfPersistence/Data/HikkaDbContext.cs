@@ -37,6 +37,8 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<AnimeGroup> AnimeGroups { get; set; }
     public DbSet<Related> Relateds { get; set; }
 
+    public DbSet<Season> Seasons { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

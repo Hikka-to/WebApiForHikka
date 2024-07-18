@@ -41,24 +41,24 @@
 
 //    protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
 //    {
-//        var anime = new AnimeControllerTest().Anime;
+//        var Anime = new AnimeControllerTest().Anime;
 
 //        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
 
-//        animeService.CreateAsync(anime, CancellationToken).Wait();
+//        animeService.CreateAsync(Anime, CancellationToken).Wait();
 
-//        createDto.AnimeId = anime.Id;
+//        createDto.AnimeId = Anime.Id;
 //    }
 
 //    protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
 //    {
-//        var anime = new AnimeControllerTest().Anime;
+//        var Anime = new AnimeControllerTest().Anime;
 
 //        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
 
-//        animeService.CreateAsync(anime, CancellationToken).Wait();
+//        animeService.CreateAsync(Anime, CancellationToken).Wait();
 
-//        updateDto.AnimeId = anime.Id;
+//        updateDto.AnimeId = Anime.Id;
 //    }
 
 //    protected override CreateAnimeBackdropDto GetCreateDtoSample() => new()
