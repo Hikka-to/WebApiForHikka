@@ -11,6 +11,6 @@ public class SeoAdditionService : CrudService<SeoAddition, ISeoAdditionRepositor
 
     public bool CheckIfTheSeoAdditionExist(Guid id)
     {
-        return _repository.CheckIfTheSeoAdditionExist(id);
+        return RelationRepository.CheckIfTheSeoAdditionExist(id);
     }
 }

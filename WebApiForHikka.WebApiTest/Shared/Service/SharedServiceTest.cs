@@ -20,21 +20,21 @@ public abstract class SharedServiceTest<TModel, TService>
     {
         // Arrange
         var dbContext = GetDatabaseContext();
-        var Service = GetService(dbContext);
+        var service = GetService(dbContext);
         var sample = GetSample();
 
         // Act
-        var result = await Service.CreateAsync(sample, CancellationToken);
+        var result = await service.CreateAsync(sample, CancellationToken);
 
         // Assert
         result.Should().NotBeEmpty();
-        var addedStatus = await Service.GetAsync(result, CancellationToken);
+        var addedStatus = await service.GetAsync(result, CancellationToken);
         addedStatus.Should().NotBeNull();
         addedStatus.Should().BeEquivalentTo(sample);
     }
 
     [Fact]
-    public virtual async Task Service_Deletesync_DeleteModel()
+    public virtual async Task Service_DeleteAsync_DeleteModel()
     {
         // Arrange
         var dbContext = GetDatabaseContext();
@@ -52,7 +52,7 @@ public abstract class SharedServiceTest<TModel, TService>
     }
 
     [Fact]
-    public virtual async Task Repostiroy_GetAllAsync_ReturnsPage()
+    public virtual async Task Service_GetAllAsync_ReturnsPage()
     {
         // Arrange
         var data = new List<TModel> { GetSample(), GetSample() };

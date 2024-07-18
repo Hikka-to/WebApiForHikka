@@ -11,5 +11,5 @@ public class Dub : ModelWithSeoAddition
     [StringLength(DubNumberConstants.IconLength)]
     public string? Icon { get; set; }
 
-    public ICollection<Anime> Animes { get; } = [];
+    public virtual ICollection<Anime> Animes { get; } = [];
 }

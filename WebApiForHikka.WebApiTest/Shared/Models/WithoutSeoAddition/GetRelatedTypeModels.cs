@@ -4,7 +4,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 
 namespace WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 
-public static class GetRelatedTypeModel
+public static class GetRelatedTypeModels
 {
     public static RelatedType GetSample()
     {
@@ -26,7 +26,7 @@ public static class GetRelatedTypeModel
     {
         return new CreateRelatedTypeDto
         {
-            Name = Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord()
         };
     }
 

@@ -9,6 +9,6 @@ public class AnimeBackdropService(IAnimeBackdropRepository repository)
 {
     public Task<string?> GetImagePathAsync(Guid id)
     {
-        return _repository.GetImagePathAsync(id);
+        return RelationRepository.GetImagePathAsync(id);
     }
 }

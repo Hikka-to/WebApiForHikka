@@ -1,26 +1,29 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Models.WithoutSeoAddition.Animes;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Anime : ModelWithSeoAddition
 {
-    public ICollection<Tag> Tags { get; set; } = [];
+    public virtual ICollection<Tag> Tags { get; set; } = [];
 
-    public ICollection<Country> Countries { get; set; } = [];
+    public virtual ICollection<Country> Countries { get; set; } = [];
 
-    public ICollection<Dub> Dubs { get; set; } = [];
+    public virtual ICollection<Dub> Dubs { get; set; } = [];
 
-    public required Kind Kind { get; set; }
+    public virtual ICollection<AnimeGroup> AnimeGroups { get; set; } = [];
 
-    public required Status Status { get; set; }
+    public virtual required Kind Kind { get; set; }
 
-    public required Period Period { get; set; }
+    public virtual required Status Status { get; set; }
 
-    public required RestrictedRating RestrictedRating { get; set; }
+    public virtual required Period Period { get; set; }
 
-    public required Source Source { get; set; }
+    public virtual required RestrictedRating RestrictedRating { get; set; }
+
+    public virtual required Source Source { get; set; }
 
     [StringLength(AnimeNumberConstants.NameLength)]
     public required string Name { get; set; }

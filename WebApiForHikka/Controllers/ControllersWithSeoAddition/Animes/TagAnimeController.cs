@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.Relation.TagAnimes;
-using WebApiForHikka.Domain.Models.ManyToMany;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.WebApi.Shared.RelationController;
 
@@ -14,10 +14,4 @@ public class TagAnimeController(
     Tag,
     Anime,
     ITagAnimeRelationService
->(relationService, mapper, httpContextAccessor)
-{
-    protected override TagAnime CreateRelationModel(Guid firstId, Guid secondId)
-    {
-        return new TagAnime { FirstId = firstId, SecondId = secondId };
-    }
-}
+>(relationService, mapper, httpContextAccessor);

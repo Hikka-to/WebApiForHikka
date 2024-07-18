@@ -12,7 +12,7 @@ public class User : IdentityUser<Guid>, IModel, ICloneable
         set => base.Email = value;
     }
 
-    public ICollection<IdentityRole<Guid>> Roles { get; set; } = [];
+    public virtual ICollection<IdentityRole<Guid>> Roles { get; set; } = [];
 
     object ICloneable.Clone()
     {

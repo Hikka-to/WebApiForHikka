@@ -1,56 +1,25 @@
-﻿using WebApiForHikka.Domain.Models.ManyToMany;
+﻿using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
-using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
-using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
+using WebApiForHikka.Test.Shared.Models.Relation;
 using WebApiForHikka.Test.Shared.Repository;
 
 namespace WebApiForHikka.Test.Repository.Relation;
 
 public class TagAnimeRelationRepositoryTest : SharedRelationRepositoryTest<
     TagAnime, Tag, Anime,
-    TagAnimeRelationRepository, TagRepository, AnimeRepository
+    TagAnimeRelationRepository
 >
 {
-    protected override async Task<(Guid firstId, Guid secondId)> CreateFirstAndSecondModels(
-        (TagRepository firstRepository, AnimeRepository secondRepository) repostiroeis)
+    protected override TagAnime GetSample()
     {
-        var firstId = await repostiroeis.firstRepository.AddAsync(GetTagModels.GetSample(), CancellationToken);
-
-        var secondId =
-            await repostiroeis.secondRepository.AddAsync(GetAnimeModels.GetSampleWithoutManyToMany(),
-                CancellationToken);
-
-        return (firstId, secondId);
+        return GetTagAnimeModels.GetSample();
     }
 
-    protected override (TagRepository firstRepository, AnimeRepository secondRepository) GetFirstAndSecondRepositories(
-        HikkaDbContext hikkaDbContext)
+    protected override TagAnime GetSampleForUpdate()
     {
-        return (
-            new TagRepository(hikkaDbContext),
-            new AnimeRepository(hikkaDbContext)
-        );
-    }
-
-    protected override Tag GetFirstModelSample()
-    {
-        return GetTagModels.GetSample();
-    }
-
-    protected override Anime GetSecondModelSample()
-    {
-        return GetAnimeModels.GetSample();
-    }
-
-    protected override TagAnime GetRelationModel(Guid firstId, Guid secondId)
-    {
-        return new TagAnime
-        {
-            FirstId = firstId,
-            SecondId = secondId
-        };
+        return GetTagAnimeModels.GetSampleForUpdate();
     }
 
     protected override TagAnimeRelationRepository GetRepository(HikkaDbContext hikkaDbContext)

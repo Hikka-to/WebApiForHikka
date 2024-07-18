@@ -56,21 +56,21 @@ public class RelatedTypeControllerTest : CrudControllerBaseTest<
 
     protected override CreateRelatedTypeDto GetCreateDtoSample()
     {
-        return GetRelatedTypeModel.GetCreateDtoSample();
+        return GetRelatedTypeModels.GetCreateDtoSample();
     }
 
     protected override GetRelatedTypeDto GetGetDtoSample()
     {
-        return GetRelatedTypeModel.GetGetDtoSample();
+        return GetRelatedTypeModels.GetGetDtoSample();
     }
 
     protected override RelatedType GetModelSample()
     {
-        return GetRelatedTypeModel.GetModelSample();
+        return GetRelatedTypeModels.GetModelSample();
     }
 
     protected override UpdateRelatedTypeDto GetUpdateDtoSample()
     {
-        return GetRelatedTypeModel.GetUpdateDtoSample();
+        return GetRelatedTypeModels.GetUpdateDtoSample();
     }
 }

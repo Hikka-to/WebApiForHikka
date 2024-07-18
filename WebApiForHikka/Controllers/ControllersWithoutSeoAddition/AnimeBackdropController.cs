@@ -61,7 +61,7 @@ public class AnimeBackdropController(
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
 
-        var createdId = await _crudService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
 
         return Ok(new CreateResponseDto { Id = createdId });
     }
@@ -79,7 +79,7 @@ public class AnimeBackdropController(
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
-        var path = await _crudService.GetImagePathAsync(dto.Id);
+        var path = await CrudRelationService.GetImagePathAsync(dto.Id);
 
         if (path == null)
         {
@@ -101,7 +101,7 @@ public class AnimeBackdropController(
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
 
-        await _crudService.UpdateAsync(model, cancellationToken);
+        await CrudRelationService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }
@@ -116,7 +116,7 @@ public class AnimeBackdropController(
 
         var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await _crudService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = _mapper.Map<List<GetAnimeBackdropDto>>(paginationCollection.Models);
 
@@ -143,11 +143,11 @@ public class AnimeBackdropController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = await _crudService.GetAsync(id, cancellationToken);
+        var model = await CrudRelationService.GetAsync(id, cancellationToken);
         if (model is null)
             NoContent();
 
-        await _crudService.DeleteAsync(model!.Id, cancellationToken);
+        await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
         _fileHelper.DeleteFile(model.Path);
         return NoContent();
     }
@@ -159,7 +159,7 @@ public class AnimeBackdropController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<GetAnimeBackdropDto>(await _crudService.GetAsync(id, cancellationToken));
+        var model = _mapper.Map<GetAnimeBackdropDto>(await CrudRelationService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();

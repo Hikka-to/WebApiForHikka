@@ -1,4 +1,5 @@
 ﻿using TypeGen.Core.TypeAnnotations;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
@@ -23,6 +24,7 @@ public class GetAnimeDto : GetDtoWithSeoAddition
     public required List<GetTagDto> Tags { get; set; }
     public required List<GetCountryDto> Countries { get; set; }
     public required List<GetDubDto> Dubs { get; set; }
+    public required List<GetAnimeGroupDto> AnimeGroups { get; set; }
 
     public required string Name { get; set; }
     public string? ImageName { get; set; }

@@ -32,7 +32,7 @@ public class AnimeVideoController(
 
         model.AnimeVideoKind = (await animeVideoKindService.GetAsync(dto.AnimeVideoKindId, cancellationToken))!;
 
-        var createdId = await _crudService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
 
         return Ok(new CreateResponseDto { Id = createdId });
     }
@@ -50,7 +50,7 @@ public class AnimeVideoController(
 
         model.AnimeVideoKind = (await animeVideoKindService.GetAsync(dto.AnimeVideoKindId, cancellationToken))!;
 
-        await _crudService.UpdateAsync(model, cancellationToken);
+        await CrudRelationService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }

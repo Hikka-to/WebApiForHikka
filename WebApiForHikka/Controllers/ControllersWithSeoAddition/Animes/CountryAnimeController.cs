@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.Relation.CountryAnimes;
-using WebApiForHikka.Domain.Models.ManyToMany;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.WebApi.Shared.RelationController;
 
@@ -14,10 +14,4 @@ public class CountryAnimeController(
     Country,
     Anime,
     ICountryAnimeRelationService
->(relationService, mapper, httpContextAccessor)
-{
-    protected override CountryAnime CreateRelationModel(Guid firstId, Guid secondId)
-    {
-        return new CountryAnime { FirstId = firstId, SecondId = secondId };
-    }
-}
+>(relationService, mapper, httpContextAccessor);

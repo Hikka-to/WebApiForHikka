@@ -5,7 +5,7 @@ namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 public class AnimeVideo : Model
 {
-    public required AnimeVideoKind AnimeVideoKind { get; set; }
+    public virtual required AnimeVideoKind AnimeVideoKind { get; set; }
 
     [StringLength(AnimeVideoNumberConstants.NameLength)]
     public required string Name { get; set; }

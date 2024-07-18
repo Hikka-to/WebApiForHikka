@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Domain.Models.ManyToMany;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
@@ -35,6 +35,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<ExternalLink> ExternalLinks { get; set; }
     public DbSet<RelatedType> RelatedTypes { get; set; }
     public DbSet<AnimeGroup> AnimeGroups { get; set; }
+    public DbSet<Related> Relateds { get; set; }
 
     public DbSet<Season> Seasons { get; set; }
 
@@ -81,21 +82,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
             }
         );
 
-        //ExternalLink
-        modelBuilder.Entity<ExternalLink>().Navigation(e => e.Anime).AutoInclude();
-
-        //AlternativeName
-        modelBuilder.Entity<AlternativeName>().Navigation(e => e.Anime).AutoInclude();
-
-        //AnimeBackdrop
-        modelBuilder.Entity<AnimeBackdrop>().Navigation(e => e.Anime).AutoInclude();
-
-        //AnimeVideo
-        modelBuilder.Entity<AnimeVideo>().Navigation(e => e.AnimeVideoKind).AutoInclude();
-
         //User
-        modelBuilder.Entity<User>().Navigation(e => e.Roles).AutoInclude();
-
         modelBuilder.Entity<User>()
             .HasMany(e => e.Roles)
             .WithMany()
@@ -117,25 +104,9 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
             .WithMany(e => e.Animes)
             .UsingEntity<DubAnime>();
 
-        modelBuilder.Entity<Anime>().Navigation(e => e.Tags).AutoInclude();
-
-        modelBuilder.Entity<Anime>().Navigation(e => e.Countries).AutoInclude();
-
-        modelBuilder.Entity<Anime>().Navigation(e => e.Dubs).AutoInclude();
-
-        modelBuilder.Entity<Anime>().Navigation(e => e.Status).AutoInclude();
-
-        modelBuilder.Entity<Anime>().Navigation(e => e.Source).AutoInclude();
-
-        modelBuilder.Entity<Anime>().Navigation(e => e.Kind).AutoInclude();
-
-        modelBuilder.Entity<Anime>().Navigation(e => e.RestrictedRating).AutoInclude();
-
-        modelBuilder.Entity<Anime>().Navigation(e => e.Period).AutoInclude();
-
-        // SeoAddition auto include
-        foreach (var seoAddition in modelBuilder.Model.GetEntityTypes()
-                     .Where(e => typeof(ModelWithSeoAddition).IsAssignableFrom(e.ClrType)))
-            modelBuilder.Entity(seoAddition.ClrType).Navigation(nameof(ModelWithSeoAddition.SeoAddition)).AutoInclude();
+        modelBuilder.Entity<Anime>()
+            .HasMany(e => e.AnimeGroups)
+            .WithMany(e => e.Animes)
+            .UsingEntity<Related>();
     }
 }

@@ -41,7 +41,12 @@ public static class DependencyInjectionExtensions
         foreach (var enumType in enumTypes)
             dataSourceBuilder.MapEnum(enumType);
         var dataSource = dataSourceBuilder.Build();
-        services.AddDbContext<HikkaDbContext>(options => { options.UseNpgsql(dataSource); });
+        services.AddDbContext<HikkaDbContext>(options =>
+        {
+            options
+                .UseNpgsql(dataSource)
+                .UseLazyLoadingProxies();
+        });
 
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
         var mapper = mapperConfiguration.CreateMapper();

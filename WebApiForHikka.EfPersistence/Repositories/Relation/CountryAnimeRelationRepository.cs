@@ -1,5 +1,5 @@
 ﻿using WebApiForHikka.Application.Relation.CountryAnimes;
-using WebApiForHikka.Domain.Models.ManyToMany;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 

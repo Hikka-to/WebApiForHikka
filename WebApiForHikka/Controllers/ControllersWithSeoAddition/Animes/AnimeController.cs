@@ -92,7 +92,7 @@ public class AnimeController(
 
         model.UpdatedAt = DateTime.UtcNow;
 
-        var createdId = await _crudService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
 
 
         return Ok(new CreateResponseDto { Id = createdId });
@@ -121,7 +121,7 @@ public class AnimeController(
         model.RestrictedRating = (await restrictedRatingService.GetAsync(dto.RestrictedRatingId, cancellationToken))!;
         model.Source = (await sourceService.GetAsync(dto.SourceId, cancellationToken))!;
 
-        var path = _crudService.GetPosterPath(model.Id);
+        var path = CrudRelationService.GetPosterPath(model.Id);
 
         if (path == null)
         {
@@ -150,7 +150,7 @@ public class AnimeController(
         model.Countries = countries;
         model.Dubs = dubs;
 
-        await _crudService.UpdateAsync(model, cancellationToken);
+        await CrudRelationService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }
@@ -176,7 +176,7 @@ public class AnimeController(
 
         var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await _crudService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = _mapper.Map<List<GetAnimeDto>>(paginationCollection.Models);
 
@@ -203,10 +203,10 @@ public class AnimeController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = await _crudService.GetAsync(id, cancellationToken);
+        var model = await CrudRelationService.GetAsync(id, cancellationToken);
 
 
-        await _crudService.DeleteAsync(model!.Id, cancellationToken);
+        await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
         await _seoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
         _fileHelper.DeleteFile(model.PosterPath);
         return NoContent();
@@ -219,7 +219,7 @@ public class AnimeController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<GetAnimeDto>(await _crudService.GetAsync(id, cancellationToken));
+        var model = _mapper.Map<GetAnimeDto>(await CrudRelationService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();

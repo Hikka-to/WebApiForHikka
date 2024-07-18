@@ -15,7 +15,7 @@ namespace WebApiForHikka.WebApi.Shared;
 // ! Don't change TModel position
 [Authorize(Policy = ControllerStringConstants.CanAccessOnlyAdmin)]
 public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService, TModel>(
-    TIService crudService,
+    TIService crudRelationService,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor)
     : MyBaseController(mapper, httpContextAccessor),
@@ -24,7 +24,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     where TUpdateDto : ModelDto
     where TIService : ICrudService<TModel>
 {
-    protected TIService _crudService = crudService;
+    protected TIService CrudRelationService = crudRelationService;
 
 
     [HttpPost("Create")]
@@ -37,7 +37,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
 
         var model = _mapper.Map<TModel>(dto);
 
-        Guid? id = await _crudService.CreateAsync(model, cancellationToken);
+        Guid? id = await CrudRelationService.CreateAsync(model, cancellationToken);
 
         if (id == null) return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
 
@@ -53,7 +53,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        await _crudService.DeleteAsync(id, cancellationToken);
+        await CrudRelationService.DeleteAsync(id, cancellationToken);
         return NoContent();
     }
 
@@ -66,7 +66,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<TGetDto>(await _crudService.GetAsync(id, cancellationToken));
+        var model = _mapper.Map<TGetDto>(await CrudRelationService.GetAsync(id, cancellationToken));
         if (model is null)
             return NotFound();
 
@@ -84,7 +84,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
 
         var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await _crudService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = _mapper.Map<List<TGetDto>>(paginationCollection.Models);
         return Ok(
@@ -110,7 +110,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
 
 
         var model = _mapper.Map<TModel>(dto);
-        await _crudService.UpdateAsync(model, cancellationToken);
+        await CrudRelationService.UpdateAsync(model, cancellationToken);
         return NoContent();
     }
 
@@ -119,7 +119,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         var errorEndPoint = ValidateRequest(thingsToValidate);
         if (errorEndPoint.IsError) return errorEndPoint;
 
-        var model = _crudService.Get(thingsToValidate.UpdateDto.Id);
+        var model = CrudRelationService.Get(thingsToValidate.UpdateDto.Id);
         if (model == null)
         {
             errorEndPoint.BadRequestObjectResult =
