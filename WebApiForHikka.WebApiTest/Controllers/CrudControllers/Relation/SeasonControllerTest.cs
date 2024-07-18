@@ -4,12 +4,11 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
-using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
-namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
+namespace WebApiForHikka.Test.Controllers.CrudControllers.Relation;
 
 public class SeasonControllerTest : CrudControllerBaseTest<
     SeasonController,
