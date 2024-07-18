@@ -10,9 +10,11 @@ public static class GetSeasonModels
     public static Season GetSample()
     {
         return new Season
-        {  
-            AnimeGroup = GetAnimeGroupModels.GetSample(),
-            Anime = GetAnimeModels.GetSample(),
+        {
+            FirstId = default,
+            SecondId = default,
+            Second = GetAnimeGroupModels.GetSample(),
+            First = GetAnimeModels.GetSampleWithoutManyToMany(),
             Name = "Test"
         };
     }
@@ -21,8 +23,10 @@ public static class GetSeasonModels
     {
         return new Season
         {
-            AnimeGroup = GetAnimeGroupModels.GetSample(),
-            Anime = GetAnimeModels.GetSampleForUpdate(),
+            FirstId = default,
+            SecondId = default,
+            Second = GetAnimeGroupModels.GetSampleForUpdate(),
+            First = GetAnimeModels.GetSampleForUpdateWithoutManyToMany(),
             Name = "Test1"
         };
     }
@@ -31,7 +35,7 @@ public static class GetSeasonModels
     {
         return new CreateSeasonDto
         {
-            AnimeGroupId = Guid.NewGuid(), 
+            AnimeGroupId = Guid.NewGuid(),
             AnimeId = Guid.NewGuid(),
             Name = Lorem.GetFirstWord()
         };

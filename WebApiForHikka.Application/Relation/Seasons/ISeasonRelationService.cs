@@ -5,4 +5,4 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Application.Relation.Seasons;
 
-public interface ISeasonRelationService : IRelationCrudRepository<Season, Anime, AnimeGroup>;
+public interface ISeasonRelationService : IRelationCrudService<Season, Anime, AnimeGroup>;

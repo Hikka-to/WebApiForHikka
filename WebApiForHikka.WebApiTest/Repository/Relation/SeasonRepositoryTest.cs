@@ -13,50 +13,19 @@ namespace WebApiForHikka.Test.Repository.Relation;
 
 public class SeasonRepositoryTest : SharedRelationRepositoryTest<
     Season, Anime, AnimeGroup,
-    SeasonRelationRepository, AnimeRepository, AnimeGroupRepository
+    SeasonRelationRepository
 >
 {
-    protected override async Task<(Guid firstId, Guid secondId)> CreateFirstAndSecondModels(
-        (AnimeRepository firstRepository, AnimeGroupRepository secondRepository) repostiroeis)
+    protected override Season GetSample()
     {
-        var firstId = await repostiroeis.firstRepository.AddAsync(GetAnimeModels.GetSampleWithoutManyToMany(), CancellationToken);
-
-        var secondId =
-            await repostiroeis.secondRepository.AddAsync(GetAnimeGroupModels.GetSample(),
-                CancellationToken);
-
-        return (firstId, secondId);
+        return GetSeasonModels.GetSample();
     }
-
-    protected override (AnimeRepository firstRepository, AnimeGroupRepository secondRepository)
-        GetFirstAndSecondRepositories(HikkaDbContext hikkaDbContext)
+    
+    protected override Season GetSampleForUpdate()
     {
-        return (
-            new AnimeRepository(hikkaDbContext),
-            new AnimeGroupRepository(hikkaDbContext)
-        );
+        return GetSeasonModels.GetSampleForUpdate();
     }
-
-    protected override Anime GetFirstModelSample()
-    {
-        return GetAnimeModels.GetSampleWithoutManyToMany();
-    }
-
-    protected override AnimeGroup GetSecondModelSample()
-    {
-        return GetAnimeGroupModels.GetSample();
-    }
-
-    protected override Season GetRelationModel(Guid firstId, Guid secondId)
-    {
-        return new Season
-        {
-            FirstId = firstId,
-            SecondId = secondId,
-            Name = "Test"
-        };
-    }
-
+    
     protected override SeasonRelationRepository GetRepository(HikkaDbContext hikkaDbContext)
     {
         return new SeasonRelationRepository(hikkaDbContext);
