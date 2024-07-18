@@ -9,7 +9,7 @@ public class SeoAdditionValidationAttribute : ValidationAttribute
 {
     public SeoAdditionValidationAttribute()
     {
-        ErrorMessage = "SeoAddition with this id doesn't exist";
+        ErrorMessage = "Seo addition with this id doesn't exist";
     }
 
     protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
@@ -22,10 +22,5 @@ public class SeoAdditionValidationAttribute : ValidationAttribute
         if (!seoAdditionService.CheckIfTheSeoAdditionExist(id)) return new ValidationResult(ErrorMessage);
 
         return ValidationResult.Success!;
-    }
-
-    public override string FormatErrorMessage(string name)
-    {
-        return ErrorMessage!;
     }
 }

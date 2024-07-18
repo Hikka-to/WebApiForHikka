@@ -43,6 +43,8 @@ public class UserStringConstants
 
     public const string MessageUserIsntRegistrated = "Something went wrong during registration";
 
+    public const string UserRoleIsNotValidErrorMessage = "This role doesn't exist";
+
     //List of roles
 
     public static readonly IReadOnlyCollection<string> UsersRolesList =
