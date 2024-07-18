@@ -10,7 +10,7 @@ public static class GetSeasonModels
     public static Season GetSample()
     {
         return new Season
-        {
+        {  
             AnimeGroup = GetAnimeGroupModels.GetSample(),
             Anime = GetAnimeModels.GetSample(),
             Name = "Test"

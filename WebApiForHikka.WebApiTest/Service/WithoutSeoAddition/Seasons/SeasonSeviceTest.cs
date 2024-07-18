@@ -7,7 +7,7 @@ using WebApiForHikka.Test.Shared.Service;
 
 namespace WebApiForHikka.Test.Service.WithoutSeoAddition.Seasons;
 
-public class SeasonSeviceTest : SharedServiceTest<Season, SeasonService>
+public class SeasonSeviceTest : SharedServiceTest<Season, SeasonRelationService>
 {
     protected override Season GetSample()
     {
@@ -19,7 +19,7 @@ public class SeasonSeviceTest : SharedServiceTest<Season, SeasonService>
         return GetSeasonModels.GetSampleForUpdate();
     }
 
-    protected override SeasonService GetService(HikkaDbContext hikkaDbContext)
+    protected override SeasonRelationService GetService(HikkaDbContext hikkaDbContext)
     {
         var repostiory = new SeasonRepository(hikkaDbContext);
         return new SeasonService(repostiory);

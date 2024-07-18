@@ -4,12 +4,9 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
-public class Season : Model
+public class Season : RelationModel<Anime, AnimeGroup>
 {
-    public required Anime Anime { get; set; }
-    
-    public required AnimeGroup AnimeGroup { get; set; }
-
+  
     [StringLength(SeasonNumberConstants.NameLength)]
     public required string Name { get; set; }   
 }
