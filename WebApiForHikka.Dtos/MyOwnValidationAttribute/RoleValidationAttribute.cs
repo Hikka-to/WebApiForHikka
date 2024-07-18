@@ -6,15 +6,17 @@ namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public class RoleValidationAttribute : ValidationAttribute
 {
+    public RoleValidationAttribute()
+    {
+        ErrorMessage = UserStringConstants.UserRoleIsNotValidErrorMessage;
+    }
+
     public override bool IsValid(object? value)
     {
         if (value == null) return false;
 
         var role = (value as string)!.ToLower();
 
-
-        if (!UserStringConstants.UsersRolesList.Contains(role)) return false;
-
-        return true;
+        return UserStringConstants.UsersRolesList.Contains(role);
     }
 }

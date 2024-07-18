@@ -8,20 +8,16 @@ public static class PolicyExtensions
 {
     public static void AddPolicies(this IServiceCollection services)
     {
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy(ControllerStringConstants.CanAccessEveryone, policy =>
+        services.AddAuthorizationBuilder()
+            .AddPolicy(ControllerStringConstants.CanAccessEveryone, policy =>
                 policy.RequireRole(UserStringConstants.AdminRole, UserStringConstants.UserRole,
-                    UserStringConstants.BannedRole));
-
-            options.AddPolicy(ControllerStringConstants.CanAccessUserAndAdmin, policy =>
+                    UserStringConstants.BannedRole))
+            .AddPolicy(ControllerStringConstants.CanAccessUserAndAdmin, policy =>
                 policy.RequireRole(UserStringConstants.AdminRole, UserStringConstants.UserRole)
-                    .NotInRole(UserStringConstants.BannedRole));
-
-            options.AddPolicy(ControllerStringConstants.CanAccessOnlyAdmin, policy =>
+                    .NotInRole(UserStringConstants.BannedRole))
+            .AddPolicy(ControllerStringConstants.CanAccessOnlyAdmin, policy =>
                 policy.RequireRole(UserStringConstants.AdminRole)
                     .NotInRole(UserStringConstants.BannedRole, UserStringConstants.UserRole));
-        });
     }
 
     public static AuthorizationPolicyBuilder NotInRole(this AuthorizationPolicyBuilder policy, params string[] roles)

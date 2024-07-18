@@ -10,20 +10,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
         <PackageReference Include="coverlet.collector" Version="6.0.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="FakeItEasy" Version="8.2.0" />
-        <PackageReference Include="Faker.Net" Version="2.0.163" />
-        <PackageReference Include="FluentAssertions" Version="6.12.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-        <PackageReference Include="Moq" Version="4.20.70" />
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
-        <PackageReference Include="xunit" Version="2.8.1" />
+        <PackageReference Include="FakeItEasy" Version="8.2.0"/>
+        <PackageReference Include="Faker.Net" Version="2.0.163"/>
+        <PackageReference Include="FluentAssertions" Version="6.12.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0"/>
+        <PackageReference Include="Moq" Version="4.20.70"/>
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4"/>
+        <PackageReference Include="xunit" Version="2.8.1"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1">
 
             <PrivateAssets>all</PrivateAssets>
@@ -32,15 +32,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="Xunit" />
+        <Using Include="Xunit"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj" />
-        <ProjectReference Include="..\WebApiForHikka\WebApiForHikka.WebApi.csproj" />
+        <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka\WebApiForHikka.WebApi.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

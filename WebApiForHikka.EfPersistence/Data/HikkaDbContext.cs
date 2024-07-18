@@ -32,6 +32,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<AnimeVideoKind> AnimeVideoKinds { get; set; }
     public DbSet<AnimeVideo> AnimeVideos { get; set; }
     public DbSet<AlternativeName> AlternativeNames { get; set; }
+    public DbSet<ExternalLink> ExternalLinks { get; set; }
     public DbSet<RelatedType> RelatedTypes { get; set; }
     public DbSet<AnimeGroup> AnimeGroups { get; set; }
 
@@ -79,6 +80,9 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
                 NormalizedName = UserStringConstants.BannedRole.ToUpper()
             }
         );
+
+        //ExternalLink
+        modelBuilder.Entity<ExternalLink>().Navigation(e => e.Anime).AutoInclude();
 
         //AlternativeName
         modelBuilder.Entity<AlternativeName>().Navigation(e => e.Anime).AutoInclude();
