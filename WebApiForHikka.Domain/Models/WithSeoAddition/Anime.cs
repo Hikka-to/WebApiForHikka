@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.Animes;
+using WebApiForHikka.Constants.Models.WithoutSeoAddition.Animes;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 

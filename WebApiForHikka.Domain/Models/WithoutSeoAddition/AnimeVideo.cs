@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.AnimeVideos;
+using WebApiForHikka.Constants.Models.WithoutSeoAddition.AnimeVideos;
 
 namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 

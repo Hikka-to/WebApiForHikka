@@ -4,6 +4,7 @@ using WebApiForHikka.WebApi.Conventions;
 using WebApiForHikka.WebApi.Extensions;
 using WebApiForHikka.WebApi.SwaggerFilters;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

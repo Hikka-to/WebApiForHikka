@@ -33,6 +33,8 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<AnimeVideo> AnimeVideos { get; set; }
     public DbSet<AlternativeName> AlternativeNames { get; set; }
     public DbSet<ExternalLink> ExternalLinks { get; set; }
+    public DbSet<RelatedType> RelatedTypes { get; set; }
+    public DbSet<AnimeGroup> AnimeGroups { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

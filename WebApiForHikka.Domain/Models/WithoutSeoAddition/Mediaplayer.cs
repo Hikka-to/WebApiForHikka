@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.Mediaplayers;
+using WebApiForHikka.Constants.Models.WithoutSeoAddition.Mediaplayers;
 
 namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 

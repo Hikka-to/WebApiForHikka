@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Constants.Models.AnimeVideoKinds;
+using WebApiForHikka.Constants.Models.WithoutSeoAddition.AnimeVideoKinds;
 
 namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 

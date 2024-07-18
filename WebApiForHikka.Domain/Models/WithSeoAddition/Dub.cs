@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.Dubs;
+using WebApiForHikka.Constants.Models.WithSeoAddition.Dubs;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
