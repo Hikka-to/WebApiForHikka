@@ -21,21 +21,21 @@ public abstract class SharedRepositoryTest<TModel, TRepository>
     {
         // Arrange
         var dbContext = GetDatabaseContext();
-        var Repository = GetRepository(dbContext);
+        var repository = GetRepository(dbContext);
         var sample = GetSample();
 
         // Act
-        var result = await Repository.AddAsync(sample, CancellationToken);
+        var result = await repository.AddAsync(sample, CancellationToken);
 
         // Assert
         result.Should().NotBeEmpty();
-        var addedStatus = await Repository.GetAsync(result, CancellationToken);
+        var addedStatus = await repository.GetAsync(result, CancellationToken);
         addedStatus.Should().NotBeNull();
         addedStatus.Should().BeEquivalentTo(sample);
     }
 
     [Fact]
-    public virtual async Task Repository_Deletesync_DeleteModel()
+    public virtual async Task Repository_DeleteAsync_DeleteModel()
     {
         // Arrange
         var dbContext = GetDatabaseContext();

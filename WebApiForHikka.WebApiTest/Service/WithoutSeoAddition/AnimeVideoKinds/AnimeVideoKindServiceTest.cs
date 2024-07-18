@@ -9,10 +9,6 @@ namespace WebApiForHikka.Test.Service.WithoutSeoAddition.AnimeVideoKinds;
 
 public class AnimeVideoKindServiceTest : SharedServiceTest<AnimeVideoKind, AnimeVideoKindService>
 {
-    public AnimeVideoKind Sample => GetSample();
-
-    public AnimeVideoKind SampleForUpdate => GetSampleForUpdate();
-
     protected override AnimeVideoKind GetSample()
     {
         return GetAnimeVideoKindModels.GetSample();

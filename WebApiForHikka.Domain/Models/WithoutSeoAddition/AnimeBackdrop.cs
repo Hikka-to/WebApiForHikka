@@ -6,7 +6,7 @@ namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 public class AnimeBackdrop : Model
 {
-    public required Anime Anime { get; set; }
+    public virtual required Anime Anime { get; set; }
 
     [StringLength(AnimeBackdropNumberConstants.PathLength)]
     public required string Path { get; set; }

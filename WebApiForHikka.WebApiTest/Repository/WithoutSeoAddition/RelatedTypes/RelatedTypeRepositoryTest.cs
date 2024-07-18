@@ -18,11 +18,11 @@ public class RelatedTypeRepositoryTest : SharedRepositoryTest<
 
     protected override RelatedType GetSample()
     {
-        return GetRelatedTypeModel.GetSample();
+        return GetRelatedTypeModels.GetSample();
     }
 
     protected override RelatedType GetSampleForUpdate()
     {
-        return GetRelatedTypeModel.GetSampleForUpdate();
+        return GetRelatedTypeModels.GetSampleForUpdate();
     }
 }

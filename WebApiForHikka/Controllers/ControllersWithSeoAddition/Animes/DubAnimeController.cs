@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.Relation.DubAnimes;
-using WebApiForHikka.Domain.Models.ManyToMany;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.WebApi.Shared.RelationController;
 
@@ -14,10 +14,4 @@ public class DubAnimeController(
     Dub,
     Anime,
     IDubAnimeRelationService
->(relationService, mapper, httpContextAccessor)
-{
-    protected override DubAnime CreateRelationModel(Guid firstId, Guid secondId)
-    {
-        return new DubAnime { FirstId = firstId, SecondId = secondId };
-    }
-}
+>(relationService, mapper, httpContextAccessor);

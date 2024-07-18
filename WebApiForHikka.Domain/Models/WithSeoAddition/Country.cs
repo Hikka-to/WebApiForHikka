@@ -11,5 +11,5 @@ public class Country : ModelWithSeoAddition
     [StringLength(CountryNumberConstants.IconLength)]
     public required string Icon { get; set; }
 
-    public ICollection<Anime> Animes { get; } = [];
+    public virtual ICollection<Anime> Animes { get; } = [];
 }

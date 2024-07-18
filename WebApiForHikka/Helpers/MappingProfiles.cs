@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.Relation.Relateds;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
@@ -155,18 +157,30 @@ public class MappingProfiles : Profile
             c => c.Source,
             op => op.MapFrom(v => v.Source)).ForMember(
             c => c.PosterPathUrl,
-            op => op.MapFrom(v => v.PosterPath)
-        ).ForMember(
+            op => op.MapFrom(v => v.PosterPath)).ForMember(
             c => c.Tags,
-            op => op.MapFrom(v => v.Tags)
-        );
+            op => op.MapFrom(v => v.Tags)).ForMember(
+            c => c.Dubs,
+            op => op.MapFrom(v => v.Dubs)).ForMember(
+            c => c.Countries,
+            op => op.MapFrom(v => v.Countries)).ForMember(
+            c => c.AnimeGroups,
+            op => op.MapFrom(v => v.AnimeGroups));
 
         CreateMap<CreateAnimeDto, Anime>().ForMember(
             c => c.Tags,
+            op => op.Ignore()).ForMember(
+            c => c.Dubs,
+            op => op.Ignore()).ForMember(
+            c => c.Countries,
             op => op.Ignore());
 
         CreateMap<UpdateAnimeDto, Anime>().ForMember(
             c => c.Tags,
+            op => op.Ignore()).ForMember(
+            c => c.Dubs,
+            op => op.Ignore()).ForMember(
+            c => c.Countries,
             op => op.Ignore());
 
 
@@ -220,8 +234,8 @@ public class MappingProfiles : Profile
         CreateMap<CreateExternalLinkDto, ExternalLink>();
 
         CreateMap<UpdateExternalLinkDto, ExternalLink>();
-        
-        //Relatedname
+
+        //RelatedType
 
         CreateMap<RelatedType, GetRelatedTypeDto>();
 
@@ -236,5 +250,27 @@ public class MappingProfiles : Profile
         CreateMap<CreateAnimeGroupDto, AnimeGroup>();
 
         CreateMap<UpdateAnimeGroupDto, AnimeGroup>();
+
+        //Related
+
+        CreateMap<Related, GetRelatedDto>().ForMember(
+            c => c.AnimeId,
+            op => op.MapFrom(v => v.FirstId)).ForMember(
+            c => c.AnimeGroupId,
+            op => op.MapFrom(v => v.SecondId)).ForMember(
+            c => c.RelatedTypeId,
+            op => op.MapFrom(v => v.RelatedType.Id));
+
+        CreateMap<CreateRelatedDto, Related>().ForMember(
+            c => c.FirstId,
+            op => op.MapFrom(v => v.AnimeId)).ForMember(
+            c => c.SecondId,
+            op => op.MapFrom(v => v.AnimeGroupId));
+
+        CreateMap<UpdateRelatedDto, Related>().ForMember(
+            c => c.FirstId,
+            op => op.MapFrom(v => v.AnimeId)).ForMember(
+            c => c.SecondId,
+            op => op.MapFrom(v => v.AnimeGroupId));
     }
 }

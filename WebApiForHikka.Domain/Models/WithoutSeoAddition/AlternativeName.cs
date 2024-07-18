@@ -9,5 +9,5 @@ public class AlternativeName : Model
     [StringLength(AlternativeNameNumberConstants.NameLength)]
     public required string Name { get; set; }
 
-    public required Anime Anime { get; set; }
+    public virtual required Anime Anime { get; set; }
 }

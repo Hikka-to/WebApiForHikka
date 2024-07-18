@@ -21,7 +21,6 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
     where TFirstModel : class, IModel
     where TSecondModel : class, IModel
     where TRelationService : IRelationCrudService<TModel, TFirstModel, TSecondModel>
-
 {
     [HttpPost("[firstModel]/{firstId:Guid}/[secondModel]/{secondId:Guid}/Create")]
     public virtual async Task<IActionResult> Create([FromRoute] Guid firstId,
@@ -62,7 +61,13 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
         return NoContent();
     }
 
-    protected abstract TModel CreateRelationModel(Guid firstId, Guid secondId);
+    protected virtual TModel CreateRelationModel(Guid firstId, Guid secondId)
+    {
+        var model = Activator.CreateInstance<TModel>();
+        model.FirstId = firstId;
+        model.SecondId = secondId;
+        return model;
+    }
 
     protected override ErrorEndPoint ValidateRequest(ThingsToValidateBase thingsToValidate)
     {

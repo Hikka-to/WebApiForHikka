@@ -11,12 +11,12 @@ public class RelatedTypeServiceTest : SharedServiceTest<RelatedType, RelatedType
 {
     protected override RelatedType GetSample()
     {
-        return GetRelatedTypeModel.GetSample();
+        return GetRelatedTypeModels.GetSample();
     }
 
     protected override RelatedType GetSampleForUpdate()
     {
-        return GetRelatedTypeModel.GetSampleForUpdate();
+        return GetRelatedTypeModels.GetSampleForUpdate();
     }
 
     protected override RelatedTypeService GetService(HikkaDbContext hikkaDbContext)

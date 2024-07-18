@@ -9,27 +9,27 @@ public abstract class RelationCrudService<TModel, TFirstModel, TSecondModel, TRe
     where TFirstModel : class, IModel
     where TSecondModel : class, IModel
 {
-    protected RelationCrudService(TRepository repository) : base(repository)
+    protected RelationCrudService(TRepository relationRepository) : base(relationRepository)
     {
     }
 
     public bool CheckIfModelsWithThisIdsExist(Guid firstId, Guid secondId)
     {
-        return _repository.CheckIfModelsWithThisIdsExist(firstId, secondId);
+        return RelationRepository.CheckIfModelsWithThisIdsExist(firstId, secondId);
     }
 
     public async Task DeleteAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
     {
-        await _repository.DeleteAsync(firstId, secondId, cancellationToken);
+        await RelationRepository.DeleteAsync(firstId, secondId, cancellationToken);
     }
 
     public TModel? Get(Guid firstId, Guid secondId)
     {
-        return _repository.Get(firstId, secondId);
+        return RelationRepository.Get(firstId, secondId);
     }
 
     public async Task<TModel?> GetAsync(Guid firstId, Guid secondId, CancellationToken cancellationToken)
     {
-        return await _repository.GetAsync(firstId, secondId, cancellationToken);
+        return await RelationRepository.GetAsync(firstId, secondId, cancellationToken);
     }
 }
