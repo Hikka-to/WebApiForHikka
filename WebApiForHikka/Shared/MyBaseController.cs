@@ -67,9 +67,12 @@ public abstract class MyBaseController(IMapper mapper, IHttpContextAccessor http
         return errorEndPoint;
     }
 
-    protected IEnumerable<string> GetAllErrorsDuringValidation()
+    protected IDictionary<string, IEnumerable<string>> GetAllErrorsDuringValidation()
     {
-        return ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage);
+        return ModelState.Where(kvp => kvp.Value?.Errors.Any() ?? false).ToDictionary(
+            kvp => kvp.Key,
+            kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage)
+        );
     }
 
     protected record ThingsToValidateBase

@@ -9,14 +9,4 @@ public static class SharedStringConstants
 
     //Model
     public const string IdName = "Id";
-
-    //file extensions
-
-    public static readonly IReadOnlyCollection<string> AllowedExtensionsList =
-    [
-        ".png",
-        ".jpg",
-        ".web",
-        ".jpeg"
-    ];
 }

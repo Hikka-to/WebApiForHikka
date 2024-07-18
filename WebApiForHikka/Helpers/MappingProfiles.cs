@@ -11,6 +11,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
@@ -210,6 +211,16 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateAlternativeNameDto, AlternativeName>();
 
+        //ExternalLink
+
+        CreateMap<ExternalLink, GetExternalLinkDto>().ForMember(
+            c => c.AnimeId,
+            op => op.MapFrom(v => v.Anime.Id));
+
+        CreateMap<CreateExternalLinkDto, ExternalLink>();
+
+        CreateMap<UpdateExternalLinkDto, ExternalLink>();
+        
         //Relatedname
 
         CreateMap<RelatedType, GetRelatedTypeDto>();
@@ -225,8 +236,5 @@ public class MappingProfiles : Profile
         CreateMap<CreateAnimeGroupDto, AnimeGroup>();
 
         CreateMap<UpdateAnimeGroupDto, AnimeGroup>();
-
-
-
     }
 }

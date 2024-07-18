@@ -10,9 +10,9 @@ namespace WebApiForHikka.Dtos.MyOwnValidationAttribute;
 public class EntityValidationAttribute<TModel> : ValidationAttribute
     where TModel : class, IModel
 {
-    protected string ModelName { get; } = typeof(TModel).Name;
+    private string ModelName { get; } = typeof(TModel).Name;
 
-    protected Type ServiceType { get; } = GetServiceType();
+    private Type ServiceType { get; } = GetServiceType();
 
     private static Type GetServiceType()
     {
