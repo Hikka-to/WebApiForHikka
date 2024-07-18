@@ -7,13 +7,13 @@ using WebApiForHikka.WebApi.Shared;
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
 public class SeasonController(
-    ISeasonService crudService,
+    ISeasonRelationService crudService,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor)
     : CrudController<
         GetSeasonDto,
         UpdateSeasonDto,
         CreateSeasonDto,
-        ISeasonService,
+        ISeasonRelationService,
         Season
     >(crudService, mapper, httpContextAccessor);

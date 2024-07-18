@@ -43,4 +43,8 @@
         <ProjectReference Include="..\WebApiForHikka\WebApiForHikka.WebApi.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Repository\WithoutSeoAddition\Seasons\" />
+    </ItemGroup>
+
 </Project>

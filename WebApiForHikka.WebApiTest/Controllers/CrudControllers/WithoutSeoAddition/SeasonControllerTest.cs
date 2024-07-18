@@ -3,6 +3,7 @@ using WebApiForHikka.Application.Relation.Seasons;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
 using WebApiForHikka.Dtos.Shared;
+using WebApiForHikka.EfPersistence.Repositories.Relation;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
@@ -12,9 +13,9 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
 public class SeasonControllerTest : CrudControllerBaseTest<
     SeasonController,
-    SeasonService,
+    SeasonRelationService,
     Season,
-    ISeasonRepository,
+    ISeasonRelationRepository,
     UpdateSeasonDto,
     CreateSeasonDto,
     GetSeasonDto,
@@ -26,11 +27,11 @@ public class SeasonControllerTest : CrudControllerBaseTest<
     {
         var dbContext = GetDatabaseContext();
 
-        var repository = new SeasonRepository(dbContext);
+        var repository = new SeasonRelationRepository(dbContext);
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInController(new SeasonService(repository), userManager, roleManager);
+        return new AllServicesInController(new SeasonRelationService(repository), userManager, roleManager);
     }
 
     protected override ICollection<Season> GetCollectionOfModels(int howMany)
