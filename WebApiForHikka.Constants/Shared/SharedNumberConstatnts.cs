@@ -13,5 +13,5 @@ public static class SharedNumberConstatnts
 
     public const int UrlLength = 2048;
 
-    public const long MaxFileSize = 10 * 1024 * 1024; // 10 MB
+    public const long MaxFileSize = 10 << 20; // 10 MB
 }

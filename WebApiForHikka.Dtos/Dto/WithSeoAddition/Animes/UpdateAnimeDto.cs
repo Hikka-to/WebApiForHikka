@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
@@ -33,7 +34,9 @@ public class UpdateAnimeDto : UpdateDtoWithSeoAddition
 
     public required string NativeName { get; set; }
 
-    [AnimePosterValidation] public required IFormFile PosterImage { get; set; }
+    [FileContentType("image/*")]
+    [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]
+    public required IFormFile PosterImage { get; set; }
 
     public required float AvgDuration { get; set; }
 
