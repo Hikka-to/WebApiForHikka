@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Relation.Seasons;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
+using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
 using WebApiForHikka.Test.Controller.Shared;
