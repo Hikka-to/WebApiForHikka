@@ -14,6 +14,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
@@ -236,5 +237,18 @@ public class MappingProfiles : Profile
         CreateMap<CreateAnimeGroupDto, AnimeGroup>();
 
         CreateMap<UpdateAnimeGroupDto, AnimeGroup>();
+
+        //Season
+
+        CreateMap<Season, GetSeasonDto>();
+
+        CreateMap<CreateSeasonDto, Season>();
+
+        CreateMap<UpdateSeasonDto, Season>();
+
+
+
+
+
     }
 }
