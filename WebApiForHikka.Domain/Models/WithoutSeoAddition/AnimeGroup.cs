@@ -9,5 +9,6 @@ public class AnimeGroup : Model
     [StringLength(AnimeGroupNumberConstants.NameLength)]
     public required string Name { get; set; }
 
-    public virtual ICollection<Anime> Animes { get; set; } = [];
+    public virtual ICollection<Anime> RelatedAnimes { get; set; } = [];
+    public virtual ICollection<Anime> SeasonAnimes { get; set; } = [];
 }

@@ -165,8 +165,10 @@ public class MappingProfiles : Profile
             op => op.MapFrom(v => v.Dubs)).ForMember(
             c => c.Countries,
             op => op.MapFrom(v => v.Countries)).ForMember(
-            c => c.AnimeGroups,
-            op => op.MapFrom(v => v.AnimeGroups));
+            c => c.RelatedAnimeGroups,
+            op => op.MapFrom(v => v.RelatedAnimeGroups)).ForMember(
+            c => c.SeasonAnimeGroups,
+            op => op.MapFrom(v => v.SeasonAnimeGroups));
 
         CreateMap<CreateAnimeDto, Anime>().ForMember(
             c => c.Tags,
