@@ -238,11 +238,10 @@ public static class GetAnimeModels
             GetTagModels.GetGetDtoSample(),
             GetTagModels.GetGetDtoSample(),
             GetTagModels.GetGetDtoSample(),
-
-            ],
-        Countries = [
-            GetCountryModels.GetGetDtoSample()],
+        ],
+        Countries = [GetCountryModels.GetGetDtoSample()],
         Dubs = [GetDubModels.GetGetDtoSample()],
+        AnimeGroups = [GetAnimeGroupModels.GetGetDtoSample()],
         Name = Faker.Lorem.GetFirstWord(),
         Kind = GetKindModels.GetGetDtoSample(),
         Status = GetStatusModels.GetGetDtoSample(),
