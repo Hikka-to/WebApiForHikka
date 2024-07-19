@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApiForHikka.Domain.Enums;
@@ -13,9 +14,11 @@ using WebApiForHikka.EfPersistence.Data;
 namespace WebApiForHikka.EfPersistence.Migrations
 {
     [DbContext(typeof(HikkaDbContext))]
-    partial class HikkaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240718160424_AnimeGroupsUpdate")]
+    partial class AnimeGroupsUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -315,28 +318,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Relateds");
-                });
-
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.Relation.Similar", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("FirstId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("SecondId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SecondId");
-
-                    b.HasIndex("FirstId", "SecondId")
-                        .IsUnique();
-
-                    b.ToTable("Similars");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Relation.TagAnime", b =>
@@ -707,45 +688,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.HasIndex("SeoAdditionId");
 
                     b.ToTable("Dubs");
-                });
-
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("AirDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("AnimeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsFiller")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<Guid>("SeoAdditionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SeoAdditionId");
-
-                    b.ToTable("Episodes");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Studio", b =>
@@ -1167,25 +1109,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Navigation("Second");
                 });
 
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.Relation.Similar", b =>
-                {
-                    b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", "First")
-                        .WithMany()
-                        .HasForeignKey("FirstId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", "Second")
-                        .WithMany()
-                        .HasForeignKey("SecondId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("First");
-
-                    b.Navigation("Second");
-                });
-
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Relation.TagAnime", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Tag", "First")
@@ -1301,17 +1224,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Dub", b =>
-                {
-                    b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
-                        .WithMany()
-                        .HasForeignKey("SeoAdditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SeoAddition");
-                });
-
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
                         .WithMany()

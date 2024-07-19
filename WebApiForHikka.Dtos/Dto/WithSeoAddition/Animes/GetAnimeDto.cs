@@ -24,7 +24,10 @@ public class GetAnimeDto : GetDtoWithSeoAddition
     public required List<GetTagDto> Tags { get; set; }
     public required List<GetCountryDto> Countries { get; set; }
     public required List<GetDubDto> Dubs { get; set; }
-    public required List<GetAnimeGroupDto> AnimeGroups { get; set; }
+    public required List<GetAnimeGroupDto> RelatedAnimeGroups { get; set; }
+    public required List<GetAnimeGroupDto> SeasonAnimeGroups { get; set; }
+
+    public required List<GetAnimeDto> SimilarAnimes { get; set; }
 
     public required string Name { get; set; }
     public string? ImageName { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Faker;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
+using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
 
 namespace WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;

@@ -37,6 +37,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<AnimeGroup> AnimeGroups { get; set; }
     public DbSet<Related> Relateds { get; set; }
     public DbSet<Season> Seasons { get; set; }
+    public DbSet<Similar> Similars { get; set; }
     public DbSet<Episode> Episodes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -105,8 +106,20 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
             .UsingEntity<DubAnime>();
 
         modelBuilder.Entity<Anime>()
-            .HasMany(e => e.AnimeGroups)
-            .WithMany(e => e.Animes)
+            .HasMany(e => e.RelatedAnimeGroups)
+            .WithMany(e => e.RelatedAnimes)
             .UsingEntity<Related>();
+
+        modelBuilder.Entity<Anime>()
+            .HasMany(e => e.SeasonAnimeGroups)
+            .WithMany(e => e.SeasonAnimes)
+            .UsingEntity<Season>();
+
+        modelBuilder.Entity<Anime>()
+            .HasMany(e => e.SimilarChildAnimes)
+            .WithMany(e => e.SimilarParentAnimes)
+            .UsingEntity<Similar>(
+                r => r.HasOne(e => e.First).WithMany(),
+                l => l.HasOne(e => e.Second).WithMany());
     }
 }

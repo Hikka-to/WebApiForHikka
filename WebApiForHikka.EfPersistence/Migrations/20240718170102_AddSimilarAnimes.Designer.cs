@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApiForHikka.Domain.Enums;
@@ -13,9 +14,11 @@ using WebApiForHikka.EfPersistence.Data;
 namespace WebApiForHikka.EfPersistence.Migrations
 {
     [DbContext(typeof(HikkaDbContext))]
-    partial class HikkaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240718170102_AddSimilarAnimes")]
+    partial class AddSimilarAnimes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -709,45 +712,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.ToTable("Dubs");
                 });
 
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("AirDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("AnimeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsFiller")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<Guid>("SeoAdditionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SeoAdditionId");
-
-                    b.ToTable("Episodes");
-                });
-
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Studio", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1301,17 +1265,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Dub", b =>
-                {
-                    b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
-                        .WithMany()
-                        .HasForeignKey("SeoAdditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SeoAddition");
-                });
-
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
                         .WithMany()

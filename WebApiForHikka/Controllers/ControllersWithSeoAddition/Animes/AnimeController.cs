@@ -77,10 +77,15 @@ public class AnimeController(
         var dubs = new List<Dub>();
         foreach (var item in dto.Dubs) dubs.Add((await dubService.GetAsync(item, cancellationToken))!);
 
+        var similarAnimes = new List<Anime>();
+        foreach (var item in dto.SimilarAnimes)
+            similarAnimes.Add((await crudService.GetAsync(item, cancellationToken))!);
+
 
         model.Tags = tags;
         model.Countries = countries;
         model.Dubs = dubs;
+        model.SimilarChildAnimes = similarAnimes;
 
         var path = _fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
 
@@ -146,9 +151,14 @@ public class AnimeController(
         var dubs = new List<Dub>();
         foreach (var item in dto.Dubs) dubs.Add((await dubService.GetAsync(item, cancellationToken))!);
 
+        var similarAnimes = new List<Anime>();
+        foreach (var item in dto.SimilarAnimes)
+            similarAnimes.Add((await crudService.GetAsync(item, cancellationToken))!);
+
         model.Tags = tags;
         model.Countries = countries;
         model.Dubs = dubs;
+        model.SimilarChildAnimes = similarAnimes;
 
         await CrudRelationService.UpdateAsync(model, cancellationToken);
 

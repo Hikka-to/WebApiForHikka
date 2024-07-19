@@ -4,7 +4,7 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
-namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
+namespace WebApiForHikka.Dtos.Dto.Relation.Seasons;
 
 [MetadataType(typeof(Season))]
 [ExportTsInterface]
