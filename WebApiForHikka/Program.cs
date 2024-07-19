@@ -15,6 +15,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.EnableAnnotations();
     c.OperationFilter<RelationCrudControllerResponseTypesOperationFilter>();
     c.OperationFilter<CrudControllerResponseTypesOperationFilter>();
     c.OperationFilter<ColumnSelectorOperationFilter>();
