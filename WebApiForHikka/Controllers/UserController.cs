@@ -150,7 +150,7 @@ public class UserController(
         typeof(IDictionary<string, IEnumerable<string>>))]
     public async Task<IActionResult> Login([FromBody] UserLoginDto model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return BadRequest(GetAllErrorsDuringValidation());
+        if (!ModelState.IsValid) return UnprocessableEntity(GetAllErrorsDuringValidation());
 
         var user = await _userService.AuthenticateUserAsync(model.Email, model.Password, cancellationToken);
         if (user == null) return Unauthorized();
