@@ -8,7 +8,7 @@ using WebApiForHikka.Test.Shared.Service;
 
 namespace WebApiForHikka.Test.Service.Relation.Seasons;
 
-public class SeasonServiceTest : SharedRelationServiceTest<Season, SeasonRelationService, Anime, AnimeGroup>
+public class SeasonRelationServiceTest : SharedRelationServiceTest<Season, SeasonRelationService, Anime, AnimeGroup>
 {
     protected override Season GetSample()
     {

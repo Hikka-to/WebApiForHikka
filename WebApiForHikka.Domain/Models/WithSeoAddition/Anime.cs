@@ -14,8 +14,11 @@ public class Anime : ModelWithSeoAddition
     public virtual ICollection<Dub> Dubs { get; set; } = [];
 
     public virtual ICollection<AnimeGroup> RelatedAnimeGroups { get; set; } = [];
-    
+
     public virtual ICollection<AnimeGroup> SeasonAnimeGroups { get; set; } = [];
+
+    public virtual ICollection<Anime> SimilarChildAnimes { get; set; } = [];
+    public virtual ICollection<Anime> SimilarParentAnimes { get; set; } = [];
 
     public virtual required Kind Kind { get; set; }
 

@@ -168,7 +168,9 @@ public class MappingProfiles : Profile
             c => c.RelatedAnimeGroups,
             op => op.MapFrom(v => v.RelatedAnimeGroups)).ForMember(
             c => c.SeasonAnimeGroups,
-            op => op.MapFrom(v => v.SeasonAnimeGroups));
+            op => op.MapFrom(v => v.SeasonAnimeGroups)).ForMember(
+            c => c.SimilarAnimes,
+            op => op.MapFrom(v => v.SimilarChildAnimes));
 
         CreateMap<CreateAnimeDto, Anime>().ForMember(
             c => c.Tags,
@@ -176,6 +178,8 @@ public class MappingProfiles : Profile
             c => c.Dubs,
             op => op.Ignore()).ForMember(
             c => c.Countries,
+            op => op.Ignore()).ForMember(
+            c => c.SimilarChildAnimes,
             op => op.Ignore());
 
         CreateMap<UpdateAnimeDto, Anime>().ForMember(
@@ -184,6 +188,8 @@ public class MappingProfiles : Profile
             c => c.Dubs,
             op => op.Ignore()).ForMember(
             c => c.Countries,
+            op => op.Ignore()).ForMember(
+            c => c.SimilarChildAnimes,
             op => op.Ignore());
 
 
