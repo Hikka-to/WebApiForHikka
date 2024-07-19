@@ -7,7 +7,7 @@ using WebApiForHikka.EfPersistence.Repositories.Relation;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
-using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
+using WebApiForHikka.WebApi.Controllers.Relation;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 

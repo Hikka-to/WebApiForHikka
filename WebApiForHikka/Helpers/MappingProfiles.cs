@@ -20,6 +20,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Periods;
@@ -281,5 +282,13 @@ public class MappingProfiles : Profile
         CreateMap<CreateSeasonDto, Season>();
 
         CreateMap<UpdateSeasonDto, Season>();
+
+        //Episode
+
+        CreateMap<Episode, GetEpisodeDto>();
+
+        CreateMap<CreateEpisodeDto, Episode>();
+
+        CreateMap<UpdateEpisodeDto, Episode>();
     }
 }

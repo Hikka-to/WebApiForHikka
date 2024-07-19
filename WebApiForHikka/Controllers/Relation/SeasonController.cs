@@ -4,7 +4,7 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
 using WebApiForHikka.WebApi.Shared;
 
-namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
+namespace WebApiForHikka.WebApi.Controllers.Relation;
 
 public class SeasonController(
     ISeasonRelationService crudService,

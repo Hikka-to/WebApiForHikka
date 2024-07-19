@@ -1,33 +1,28 @@
-﻿using System.Text.RegularExpressions;
+﻿using WebApiForHikka.Application.Relation.Seasons;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
-using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
-using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
-using WebApiForHikka.Test.Shared.Repository;
+using WebApiForHikka.Test.Shared.Service;
 
-namespace WebApiForHikka.Test.Repository.Relation;
+namespace WebApiForHikka.Test.Service.Relation.Seasons;
 
-public class SeasonRepositoryTest : SharedRelationRepositoryTest<
-    Season, Anime, AnimeGroup,
-    SeasonRelationRepository
->
+public class SeasonServiceTest : SharedRelationServiceTest<Season, SeasonRelationService, Anime, AnimeGroup>
 {
     protected override Season GetSample()
     {
         return GetSeasonModels.GetSample();
     }
-    
+
     protected override Season GetSampleForUpdate()
     {
         return GetSeasonModels.GetSampleForUpdate();
     }
-    
-    protected override SeasonRelationRepository GetRepository(HikkaDbContext hikkaDbContext)
+
+    protected override SeasonRelationService GetService(HikkaDbContext hikkaDbContext)
     {
-        return new SeasonRelationRepository(hikkaDbContext);
+        return new SeasonRelationService(new SeasonRelationRepository(hikkaDbContext));
     }
 }

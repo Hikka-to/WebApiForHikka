@@ -1,0 +1,26 @@
+﻿using WebApiForHikka.Application.WithSeoAddition.Episodes;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.EfPersistence.Data;
+using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
+using WebApiForHikka.Test.Shared.Service;
+
+namespace WebApiForHikka.Test.Service.WithSeoAddition.Episodes;
+
+public class EpisodeServiceTest : SharedServiceTestWithSeoAddition<Episode, EpisodeService>
+{
+    protected override Episode GetSample()
+    {
+        return GetEpisodeModels.GetSample();
+    }
+
+    protected override Episode GetSampleForUpdate()
+    {
+        return GetEpisodeModels.GetSampleForUpdate();
+    }
+
+    protected override EpisodeService GetService(HikkaDbContext hikkaDbContext)
+    {
+        return new EpisodeService(new EpisodeRepository(hikkaDbContext));
+    }
+}
