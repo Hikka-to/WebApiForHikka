@@ -4,7 +4,6 @@ using WebApiForHikka.WebApi.Conventions;
 using WebApiForHikka.WebApi.Extensions;
 using WebApiForHikka.WebApi.SwaggerFilters;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,6 +15,9 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.EnableAnnotations();
+    c.OperationFilter<RelationCrudControllerResponseTypesOperationFilter>();
+    c.OperationFilter<CrudControllerResponseTypesOperationFilter>();
     c.OperationFilter<ColumnSelectorOperationFilter>();
     c.SwaggerDoc("v1", new OpenApiInfo
     {

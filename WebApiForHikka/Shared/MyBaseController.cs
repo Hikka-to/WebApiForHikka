@@ -58,12 +58,9 @@ public abstract class MyBaseController(IMapper mapper, IHttpContextAccessor http
     {
         ErrorEndPoint errorEndPoint = new();
 
-        if (!ModelState.IsValid)
-        {
-            errorEndPoint.BadRequestObjectResult = BadRequest(GetAllErrorsDuringValidation());
-            return errorEndPoint;
-        }
-
+        if (ModelState.IsValid) return errorEndPoint;
+        errorEndPoint.BadRequestObjectResult = new BadRequestObjectResult(GetAllErrorsDuringValidation())
+            { StatusCode = 422 };
         return errorEndPoint;
     }
 
