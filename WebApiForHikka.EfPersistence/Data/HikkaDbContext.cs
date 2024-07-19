@@ -38,6 +38,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Related> Relateds { get; set; }
     public DbSet<Season> Seasons { get; set; }
     public DbSet<Episode> Episodes { get; set; }
+    public DbSet<EpisodeImage> EpisodeImages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -108,5 +109,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
             .HasMany(e => e.AnimeGroups)
             .WithMany(e => e.Animes)
             .UsingEntity<Related>();
+
+
     }
 }

@@ -8,11 +8,11 @@ public class AnimeService(IAnimeRepository repository)
 {
     public string? GetPosterPath(Guid animeId)
     {
-        return RelationRepository.GetPosterPath(animeId);
+        return _repository.GetPosterPath(animeId);
     }
 
     public Task<string?> GetPosterPathAsync(Guid animeId)
     {
-        return RelationRepository.GetPosterPathAsync(animeId);
+        return _repository.GetPosterPathAsync(animeId);
     }
 }

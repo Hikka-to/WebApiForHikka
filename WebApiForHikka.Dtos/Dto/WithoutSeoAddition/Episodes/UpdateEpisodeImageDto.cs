@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Constants.Shared;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
+using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
+namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 
-[ModelMetadataType(typeof(AnimeBackdrop))]
-public class CreateAnimeBackdropDto
+public class UpdateEpisodeImageDto : ModelDto
 {
-    [EntityValidation<Anime>] public required Guid AnimeId { get; set; }
+    [EntityValidation<Episode>] public required Guid EpisodeId { get; set; }
+
 
     [FileContentType("image/*")]
     [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]
