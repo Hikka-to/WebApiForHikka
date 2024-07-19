@@ -32,7 +32,7 @@ public class RelationCrudControllerResponseTypesOperationFilter : IOperationFilt
                 Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));
                 break;
             case "Delete":
-                Response("201", "Deleted");
+                Response("204", "Deleted");
                 Response("401", "Unauthorized");
                 Response("404", "Not Found", typeof(string));
                 Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));

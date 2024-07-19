@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
@@ -32,14 +33,15 @@ public class UserController(
     private readonly IUserService _userService = userService;
 
     [AllowAnonymous]
-    [HttpPost("Registrate")]
-    [ProducesResponseType(typeof(RegistratedResponseUserDto), StatusCodes.Status200OK)]
+    [HttpPost("Registration")]
+    [SwaggerResponse(StatusCodes.Status200OK, "User registered", typeof(RegistratedResponseUserDto))]
+    [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
+        typeof(IDictionary<string, IEnumerable<string>>))]
     public async Task<IActionResult> Create([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return BadRequest(GetAllErrorsDuringValidation());
+        if (!ModelState.IsValid) return UnprocessableEntity(GetAllErrorsDuringValidation());
 
         var role = await roleManager.FindByNameAsync(model.Role);
-
 
         var user = new User
         {
@@ -51,7 +53,7 @@ public class UserController(
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
 
-        if (id == null) return BadRequest(UserStringConstants.MessageUserIsntRegistrated);
+        if (id == null) return NotFound(UserStringConstants.MessageUserIsntRegistrated);
 
         var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
 
@@ -65,6 +67,10 @@ public class UserController(
     }
 
     [HttpGet("GetAll")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Return all users", typeof(ReturnUserPageDto))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
+    [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
+        typeof(IDictionary<string, IEnumerable<string>>))]
     public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
         CancellationToken cancellationToken)
     {
@@ -86,8 +92,15 @@ public class UserController(
     }
 
     [HttpGet("{id:Guid}")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Return user by id", typeof(GetUserDto))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "User not found")]
+    [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
+        typeof(IDictionary<string, IEnumerable<string>>))]
     public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
     {
+        var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
+
         var user = _mapper.Map<GetUserDto>(await _userService.GetAsync(id, cancellationToken));
         if (user is null)
             return NotFound();
@@ -96,6 +109,11 @@ public class UserController(
     }
 
     [HttpPut]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "User updated")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(string))]
+    [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
+        typeof(IDictionary<string, IEnumerable<string>>))]
     public async Task<IActionResult> Put([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
@@ -105,20 +123,31 @@ public class UserController(
         var user = _mapper.Map<User>(dto);
 
         var userWithPassword = await _userService.GetAsync(dto.Id, cancellationToken);
-        if (userWithPassword == null) return BadRequest($"user with {dto.Id} doesn't exist");
+        if (userWithPassword == null) return NotFound($"user with {dto.Id} doesn't exist");
         await _userService.UpdateAsync(user, cancellationToken);
         return NoContent();
     }
 
     [HttpDelete("{id:Guid}")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "User deleted")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
+    [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
+        typeof(IDictionary<string, IEnumerable<string>>))]
     public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
+        var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
+
         await _userService.DeleteAsync(id, cancellationToken);
         return NoContent();
     }
 
     [AllowAnonymous]
-    [HttpPost("login")]
+    [HttpPost("Login")]
+    [SwaggerResponse(StatusCodes.Status200OK, "User logged in", typeof(LoginResponseUserDto))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
+    [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
+        typeof(IDictionary<string, IEnumerable<string>>))]
     public async Task<IActionResult> Login([FromBody] UserLoginDto model, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return BadRequest(GetAllErrorsDuringValidation());
