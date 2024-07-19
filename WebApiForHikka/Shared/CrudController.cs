@@ -120,14 +120,11 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint;
 
         var model = CrudRelationService.Get(thingsToValidate.UpdateDto.Id);
-        if (model == null)
-        {
-            errorEndPoint.BadRequestObjectResult =
-                BadRequest(ControllerStringConstants.ModelWithThisIdDoesntExistForUpdateEndPoint);
-            return errorEndPoint;
-        }
+        if (model != null) return errorEndPoint;
 
-
+        errorEndPoint.BadRequestObjectResult =
+            new BadRequestObjectResult(ControllerStringConstants.ModelWithThisIdDoesntExistForUpdateEndPoint)
+                { StatusCode = 404 };
         return errorEndPoint;
     }
 

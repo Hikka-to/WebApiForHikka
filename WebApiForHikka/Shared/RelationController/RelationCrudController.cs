@@ -28,11 +28,7 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
         CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
-            new ThingsToValidateRelation
-            {
-                FirstId = firstId,
-                SecondId = secondId
-            });
+            new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
@@ -84,7 +80,8 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
                 thingsToValidateRelation.SecondId)) return errorEndPoint;
 
         errorEndPoint.BadRequestObjectResult = new BadRequestObjectResult(
-            $"One of these models or both with these ids don't exist firstId = {thingsToValidateRelation.FirstId}, secondId = {thingsToValidateRelation.SecondId}");
+                $"One of these models or both with these ids don't exist firstId = {thingsToValidateRelation.FirstId}, secondId = {thingsToValidateRelation.SecondId}")
+            { StatusCode = 404 };
         return errorEndPoint;
     }
 
