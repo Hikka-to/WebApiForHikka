@@ -5,7 +5,7 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.Shared;
 
-namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
+namespace WebApiForHikka.Dtos.Dto.Relation.Seasons;
 
 
 [MetadataType(typeof(Season))]

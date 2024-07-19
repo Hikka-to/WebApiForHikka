@@ -5,6 +5,7 @@ using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Relation.Relateds;
+using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
@@ -16,7 +17,6 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Seasons;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
@@ -165,8 +165,12 @@ public class MappingProfiles : Profile
             op => op.MapFrom(v => v.Dubs)).ForMember(
             c => c.Countries,
             op => op.MapFrom(v => v.Countries)).ForMember(
-            c => c.AnimeGroups,
-            op => op.MapFrom(v => v.AnimeGroups));
+            c => c.RelatedAnimeGroups,
+            op => op.MapFrom(v => v.RelatedAnimeGroups)).ForMember(
+            c => c.SeasonAnimeGroups,
+            op => op.MapFrom(v => v.SeasonAnimeGroups)).ForMember(
+            c => c.SimilarAnimes,
+            op => op.MapFrom(v => v.SimilarChildAnimes));
 
         CreateMap<CreateAnimeDto, Anime>().ForMember(
             c => c.Tags,
@@ -174,6 +178,8 @@ public class MappingProfiles : Profile
             c => c.Dubs,
             op => op.Ignore()).ForMember(
             c => c.Countries,
+            op => op.Ignore()).ForMember(
+            c => c.SimilarChildAnimes,
             op => op.Ignore());
 
         CreateMap<UpdateAnimeDto, Anime>().ForMember(
@@ -182,6 +188,8 @@ public class MappingProfiles : Profile
             c => c.Dubs,
             op => op.Ignore()).ForMember(
             c => c.Countries,
+            op => op.Ignore()).ForMember(
+            c => c.SimilarChildAnimes,
             op => op.Ignore());
 
 

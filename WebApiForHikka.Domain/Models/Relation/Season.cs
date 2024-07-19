@@ -6,7 +6,6 @@ namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 public class Season : RelationModel<Anime, AnimeGroup>
 {
-  
     [StringLength(SeasonNumberConstants.NameLength)]
-    public required string Name { get; set; }   
+    public required string Name { get; set; }
 }

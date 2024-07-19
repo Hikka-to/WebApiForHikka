@@ -3,13 +3,12 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
-using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
 using WebApiForHikka.Test.Shared.Service;
 
-namespace WebApiForHikka.Test.Service.WithoutSeoAddition.Seasons;
+namespace WebApiForHikka.Test.Service.Relation.Seasons;
 
-public class SeasonServiceTest : SharedRelationServiceTest<Season, SeasonRelationService, Anime, AnimeGroup>
+public class SeasonRelationServiceTest : SharedRelationServiceTest<Season, SeasonRelationService, Anime, AnimeGroup>
 {
     protected override Season GetSample()
     {

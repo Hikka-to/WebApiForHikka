@@ -19,11 +19,14 @@ public class RelationControllerModelConvention : IControllerModelConvention
         var firstModel = relationController.GetGenericArguments()[1];
         var secondModel = relationController.GetGenericArguments()[2];
 
-        var firstIdName = $"{ToLowerFirstChar(firstModel.Name)}Id";
-        var secondIdName = $"{ToLowerFirstChar(secondModel.Name)}Id";
+        var firstModelName = firstModel.Name;
+        var secondModelName = firstModelName == secondModel.Name ? "Second" + secondModel.Name : secondModel.Name;
 
-        controller.RouteValues["firstModel"] = firstModel.Name;
-        controller.RouteValues["secondModel"] = secondModel.Name;
+        var firstIdName = $"{ToLowerFirstChar(firstModelName)}Id";
+        var secondIdName = $"{ToLowerFirstChar(secondModelName)}Id";
+
+        controller.RouteValues["firstModel"] = firstModelName;
+        controller.RouteValues["secondModel"] = secondModelName;
 
         foreach (var action in controller.Actions)
         {
