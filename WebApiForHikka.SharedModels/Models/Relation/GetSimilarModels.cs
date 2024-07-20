@@ -1,5 +1,5 @@
 using WebApiForHikka.Domain.Models.Relation;
-using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
+using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
 namespace WebApiForHikka.Test.Shared.Models.Relation;
 

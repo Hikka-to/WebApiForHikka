@@ -39,6 +39,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Season> Seasons { get; set; }
     public DbSet<Similar> Similars { get; set; }
     public DbSet<Episode> Episodes { get; set; }
+    public DbSet<EpisodeImage> EpisodeImages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

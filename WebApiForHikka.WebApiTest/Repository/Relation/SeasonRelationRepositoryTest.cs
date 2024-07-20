@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
@@ -19,12 +18,12 @@ public class SeasonRelationRepositoryTest : SharedRelationRepositoryTest<
     {
         return GetSeasonModels.GetSample();
     }
-    
+
     protected override Season GetSampleForUpdate()
     {
         return GetSeasonModels.GetSampleForUpdate();
     }
-    
+
     protected override SeasonRelationRepository GetRepository(HikkaDbContext hikkaDbContext)
     {
         return new SeasonRelationRepository(hikkaDbContext);

@@ -2,13 +2,9 @@
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
-<<<<<<< HEAD:WebApiForHikka.WebApiTest/Shared/Models/WithSeoAddtion/GetAnimeModels.cs
-using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using Boolean = Faker.Boolean;
 using Country = WebApiForHikka.Domain.Models.WithSeoAddition.Country;
-=======
-using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
->>>>>>> DenisIlchenko:WebApiForHikka.SharedModels/Models/WithSeoAddtion/GetAnimeModels.cs
 
 namespace WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
