@@ -3,7 +3,12 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
+<<<<<<< HEAD
 using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
+=======
+using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
+>>>>>>> DenisIlchenko
 using WebApiForHikka.Test.Shared.Service;
 
 namespace WebApiForHikka.Test.Service.Relation.Seasons;

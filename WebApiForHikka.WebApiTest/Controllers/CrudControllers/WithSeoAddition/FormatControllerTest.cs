@@ -6,7 +6,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.Test.Controllers.Shared;
-using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
+using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;

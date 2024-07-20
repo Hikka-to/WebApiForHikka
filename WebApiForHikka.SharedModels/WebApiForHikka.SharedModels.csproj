@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Faker.Net" Version="2.0.163" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj" />
+  </ItemGroup>
+
+</Project>

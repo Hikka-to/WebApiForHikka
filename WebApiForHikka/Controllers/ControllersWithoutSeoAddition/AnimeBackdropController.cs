@@ -91,9 +91,6 @@ public class AnimeBackdropController(
             model.Path = path;
         }
 
-        ;
-
-
         model.Colors = _colorHelper.GetListOfColorsFromImage(dto.Image);
 
         var heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);

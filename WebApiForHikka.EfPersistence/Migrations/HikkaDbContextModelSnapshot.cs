@@ -933,6 +933,36 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.ToTable("AnimeVideoKinds");
                 });
 
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.EpisodeImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<List<int>>("Colors")
+                        .HasColumnType("integer[]");
+
+                    b.Property<Guid>("EpisodeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EpisodeId");
+
+                    b.ToTable("EpisodeImages");
+                });
+
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.ExternalLink", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1381,6 +1411,17 @@ namespace WebApiForHikka.EfPersistence.Migrations
                         .IsRequired();
 
                     b.Navigation("AnimeVideoKind");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.EpisodeImage", b =>
+                {
+                    b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", "Episode")
+                        .WithMany()
+                        .HasForeignKey("EpisodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Episode");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.ExternalLink", b =>
