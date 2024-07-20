@@ -8,10 +8,10 @@ using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.Test.Controller.Shared;
+using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers;
 
-namespace WebApiForHikka.Test.Controller.Users;
+namespace WebApiForHikka.Test.Controllers.Users;
 
 public class UserControllerTest : BaseControllerTest
 {
@@ -28,7 +28,9 @@ public class UserControllerTest : BaseControllerTest
         // Arrange
         var userRegistrationDto = new UserRegistrationDto
         {
-            UserName = "Tesgacawefw21dasdacdqds", Email = "tes12dasddsadasdaat@example.com", Password = "dada!",
+            UserName = "Tesgacawefw21dasdacdqds",
+            Email = "tes12dasddsadasdaat@example.com",
+            Password = "dada!",
             Role = "User"
         };
         var userId = Guid.NewGuid();

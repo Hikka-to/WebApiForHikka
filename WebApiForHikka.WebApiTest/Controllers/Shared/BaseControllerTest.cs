@@ -15,7 +15,7 @@ using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.Test.Shared;
 using WebApiForHikka.WebApi.Helper;
 
-namespace WebApiForHikka.Test.Controller.Shared;
+namespace WebApiForHikka.Test.Controllers.Shared;
 
 public abstract class BaseControllerTest : SharedTest
 {

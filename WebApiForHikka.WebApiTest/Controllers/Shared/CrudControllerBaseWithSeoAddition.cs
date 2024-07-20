@@ -10,7 +10,6 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
-using WebApiForHikka.Test.Controller.Shared;
 using WebApiForHikka.WebApi.Shared;
 using Enum = Faker.Enum;
 

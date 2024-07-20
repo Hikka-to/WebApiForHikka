@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Shared.Repository;
 

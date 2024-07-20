@@ -4,8 +4,8 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.Test.Controller.Shared;
-using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
+using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers;

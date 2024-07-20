@@ -2,7 +2,7 @@
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
 
-namespace WebApiForHikka.WebApiTest.Repository.Users.FakeDataCreaters;
+namespace WebApiForHikka.Test.Repository.Users.FakeDataCreaters;
 
 public static class CreateUserFakeData
 {

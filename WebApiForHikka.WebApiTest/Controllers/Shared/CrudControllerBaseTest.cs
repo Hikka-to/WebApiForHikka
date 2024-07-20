@@ -8,7 +8,7 @@ using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.WebApi.Shared;
 
-namespace WebApiForHikka.Test.Controller.Shared;
+namespace WebApiForHikka.Test.Controllers.Shared;
 
 public abstract class CrudControllerBaseTest
 <TController, TCrudService,

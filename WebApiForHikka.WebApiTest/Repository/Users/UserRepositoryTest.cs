@@ -5,7 +5,7 @@ using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.Test.Shared;
 
-namespace WebApiForHikka.WebApiTest.Repository.Users;
+namespace WebApiForHikka.Test.Repository.Users;
 
 public class UserRepositoryTest : SharedTest
 {

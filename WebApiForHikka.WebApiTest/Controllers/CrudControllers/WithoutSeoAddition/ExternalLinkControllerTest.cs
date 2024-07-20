@@ -6,9 +6,9 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
-using WebApiForHikka.Test.Controller.Shared;
-using WebApiForHikka.Test.Shared.Models.WithoutSeoAddition;
-using WebApiForHikka.Test.Shared.Models.WithSeoAddtion;
+using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
