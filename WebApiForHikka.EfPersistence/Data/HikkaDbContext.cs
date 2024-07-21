@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Constants.Models.Users;
@@ -42,6 +42,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<EpisodeImage> EpisodeImages { get; set; }
     public DbSet<Collection> Collections { get; set; }
     public DbSet<CollectionAnime> CollectionAnimes { get; set; }
+    public DbSet<Language> Languages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
