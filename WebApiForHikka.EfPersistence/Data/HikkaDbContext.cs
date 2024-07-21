@@ -40,6 +40,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Similar> Similars { get; set; }
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<EpisodeImage> EpisodeImages { get; set; }
+    public DbSet<Language> Languages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
