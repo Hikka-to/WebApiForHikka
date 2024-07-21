@@ -18,6 +18,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
@@ -31,7 +32,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
-namespace WebApiForHikka.WebApi.Helper;
+namespace WebApiForHikka.WebApi.Helpers;
 
 public class MappingProfiles : Profile
 {
@@ -299,6 +300,14 @@ public class MappingProfiles : Profile
         CreateMap<CreateEpisodeDto, Episode>();
 
         CreateMap<UpdateEpisodeDto, Episode>();
+
+        //Collection
+
+        CreateMap<Collection, GetCollectionDto>();
+
+        CreateMap<CreateCollectionDto, Collection>();
+
+        CreateMap<UpdateCollectionDto, Collection>();
         
         // Language
         
