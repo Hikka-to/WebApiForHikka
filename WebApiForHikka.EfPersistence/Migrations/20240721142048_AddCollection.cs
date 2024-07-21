@@ -6,39 +6,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApiForHikka.EfPersistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddEpisode : Migration
+    public partial class AddCollection : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Episodes",
+                name: "Collections",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AnimeId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Duration = table.Column<int>(type: "integer", nullable: false),
-                    AirDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsFiller = table.Column<bool>(type: "boolean", nullable: false),
-                    UpdateAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    Description = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     SeoAdditionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Episodes", x => x.Id);
+                    table.PrimaryKey("PK_Collections", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Episodes_SeoAdditions_SeoAdditionId",
+                        name: "FK_Collections_SeoAdditions_SeoAdditionId",
                         column: x => x.SeoAdditionId,
                         principalTable: "SeoAdditions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-            
+
             migrationBuilder.CreateIndex(
-                name: "IX_Episodes_SeoAdditionId",
-                table: "Episodes",
+                name: "IX_Collections_SeoAdditionId",
+                table: "Collections",
                 column: "SeoAdditionId");
         }
 
@@ -46,7 +43,7 @@ namespace WebApiForHikka.EfPersistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Episodes");
+                name: "Collections");
         }
     }
 }

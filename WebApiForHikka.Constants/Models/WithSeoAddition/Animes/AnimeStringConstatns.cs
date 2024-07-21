@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.Models.WithoutSeoAddition.Animes;
+﻿namespace WebApiForHikka.Constants.Models.WithSeoAddition.Animes;
 
 public class AnimeStringConstants
 {
