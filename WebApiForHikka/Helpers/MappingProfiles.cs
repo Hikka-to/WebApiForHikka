@@ -31,7 +31,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 
-namespace WebApiForHikka.WebApi.Helper;
+namespace WebApiForHikka.WebApi.Helpers;
 
 public class MappingProfiles : Profile
 {
