@@ -41,6 +41,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<EpisodeImage> EpisodeImages { get; set; }
     public DbSet<Collection> Collections { get; set; }
+    public DbSet<CollectionAnime> CollectionAnimes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -123,5 +124,10 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
             .UsingEntity<Similar>(
                 r => r.HasOne(e => e.First).WithMany(),
                 l => l.HasOne(e => e.Second).WithMany());
+
+        modelBuilder.Entity<Anime>()
+            .HasMany(e => e.Collections)
+            .WithMany(e => e.Animes)
+            .UsingEntity<CollectionAnime>();
     }
 }

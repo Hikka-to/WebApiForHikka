@@ -13,4 +13,6 @@ public class Collection : ModelWithSeoAddition
 
     public required DateTime CreatedAt { get; set; }
     public required DateTime UpdatedAt { get; set; }
+
+    public virtual ICollection<Anime> Animes { get; set; } = [];
 }

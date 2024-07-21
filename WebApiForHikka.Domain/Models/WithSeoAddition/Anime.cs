@@ -20,6 +20,8 @@ public class Anime : ModelWithSeoAddition
     public virtual ICollection<Anime> SimilarChildAnimes { get; set; } = [];
     public virtual ICollection<Anime> SimilarParentAnimes { get; set; } = [];
 
+    public virtual ICollection<Collection> Collections { get; set; } = [];
+
     public virtual required Kind Kind { get; set; }
 
     public virtual required Status Status { get; set; }
