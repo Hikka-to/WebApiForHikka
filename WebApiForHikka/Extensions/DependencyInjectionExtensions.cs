@@ -9,6 +9,7 @@ using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.Extensions;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
+using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.WebApi.Helper;
 using WebApiForHikka.WebApi.Helper.FileHelper;
@@ -62,5 +63,6 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IFileHelper, FileHelper>();
         services.AddScoped<IColorHelper, ColorHelper>();
         services.AddScoped<IJwtTokenFactory, JwtTokenFactory>();
+        services.AddScoped<ILinkFactory, LinkFactory>();
     }
 }
