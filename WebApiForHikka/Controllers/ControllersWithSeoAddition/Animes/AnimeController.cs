@@ -168,7 +168,7 @@ public class AnimeController(
     }
 
 
-    [AllowAnonymous]
+    [AllowAnonymous] 
     [HttpGet("dowloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
