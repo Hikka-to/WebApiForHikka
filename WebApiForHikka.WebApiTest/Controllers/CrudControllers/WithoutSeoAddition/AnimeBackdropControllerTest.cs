@@ -33,6 +33,10 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
     protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
+        
+        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
 
         var repository = new AnimeBackdropRepository(dbContext);
@@ -43,10 +47,15 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
         alternativeServices.AddSingleton<IAnimeService, AnimeService>();
 
+        alternativeServices.AddSingleton<IAnimeBackdropRepository, AnimeBackdropRepository>();
+        alternativeServices.AddSingleton<IAnimeBackdropService, AnimeBackdropService>();
+
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
 
 
-        return new AllServicesInController(new AnimeBackdropService(repository),
+
+        return new AllServicesInController(new AnimeBackdropService(repository, fileHelperMock.Object),
             userManager,
             roleManager
             );

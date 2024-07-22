@@ -7,6 +7,7 @@ using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.Sources;
 using WebApiForHikka.Application.Statuses;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
 using WebApiForHikka.Application.WithSeoAddition.Dubs;
@@ -15,6 +16,7 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
@@ -41,11 +43,21 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
+        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
+
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var animeRepository = new AnimeRepository(dbContext);
+        var animebackdropRepository = new AnimeBackdropRepository(dbContext);
+
+        var animebackdropService = new AnimeBackdropService(animebackdropRepository, fileHelperMock.Object);
+
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
+
+
 
         alternativeServices.AddSingleton(dbContext);
         alternativeServices.AddSingleton<IKindRepository, KindRepository>();
@@ -67,10 +79,15 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         alternativeServices.AddSingleton<ICountryService, CountryService>();
         alternativeServices.AddSingleton<IDubService, DubService>();
         alternativeServices.AddSingleton<IAnimeService, AnimeService>();
+        
+        alternativeServices.AddSingleton<IAnimeBackdropRepository, AnimeBackdropRepository>();
+        alternativeServices.AddSingleton<IAnimeBackdropService, AnimeBackdropService>();
+
 
         alternativeServices.AddSingleton<IColorHelper, ColorHelper>();
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
-        return new AllServicesInControllerWithSeoAddition(new AnimeService(animeRepository), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(new AnimeService(animeRepository, animebackdropService, fileHelperMock.Object), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
     protected override async Task<AnimeController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
@@ -99,6 +116,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
             It.IsAny<string>(),
             It.IsAny<string>())).Returns("test/image/url");
 
+          
 
 
         return new AnimeController(
@@ -196,7 +214,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         sourceService.CreateAsync(source, CancellationToken).Wait();
         animeService.CreateAsync(anime, CancellationToken).Wait();
 
-       
+
         updateDto.KindId = kind.Id;
         updateDto.StatusId = status.Id;
         updateDto.PeriodId = period.Id;
