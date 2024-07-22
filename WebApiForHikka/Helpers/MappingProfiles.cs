@@ -310,6 +310,7 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateEpisodeImageDto, EpisodeImage>();
 
+
         //Collection
 
         CreateMap<Collection, GetCollectionDto>();
