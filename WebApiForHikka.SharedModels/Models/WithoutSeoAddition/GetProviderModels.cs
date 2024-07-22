@@ -23,9 +23,9 @@ public class GetProviderModels
         return new Provider
         {
             Anime = GetAnimeModels.GetSample(),
-            LogoPath = "test",
-            Name = "test",
-            Priority = 1,
+            LogoPath = "test1",
+            Name = "test1",
+            Priority = 12,
         };
     }
 
@@ -34,8 +34,8 @@ public class GetProviderModels
         return new CreateProviderDto()
         {
             AnimeId = Guid.NewGuid(),
-            LogoPath = "test",
-            Name = "test",
+            LogoPath = "test3",
+            Name = "test5",
             Priority = 1,
         };
     }
@@ -57,8 +57,8 @@ public class GetProviderModels
         return new UpdateProviderDto
         {
             AnimeId = Guid.NewGuid(),
-            LogoPath = "test",
-            Name = "test",
+            LogoPath = "test34",
+            Name = "test45",
             Priority = 1,
             Id = Guid.NewGuid(),
         };
