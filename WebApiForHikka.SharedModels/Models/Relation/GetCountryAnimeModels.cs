@@ -23,7 +23,7 @@ public class GetCountryAnimeModels
             FirstId = default,
             SecondId = default,
             First = GetCountryModels.GetSampleForUpdate(),
-            Second = GetAnimeModels.GetSampleWithoutManyToMany()
+            Second = GetAnimeModels.GetSampleForUpdateWithoutManyToMany()
         };
     }
 }

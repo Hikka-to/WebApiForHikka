@@ -22,7 +22,7 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
     where TSecondModel : class, IModel
     where TRelationService : IRelationCrudService<TModel, TFirstModel, TSecondModel>
 {
-    [HttpPost("[firstModel]/{firstId:Guid}/[secondModel]/{secondId:Guid}/Create")]
+    [HttpPost("[firstModel]/{firstId:Guid}/[secondModel]/{secondId:Guid}")]
     public virtual async Task<IActionResult> Create([FromRoute] Guid firstId,
         [FromRoute] Guid secondId,
         CancellationToken cancellationToken)
@@ -40,7 +40,7 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
         return Ok(id);
     }
 
-    [HttpDelete("[firstModel]/{firstId:Guid}/[secondModel]/{secondId:Guid}/Delete")]
+    [HttpDelete("[firstModel]/{firstId:Guid}/[secondModel]/{secondId:Guid}")]
     public virtual async Task<IActionResult> Delete([FromRoute] Guid firstId, [FromRoute] Guid secondId,
         CancellationToken cancellationToken)
     {

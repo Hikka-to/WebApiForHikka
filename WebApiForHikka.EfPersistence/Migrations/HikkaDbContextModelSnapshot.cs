@@ -246,6 +246,28 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.ToTable("Periods");
                 });
 
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.Relation.CollectionAnime", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FirstId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SecondId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SecondId");
+
+                    b.HasIndex("FirstId", "SecondId")
+                        .IsUnique();
+
+                    b.ToTable("CollectionAnimes");
+                });
+
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Relation.CountryAnime", b =>
                 {
                     b.Property<Guid>("Id")
@@ -656,6 +678,38 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Animes");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Collection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<Guid>("SeoAdditionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SeoAdditionId");
+
+                    b.ToTable("Collections");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Country", b =>
@@ -1132,6 +1186,25 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Navigation("SeoAddition");
                 });
 
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.Relation.CollectionAnime", b =>
+                {
+                    b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Collection", "First")
+                        .WithMany()
+                        .HasForeignKey("FirstId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", "Second")
+                        .WithMany()
+                        .HasForeignKey("SecondId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("First");
+
+                    b.Navigation("Second");
+                });
+
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Relation.CountryAnime", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.WithSeoAddition.Country", "First")
@@ -1317,6 +1390,17 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Navigation("Source");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Collection", b =>
+                {
+                    b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
+                        .WithMany()
+                        .HasForeignKey("SeoAdditionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SeoAddition");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Country", b =>

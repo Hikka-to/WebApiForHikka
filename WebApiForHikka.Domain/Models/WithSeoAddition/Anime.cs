@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.WithoutSeoAddition.Animes;
+using WebApiForHikka.Constants.Models.WithSeoAddition.Animes;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
@@ -19,6 +19,8 @@ public class Anime : ModelWithSeoAddition
 
     public virtual ICollection<Anime> SimilarChildAnimes { get; set; } = [];
     public virtual ICollection<Anime> SimilarParentAnimes { get; set; } = [];
+
+    public virtual ICollection<Collection> Collections { get; set; } = [];
 
     public virtual required Kind Kind { get; set; }
 
@@ -76,7 +78,4 @@ public class Anime : ModelWithSeoAddition
     public required DateTime CreatedAt { get; set; }
 
 
-    public string TagsString => string.Join(", ", Tags.Select(t => t.Name));
-    public string CountriesString => string.Join(", ", Countries.Select(t => t.Name));
-    public string DubsString => string.Join(", ", Dubs.Select(t => t.Name));
 }

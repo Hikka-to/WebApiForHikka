@@ -33,7 +33,7 @@ public abstract class CrudControllerForModelWithSeoAddition
 {
     protected ISeoAdditionService _seoAdditionService = seoAdditionService;
 
-    [HttpPost("Create")]
+    [HttpPost]
     public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto,
         CancellationToken cancellationToken)
     {
@@ -110,7 +110,7 @@ public abstract class CrudControllerForModelWithSeoAddition
     }
 
 
-    [HttpPut("Update")]
+    [HttpPut]
     public override async Task<IActionResult> Put([FromBody] TUpdateDtoWithSeoAddition dto,
         CancellationToken cancellationToken)
     {
