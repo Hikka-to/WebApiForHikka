@@ -10,6 +10,8 @@ using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
+using WebApiForHikka.WebApi.Helper.FileHelper;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
@@ -35,6 +37,11 @@ public class ExternalLinkControllerTest : CrudControllerBaseTest<
         alternativeServices.AddSingleton(dbContext);
         alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
         alternativeServices.AddSingleton<IAnimeService, AnimeService>();
+
+        alternativeServices.AddSingleton<IAnimeBackdropRepository, AnimeBackdropRepository>();
+        alternativeServices.AddSingleton<IAnimeBackdropService, AnimeBackdropService>();
+
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
         return new AllServicesInController(new ExternalLinkService(repository), userManager, roleManager);
     }

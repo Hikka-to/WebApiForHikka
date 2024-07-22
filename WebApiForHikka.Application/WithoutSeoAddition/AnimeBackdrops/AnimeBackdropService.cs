@@ -23,5 +23,6 @@ public class AnimeBackdropService(IAnimeBackdropRepository repository, IFileHelp
         var backdrop = await _repository.GetAsync(id, cancellationToken);
 
         fileHelper.DeleteFile(backdrop.Path);
+        await _repository.DeleteAsync(id, cancellationToken);
     }
 }

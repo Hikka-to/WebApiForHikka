@@ -24,7 +24,6 @@ public class AnimeService(IAnimeRepository repository, IAnimeBackdropService ani
 
         foreach (var item in backdrops)
         {
-            fileHelper.DeleteFile(item.Path);
             await animeBackdropService.DeleteAsync(item.Id, cancellationToken);
         }
 

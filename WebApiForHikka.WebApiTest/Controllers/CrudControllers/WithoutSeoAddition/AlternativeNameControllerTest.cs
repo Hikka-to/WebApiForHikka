@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.WithoutSeoAddition.AlternativeNames;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AlternativeNames;
@@ -10,6 +11,7 @@ using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
+using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
@@ -35,6 +37,11 @@ public class AlternativeNameControllerTest : CrudControllerBaseTest<
         alternativeServices.AddSingleton(dbContext);
         alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
         alternativeServices.AddSingleton<IAnimeService, AnimeService>();
+
+        alternativeServices.AddSingleton<IAnimeBackdropRepository, AnimeBackdropRepository>();
+        alternativeServices.AddSingleton<IAnimeBackdropService, AnimeBackdropService>();
+
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
         return new AllServicesInController(new AlternativeNameService(repository), userManager, roleManager);
     }
