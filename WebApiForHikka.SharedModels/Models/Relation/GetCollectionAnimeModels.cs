@@ -3,26 +3,26 @@ using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
 namespace WebApiForHikka.SharedModels.Models.Relation;
 
-public class GetCountryAnimeModels
+public class GetCollectionAnimeModels
 {
-    public static CountryAnime GetSample()
+    public static CollectionAnime GetSample()
     {
-        return new CountryAnime
+        return new CollectionAnime
         {
             FirstId = default,
             SecondId = default,
-            First = GetCountryModels.GetSample(),
+            First = GetCollectionModels.GetSample(),
             Second = GetAnimeModels.GetSampleWithoutManyToMany()
         };
     }
 
-    public static CountryAnime GetSampleForUpdate()
+    public static CollectionAnime GetSampleForUpdate()
     {
-        return new CountryAnime
+        return new CollectionAnime
         {
             FirstId = default,
             SecondId = default,
-            First = GetCountryModels.GetSampleForUpdate(),
+            First = GetCollectionModels.GetSampleForUpdate(),
             Second = GetAnimeModels.GetSampleForUpdateWithoutManyToMany()
         };
     }

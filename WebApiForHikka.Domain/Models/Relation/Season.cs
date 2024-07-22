@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.WithoutSeoAddition.Season;
+using WebApiForHikka.Constants.Models.Relation.Season;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;

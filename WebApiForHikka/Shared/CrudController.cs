@@ -27,7 +27,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     protected TIService CrudRelationService = crudRelationService;
 
 
-    [HttpPost("Create")]
+    [HttpPost]
     public virtual async Task<IActionResult> Create([FromBody] TCreateDto dto, CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
@@ -97,7 +97,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     }
 
 
-    [HttpPut("Update")]
+    [HttpPut]
     public virtual async Task<IActionResult> Put([FromBody] TUpdateDto dto, CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequestForUpdateEndPoint(
