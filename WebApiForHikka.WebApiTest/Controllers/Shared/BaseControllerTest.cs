@@ -80,6 +80,9 @@ public abstract class BaseControllerTest : SharedTest
         var httpContextMock = new Mock<HttpContext>();
 
         httpRequestMock.Setup(req => req.Headers.Authorization).Returns(jwtToken);
+        httpRequestMock.Setup(req => req.Scheme).Returns("https:7076://");
+        httpRequestMock.Setup(req => req.Host).Returns(new HostString("api/v1"));
+        httpRequestMock.Setup(req => req.Path).Returns(new PathString("/asdada/resdad/controller/GetGetAll"));
 
         // Setup the HttpContext mock to return the mocked HttpRequest
         httpContextMock.Setup(ctx => ctx.Request).Returns(httpRequestMock.Object);

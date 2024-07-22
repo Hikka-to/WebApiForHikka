@@ -11,6 +11,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
+using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
 
@@ -22,7 +23,8 @@ public class AnimeBackdropController(
     IHttpContextAccessor httpContextAccessor,
     IAnimeService animeService,
     IFileHelper _fileHelper,
-    IColorHelper _colorHelper
+    IColorHelper _colorHelper,
+    ILinkFactory _linkFactory
 )
     : CrudController<
         GetAnimeBackdropDto,
@@ -118,9 +120,7 @@ public class AnimeBackdropController(
         var models = _mapper.Map<List<GetAnimeBackdropDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" +
-                            Request.Path.Value.Replace("GetAll", string.Empty) + "dowloadFile/" +
-                            item.ImageUrl.Split('\\').Last();
+            item.ImageUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.ImageUrl);
 
 
         return Ok(
@@ -161,9 +161,8 @@ public class AnimeBackdropController(
         if (model is null)
             return NotFound();
 
-        model.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" +
-                         Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" +
-                         model.ImageUrl.Split('\\').Last();
+
+        model.ImageUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.ImageUrl);
 
 
         return Ok(model);

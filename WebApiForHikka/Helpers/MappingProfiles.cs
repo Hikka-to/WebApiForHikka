@@ -14,6 +14,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
@@ -300,6 +301,14 @@ public class MappingProfiles : Profile
         CreateMap<CreateEpisodeDto, Episode>();
 
         CreateMap<UpdateEpisodeDto, Episode>();
+
+        //EpisodeImage
+
+        CreateMap<EpisodeImage, GetEpisodeImageDto>();
+
+        CreateMap<CreateEpisodeImageDto, EpisodeImage>();
+
+        CreateMap<UpdateEpisodeImageDto, EpisodeImage>();
 
         //Collection
 

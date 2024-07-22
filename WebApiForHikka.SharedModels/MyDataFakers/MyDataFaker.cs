@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace WebApiForHikka.SharedModels.MyDataFaker;
+namespace WebApiForHikka.SharedModels.MyDataFakers;
 
 public static class MyDataFaker
 {
+    public static string GetFakeUrl => "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg";
+
     public static IFormFile GetFakeImage()
     {
         // Create a new image instance

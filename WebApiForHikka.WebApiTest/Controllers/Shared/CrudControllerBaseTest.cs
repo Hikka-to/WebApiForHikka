@@ -79,8 +79,9 @@ public abstract class CrudControllerBaseTest
         var controller = await GetController(services, serviceProvider);
         foreach (var item in GetCollectionOfModels(10))
         {
-            MutationBeforeDtoCreation(GetCreateDtoSample(), services, serviceProvider);
-            await services.CrudService.CreateAsync(item, CancellationToken);
+            var modelDto = GetCreateDtoSample();
+            MutationBeforeDtoCreation(modelDto, services, serviceProvider);
+            await controller.Create(modelDto, CancellationToken);
         }
 
         //Act

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
-using WebApiForHikka.Application.WithSeoAddition.Animes;
+using WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
+using WebApiForHikka.Application.WithSeoAddition.Episodes;
+using WebApiForHikka.Application.WithSeoAddition.Episodes;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
@@ -18,15 +19,15 @@ using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
-public class AnimeBackdropControllerTest : CrudControllerBaseTest<
-    AnimeBackdropController,
-    AnimeBackdropService,
-    AnimeBackdrop,
-    IAnimeBackdropRepository,
-    UpdateAnimeBackdropDto,
-    CreateAnimeBackdropDto,
-    GetAnimeBackdropDto,
-    ReturnPageDto<GetAnimeBackdropDto>
+public class EpisodeImageControllerTest : CrudControllerBaseTest<
+    EpisodeImageController,
+    EpisodeImageService,
+    EpisodeImage,
+    IEpisodeImageRepository,
+    UpdateEpisodeImageDto,
+    CreateEpisodeImageDto,
+    GetEpisodeImageDto,
+    ReturnPageDto<GetEpisodeImageDto>
     >
 
 {
@@ -35,24 +36,24 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         var dbContext = GetDatabaseContext();
 
 
-        var repository = new AnimeBackdropRepository(dbContext);
+        var repository = new EpisodeImageRepository(dbContext);
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
         alternativeServices.AddSingleton(dbContext);
-        alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
-        alternativeServices.AddSingleton<IAnimeService, AnimeService>();
+        alternativeServices.AddSingleton<IEpisodeRepository, EpisodeRepository>();
+        alternativeServices.AddSingleton<IEpisodeService, EpisodeService>();
 
 
 
 
-        return new AllServicesInController(new AnimeBackdropService(repository),
+        return new AllServicesInController(new EpisodeImageService(repository),
             userManager,
             roleManager
             );
     }
 
-    protected override async Task<AnimeBackdropController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<EpisodeImageController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         AllServicesInController allServices = allServicesInController;
 
@@ -79,11 +80,11 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
 
 
 
-        return new AnimeBackdropController(
+        return new EpisodeImageController(
             allServices.CrudService,
             _mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager),
-            alternativeServices.GetRequiredService<IAnimeService>(),
+            alternativeServices.GetRequiredService<IEpisodeService>(),
             fileHelperMock.Object,
             colorHelperMock.Object,
             linkFactoryMock.Object
@@ -91,30 +92,30 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         );
     }
 
-    protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override void MutationBeforeDtoCreation(CreateEpisodeImageDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        var Anime = GetAnimeModels.GetModelSample();
+        var episode = GetEpisodeModels.GetSample();
 
-        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+        var animeService = alternativeServices.GetRequiredService<IEpisodeService>();
 
-        animeService.CreateAsync(Anime, CancellationToken).Wait();
+        animeService.CreateAsync(episode, CancellationToken).Wait();
 
-        createDto.AnimeId = Anime.Id;
+        createDto.EpisodeId = episode.Id;
     }
 
-    protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override void MutationBeforeDtoUpdate(UpdateEpisodeImageDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        var Anime = GetAnimeModels.GetSample();
+        var Episode = GetEpisodeModels.GetSample();
 
-        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+        var animeService = alternativeServices.GetRequiredService<IEpisodeService>();
 
-        animeService.CreateAsync(Anime, CancellationToken).Wait();
+        animeService.CreateAsync(Episode, CancellationToken).Wait();
 
-        updateDto.AnimeId = Anime.Id;
+        updateDto.EpisodeId = Episode.Id;
     }
 
-    protected override CreateAnimeBackdropDto GetCreateDtoSample() => GetAnimeBackdropModels.GetCreateSampleDto();
-    protected override GetAnimeBackdropDto GetGetDtoSample() => GetAnimeBackdropModels.GetGetDtoSample();
-    protected override UpdateAnimeBackdropDto GetUpdateDtoSample() => GetAnimeBackdropModels.GetUpdateDtoSample();
-    protected override AnimeBackdrop GetModelSample() => GetAnimeBackdropModels.GetSample();
+    protected override CreateEpisodeImageDto GetCreateDtoSample() => GetEpisodeImageModels.GetCreateSampleDto();
+    protected override GetEpisodeImageDto GetGetDtoSample() => GetEpisodeImageModels.GetGetDtoSample();
+    protected override UpdateEpisodeImageDto GetUpdateDtoSample() => GetEpisodeImageModels.GetUpdateDtoSample();
+    protected override EpisodeImage GetModelSample() => GetEpisodeImageModels.GetSample();
 }

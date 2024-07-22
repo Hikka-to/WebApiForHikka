@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.Kinds;
@@ -20,7 +20,6 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
-using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
 
@@ -40,8 +39,7 @@ public class AnimeController(
     ICountryService countryService,
     IDubService dubService,
     IFileHelper _fileHelper,
-    IColorHelper _colorHelper,
-    ILinkFactory _linkfactory
+    IColorHelper _colorHelper
 )
     : CrudControllerForModelWithSeoAddition<
         GetAnimeDto,
@@ -168,7 +166,7 @@ public class AnimeController(
     }
 
 
-    [AllowAnonymous] 
+    [AllowAnonymous]
     [HttpGet("dowloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
@@ -193,7 +191,9 @@ public class AnimeController(
         var models = _mapper.Map<List<GetAnimeDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.PosterPathUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.PosterPathUrl);
+            item.PosterPathUrl = $"{Request.Scheme}://{Request.Host.Value}" +
+                                 Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("GetAll")) +
+                                 "dowloadFile/" + item.PosterPathUrl.Split('\\').Last();
 
 
         return Ok(
@@ -235,8 +235,15 @@ public class AnimeController(
             return NotFound();
 
 
+        string scheme = Request.Scheme;
 
-        model.PosterPathUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.PosterPathUrl );
+        string hostValue = Request.Host.Value;
+
+        string
+
+        model.PosterPathUrl = $"{scheme}://{hostValue}" +
+                              Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" +
+                              model.PosterPathUrl.Split('\\').Last();
 
 
         return Ok(model);
