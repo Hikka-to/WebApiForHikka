@@ -17,6 +17,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
@@ -334,5 +335,15 @@ public class MappingProfiles : Profile
         CreateMap<CreateLanguageMediaplayerDto, LanguageMediaplayer>();
 
         CreateMap<UpdateLanguageMediaplayerDto, LanguageMediaplayer>();
+        
+        // Provider
+        
+        CreateMap<Provider, GetProviderDto>();
+        
+        CreateMap<CreateProviderDto, Provider>();
+
+        CreateMap<UpdateProviderDto, Provider>();
+        
+        
     }
 }

@@ -66,10 +66,10 @@ public class GetLanguageMediaplayerModels
     {
         return new GetLanguageMediaplayerDto()
         {
-            Mediaplayer = GetMediaplayerModels.GetSample(),
-            Language = GetLanguageModels.GetSample(),
-            Episode = GetEpisodeModels.GetSample(),
-            Format = GetFormatModels.GetSample(),
+            Mediaplayer = GetMediaplayerModels.GetGetDtoSample(),
+            Language = GetLanguageModels.GetGetDtoSample(),
+            Episode = GetEpisodeModels.GetGetDtoSample(),
+            Format = GetFormatModels.GetGetDtoSample(),
             Url = "test",
             FileId = "test",
             StartIntro = 0,
