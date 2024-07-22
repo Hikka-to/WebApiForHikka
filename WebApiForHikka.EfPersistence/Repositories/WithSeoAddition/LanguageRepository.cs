@@ -1,6 +1,4 @@
-﻿using WebApiForHikka.Application.Periods;
-using WebApiForHikka.Application.WithSeoAddition.Languages;
-using WebApiForHikka.Domain.Models;
+﻿using WebApiForHikka.Application.WithSeoAddition.Languages;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 

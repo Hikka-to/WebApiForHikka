@@ -41,6 +41,8 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Episode> Episodes { get; set; }
     public DbSet<EpisodeImage> EpisodeImages { get; set; }
     public DbSet<Language> Languages { get; set; }
+    public DbSet<LanguageMediaplayer> LanguageMediaplayers { get; set; }
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

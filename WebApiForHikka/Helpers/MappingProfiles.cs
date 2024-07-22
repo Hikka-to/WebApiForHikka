@@ -23,6 +23,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.LanguageMediaplayers;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Languages;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Periods;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
@@ -307,5 +308,13 @@ public class MappingProfiles : Profile
         CreateMap<CreateLanguageDto, Language>();
 
         CreateMap<UpdateLanguageDto, Language>();
+        
+        // LanguageMediaplayer
+        
+        CreateMap<LanguageMediaplayer, GetLanguageMediaplayerDto>();
+        
+        CreateMap<CreateLanguageMediaplayerDto, LanguageMediaplayer>();
+
+        CreateMap<UpdateLanguageMediaplayerDto, LanguageMediaplayer>();
     }
 }

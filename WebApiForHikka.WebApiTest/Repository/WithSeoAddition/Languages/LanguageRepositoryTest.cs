@@ -7,7 +7,7 @@ using WebApiForHikka.Test.Shared.Repository;
 
 namespace WebApiForHikka.Test.Repository.WithSeoAddition.Languages;
 
-public class LanguageRepositoryTest: SharedRepositoryTestWithSeoAddition<
+public class LanguageRepositoryTest : SharedRepositoryTestWithSeoAddition<
     Language,
     LanguageRepository
 >
@@ -16,12 +16,12 @@ public class LanguageRepositoryTest: SharedRepositoryTestWithSeoAddition<
     {
         return new LanguageRepository(hikkaDbContext);
     }
-
+    
     protected override Language GetSample()
     {
         return GetLanguageModels.GetSample();
     }
-
+    
     protected override Language GetSampleForUpdate()
     {
         return GetLanguageModels.GetSampleForUpdate();
