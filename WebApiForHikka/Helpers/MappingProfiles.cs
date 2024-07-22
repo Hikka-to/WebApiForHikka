@@ -302,10 +302,6 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateEpisodeDto, Episode>();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> fbf7c04681a02150a1e99d6c501abfc3b5d4b60d
         //EpisodeImage
 
         CreateMap<EpisodeImage, GetEpisodeImageDto>();
@@ -314,11 +310,6 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateEpisodeImageDto, EpisodeImage>();
 
-<<<<<<< HEAD
-=======
-=======
-
->>>>>>> fbf7c04681a02150a1e99d6c501abfc3b5d4b60d
         //Collection
 
         CreateMap<Collection, GetCollectionDto>();
@@ -334,9 +325,5 @@ public class MappingProfiles : Profile
         CreateMap<CreateLanguageDto, Language>();
 
         CreateMap<UpdateLanguageDto, Language>();
-<<<<<<< HEAD
->>>>>>> main
-=======
->>>>>>> fbf7c04681a02150a1e99d6c501abfc3b5d4b60d
     }
 }
