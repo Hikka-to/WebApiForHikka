@@ -19,6 +19,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
@@ -344,6 +345,12 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateProviderDto, Provider>();
         
+        // UserSetting
+        CreateMap<UserSetting, GetUserSettingDto>();
+        
+        CreateMap<CreateUserSettingDto, UserSetting>();
+
+        CreateMap<UpdateUserSettingDto, UserSetting>();
         
     }
 }
