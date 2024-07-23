@@ -8,8 +8,8 @@ namespace WebApiForHikka.EfPersistence.Repositories;
 public abstract class CrudRelationRepository<TModel, TFirstModel, TSecondModel> : CrudRepository<TModel>,
     IRelationCrudRepository<TModel, TFirstModel, TSecondModel>
     where TModel : RelationModel<TFirstModel, TSecondModel>
-    where TFirstModel : Model
-    where TSecondModel : Model
+    where TFirstModel : class, IModel
+    where TSecondModel : class, IModel
 {
     public CrudRelationRepository(HikkaDbContext dbContext) : base(dbContext)
     {

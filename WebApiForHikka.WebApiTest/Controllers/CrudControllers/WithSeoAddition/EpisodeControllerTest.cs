@@ -1,11 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
 using WebApiForHikka.Application.WithSeoAddition.Episodes;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
@@ -26,13 +30,19 @@ public class EpisodeControllerTest : CrudControllerBaseWithSeoAddition<
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
+        Mock<IFileHelper> fileHelperMock = new();
+
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
         var seoAdditionRepository = new SeoAdditionRepository(dbContext);
         var countryRepository = new EpisodeRepository(dbContext);
+        var episodeImagesRepository = new EpisodeImageRepository(dbContext);
+        var episodeImagesService = new EpisodeImageService(episodeImagesRepository, fileHelperMock.Object);
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
-        return new AllServicesInControllerWithSeoAddition(new EpisodeService(countryRepository),
+
+        return new AllServicesInControllerWithSeoAddition(new EpisodeService(countryRepository, episodeImagesService),
             new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 

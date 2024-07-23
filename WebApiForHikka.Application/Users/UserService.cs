@@ -1,10 +1,25 @@
 ﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
 namespace WebApiForHikka.Application.Users;
 
-public class UserService(IUserRepository repository) : CrudService<User, IUserRepository>(repository), IUserService
+public class UserService(IUserRepository repository, IFileHelper fileHelper)
+    : CrudService<User, IUserRepository>(repository), IUserService
 {
+    public override async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var user = await _repository.GetAsync(id, cancellationToken);
+
+        if (user.BackdropPath != null)
+            fileHelper.DeleteFile(user.BackdropPath);
+
+        if (user.AvatarPath != null)
+            fileHelper.DeleteFile(user.AvatarPath);
+
+        await _repository.DeleteAsync(id, cancellationToken);
+    }
+
     public async Task<User?> AuthenticateUserAsync(string email, string password, CancellationToken cancellationToken)
     {
         var user = await _repository.AuthenticateUserAsync(email, password, cancellationToken);

@@ -2,6 +2,7 @@
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.MyDataFakers;
 using Boolean = Faker.Boolean;
 using Country = WebApiForHikka.Domain.Models.WithSeoAddition.Country;
 
@@ -200,7 +201,7 @@ public static class GetAnimeModels
         return new CreateAnimeDto
         {
             SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
-            PosterImage = MyDataFaker.MyDataFaker.GetFakeImage(),
+            PosterImage = MyDataFaker.GetFakeImage(),
             Tags =
             [
                 Guid.NewGuid(),
@@ -385,7 +386,7 @@ public static class GetAnimeModels
                 Guid.NewGuid()
             ],
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
-            PosterImage = MyDataFaker.MyDataFaker.GetFakeImage(),
+            PosterImage = MyDataFaker.GetFakeImage(),
             Name = Lorem.GetFirstWord(),
             KindId = Guid.NewGuid(),
             StatusId = Guid.NewGuid(),

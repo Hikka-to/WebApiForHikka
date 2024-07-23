@@ -11,8 +11,8 @@ public class GetLanguageModels
     {
         return new Language
         {
-            Name = "test",
-            Icon = "test",
+            Name = "test4",
+            Icon = "test3",
             Locale = "TE",
             SeoAddition = GetSeoAdditionModels.GetSample()
         };
@@ -22,8 +22,8 @@ public class GetLanguageModels
     {
         return new Language
         {
-            Name = "test",
-            Icon = "test",
+            Name = "test1",
+            Icon = "test2",
             Locale = "TE",
             SeoAddition = GetSeoAdditionModels.GetSampleForUpdate()
         };

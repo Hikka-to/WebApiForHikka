@@ -57,6 +57,7 @@ public abstract class CrudControllerBaseTest
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
+        
         var controller = await GetController(services, serviceProvider);
 
         //Act
@@ -79,8 +80,9 @@ public abstract class CrudControllerBaseTest
         var controller = await GetController(services, serviceProvider);
         foreach (var item in GetCollectionOfModels(10))
         {
-            MutationBeforeDtoCreation(GetCreateDtoSample(), services, serviceProvider);
-            await services.CrudService.CreateAsync(item, CancellationToken);
+            var modelDto = GetCreateDtoSample();
+            MutationBeforeDtoCreation(modelDto, services, serviceProvider);
+            await controller.Create(modelDto, CancellationToken);
         }
 
         //Act
@@ -227,4 +229,6 @@ public abstract class CrudControllerBaseTest
 
         public RoleManager<IdentityRole<Guid>> RoleManager => roleManager;
     }
+    
+
 }

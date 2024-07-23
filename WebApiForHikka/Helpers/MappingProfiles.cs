@@ -4,6 +4,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.Relation.AnimeRatings;
 using WebApiForHikka.Dtos.Dto.Relation.Relateds;
 using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
@@ -15,9 +16,13 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Comments;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.EmojiGroups;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
@@ -25,6 +30,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.LanguageMediaplayers;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Languages;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Periods;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
@@ -302,6 +308,15 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateEpisodeDto, Episode>();
 
+        //EpisodeImage
+
+        CreateMap<EpisodeImage, GetEpisodeImageDto>();
+
+        CreateMap<CreateEpisodeImageDto, EpisodeImage>();
+
+        CreateMap<UpdateEpisodeImageDto, EpisodeImage>();
+
+
         //Collection
 
         CreateMap<Collection, GetCollectionDto>();
@@ -329,5 +344,57 @@ public class MappingProfiles : Profile
         CreateMap<CreateCommentDto, Comment>();
 
         CreateMap<UpdateCommentDto, Comment>();
+
+        // LanguageMediaplayer
+
+        CreateMap<LanguageMediaplayer, GetLanguageMediaplayerDto>();
+
+        CreateMap<CreateLanguageMediaplayerDto, LanguageMediaplayer>();
+
+        CreateMap<UpdateLanguageMediaplayerDto, LanguageMediaplayer>();
+
+        // Provider
+
+        CreateMap<Provider, GetProviderDto>();
+
+        CreateMap<CreateProviderDto, Provider>();
+
+        CreateMap<UpdateProviderDto, Provider>();
+
+        // UserSetting
+        CreateMap<UserSetting, GetUserSettingDto>();
+
+        CreateMap<CreateUserSettingDto, UserSetting>();
+
+        CreateMap<UpdateUserSettingDto, UserSetting>();
+
+        // EmojiGroup
+
+        CreateMap<EmojiGroup, GetEmojiGroupDto>();
+
+        CreateMap<CreateEmojiGroupDto, EmojiGroup>();
+
+        CreateMap<UpdateEmojiGroupDto, EmojiGroup>();
+
+        // AnimeRating
+
+        CreateMap<AnimeRating, GetAnimeRatingDto>().ForMember(
+            c => c.UserId,
+            op => op.MapFrom(v => v.FirstId)).ForMember(
+            c => c.AnimeId,
+            op => op.MapFrom(v => v.SecondId));
+
+        CreateMap<CreateAnimeRatingDto, AnimeRating>().ForMember(
+            c => c.FirstId,
+            op => op.MapFrom(v => v.UserId)).ForMember(
+            c => c.SecondId,
+            op => op.MapFrom(v => v.AnimeId));
+
+
+        CreateMap<UpdateAnimeRatingDto, AnimeRating>().ForMember(
+            c => c.FirstId,
+            op => op.MapFrom(v => v.UserId)).ForMember(
+            c => c.SecondId,
+            op => op.MapFrom(v => v.AnimeId));
     }
 }

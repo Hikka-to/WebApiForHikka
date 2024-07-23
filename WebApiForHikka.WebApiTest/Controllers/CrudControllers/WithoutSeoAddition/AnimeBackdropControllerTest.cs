@@ -1,101 +1,145 @@
-﻿namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Application.WithSeoAddition.Animes;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Dtos.Shared;
+using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
+using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
+using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
+using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
-//public class AnimeBackdropControllerTest : CrudControllerBaseTest<
-//    AnimeBackdropController,
-//    AnimeBackdropService,
-//    AnimeBackdrop,
-//    IAnimeBackdropRepository,
-//    UpdateAnimeBackdropDto,
-//    CreateAnimeBackdropDto,
-//    GetAnimeBackdropDto,
-//    ReturnPageDto<GetAnimeBackdropDto>
-//    >
+namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
-//{
-//    protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
-//    {
-//        var dbContext = GetDatabaseContext();
+public class AnimeBackdropControllerTest : CrudControllerBaseTest<
+    AnimeBackdropController,
+    AnimeBackdropService,
+    AnimeBackdrop,
+    IAnimeBackdropRepository,
+    UpdateAnimeBackdropDto,
+    CreateAnimeBackdropDto,
+    GetAnimeBackdropDto,
+    ReturnPageDto<GetAnimeBackdropDto>
+>
 
-//        var repository = new AnimeBackdropRepository(dbContext);
-//        var userManager = GetUserManager(dbContext);
-//        var roleManager = GetRoleManager(dbContext);
+{
+    protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
+    {
+        var dbContext = GetDatabaseContext();
 
-//        alternativeServices.AddSingleton(dbContext);
-//        alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
-//        alternativeServices.AddSingleton<IAnimeService, AnimeService>();
+        var fileHelperMock = new Mock<IFileHelper>();
 
-//        return new AllServicesInController(new AnimeBackdropService(repository), userManager, roleManager);
-//    }
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
-//    protected override async Task<AnimeBackdropController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
-//    {
-//        AllServicesInController allServices = allServicesInController;
 
-//        return new AnimeBackdropController(
-//            allServices.CrudService,
-//            _mapper,
-//            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager),
-//            alternativeServices.GetRequiredService<IAnimeService>()
-//        );
-//    }
+        var repository = new AnimeBackdropRepository(dbContext);
+        var userManager = GetUserManager(dbContext);
+        var roleManager = GetRoleManager(dbContext);
 
-//    protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
-//    {
-//        var Anime = new AnimeControllerTest().Anime;
+        alternativeServices.AddSingleton(dbContext);
+        alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
+        alternativeServices.AddSingleton<IAnimeService, AnimeService>();
 
-//        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+        alternativeServices.AddSingleton<IAnimeBackdropRepository, AnimeBackdropRepository>();
+        alternativeServices.AddSingleton<IAnimeBackdropService, AnimeBackdropService>();
 
-//        animeService.CreateAsync(Anime, CancellationToken).Wait();
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
-//        createDto.AnimeId = Anime.Id;
-//    }
 
-//    protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
-//    {
-//        var Anime = new AnimeControllerTest().Anime;
+        return new AllServicesInController(new AnimeBackdropService(repository, fileHelperMock.Object),
+            userManager,
+            roleManager
+        );
+    }
 
-//        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+    protected override async Task<AnimeBackdropController> GetController(
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    {
+        var allServices = allServicesInController;
 
-//        animeService.CreateAsync(Anime, CancellationToken).Wait();
+        var fileHelperMock = new Mock<IFileHelper>();
 
-//        updateDto.AnimeId = Anime.Id;
-//    }
+        var colorHelperMock = new Mock<IColorHelper>();
 
-//    protected override CreateAnimeBackdropDto GetCreateDtoSample() => new()
-//    {
-//        AnimeId = Guid.NewGuid(),
-//        Path = Faker.Lorem.GetFirstWord(),
-//        Width = Faker.RandomNumber.Next(),
-//        Height = Faker.RandomNumber.Next(),
-//        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()]
-//    };
+        var linkFactoryMock = new Mock<ILinkFactory>();
 
-//    protected override GetAnimeBackdropDto GetGetDtoSample() => new()
-//    {
-//        AnimeId = Guid.NewGuid(),
-//        Path = Faker.Lorem.GetFirstWord(),
-//        Width = Faker.RandomNumber.Next(),
-//        Height = Faker.RandomNumber.Next(),
-//        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
-//        Id = Guid.NewGuid()
-//    };
+        fileHelperMock.Setup(m => m.UploadFileImage(It.IsAny<IFormFile>(), It.IsAny<string[]>()))
+            .Returns("mocked/path/to/file");
 
-//    protected override UpdateAnimeBackdropDto GetUpdateDtoSample() => new()
-//    {
-//        AnimeId = Guid.NewGuid(),
-//        Path = Faker.Lorem.GetFirstWord(),
-//        Width = Faker.RandomNumber.Next(),
-//        Height = Faker.RandomNumber.Next(),
-//        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()],
-//        Id = Guid.NewGuid()
-//    };
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
-//    protected override AnimeBackdrop GetModelSample() => new()
-//    {
-//        Anime = new AnimeControllerTest().Anime,
-//        Path = Faker.Lorem.GetFirstWord(),
-//        Width = Faker.RandomNumber.Next(),
-//        Height = Faker.RandomNumber.Next(),
-//        Colors = [Faker.RandomNumber.Next(), Faker.RandomNumber.Next(), Faker.RandomNumber.Next()]
-//    };
-//}
+        fileHelperMock.Setup(m => m.OverrideFileImage(It.IsAny<IFormFile>(), It.IsAny<string>()));
+
+        colorHelperMock.Setup(m => m.GetListOfColorsFromImage(It.IsAny<IFormFile>()))
+            .Returns([32131, 32342, 31341, 23421]);
+
+        linkFactoryMock.Setup(
+            m => m.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns("test/image/url");
+
+
+        return new AnimeBackdropController(
+            allServices.CrudService,
+            _mapper,
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager),
+            alternativeServices.GetRequiredService<IAnimeService>(),
+            fileHelperMock.Object,
+            colorHelperMock.Object,
+            linkFactoryMock.Object
+        );
+    }
+
+    protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    {
+        var Anime = GetAnimeModels.GetModelSample();
+
+        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+
+        animeService.CreateAsync(Anime, CancellationToken).Wait();
+
+        createDto.AnimeId = Anime.Id;
+    }
+
+    protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    {
+        var Anime = GetAnimeModels.GetSample();
+
+        var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+
+        animeService.CreateAsync(Anime, CancellationToken).Wait();
+
+        updateDto.AnimeId = Anime.Id;
+    }
+
+    protected override CreateAnimeBackdropDto GetCreateDtoSample()
+    {
+        return GetAnimeBackdropModels.GetCreateSampleDto();
+    }
+
+    protected override GetAnimeBackdropDto GetGetDtoSample()
+    {
+        return GetAnimeBackdropModels.GetGetDtoSample();
+    }
+
+    protected override UpdateAnimeBackdropDto GetUpdateDtoSample()
+    {
+        return GetAnimeBackdropModels.GetUpdateDtoSample();
+    }
+
+    protected override AnimeBackdrop GetModelSample()
+    {
+        return GetAnimeBackdropModels.GetSample();
+    }
+}

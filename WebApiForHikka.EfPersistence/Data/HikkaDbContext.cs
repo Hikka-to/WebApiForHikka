@@ -44,6 +44,13 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<CollectionAnime> CollectionAnimes { get; set; }
     public DbSet<Language> Languages { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<LanguageMediaplayer> LanguageMediaplayers { get; set; }
+    public DbSet<Provider> Providers { get; set; }
+    public DbSet<UserSetting> UserSettings { get; set; }
+    public DbSet<EmojiGroup> EmojiGroups { get; set; }
+
+    public DbSet<AnimeRating> AnimeRatings { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

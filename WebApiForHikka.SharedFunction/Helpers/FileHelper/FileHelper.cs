@@ -73,7 +73,7 @@ public class FileHelper : IFileHelper
         if (originalExtension != ".webp")
         {
             using var image = Image.Load(file.OpenReadStream());
-            var encoderOptions = new WebpEncoder { Quality = 80 }; // Adjust quality as needed
+            var encoderOptions = new WebpEncoder { Quality = 100 }; // Adjust quality as needed
             image.Save(filePath, encoderOptions);
         }
         else

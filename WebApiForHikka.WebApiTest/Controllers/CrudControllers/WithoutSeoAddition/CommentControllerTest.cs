@@ -7,6 +7,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Comments;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
@@ -35,6 +36,7 @@ public class CommentControllerTest : CrudControllerBaseTest<
 
         alternativeServices.AddSingleton(dbContext);
         alternativeServices.AddSingleton(userManager);
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
         alternativeServices.AddSingleton<IUserRepository, UserRepository>();
         alternativeServices.AddSingleton<IUserService, UserService>();
         alternativeServices.AddSingleton<ICommentableRepository, CommentableRepository>();

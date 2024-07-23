@@ -1,7 +1,11 @@
-﻿using WebApiForHikka.Application.WithSeoAddition.Animes;
+﻿using Moq;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
+using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Shared.Service;
 
@@ -25,8 +29,16 @@ public class AnimeServiceTest : SharedServiceTestWithSeoAddition<Anime, AnimeSer
 
     protected override AnimeService GetService(HikkaDbContext hikkaDbContext)
     {
-        AnimeRepository animeRepository = new(hikkaDbContext);
+        var fileHelperMock = new Mock<IFileHelper>();
 
-        return new AnimeService(animeRepository);
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
+
+        AnimeRepository animeRepository = new(hikkaDbContext);
+        AnimeBackdropRepository animebackdropRepository = new(hikkaDbContext);
+
+        AnimeBackdropService animeBackdropService = new(animebackdropRepository, fileHelperMock.Object);
+
+
+        return new AnimeService(animeRepository, animeBackdropService, fileHelperMock.Object);
     }
 }

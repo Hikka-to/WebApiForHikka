@@ -1,9 +1,11 @@
 ﻿using FluentAssertions;
+using Moq;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.Test.Shared;
 
 namespace WebApiForHikka.Test.Service.Users;
@@ -16,19 +18,24 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_AuthenticateUserAsync_ReturnsUser()
     {
+        var fileHelperMock = new Mock<IFileHelper>();
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
+
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
-        var userService = new UserService(userRepository);
+        var userService = new UserService(userRepository, fileHelperMock.Object);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        var testUser = new User
-            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+
+        var testUser = GetUserModels.GetSample();
+        var password = testUser.PasswordHash;
+
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userService.AuthenticateUserAsync(testUser.Email, "Password123!", new CancellationToken());
+        var result = await userService.AuthenticateUserAsync(testUser.Email, password, new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
@@ -38,20 +45,27 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_AuthenticateUserWithAdminRoleAsync_ReturnsUser()
     {
+        var fileHelperMock = new Mock<IFileHelper>();
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
+
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
-        var userService = new UserService(userRepository);
+        var userService = new UserService(userRepository, fileHelperMock.Object);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
-        var testUser = new User
-            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+
+        var testUser = GetUserModels.GetSample();
+        var password = testUser.PasswordHash;
+
+        testUser.Roles = [roleManager.Roles.First()];
+
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
         var result =
-            await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, "Password123!",
+            await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, password,
                 new CancellationToken());
 
         // Assert
@@ -63,15 +77,17 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_AuthenticateUserWithAdminRoleAsync_ReturnsNull()
     {
+        var fileHelperMock = new Mock<IFileHelper>();
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
+
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
-        var userService = new UserService(userRepository);
+        var userService = new UserService(userRepository, fileHelperMock.Object);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        var testUser = new User
-            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+        var testUser = GetUserModels.GetSample();
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -86,15 +102,19 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_CheckIfUserWithTheEmailIsAlreadyExistAsync_ReturnsTrue()
     {
+        var fileHelperMock = new Mock<IFileHelper>();
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
+
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
-        var userService = new UserService(userRepository);
+        var userService = new UserService(userRepository, fileHelperMock.Object);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        var testUser = new User
-            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+
+        var testUser = GetUserModels.GetSample();
+
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -108,15 +128,19 @@ public class UserServiceTest : SharedTest
     [Fact]
     public void UserService_CheckIfUserWithTheEmailIsAlreadyExist_ReturnsTrue()
     {
+        var fileHelperMock = new Mock<IFileHelper>();
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
+
+
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
-        var userService = new UserService(userRepository);
+        var userService = new UserService(userRepository, fileHelperMock.Object);
         var roleManager = GetRoleManager(dbContext);
         var role = roleManager.FindByNameAsync(UserStringConstants.UserRole).Result;
-        var testUser = new User
-            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
+        var testUser = GetUserModels.GetSample();
+
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
         // Act
@@ -129,19 +153,24 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_RegistrateUserAsync_ReturnsUser()
     {
+        var fileHelperMock = new Mock<IFileHelper>();
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
+
         // Arrange
         var dbContext = GetDatabaseContext();
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
-        var userService = new UserService(userRepository);
+        var userService = new UserService(userRepository, fileHelperMock.Object);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        var testUser = new User
-            { UserName = "test", Email = "test@example.com", PasswordHash = "Password123!", Roles = [role!] };
-        await userService.RegisterUserAsync(testUser, new CancellationToken());
 
+        var testUser = GetUserModels.GetSample();
+        var password = testUser.PasswordHash;
+        await userService.RegisterUserAsync(testUser, new CancellationToken());
         // Act
-        var result = await userService.AuthenticateUserAsync(testUser.Email, "Password123!", new CancellationToken());
+        var result =
+            await userService.AuthenticateUserAsync(testUser.Email, password, new CancellationToken());
+
 
         // Assert
         result.Should().NotBeNull();

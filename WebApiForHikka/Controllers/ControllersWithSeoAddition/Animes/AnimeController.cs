@@ -21,6 +21,7 @@ using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
 using WebApiForHikka.SharedFunction.Helpers.FileHelper;
+using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Animes;
@@ -39,7 +40,8 @@ public class AnimeController(
     ICountryService countryService,
     IDubService dubService,
     IFileHelper _fileHelper,
-    IColorHelper _colorHelper
+    IColorHelper _colorHelper,
+    ILinkFactory _linkfactory
 )
     : CrudControllerForModelWithSeoAddition<
         GetAnimeDto,
@@ -138,8 +140,6 @@ public class AnimeController(
             model.PosterPath = path;
         }
 
-        ;
-
         model.PosterColors = _colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
         var tags = new List<Tag>();
@@ -191,9 +191,8 @@ public class AnimeController(
         var models = _mapper.Map<List<GetAnimeDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.PosterPathUrl = $"{Request.Scheme}://{Request.Host.Value}" +
-                                 Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("GetAll")) +
-                                 "dowloadFile/" + item.PosterPathUrl.Split('\\').Last();
+            item.PosterPathUrl =
+                _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.PosterPathUrl);
 
 
         return Ok(
@@ -218,7 +217,6 @@ public class AnimeController(
 
         await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
         await _seoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
-        _fileHelper.DeleteFile(model.PosterPath);
         return NoContent();
     }
 
@@ -234,9 +232,8 @@ public class AnimeController(
         if (model is null)
             return NotFound();
 
-        model.PosterPathUrl = $"{Request.Scheme}://{Request.Host.Value}" +
-                              Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" +
-                              model.PosterPathUrl.Split('\\').Last();
+
+        model.PosterPathUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.PosterPathUrl);
 
 
         return Ok(model);

@@ -12,6 +12,7 @@ using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
 using WebApiForHikka.SharedFunction.Helpers.FileHelper;
+using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
@@ -22,7 +23,8 @@ public class EpisodeImageController(
     IHttpContextAccessor httpContextAccessor,
     IEpisodeService episodeService,
     IFileHelper _fileHelper,
-    IColorHelper _colorHelper
+    IColorHelper _colorHelper,
+    ILinkFactory _linkfactory
 )
     : CrudController
         <GetEpisodeImageDto, UpdateEpisodeImageDto, CreateEpisodeImageDto, EpisodeImageService, EpisodeImage>(
@@ -114,9 +116,7 @@ public class EpisodeImageController(
         var models = _mapper.Map<List<GetEpisodeImageDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" +
-                            Request.Path.Value.Replace("GetAll", string.Empty) + "dowloadFile/" +
-                            item.ImageUrl.Split('\\').Last();
+            item.ImageUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadFile", "GetAll", item.ImageUrl);
 
 
         return Ok(
@@ -157,9 +157,8 @@ public class EpisodeImageController(
         if (model is null)
             return NotFound();
 
-        model.ImageUrl = $"{Request.Scheme}://{Request.Host.Value}" +
-                         Request.Path.Value.Substring(0, Request.Path.Value.IndexOf("Get")) + "dowloadFile/" +
-                         model.ImageUrl.Split('\\').Last();
+
+        model.ImageUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadFile", "Get", model.ImageUrl);
 
 
         return Ok(model);
