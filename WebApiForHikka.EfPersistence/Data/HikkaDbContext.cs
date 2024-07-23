@@ -46,6 +46,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<LanguageMediaplayer> LanguageMediaplayers { get; set; }
     public DbSet<Provider> Providers { get; set; }
     public DbSet<UserSetting> UserSettings { get; set; }
+    public DbSet<EmojiGroup> EmojiGroups { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

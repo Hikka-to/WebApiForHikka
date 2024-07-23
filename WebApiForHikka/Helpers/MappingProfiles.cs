@@ -14,6 +14,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.EmojiGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
@@ -352,6 +353,14 @@ public class MappingProfiles : Profile
         CreateMap<CreateUserSettingDto, UserSetting>();
 
         CreateMap<UpdateUserSettingDto, UserSetting>();
+
+        // EmojiGroup
         
+        CreateMap<EmojiGroup, GetEmojiGroupDto>();
+        
+        CreateMap<CreateEmojiGroupDto, EmojiGroup>();
+
+        CreateMap<UpdateEmojiGroupDto, EmojiGroup>();
+
     }
 }
