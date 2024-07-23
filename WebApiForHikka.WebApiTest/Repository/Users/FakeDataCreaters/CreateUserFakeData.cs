@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Data;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Test.Repository.Users.FakeDataCreaters;
 
@@ -15,15 +16,9 @@ public static class CreateUserFakeData
             ids.Add(Guid.NewGuid());
 
             var roleEntity = await roleManager.FindByNameAsync(role);
-            var user = databaseContext.Users.Add(
-                new User
-                {
-                    Email = $"test{i + role}@gmail.com",
-                    Id = ids[i],
-                    PasswordHash = i.ToString(),
-                    Roles = [roleEntity!]
-                }
-            );
+
+            var user = databaseContext.Users.Add(GetUserModels.GetSample());            
+            
             await databaseContext.SaveChangesAsync();
             await userManager.AddToRoleAsync(user.Entity, role);
         }

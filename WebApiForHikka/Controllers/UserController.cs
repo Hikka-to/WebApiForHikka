@@ -4,14 +4,21 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using WebApiForHikka.Application.Users;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Application.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
+using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
+using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers;
@@ -23,7 +30,11 @@ public class UserController(
     IConfiguration configuration,
     RoleManager<IdentityRole<Guid>> roleManager,
     IMapper mapper,
-    IHttpContextAccessor httpContextAccessor
+    IHttpContextAccessor httpContextAccessor,
+    
+    UserSettingService userSettingService,
+    IFileHelper _fileHelper,
+    ILinkFactory _linkFactory
 )
     : MyBaseController(mapper, httpContextAccessor),
         ICrudController<UpdateUserDto, UserRegistrationDto>
@@ -31,6 +42,23 @@ public class UserController(
     private readonly IConfiguration _configuration = configuration;
     private readonly IJwtTokenFactory _jwtTokenFactory = jwtTokenFactory;
     private readonly IUserService _userService = userService;
+    
+
+    [AllowAnonymous]
+    [HttpGet("dowloadAvatar/{avatarImageName}")]
+    public IActionResult GetAvatarImage([FromRoute] string avatarImageName)
+    {
+        var file = _fileHelper.GetFile(ControllerStringConstants.AvatarBackdropPath, avatarImageName);
+        return File(file, ControllerStringConstants.JsonImageReturnType, avatarImageName);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("dowloadBackdrop/{backdropImageName}")]
+    public IActionResult GetBackdropImage([FromRoute] string backdropImageName)
+    {
+        var file = _fileHelper.GetFile(ControllerStringConstants.UserBackdropPath, backdropImageName);
+        return File(file, ControllerStringConstants.JsonImageReturnType, backdropImageName);
+    }
 
     [AllowAnonymous]
     [HttpPost("Registration")]
@@ -43,13 +71,11 @@ public class UserController(
 
         var role = await roleManager.FindByNameAsync(model.Role);
 
-        var user = new User
-        {
-            UserName = model.UserName,
-            Email = model.Email,
-            PasswordHash = model.Password,
-            Roles = [role!]
-        };
+        var user = GetUserModels.GetSample();
+        user.UserName = model.UserName;
+        user.Email = model.Email;
+        user.PasswordHash = model.Password;
+        user.Roles = [role!];
 
         var id = await _userService.RegisterUserAsync(user, cancellationToken);
 
@@ -65,6 +91,7 @@ public class UserController(
             }
         );
     }
+
 
     [HttpGet("GetAll")]
     [SwaggerResponse(StatusCodes.Status200OK, "Return all users", typeof(ReturnUserPageDto))]
@@ -82,6 +109,15 @@ public class UserController(
         var paginationCollection = await _userService.GetAllAsync(filterPagination, cancellationToken);
 
         var users = _mapper.Map<List<GetUserDto>>(paginationCollection.Models);
+
+        foreach (var item in users)
+        {
+            item.BackdropUrl =
+                _linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "GetAll", item.BackdropUrl);
+
+            item.AvatarUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "GetAll", item.AvatarUrl);
+        }
+
         return Ok(
             new ReturnUserPageDto
             {
@@ -102,6 +138,14 @@ public class UserController(
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var user = _mapper.Map<GetUserDto>(await _userService.GetAsync(id, cancellationToken));
+
+
+        user.BackdropUrl =
+            _linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "Get", user.BackdropUrl);
+
+        user.AvatarUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "Get", user.AvatarUrl);
+
+
         if (user is null)
             return NotFound();
 
@@ -121,6 +165,32 @@ public class UserController(
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var user = _mapper.Map<User>(dto);
+
+        var getUser = await _userService.GetAsync(user.Id, cancellationToken);
+
+
+        if (getUser.BackdropPath != null)
+        {
+            _fileHelper.OverrideFileImage(dto.BackdropImage, getUser.BackdropPath);
+            user.BackdropPath = getUser.BackdropPath;
+        }
+        else
+        {
+            user.BackdropPath =
+                _fileHelper.UploadFileImage(dto.BackdropImage, ControllerStringConstants.AnimeBackdropPath);
+        }
+
+        if (getUser.AvatarPath != null)
+        {
+            _fileHelper.OverrideFileImage(dto.AvatarImage, getUser.AvatarPath);
+            user.AvatarPath = getUser.AvatarPath;
+        }
+        else
+        {
+            user.AvatarPath = _fileHelper.UploadFileImage(dto.AvatarImage, ControllerStringConstants.AnimeBackdropPath);
+        }
+
+        await userSettingService.UpdateAsync(user.UserSetting, cancellationToken);
 
         var userWithPassword = await _userService.GetAsync(dto.Id, cancellationToken);
         if (userWithPassword == null) return NotFound($"user with {dto.Id} doesn't exist");
@@ -154,7 +224,6 @@ public class UserController(
 
         var user = await _userService.AuthenticateUserAsync(model.Email, model.Password, cancellationToken);
         if (user == null) return Unauthorized();
-
 
         var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
 

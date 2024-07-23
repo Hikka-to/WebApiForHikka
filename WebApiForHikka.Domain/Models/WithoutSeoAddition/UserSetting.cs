@@ -2,8 +2,6 @@
 
 public class UserSetting : Model
 {
-    public required virtual User User { get; set; }
-
     public required bool IsAutoNext { get; set; }
     
     public required bool IsAutoPlay { get; set; }

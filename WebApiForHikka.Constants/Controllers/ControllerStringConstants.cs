@@ -45,6 +45,10 @@ public static class ControllerStringConstants
     public const string ThisFieldCantBeNull = "This field can't be null";
     public static readonly string[] AnimePosterPath = ["images", "anime", "poster"];
 
+    public static readonly string[] UserBackdropPath = ["images", "user", "backdrop"];
+
+    public static readonly string[] AvatarBackdropPath = ["images", "avatar", "backdrop"];
+
     public static readonly string[] AnimeBackdropPath = ["images", "anime", "backdrop"];
 
     public static readonly string[] EpisodeImagePath = ["images", "episod", "image"];

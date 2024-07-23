@@ -11,7 +11,6 @@ public class GetUserSettingModels
     {
         return new UserSetting
         {
-            User = GetUserModels.GetSample(),
             IsAutoNext = true,           
             IsAutoPlay = false,        
             IsAutoSkipIntro = true,     
@@ -25,7 +24,6 @@ public class GetUserSettingModels
     {
         return new UserSetting
         {
-            User = GetUserModels.GetSample(),
             IsAutoNext = true,           
             IsAutoPlay = false,        
             IsAutoSkipIntro = true,     
@@ -53,7 +51,6 @@ public class GetUserSettingModels
     {
         return new GetUserSettingDto
         {
-            User = GetUserModels.GetSample(),
             IsAutoNext = false,           
             IsAutoPlay = false,        
             IsAutoSkipIntro = false,     
