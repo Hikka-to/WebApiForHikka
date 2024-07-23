@@ -15,7 +15,7 @@ public class User : IdentityUser<Guid>, IModel, ICloneable
         set => base.Email = value;
     }
 
-    public required UserSetting UserSetting { get; set; }
+    public required virtual UserSetting UserSetting { get; set; }
     
     [StringLength(UserNumberConstants.NameLength)]
     public string? Name { get; set; }
