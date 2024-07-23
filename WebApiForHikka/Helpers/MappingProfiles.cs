@@ -4,6 +4,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.Relation.AnimeRatings;
 using WebApiForHikka.Dtos.Dto.Relation.Relateds;
 using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
@@ -361,6 +362,29 @@ public class MappingProfiles : Profile
         CreateMap<CreateEmojiGroupDto, EmojiGroup>();
 
         CreateMap<UpdateEmojiGroupDto, EmojiGroup>();
+
+        // AnimeRating
+
+        CreateMap<AnimeRating, GetAnimeRatingDto>().ForMember(
+            c => c.UserId,
+            op => op.MapFrom(v => v.FirstId)).ForMember(
+            c => c.AnimeId,
+            op => op.MapFrom(v => v.SecondId));
+        
+        CreateMap<CreateAnimeRatingDto, AnimeRating>().ForMember(
+            c => c.FirstId,
+            op => op.MapFrom(v => v.UserId)).ForMember(
+            c => c.SecondId,
+            op => op.MapFrom(v => v.AnimeId));
+
+
+        CreateMap<UpdateAnimeRatingDto, AnimeRating>().ForMember(
+            c => c.FirstId,
+            op => op.MapFrom(v => v.UserId)).ForMember(
+            c => c.SecondId,
+            op => op.MapFrom(v => v.AnimeId));
+
+
 
     }
 }
