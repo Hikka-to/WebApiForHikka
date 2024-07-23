@@ -140,8 +140,6 @@ public class AnimeController(
             model.PosterPath = path;
         }
 
-        ;
-
         model.PosterColors = _colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
         var tags = new List<Tag>();
@@ -218,7 +216,6 @@ public class AnimeController(
 
         await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
         await _seoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
-        _fileHelper.DeleteFile(model.PosterPath);
         return NoContent();
     }
 

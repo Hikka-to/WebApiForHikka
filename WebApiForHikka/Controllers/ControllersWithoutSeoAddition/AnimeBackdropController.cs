@@ -145,7 +145,6 @@ public class AnimeBackdropController(
             NoContent();
 
         await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
-        _fileHelper.DeleteFile(model.Path);
         return NoContent();
     }
 

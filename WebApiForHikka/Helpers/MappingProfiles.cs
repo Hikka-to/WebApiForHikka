@@ -14,12 +14,12 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.EmojiGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
@@ -314,6 +314,7 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateEpisodeImageDto, EpisodeImage>();
 
+
         //Collection
 
         CreateMap<Collection, GetCollectionDto>();
@@ -352,14 +353,14 @@ public class MappingProfiles : Profile
         CreateMap<CreateUserSettingDto, UserSetting>();
 
         CreateMap<UpdateUserSettingDto, UserSetting>();
-        
-        // UserAnimeListType
-        
-        CreateMap<UserAnimeListType, GetUserAnimeListTypeDto>();
-        
-        CreateMap<CreateUserAnimeListTypeDto, UserAnimeListType>();
 
-        CreateMap<UpdateUserAnimeListTypeDto, UserAnimeListType>();
+        // EmojiGroup
         
+        CreateMap<EmojiGroup, GetEmojiGroupDto>();
+        
+        CreateMap<CreateEmojiGroupDto, EmojiGroup>();
+
+        CreateMap<UpdateEmojiGroupDto, EmojiGroup>();
+
     }
 }

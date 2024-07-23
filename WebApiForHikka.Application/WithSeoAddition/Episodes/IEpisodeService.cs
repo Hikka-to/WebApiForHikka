@@ -1,4 +1,5 @@
-﻿using WebApiForHikka.Application.Shared;
+﻿using System.Runtime.CompilerServices;
+using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Application.WithSeoAddition.Episodes;
