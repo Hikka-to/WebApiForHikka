@@ -6,13 +6,13 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
-public class UserSettingController (
+public class UserSettingController(
     UserSettingService crudService,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor
 )
     : CrudController
-        <GetUserSettingDto, UpdateUserSettingDto, CreateUserSettingDto, UserSettingService, UserSetting>(crudService, mapper, httpContextAccessor)
+        <GetUserSettingDto, UpdateUserSettingDto, CreateUserSettingDto, UserSettingService, UserSetting>(crudService,
+            mapper, httpContextAccessor)
 {
-    
 }

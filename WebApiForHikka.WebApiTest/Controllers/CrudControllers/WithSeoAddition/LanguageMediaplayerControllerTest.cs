@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebApiForHikka.Application.LanguageMediaplayers;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
 using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Application.WithSeoAddition.Episodes;
 using WebApiForHikka.Application.WithSeoAddition.Formats;
+using WebApiForHikka.Application.WithSeoAddition.LanguageMediaplayers;
 using WebApiForHikka.Application.WithSeoAddition.Languages;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.LanguageMediaplayers;

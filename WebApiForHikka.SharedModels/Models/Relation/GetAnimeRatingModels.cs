@@ -7,7 +7,7 @@ namespace WebApiForHikka.SharedModels.Models.Relation;
 
 public static class GetAnimeRatingModels
 {
-     public static AnimeRating GetSample()
+    public static AnimeRating GetSample()
     {
         return new AnimeRating
         {
@@ -17,7 +17,7 @@ public static class GetAnimeRatingModels
             Second = GetAnimeModels.GetSampleWithoutManyToMany(),
             CreateAt = default,
             Number = 2,
-            UpdateAt = default,
+            UpdateAt = default
         };
     }
 
@@ -31,7 +31,7 @@ public static class GetAnimeRatingModels
             Second = GetAnimeModels.GetSampleForUpdateWithoutManyToMany(),
             CreateAt = DateTime.Now,
             Number = 3,
-            UpdateAt = default,
+            UpdateAt = default
         };
     }
 
@@ -53,7 +53,6 @@ public static class GetAnimeRatingModels
             UserId = Guid.NewGuid(),
             Number = 2,
             Id = Guid.NewGuid()
-            
         };
     }
 
@@ -65,7 +64,6 @@ public static class GetAnimeRatingModels
             Number = 3,
             UserId = Guid.NewGuid(),
             Id = Guid.NewGuid()
-            
         };
     }
 }

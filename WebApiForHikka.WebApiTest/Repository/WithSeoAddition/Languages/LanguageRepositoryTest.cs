@@ -15,12 +15,12 @@ public class LanguageRepositoryTest : SharedRepositoryTestWithSeoAddition<
     {
         return new LanguageRepository(hikkaDbContext);
     }
-    
+
     protected override Language GetSample()
     {
         return GetLanguageModels.GetSample();
     }
-    
+
     protected override Language GetSampleForUpdate()
     {
         return GetLanguageModels.GetSampleForUpdate();

@@ -12,15 +12,15 @@ namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
 public class EmojiGroupControllerTest
     : CrudControllerBaseTest<
-    EmojiGroupController,
-    EmojiGroupService,
-    EmojiGroup,
-    IEmojiGroupRepository,
-    UpdateEmojiGroupDto,
-    CreateEmojiGroupDto,
-    GetEmojiGroupDto,
-    ReturnPageDto<GetEmojiGroupDto>
->
+        EmojiGroupController,
+        EmojiGroupService,
+        EmojiGroup,
+        IEmojiGroupRepository,
+        UpdateEmojiGroupDto,
+        CreateEmojiGroupDto,
+        GetEmojiGroupDto,
+        ReturnPageDto<GetEmojiGroupDto>
+    >
 {
     protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
     {

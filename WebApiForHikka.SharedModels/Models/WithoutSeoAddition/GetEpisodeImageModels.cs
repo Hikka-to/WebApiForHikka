@@ -33,10 +33,10 @@ public static class GetEpisodeImageModels
 
     public static CreateEpisodeImageDto GetCreateSampleDto()
     {
-        return new CreateEpisodeImageDto()
+        return new CreateEpisodeImageDto
         {
             EpisodeId = Guid.NewGuid(),
-            Image = MyDataFaker.GetFakeImage(),
+            Image = MyDataFaker.GetFakeImage()
         };
     }
 
@@ -49,7 +49,7 @@ public static class GetEpisodeImageModels
             Height = 1920,
             ImageUrl = MyDataFaker.GetFakeUrl,
             Width = 1920,
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid()
         };
     }
 
@@ -59,7 +59,7 @@ public static class GetEpisodeImageModels
         {
             EpisodeId = Guid.NewGuid(),
             Image = MyDataFaker.GetFakeImage(),
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid()
         };
     }
 }

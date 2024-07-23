@@ -13,7 +13,6 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
-using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Shared;
 using WebApiForHikka.WebApi.Helpers;
 
@@ -25,23 +24,7 @@ public abstract class BaseControllerTest : SharedTest
     protected readonly IMapper _mapper;
     protected readonly IConfiguration Configuration = A.Fake<IConfiguration>();
 
-    public BaseControllerTest()
-    {
-        A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
-        var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
-        _mapper = mapperConfiguration.CreateMapper();
-    }
-
-    protected FilterPaginationDto FilterPaginationDto => new()
-    {
-        SearchTerm = "",
-        PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
-        PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
-        Column = SharedStringConstants.IdName,
-        SortOrder = SortOrder.Asc
-    };
-
-    protected User SampleUser = new User
+    protected User SampleUser = new()
     {
         UserSetting = GetUserSettingModels.GetSample(),
         Name = "DaneDoe",
@@ -59,6 +42,22 @@ public abstract class BaseControllerTest : SharedTest
         UserName = "dane_doe",
         Email = "dane.doe@example.com",
         PasswordHash = "Password123!"
+    };
+
+    public BaseControllerTest()
+    {
+        A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
+        var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
+        _mapper = mapperConfiguration.CreateMapper();
+    }
+
+    protected FilterPaginationDto FilterPaginationDto => new()
+    {
+        SearchTerm = "",
+        PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
+        PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
+        Column = SharedStringConstants.IdName,
+        SortOrder = SortOrder.Asc
     };
 
     protected IJwtTokenFactory GetJwtTokenFactory(UserManager<User> userManager)

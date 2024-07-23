@@ -1,6 +1,5 @@
 ﻿using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;

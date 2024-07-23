@@ -44,9 +44,7 @@ public class GetUserSettingControllerTest : CrudControllerBaseTest<
     protected override async Task<UserSettingController> GetController(AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
-        AllServicesInController allServices = allServicesInController;
-
-        
+        var allServices = allServicesInController;
 
 
         return new UserSettingController(
@@ -56,10 +54,25 @@ public class GetUserSettingControllerTest : CrudControllerBaseTest<
                 allServicesInController.RoleManager)
         );
     }
-    
 
-    protected override CreateUserSettingDto GetCreateDtoSample() => GetUserSettingModels.GetCreateSampleDto();
-    protected override GetUserSettingDto GetGetDtoSample() => GetUserSettingModels.GetGetDtoSample();
-    protected override UpdateUserSettingDto GetUpdateDtoSample() => GetUserSettingModels.GetUpdateDtoSample();
-    protected override UserSetting GetModelSample() => GetUserSettingModels.GetSample();
+
+    protected override CreateUserSettingDto GetCreateDtoSample()
+    {
+        return GetUserSettingModels.GetCreateSampleDto();
+    }
+
+    protected override GetUserSettingDto GetGetDtoSample()
+    {
+        return GetUserSettingModels.GetGetDtoSample();
+    }
+
+    protected override UpdateUserSettingDto GetUpdateDtoSample()
+    {
+        return GetUserSettingModels.GetUpdateDtoSample();
+    }
+
+    protected override UserSetting GetModelSample()
+    {
+        return GetUserSettingModels.GetSample();
+    }
 }

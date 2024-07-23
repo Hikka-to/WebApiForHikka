@@ -7,7 +7,6 @@ using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
 namespace WebApiForHikka.Dtos.Dto.Relation.AnimeRatings;
 
-
 [ModelMetadataType(typeof(AnimeRating))]
 [ExportTsInterface]
 public class CreateAnimeRatingDto

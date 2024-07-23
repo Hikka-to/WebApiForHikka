@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 using WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
-using WebApiForHikka.Application.WithSeoAddition.Episodes;
-using WebApiForHikka.Constants.Models.WithoutSeoAddition.RelatedType;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 
@@ -13,7 +10,7 @@ public class EpisodeImageRepository(HikkaDbContext dbContext)
 {
     public IQueryable<EpisodeImage> GetEpisodeImagesForEpisode(Guid id)
     {
-       return DbContext.Set<EpisodeImage>().Where(i => i.Episode.Id == id);
+        return DbContext.Set<EpisodeImage>().Where(i => i.Episode.Id == id);
     }
 
     public async Task<string> GetImagePath(Guid id)

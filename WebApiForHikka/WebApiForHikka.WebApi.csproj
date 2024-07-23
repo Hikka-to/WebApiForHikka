@@ -22,7 +22,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4"/>
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2"/>
         <PackageReference Include="System.Drawing.Common" Version="8.0.7"/>
@@ -35,7 +35,7 @@
         <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj"/>
         <ProjectReference Include="..\WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj"/>
         <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj"/>
-        <ProjectReference Include="..\WebApiForHikka.SharedModels\WebApiForHikka.SharedModels.csproj" />
+        <ProjectReference Include="..\WebApiForHikka.SharedModels\WebApiForHikka.SharedModels.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

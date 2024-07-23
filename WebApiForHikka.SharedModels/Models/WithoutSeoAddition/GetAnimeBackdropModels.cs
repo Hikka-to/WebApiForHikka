@@ -1,7 +1,4 @@
-﻿using Faker;
-using WebApiForHikka.Constants.Models.WithoutSeoAddition.RelatedType;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AlternativeNames;
+﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.SharedModels.MyDataFakers;
@@ -34,12 +31,12 @@ public class GetAnimeBackdropModels
         };
     }
 
-    public static CreateAnimeBackdropDto GetCreateSampleDto() 
+    public static CreateAnimeBackdropDto GetCreateSampleDto()
     {
-        return new CreateAnimeBackdropDto()
+        return new CreateAnimeBackdropDto
         {
             AnimeId = Guid.NewGuid(),
-            Image = MyDataFaker.GetFakeImage(),
+            Image = MyDataFaker.GetFakeImage()
         };
     }
 
@@ -52,7 +49,7 @@ public class GetAnimeBackdropModels
             Height = 1920,
             ImageUrl = MyDataFaker.GetFakeUrl,
             Width = 1920,
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid()
         };
     }
 
@@ -62,7 +59,7 @@ public class GetAnimeBackdropModels
         {
             AnimeId = Guid.NewGuid(),
             Image = MyDataFaker.GetFakeImage(),
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid()
         };
     }
 }

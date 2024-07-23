@@ -1,7 +1,4 @@
 ﻿using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Formats;

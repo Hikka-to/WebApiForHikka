@@ -12,5 +12,4 @@ public class AnimeRating : RelationModel<User, Anime>
     public required DateTime CreateAt { get; set; }
 
     public required DateTime UpdateAt { get; set; }
-
 }
