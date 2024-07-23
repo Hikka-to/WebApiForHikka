@@ -4,7 +4,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
 using Image = SixLabors.ImageSharp.Image;
 
-namespace WebApiForHikka.WebApi.Helper.FileHelper;
+namespace WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
 public class FileHelper : IFileHelper
 {

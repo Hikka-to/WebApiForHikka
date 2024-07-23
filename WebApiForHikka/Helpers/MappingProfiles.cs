@@ -14,6 +14,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Comments;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
@@ -307,5 +308,17 @@ public class MappingProfiles : Profile
         CreateMap<CreateCollectionDto, Collection>();
 
         CreateMap<UpdateCollectionDto, Collection>();
+
+        //Comment
+
+        CreateMap<Comment, GetCommentDto>().ForMember(
+            c => c.User,
+            op => op.MapFrom(v => v.User)).ForMember(
+            c => c.ParentId,
+            op => op.MapFrom(v => v.Parent.Id));
+
+        CreateMap<CreateCommentDto, Comment>();
+
+        CreateMap<UpdateCommentDto, Comment>();
     }
 }

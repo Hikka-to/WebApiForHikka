@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Relation.Seasons;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
@@ -8,6 +7,7 @@ using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.WebApi.Controllers.Relation;
+using WebApiForHikka.Domain.Models.Relation;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.Relation;
 

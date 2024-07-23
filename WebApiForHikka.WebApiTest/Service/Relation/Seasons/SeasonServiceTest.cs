@@ -1,4 +1,5 @@
 ﻿using WebApiForHikka.Application.Relation.Seasons;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;

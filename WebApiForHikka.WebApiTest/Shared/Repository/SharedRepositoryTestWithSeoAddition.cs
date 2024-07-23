@@ -6,7 +6,7 @@ namespace WebApiForHikka.Test.Shared.Repository;
 
 public abstract class SharedRepositoryTestWithSeoAddition<TModel, TRepository>
     : SharedRepositoryTest<TModel, TRepository>
-    where TModel : ModelWithSeoAddition
+    where TModel : class, IModelWithSeoAddition
     where TRepository : ICrudRepository<TModel>
 {
     protected SeoAddition GetSeoAdditionSample()

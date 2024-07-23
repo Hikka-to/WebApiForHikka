@@ -25,7 +25,7 @@ public abstract class CrudControllerForModelWithSeoAddition
         TIService,
         TModelWithSeoAddition
     >(crudService, mapper, httpContextAccessor)
-    where TModelWithSeoAddition : ModelWithSeoAddition
+    where TModelWithSeoAddition : class, IModelWithSeoAddition
     where TGetDtoWithSeoAddition : GetDtoWithSeoAddition
     where TUpdateDtoWithSeoAddition : UpdateDtoWithSeoAddition
     where TCreateDtoWithSeoAddition : CreateDtoWithSeoAddition

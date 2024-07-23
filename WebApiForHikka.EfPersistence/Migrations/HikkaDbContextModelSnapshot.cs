@@ -178,6 +178,19 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.Commentable", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Commentable");
+
+                    b.UseTptMappingStrategy();
+                });
+
             modelBuilder.Entity("WebApiForHikka.Domain.Models.Format", b =>
                 {
                     b.Property<Guid>("Id")
@@ -573,113 +586,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<float>("AvgDuration")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("FirstAirDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("HowManyEpisodes")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ImageName")
-                        .HasMaxLength(2048)
-                        .HasColumnType("character varying(2048)");
-
-                    b.Property<float>("ImdbScore")
-                        .HasColumnType("real");
-
-                    b.Property<bool>("IsPublished")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("KindId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("LastAirDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(156)
-                        .HasColumnType("character varying(156)");
-
-                    b.Property<string>("NativeName")
-                        .IsRequired()
-                        .HasMaxLength(156)
-                        .HasColumnType("character varying(156)");
-
-                    b.Property<Guid>("PeriodId")
-                        .HasColumnType("uuid");
-
-                    b.Property<List<int>>("PosterColors")
-                        .IsRequired()
-                        .HasColumnType("integer[]");
-
-                    b.Property<string>("PosterPath")
-                        .IsRequired()
-                        .HasMaxLength(2048)
-                        .HasColumnType("character varying(2048)");
-
-                    b.Property<DateTime?>("PublishedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("RestrictedRatingId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("RomajiName")
-                        .HasMaxLength(248)
-                        .HasColumnType("character varying(248)");
-
-                    b.Property<Guid>("SeoAdditionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<long?>("ShikimoriId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("ShikimoriScore")
-                        .HasColumnType("real");
-
-                    b.Property<Guid>("SourceId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("StatusId")
-                        .HasColumnType("uuid");
-
-                    b.Property<long?>("TmdbId")
-                        .HasColumnType("bigint");
-
-                    b.Property<float>("TmdbScore")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KindId");
-
-                    b.HasIndex("PeriodId");
-
-                    b.HasIndex("RestrictedRatingId");
-
-                    b.HasIndex("SeoAdditionId");
-
-                    b.HasIndex("SourceId");
-
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("Animes");
-                });
-
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Collection", b =>
                 {
                     b.Property<Guid>("Id")
@@ -761,45 +667,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.HasIndex("SeoAdditionId");
 
                     b.ToTable("Dubs");
-                });
-
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("AirDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("AnimeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsFiller")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<Guid>("SeoAdditionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SeoAdditionId");
-
-                    b.ToTable("Episodes");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Studio", b =>
@@ -1102,6 +969,172 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.ToTable("Seasons");
                 });
 
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", b =>
+                {
+                    b.HasBaseType("WebApiForHikka.Domain.Models.Commentable");
+
+                    b.Property<float>("AvgDuration")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("FirstAirDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("HowManyEpisodes")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ImageName")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
+
+                    b.Property<float>("ImdbScore")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("KindId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastAirDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(156)
+                        .HasColumnType("character varying(156)");
+
+                    b.Property<string>("NativeName")
+                        .IsRequired()
+                        .HasMaxLength(156)
+                        .HasColumnType("character varying(156)");
+
+                    b.Property<Guid>("PeriodId")
+                        .HasColumnType("uuid");
+
+                    b.Property<List<int>>("PosterColors")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<string>("PosterPath")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
+
+                    b.Property<DateTime?>("PublishedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("RestrictedRatingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RomajiName")
+                        .HasMaxLength(248)
+                        .HasColumnType("character varying(248)");
+
+                    b.Property<Guid>("SeoAdditionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long?>("ShikimoriId")
+                        .HasColumnType("bigint");
+
+                    b.Property<float>("ShikimoriScore")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long?>("TmdbId")
+                        .HasColumnType("bigint");
+
+                    b.Property<float>("TmdbScore")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasIndex("KindId");
+
+                    b.HasIndex("PeriodId");
+
+                    b.HasIndex("RestrictedRatingId");
+
+                    b.HasIndex("SeoAdditionId");
+
+                    b.HasIndex("SourceId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("Animes");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", b =>
+                {
+                    b.HasBaseType("WebApiForHikka.Domain.Models.Commentable");
+
+                    b.Property<DateTime>("AirDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("AnimeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsFiller")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<Guid>("SeoAdditionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasIndex("SeoAdditionId");
+
+                    b.ToTable("Episodes");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.Comment", b =>
+                {
+                    b.HasBaseType("WebApiForHikka.Domain.Models.Commentable");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -1341,57 +1374,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Navigation("SeoAddition");
                 });
 
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", b =>
-                {
-                    b.HasOne("WebApiForHikka.Domain.Models.Kind", "Kind")
-                        .WithMany()
-                        .HasForeignKey("KindId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiForHikka.Domain.Models.Period", "Period")
-                        .WithMany()
-                        .HasForeignKey("PeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiForHikka.Domain.Models.RestrictedRating", "RestrictedRating")
-                        .WithMany()
-                        .HasForeignKey("RestrictedRatingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
-                        .WithMany()
-                        .HasForeignKey("SeoAdditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiForHikka.Domain.Models.Source", "Source")
-                        .WithMany()
-                        .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiForHikka.Domain.Models.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Kind");
-
-                    b.Navigation("Period");
-
-                    b.Navigation("RestrictedRating");
-
-                    b.Navigation("SeoAddition");
-
-                    b.Navigation("Source");
-
-                    b.Navigation("Status");
-                });
-
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Collection", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
@@ -1415,17 +1397,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Dub", b =>
-                {
-                    b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
-                        .WithMany()
-                        .HasForeignKey("SeoAdditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SeoAddition");
-                });
-
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", b =>
                 {
                     b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
                         .WithMany()
@@ -1536,6 +1507,110 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.Navigation("First");
 
                     b.Navigation("Second");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", b =>
+                {
+                    b.HasOne("WebApiForHikka.Domain.Models.Commentable", null)
+                        .WithOne()
+                        .HasForeignKey("WebApiForHikka.Domain.Models.WithSeoAddition.Anime", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.Kind", "Kind")
+                        .WithMany()
+                        .HasForeignKey("KindId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.Period", "Period")
+                        .WithMany()
+                        .HasForeignKey("PeriodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.RestrictedRating", "RestrictedRating")
+                        .WithMany()
+                        .HasForeignKey("RestrictedRatingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
+                        .WithMany()
+                        .HasForeignKey("SeoAdditionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.Source", "Source")
+                        .WithMany()
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Kind");
+
+                    b.Navigation("Period");
+
+                    b.Navigation("RestrictedRating");
+
+                    b.Navigation("SeoAddition");
+
+                    b.Navigation("Source");
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", b =>
+                {
+                    b.HasOne("WebApiForHikka.Domain.Models.Commentable", null)
+                        .WithOne()
+                        .HasForeignKey("WebApiForHikka.Domain.Models.WithSeoAddition.Episode", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.SeoAddition", "SeoAddition")
+                        .WithMany()
+                        .HasForeignKey("SeoAdditionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SeoAddition");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.Comment", b =>
+                {
+                    b.HasOne("WebApiForHikka.Domain.Models.Commentable", null)
+                        .WithOne()
+                        .HasForeignKey("WebApiForHikka.Domain.Models.WithoutSeoAddition.Comment", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.Commentable", "Parent")
+                        .WithMany("Comments")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApiForHikka.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebApiForHikka.Domain.Models.Commentable", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithSeoAddition.Tag", b =>

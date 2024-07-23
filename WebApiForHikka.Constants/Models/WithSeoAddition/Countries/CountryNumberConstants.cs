@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.Models.Countries;
+﻿namespace WebApiForHikka.Constants.Models.WithSeoAddition.Countries;
 
 public static class CountryNumberConstants
 {

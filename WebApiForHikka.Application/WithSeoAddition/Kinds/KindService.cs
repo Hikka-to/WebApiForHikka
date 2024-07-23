@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 
-namespace WebApiForHikka.Application.Kinds;
+namespace WebApiForHikka.Application.WithSeoAddition.Kinds;
 
 public class KindService(IKindRepository repository) : CrudService<Kind, IKindRepository>(repository), IKindService;

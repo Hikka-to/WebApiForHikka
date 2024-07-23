@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Application.Statuses;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Application.WithSeoAddition.Statuses;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
 using WebApiForHikka.WebApi.Shared;
 

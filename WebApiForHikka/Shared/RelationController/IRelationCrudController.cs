@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace WebApiForHikka.WebApi.Shared;
+namespace WebApiForHikka.WebApi.Shared.RelationController;
 
 public interface IRelationCrudController
 {

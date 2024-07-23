@@ -47,6 +47,8 @@ public class GetCollectionModels
             Name = "Collection Name",
             Description = "Collection Description",
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now,
             Id = new Guid()
         };
     }

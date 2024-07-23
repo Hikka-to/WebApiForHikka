@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.Models.Kinds;
+﻿namespace WebApiForHikka.Constants.Models.WithSeoAddition.Kinds;
 
 public class KindNumberConstants
 {

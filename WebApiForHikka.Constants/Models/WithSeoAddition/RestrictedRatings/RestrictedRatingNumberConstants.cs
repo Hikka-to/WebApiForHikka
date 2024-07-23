@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.Models.RestrictedRatings;
+﻿namespace WebApiForHikka.Constants.Models.WithSeoAddition.RestrictedRatings;
 
 public static class RestrictedRatingNumberConstants
 {

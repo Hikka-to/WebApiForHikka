@@ -1,5 +1,5 @@
 ﻿using Faker;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 

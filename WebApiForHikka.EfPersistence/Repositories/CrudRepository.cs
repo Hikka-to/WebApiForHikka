@@ -21,6 +21,12 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
 
     public virtual async Task<Guid> AddAsync(TModel model, CancellationToken cancellationToken)
     {
+        var modelEntry = DbContext.Entry(model);
+        if (modelEntry.Properties.FirstOrDefault(p => p.Metadata.Name == "CreatedAt") is { } createdAtProperty)
+            createdAtProperty.CurrentValue = DateTime.UtcNow;
+        if (modelEntry.Properties.FirstOrDefault(p => p.Metadata.Name == "UpdatedAt") is { } updatedAtProperty)
+            updatedAtProperty.CurrentValue = DateTime.UtcNow;
+
         await DbContext.Set<TModel>().AddAsync(model, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
         return model.Id;
@@ -88,28 +94,54 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return DbContext.Set<TModel>().FirstOrDefault(e => e.Id == id);
     }
 
-    protected virtual void Update(TModel model, TModel entity)
+    protected virtual void Update<TEntityModel, TUpdateModel>(TUpdateModel model, TEntityModel entity)
+        where TEntityModel : TModel
+        where TUpdateModel : TEntityModel
     {
+        if (!entity.GetType().IsInstanceOfType(model))
+            throw new InvalidOperationException("Model and entity must be of the same type");
+
         var modelEntry = DbContext.Entry(model);
         var entityEntry = DbContext.Entry(entity);
-        foreach (var property in DbContext.Entry(entity).Properties)
-            if (property.Metadata.IsPrimaryKey()) continue;
-            else if (property.Metadata.Name == "CreatedAt") continue;
-            else if (property.Metadata.Name == "UpdatedAt") property.CurrentValue = DateTime.UtcNow;
-            else property.CurrentValue = modelEntry.Property(property.Metadata.Name).CurrentValue;
+        foreach (var property in entityEntry.Properties)
+            if (property.Metadata.IsPrimaryKey() ||
+                property.Metadata.IsShadowProperty() ||
+                ((!property.Metadata.PropertyInfo?.SetMethod?.IsPublic ?? true) &&
+                 (!property.Metadata.FieldInfo?.IsPublic ?? true))) continue;
+            else
+                switch (property.Metadata.Name)
+                {
+                    case "CreatedAt":
+                        continue;
+                    case "UpdatedAt":
+                        property.CurrentValue = DateTime.UtcNow;
+                        break;
+                    default:
+                        property.CurrentValue = modelEntry.Property(property.Metadata.Name).CurrentValue;
+                        break;
+                }
 
         foreach (var navigation in entityEntry.Navigations)
         {
             var modelNavigation = modelEntry.Navigation(navigation.Metadata.Name);
             var navigationMetadata = navigation.Metadata as INavigation;
-            var foreignKey = navigationMetadata?.ForeignKey.Properties.First();
-            var modelForeignKey = foreignKey != null ? modelEntry.CurrentValues[foreignKey.Name] : null;
-            var entityForeignKey = foreignKey != null ? entityEntry.CurrentValues[foreignKey.Name] : null;
-            if (modelNavigation.CurrentValue == null && foreignKey != null && !foreignKey.IsNullable) continue;
-            if (modelNavigation.CurrentValue == null && modelForeignKey != null &&
-                modelForeignKey != entityForeignKey) continue;
-
-            navigation.CurrentValue = modelNavigation.CurrentValue;
+            var foreignKey = navigationMetadata?.ForeignKey.Properties[0];
+            var modelForeignKey = foreignKey != null && foreignKey.DeclaringType.ClrType == entity.GetType()
+                ? modelEntry.CurrentValues[foreignKey.Name]
+                : null;
+            var entityForeignKey = foreignKey != null && foreignKey.DeclaringType.ClrType == entity.GetType()
+                ? entityEntry.CurrentValues[foreignKey.Name]
+                : null;
+            switch (modelNavigation.CurrentValue)
+            {
+                case null when foreignKey is { IsNullable: false }:
+                case null when modelForeignKey != null &&
+                               modelForeignKey != entityForeignKey:
+                    continue;
+                default:
+                    navigation.CurrentValue = modelNavigation.CurrentValue;
+                    break;
+            }
         }
     }
 
@@ -145,9 +177,9 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
             string? foundName = null;
 
             foreach (var name in searchName)
-                if (targetType.FindProperty(name) is { } searchPropety &&
-                    ((searchPropety.FieldInfo?.IsPublic ?? false) ||
-                     (searchPropety.PropertyInfo?.GetMethod?.IsPublic ?? false)))
+                if (targetType.FindProperty(name) is { } searchProperty &&
+                    ((searchProperty.FieldInfo?.IsPublic ?? false) ||
+                     (searchProperty.PropertyInfo?.GetMethod?.IsPublic ?? false)))
                 {
                     foundName = name;
                     break;
@@ -158,8 +190,7 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
                 primaryKey.Properties.FirstOrDefault(p =>
                         (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is
                     { } primaryProperty)
-                query = query.FilterMany(filterBy, primaryProperty.Name, filter);
-
+                foundName = primaryProperty.Name;
 
             query = navigation.IsCollection
                 ? query.FilterMany(filterBy, foundName!, filter)
@@ -176,7 +207,7 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         return query;
     }
 
-    protected virtual IQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending)
+    protected virtual IOrderedQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending)
     {
         return query.Sort(orderBy, isAscending);
     }

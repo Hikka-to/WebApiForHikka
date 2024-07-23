@@ -13,7 +13,6 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.Test.Shared;
-using WebApiForHikka.WebApi.Helper;
 using WebApiForHikka.WebApi.Helpers;
 
 namespace WebApiForHikka.Test.Controllers.Shared;

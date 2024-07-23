@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 
-namespace WebApiForHikka.Application.Formats;
+namespace WebApiForHikka.Application.WithSeoAddition.Formats;
 
 public interface IFormatService : ICrudService<Format>;

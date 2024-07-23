@@ -23,7 +23,7 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
     >
     where TController : ICrudController<TUpdateDto, TCreateDto>
     where TCrudService : CrudService<TModel, TIRepository>
-    where TModel : ModelWithSeoAddition
+    where TModel : class, IModelWithSeoAddition
     where TIRepository : ICrudRepository<TModel>
     where TUpdateDto : UpdateDtoWithSeoAddition
     where TReturnPageDto : ReturnPageDto<TGetDto>

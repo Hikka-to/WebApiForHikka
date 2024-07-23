@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.Models.Periods;
+﻿namespace WebApiForHikka.Constants.Models.WithSeoAddition.Periods;
 
 public static class PeriodNumberConstants
 {
