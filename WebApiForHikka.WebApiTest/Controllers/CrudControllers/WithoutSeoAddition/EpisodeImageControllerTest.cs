@@ -44,10 +44,20 @@ public class EpisodeImageControllerTest : CrudControllerBaseTest<
         alternativeServices.AddSingleton<IEpisodeRepository, EpisodeRepository>();
         alternativeServices.AddSingleton<IEpisodeService, EpisodeService>();
 
+        alternativeServices.AddSingleton<IEpisodeImageRepository, EpisodeImageRepository>();
+        alternativeServices.AddSingleton<IEpisodeImageService, EpisodeImageService>();
+
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
+
+        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+
+        fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
 
 
-        return new AllServicesInController(new EpisodeImageService(repository),
+
+
+        return new AllServicesInController(new EpisodeImageService(repository, fileHelperMock.Object),
             userManager,
             roleManager
             );
