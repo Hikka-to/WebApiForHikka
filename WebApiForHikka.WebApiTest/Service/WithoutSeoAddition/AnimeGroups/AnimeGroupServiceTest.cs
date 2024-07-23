@@ -1,5 +1,4 @@
-﻿using WebApiForHikka.Application.WithoutSeoAddition.AlternativeNames;
-using WebApiForHikka.Application.WithoutSeoAddition.AnimeGroups;
+﻿using WebApiForHikka.Application.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;

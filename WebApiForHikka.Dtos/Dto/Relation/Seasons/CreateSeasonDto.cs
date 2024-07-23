@@ -9,10 +9,9 @@ namespace WebApiForHikka.Dtos.Dto.Relation.Seasons;
 
 [MetadataType(typeof(Season))]
 [ExportTsInterface]
-public class CreateSeasonDto 
+public class CreateSeasonDto
 {
     [EntityValidation<Anime>] public required Guid AnimeId { get; set; }
     [EntityValidation<AnimeGroup>] public required Guid AnimeGroupId { get; set; }
     public required string Name { get; set; }
-
 }

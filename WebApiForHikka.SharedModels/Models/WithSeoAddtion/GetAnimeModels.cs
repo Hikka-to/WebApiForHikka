@@ -1,5 +1,4 @@
 ﻿using Faker;
-using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;

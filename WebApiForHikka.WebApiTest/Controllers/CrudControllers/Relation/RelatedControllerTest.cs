@@ -31,7 +31,7 @@ public class RelatedControllerTest : CrudControllerBaseTest<
         var repository = new RelatedRelationRepository(dbContext);
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
-        
+
         alternativeServices.AddSingleton(dbContext);
         alternativeServices.AddSingleton<IRelatedTypeRepository, RelatedTypeRepository>();
         alternativeServices.AddSingleton<IRelatedTypeService, RelatedTypeService>();
@@ -58,7 +58,8 @@ public class RelatedControllerTest : CrudControllerBaseTest<
         );
     }
 
-    protected override void MutationBeforeDtoCreation(CreateRelatedDto createDto, AllServicesInController allServicesInController,
+    protected override void MutationBeforeDtoCreation(CreateRelatedDto createDto,
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
         var relatedType = GetRelatedTypeModels.GetSample();
@@ -69,8 +70,9 @@ public class RelatedControllerTest : CrudControllerBaseTest<
 
         createDto.RelatedTypeId = relatedType.Id;
     }
-    
-    protected override void MutationBeforeDtoUpdate(UpdateRelatedDto updateDto, AllServicesInController allServicesInController,
+
+    protected override void MutationBeforeDtoUpdate(UpdateRelatedDto updateDto,
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
         var relatedType = GetRelatedTypeModels.GetSample();
@@ -86,17 +88,17 @@ public class RelatedControllerTest : CrudControllerBaseTest<
     {
         return GetRelatedModels.GetCreateDtoSample();
     }
-    
+
     protected override GetRelatedDto GetGetDtoSample()
     {
         return GetRelatedModels.GetGetDtoSample();
     }
-    
+
     protected override UpdateRelatedDto GetUpdateDtoSample()
     {
         return GetRelatedModels.GetUpdateDtoSample();
     }
-    
+
     protected override Related GetModelSample()
     {
         return GetRelatedModels.GetSample();

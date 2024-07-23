@@ -309,11 +309,11 @@ public class MappingProfiles : Profile
         CreateMap<CreateCollectionDto, Collection>();
 
         CreateMap<UpdateCollectionDto, Collection>();
-        
+
         // Language
-        
+
         CreateMap<Language, GetLanguageDto>();
-        
+
         CreateMap<CreateLanguageDto, Language>();
 
         CreateMap<UpdateLanguageDto, Language>();

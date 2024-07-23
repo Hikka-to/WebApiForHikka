@@ -17,5 +17,4 @@ public class UpdateAnimeBackdropDto : ModelDto
     [FileContentType("image/*")]
     [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]
     public required IFormFile Image { get; set; }
-
 }

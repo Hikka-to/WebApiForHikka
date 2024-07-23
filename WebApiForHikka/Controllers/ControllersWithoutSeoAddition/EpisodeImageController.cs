@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
-using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Episodes;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Domain;
@@ -25,8 +24,9 @@ public class EpisodeImageController(
     IFileHelper _fileHelper,
     IColorHelper _colorHelper
 )
- : CrudController
-    <GetEpisodeImageDto, UpdateEpisodeImageDto, CreateEpisodeImageDto, EpisodeImageService, EpisodeImage>(crudService, mapper, httpContextAccessor)
+    : CrudController
+        <GetEpisodeImageDto, UpdateEpisodeImageDto, CreateEpisodeImageDto, EpisodeImageService, EpisodeImage>(
+            crudService, mapper, httpContextAccessor)
 {
     [AllowAnonymous]
     [HttpGet("dowloadFile/{imageName}")]

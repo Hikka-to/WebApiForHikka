@@ -37,7 +37,7 @@ public class EntityValidationAttribute<TModel> : ValidationAttribute
                 return service.Get(idValue) == null
                     ? new ValidationResult($"{ModelName} with id {idValue} doesn't exist")
                     : ValidationResult.Success!;
-            
+
             case IEnumerable<Guid> idValues:
             {
                 foreach (var id in idValues)

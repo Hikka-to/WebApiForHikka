@@ -44,7 +44,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<CollectionAnime> CollectionAnimes { get; set; }
     public DbSet<Language> Languages { get; set; }
     public DbSet<Comment> Comments { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -63,7 +63,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
 
         // Comments
         modelBuilder.Entity<Commentable>().UseTptMappingStrategy();
-        
+
         // Configure the self-referencing relationship
         modelBuilder.Entity<Tag>()
             .HasOne(t => t.ParentTag)

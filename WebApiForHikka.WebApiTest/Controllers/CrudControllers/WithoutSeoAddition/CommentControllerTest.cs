@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Commentables;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Application.WithoutSeoAddition.Comments;
-using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Comments;
 using WebApiForHikka.Dtos.Shared;
@@ -62,7 +61,7 @@ public class CommentControllerTest : CrudControllerBaseTest<
     {
         var user = SampleUser;
         var commentable = GetAnimeModels.GetSampleWithoutManyToMany();
-        
+
         var commentableService = alternativeServices.GetRequiredService<ICommentableService>();
 
         commentableService.CreateAsync(commentable, default).Wait();
@@ -75,10 +74,9 @@ public class CommentControllerTest : CrudControllerBaseTest<
         AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
-        
         var user = SampleUser;
         var commentable = GetAnimeModels.GetSampleWithoutManyToMany();
-        
+
         var commentableService = alternativeServices.GetRequiredService<ICommentableService>();
 
         commentableService.CreateAsync(commentable, default).Wait();

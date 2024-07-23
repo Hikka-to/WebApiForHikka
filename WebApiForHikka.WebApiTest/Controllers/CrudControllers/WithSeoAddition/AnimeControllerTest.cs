@@ -84,7 +84,6 @@
 //        colorHelperMock.Setup(m => m.GetListOfColorsFromImage(It.IsAny<IFormFile>())).Returns([32131, 32342, 31341, 23421]);
 
 
-
 //        return new AnimeController(
 //            allServices.CrudService,
 //            allServices.SeoAdditionService,
@@ -173,3 +172,4 @@
 //    protected override UpdateAnimeDto GetUpdateDtoSample() => GetAnimeModels.GetUpdateDtoSample();
 
 //}
+

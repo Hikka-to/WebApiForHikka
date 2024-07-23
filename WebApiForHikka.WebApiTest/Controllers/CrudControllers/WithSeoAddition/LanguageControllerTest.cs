@@ -2,7 +2,6 @@
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Languages;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Languages;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
@@ -13,7 +12,7 @@ using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
-public class LanguageControllerTest: CrudControllerBaseWithSeoAddition<
+public class LanguageControllerTest : CrudControllerBaseWithSeoAddition<
     LanguageController,
     LanguageService,
     Language,
@@ -36,7 +35,7 @@ public class LanguageControllerTest: CrudControllerBaseWithSeoAddition<
         return new AllServicesInControllerWithSeoAddition(new LanguageService(formatRepository),
             new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
-    
+
     protected override async Task<LanguageController> GetController(AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
@@ -51,7 +50,7 @@ public class LanguageControllerTest: CrudControllerBaseWithSeoAddition<
                 allServicesInController.RoleManager)
         );
     }
-    
+
     protected override CreateLanguageDto GetCreateDtoSample()
     {
         return GetLanguageModels.GetCreateDtoSample();

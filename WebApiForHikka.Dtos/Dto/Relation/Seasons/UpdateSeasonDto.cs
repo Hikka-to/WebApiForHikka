@@ -8,7 +8,6 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Relation.Seasons;
 
-
 [MetadataType(typeof(Season))]
 [ExportTsInterface]
 public class UpdateSeasonDto : ModelDto

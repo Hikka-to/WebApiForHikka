@@ -1,6 +1,5 @@
 ﻿using Faker;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Languages;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 
@@ -10,7 +9,7 @@ public class GetLanguageModels
 {
     public static Language GetSample()
     {
-        return new Language()
+        return new Language
         {
             Name = "test",
             Icon = "test",
@@ -18,7 +17,7 @@ public class GetLanguageModels
             SeoAddition = GetSeoAdditionModels.GetSample()
         };
     }
-    
+
     public static Language GetSampleForUpdate()
     {
         return new Language
@@ -43,7 +42,7 @@ public class GetLanguageModels
 
     public static GetLanguageDto GetGetDtoSample()
     {
-        return new GetLanguageDto()
+        return new GetLanguageDto
         {
             Name = Lorem.GetFirstWord(),
             Icon = Lorem.GetFirstWord(),
@@ -55,7 +54,7 @@ public class GetLanguageModels
 
     public static UpdateLanguageDto GetUpdateDtoSample()
     {
-        return new UpdateLanguageDto()
+        return new UpdateLanguageDto
         {
             Name = Lorem.GetFirstWord(),
             Icon = Lorem.GetFirstWord(),
