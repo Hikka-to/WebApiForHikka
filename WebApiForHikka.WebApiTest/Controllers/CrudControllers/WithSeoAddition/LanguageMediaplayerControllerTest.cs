@@ -2,12 +2,12 @@
 using WebApiForHikka.Application.Formats;
 using WebApiForHikka.Application.LanguageMediaplayers;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
 using WebApiForHikka.Application.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Application.WithSeoAddition.Episodes;
 using WebApiForHikka.Application.WithSeoAddition.Languages;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.LanguageMediaplayers;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Languages;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
@@ -15,6 +15,7 @@ using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
+using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
@@ -44,12 +45,16 @@ public class LanguageMediaplayerControllerTest : CrudControllerBaseWithSeoAdditi
         alternativeServices.AddSingleton<IEpisodeRepository, EpisodeRepository>();
         alternativeServices.AddSingleton<IMediaplayerRepository, MediaplayerRepository>();
         alternativeServices.AddSingleton<IFormatRepository, FormatRepository>();
+        alternativeServices.AddSingleton<IEpisodeImageRepository, EpisodeImageRepository>();
 
 
         alternativeServices.AddSingleton<ILanguageService, LanguageService>();
         alternativeServices.AddSingleton<IEpisodeService, EpisodeService>();
         alternativeServices.AddSingleton<IMediaplayerService, MediaplayerService>();
         alternativeServices.AddSingleton<IFormatService, FormatService>();
+        alternativeServices.AddSingleton<IEpisodeImageService, EpisodeImageService>();
+
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
 
         return new AllServicesInControllerWithSeoAddition(new LanguageMediaplayerService(formatRepository),
