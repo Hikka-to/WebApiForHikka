@@ -13,9 +13,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
-using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Shared;
-using WebApiForHikka.WebApi.Helper;
 using WebApiForHikka.WebApi.Helpers;
 
 namespace WebApiForHikka.Test.Controllers.Shared;
@@ -25,6 +23,26 @@ public abstract class BaseControllerTest : SharedTest
     private readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
     protected readonly IMapper _mapper;
     protected readonly IConfiguration Configuration = A.Fake<IConfiguration>();
+
+    protected User SampleUser = new()
+    {
+        UserSetting = GetUserSettingModels.GetSample(),
+        Name = "DaneDoe",
+        AvatarPath = "/avatars/danedoe.jpg",
+        BackdropPath = "/backdrops/danedoe_backdrop.jpg",
+        TelegramId = 123456789,
+        Description = "Software developer and tech enthusiast",
+        TelegramUrl = "https://t.me/danedoe",
+        StatusIcon = "🚀",
+        StatusText = "Coding away!",
+        AllowAdult = true,
+        LastSeenAt = DateTime.Now.AddHours(-2),
+        UpdatedAt = DateTime.Now.AddDays(-1),
+        CreatedAtTime = DateTime.Now.AddMonths(-3),
+        UserName = "dane_doe",
+        Email = "dane.doe@example.com",
+        PasswordHash = "Password123!"
+    };
 
     public BaseControllerTest()
     {
@@ -41,9 +59,6 @@ public abstract class BaseControllerTest : SharedTest
         Column = SharedStringConstants.IdName,
         SortOrder = SortOrder.Asc
     };
-
-    // !!!!!!!!! Need to fix new roles
-    protected User SampleUser = GetUserModels.GetSample();
 
     protected IJwtTokenFactory GetJwtTokenFactory(UserManager<User> userManager)
     {

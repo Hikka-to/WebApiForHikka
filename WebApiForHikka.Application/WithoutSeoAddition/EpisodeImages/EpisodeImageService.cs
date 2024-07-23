@@ -1,7 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Application.WithSeoAddition.Episodes;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.WebApi.Helper.FileHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
 namespace WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
 
@@ -13,9 +12,9 @@ public class EpisodeImageService(IEpisodeImageRepository repository, IFileHelper
         return _repository.GetImagePath(id);
     }
 
-    public override async Task DeleteAsync(Guid id, CancellationToken cancellationToken) 
+    public override async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var episodeImage =  _repository.GetAsync(id, cancellationToken);
+        var episodeImage = _repository.GetAsync(id, cancellationToken);
         await _repository.DeleteAsync(id, cancellationToken);
         fileHelper.DeleteFile((await episodeImage).Path);
     }

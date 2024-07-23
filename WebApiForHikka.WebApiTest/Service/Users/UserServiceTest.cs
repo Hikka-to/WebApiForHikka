@@ -1,14 +1,12 @@
 ﻿using FluentAssertions;
-using Microsoft.AspNetCore.Identity;
 using Moq;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Domain.Models;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.HashFunction;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.Test.Shared;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Service.Users;
 
@@ -20,7 +18,7 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_AuthenticateUserAsync_ReturnsUser()
     {
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
         // Arrange
@@ -30,10 +28,10 @@ public class UserServiceTest : SharedTest
         var userService = new UserService(userRepository, fileHelperMock.Object);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
-        
+
         var testUser = GetUserModels.GetSample();
-        string password = testUser.PasswordHash;
-        
+        var password = testUser.PasswordHash;
+
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -47,7 +45,7 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_AuthenticateUserWithAdminRoleAsync_ReturnsUser()
     {
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
         // Arrange
@@ -57,12 +55,12 @@ public class UserServiceTest : SharedTest
         var userService = new UserService(userRepository, fileHelperMock.Object);
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
-        
+
         var testUser = GetUserModels.GetSample();
-        string password = testUser.PasswordHash;
+        var password = testUser.PasswordHash;
 
         testUser.Roles = [roleManager.Roles.First()];
-        
+
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -79,7 +77,7 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_AuthenticateUserWithAdminRoleAsync_ReturnsNull()
     {
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
         // Arrange
@@ -104,7 +102,7 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_CheckIfUserWithTheEmailIsAlreadyExistAsync_ReturnsTrue()
     {
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
         // Arrange
@@ -130,7 +128,7 @@ public class UserServiceTest : SharedTest
     [Fact]
     public void UserService_CheckIfUserWithTheEmailIsAlreadyExist_ReturnsTrue()
     {
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
 
@@ -142,7 +140,7 @@ public class UserServiceTest : SharedTest
         var roleManager = GetRoleManager(dbContext);
         var role = roleManager.FindByNameAsync(UserStringConstants.UserRole).Result;
         var testUser = GetUserModels.GetSample();
-        
+
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
         // Act
@@ -155,7 +153,7 @@ public class UserServiceTest : SharedTest
     [Fact]
     public async Task UserService_RegistrateUserAsync_ReturnsUser()
     {
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
         // Arrange
@@ -167,7 +165,7 @@ public class UserServiceTest : SharedTest
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
 
         var testUser = GetUserModels.GetSample();
-        string password = testUser.PasswordHash;
+        var password = testUser.PasswordHash;
         await userService.RegisterUserAsync(testUser, new CancellationToken());
         // Act
         var result =

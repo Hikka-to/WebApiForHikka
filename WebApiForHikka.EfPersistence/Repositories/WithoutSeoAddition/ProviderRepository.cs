@@ -7,5 +7,4 @@ namespace WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 public class ProviderRepository(HikkaDbContext dbContext)
     : CrudRepository<Provider>(dbContext), IProviderRepository
 {
-    
 }

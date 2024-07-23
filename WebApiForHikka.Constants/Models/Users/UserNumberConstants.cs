@@ -15,6 +15,4 @@ public class UserNumberConstants
     public const int StatusIcon = 2048;
 
     public const int StatusText = 50;
-    
-    
 }

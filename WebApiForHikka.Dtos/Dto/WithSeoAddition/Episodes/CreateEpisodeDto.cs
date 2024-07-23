@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Constants.Models.WithSeoAddition.Episodes;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
 
@@ -13,7 +10,7 @@ namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
 [ExportTsInterface]
 public class CreateEpisodeDto : CreateDtoWithSeoAddition
 {
-    [EntityValidationAttribute<Anime>] public  Guid AnimeId { get; set; }
+    [EntityValidationAttribute<Anime>] public Guid AnimeId { get; set; }
 
 
     public required string Name { get; set; }
@@ -23,5 +20,4 @@ public class CreateEpisodeDto : CreateDtoWithSeoAddition
     public required DateTime AirDate { get; set; }
 
     public bool IsFiller { get; set; } = false;
-
 }

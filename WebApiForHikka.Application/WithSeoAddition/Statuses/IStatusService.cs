@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 
-namespace WebApiForHikka.Application.Statuses;
+namespace WebApiForHikka.Application.WithSeoAddition.Statuses;
 
 public interface IStatusService : ICrudService<Status>;

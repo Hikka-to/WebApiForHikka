@@ -2,7 +2,7 @@
 
 namespace WebApiForHikka.Domain.Models;
 
-public abstract class ModelWithSeoAddition : Model
+public abstract class ModelWithSeoAddition : Model, IModelWithSeoAddition
 {
     [ForeignKey("SeoAdditionId")] public virtual required SeoAddition SeoAddition { get; set; }
 }

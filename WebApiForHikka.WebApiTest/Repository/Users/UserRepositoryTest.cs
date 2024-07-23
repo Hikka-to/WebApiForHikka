@@ -57,7 +57,7 @@ public class UserRepositoryTest : SharedTest
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.AdminRole);
         var testUser = GetUserModels.GetSample();
-  
+
 
         await userRepository.AddAsync(new User
         {
@@ -94,7 +94,7 @@ public class UserRepositoryTest : SharedTest
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var testUser = GetUserModels.GetSample();
-   
+
 
         await userRepository.AddAsync(new User
         {
@@ -109,7 +109,7 @@ public class UserRepositoryTest : SharedTest
             UpdatedAt = testUser.UpdatedAt,
             CreatedAtTime = testUser.CreatedAtTime
         }, new CancellationToken());
-        
+
         // Act
         var result =
             await userRepository.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash,
@@ -130,7 +130,7 @@ public class UserRepositoryTest : SharedTest
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var testUser = GetUserModels.GetSample();
-    
+
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -152,7 +152,7 @@ public class UserRepositoryTest : SharedTest
         var role = roleManager.FindByNameAsync(UserStringConstants.UserRole).Result;
         var testUser = GetUserModels.GetSample();
         ;
-     
+
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
 
         // Act
@@ -173,7 +173,7 @@ public class UserRepositoryTest : SharedTest
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var testUser = GetUserModels.GetSample();
-      
+
 
         // Act
         var result = await userRepository.AddAsync(testUser, new CancellationToken());
@@ -195,10 +195,10 @@ public class UserRepositoryTest : SharedTest
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var testUser = GetUserModels.GetSample();
- 
+
         var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
         var updatedUser = GetUserModels.GetSample();
-   
+
 
         // Act
         await userRepository.UpdateAsync(updatedUser, new CancellationToken());
@@ -219,7 +219,7 @@ public class UserRepositoryTest : SharedTest
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var testUser = GetUserModels.GetSample();
-   
+
         var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
@@ -240,7 +240,7 @@ public class UserRepositoryTest : SharedTest
         var roleManager = GetRoleManager(dbContext);
         var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var testUser = GetUserModels.GetSample();
-     
+
         var addedUserId = await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act

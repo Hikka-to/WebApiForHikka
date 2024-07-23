@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApiForHikka.Application.Kinds;
-using WebApiForHikka.Application.Periods;
-using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Application.Sources;
-using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
 using WebApiForHikka.Application.WithSeoAddition.Dubs;
+using WebApiForHikka.Application.WithSeoAddition.Kinds;
+using WebApiForHikka.Application.WithSeoAddition.Periods;
+using WebApiForHikka.Application.WithSeoAddition.RestrictedRatings;
+using WebApiForHikka.Application.WithSeoAddition.Sources;
+using WebApiForHikka.Application.WithSeoAddition.Statuses;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Domain;
@@ -20,8 +20,8 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Animes;
@@ -80,7 +80,7 @@ public class AnimeController(
         foreach (var item in dto.Dubs) dubs.Add((await dubService.GetAsync(item, cancellationToken))!);
 
         var similarAnimes = new List<Anime>();
-        foreach (var item in dto.SimilarAnimes)
+        foreach (var item in dto.SimilarAnimes ?? [])
             similarAnimes.Add((await crudService.GetAsync(item, cancellationToken))!);
 
 
@@ -166,7 +166,7 @@ public class AnimeController(
     }
 
 
-    [AllowAnonymous] 
+    [AllowAnonymous]
     [HttpGet("dowloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
@@ -191,7 +191,8 @@ public class AnimeController(
         var models = _mapper.Map<List<GetAnimeDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.PosterPathUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.PosterPathUrl);
+            item.PosterPathUrl =
+                _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.PosterPathUrl);
 
 
         return Ok(
@@ -232,8 +233,7 @@ public class AnimeController(
             return NotFound();
 
 
-
-        model.PosterPathUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.PosterPathUrl );
+        model.PosterPathUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.PosterPathUrl);
 
 
         return Ok(model);

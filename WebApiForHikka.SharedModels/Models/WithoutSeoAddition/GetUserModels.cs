@@ -1,17 +1,24 @@
-﻿using WebApiForHikka.Domain.Models;
+using Microsoft.AspNetCore.Identity;
+using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.SharedModels.MyDataFakers;
-using System;
-using System.Collections.Generic;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 
 public class GetUserModels
 {
+    private static readonly PasswordHasher<User> PasswordHasher = new();
+    private static readonly UpperInvariantLookupNormalizer KeyNormalizer = new();
+
+    private static string? GenerateBase32()
+    {
+        var base32Type = typeof(UserManager<>).Assembly.GetType("Microsoft.AspNetCore.Identity.Base32");
+        return base32Type?.GetMethod("GenerateBase32")?.Invoke(null, null)?.ToString();
+    }
+
     public static User GetSample()
     {
-        return new User
+        var user = new User
         {
             UserSetting = GetUserSettingModels.GetSample(),
             Name = "JohnDoe",
@@ -28,13 +35,17 @@ public class GetUserModels
             CreatedAtTime = DateTime.Now.AddMonths(-3),
             UserName = "john_doe",
             Email = "john.doe@example.com",
-            PasswordHash = "hashed_password_123"
+            SecurityStamp = GenerateBase32(),
+            NormalizedEmail = KeyNormalizer.NormalizeEmail("john.doe@example.com"),
+            NormalizedUserName = KeyNormalizer.NormalizeName("john_doe")
         };
+        user.PasswordHash = PasswordHasher.HashPassword(user, "Test1234");
+        return user;
     }
 
     public static User GetSampleForUpdate()
     {
-        return new User
+        var user = new User
         {
             UserSetting = GetUserSettingModels.GetSample(),
             Name = "JaneSmith",
@@ -51,18 +62,22 @@ public class GetUserModels
             CreatedAtTime = DateTime.Now.AddYears(-1),
             UserName = "jane_smith",
             Email = "jane.smith@example.com",
-            PasswordHash = "hashed_password_456"
+            SecurityStamp = GenerateBase32(),
+            NormalizedEmail = KeyNormalizer.NormalizeEmail("jane.smith@example.com"),
+            NormalizedUserName = KeyNormalizer.NormalizeName("jane_smith")
         };
+        user.PasswordHash = PasswordHasher.HashPassword(user, "Test12345");
+        return user;
     }
 
     public static UserRegistrationDto GetCreateSampleDto()
     {
-        return new UserRegistrationDto()
+        return new UserRegistrationDto
         {
             Email = "alice.johnson@example.com",
             UserName = "alice_j",
             Password = "securePassword123!",
-            Role = "User",
+            Role = "User"
         };
     }
 
@@ -81,7 +96,7 @@ public class GetUserModels
             AllowAdult = true,
             LastSeenAt = DateTime.Now.AddDays(-1),
             UpdatedAt = DateTime.Now,
-            CreatedAtTime = DateTime.Now.AddMonths(-6),
+            CreatedAtTime = DateTime.Now.AddMonths(-6)
         };
     }
 
@@ -101,7 +116,7 @@ public class GetUserModels
             AllowAdult = true,
             LastSeenAt = DateTime.Now.AddHours(-1),
             UpdatedAt = DateTime.Now.AddDays(-2),
-            CreatedAtTime = DateTime.Now.AddMonths(-9),
+            CreatedAtTime = DateTime.Now.AddMonths(-9)
         };
     }
 }

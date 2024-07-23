@@ -12,9 +12,9 @@ public class GetUserDto : ModelDto
     public required string[] Roles { get; set; }
 
     public required string Name { get; set; }
-    
+
     public string? AvatarUrl { get; set; }
-    
+
     public string? BackdropUrl { get; set; }
 
     public string? Description { get; set; }
@@ -22,11 +22,10 @@ public class GetUserDto : ModelDto
     public string? StatusText { get; set; }
 
     public bool AllowAdult { get; set; }
-    
-    public DateTime LastSeenAt { get; set; }
-    
-    public DateTime UpdatedAt { get; set; }
-    
-    public DateTime CreatedAtTime { get; set; }
 
+    public DateTime LastSeenAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
+    public DateTime CreatedAtTime { get; set; }
 }

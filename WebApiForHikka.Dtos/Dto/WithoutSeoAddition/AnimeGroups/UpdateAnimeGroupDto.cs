@@ -5,7 +5,6 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 
-
 [ModelMetadataType(typeof(AnimeGroup))]
 [ExportTsInterface]
 public class UpdateAnimeGroupDto : ModelDto

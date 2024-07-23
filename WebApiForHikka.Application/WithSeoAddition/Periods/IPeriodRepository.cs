@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 
-namespace WebApiForHikka.Application.Periods;
+namespace WebApiForHikka.Application.WithSeoAddition.Periods;
 
 public interface IPeriodRepository : ICrudRepository<Period>;

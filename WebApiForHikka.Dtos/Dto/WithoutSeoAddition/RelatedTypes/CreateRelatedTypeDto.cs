@@ -4,7 +4,6 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 
-
 [ModelMetadataType(typeof(RelatedType))]
 [ExportTsInterface]
 public class CreateRelatedTypeDto

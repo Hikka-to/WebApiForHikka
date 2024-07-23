@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Shared;
 
-namespace WebApiForHikka.Domain.Models;
+namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Status : ModelWithSeoAddition
 {

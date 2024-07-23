@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
-using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Episodes;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Domain;
@@ -12,8 +11,8 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
@@ -27,8 +26,9 @@ public class EpisodeImageController(
     IColorHelper _colorHelper,
     ILinkFactory _linkfactory
 )
- : CrudController
-    <GetEpisodeImageDto, UpdateEpisodeImageDto, CreateEpisodeImageDto, EpisodeImageService, EpisodeImage>(crudService, mapper, httpContextAccessor)
+    : CrudController
+        <GetEpisodeImageDto, UpdateEpisodeImageDto, CreateEpisodeImageDto, EpisodeImageService, EpisodeImage>(
+            crudService, mapper, httpContextAccessor)
 {
     [AllowAnonymous]
     [HttpGet("dowloadFile/{imageName}")]

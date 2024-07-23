@@ -28,7 +28,7 @@ public class AnimeRatingControllerTest : CrudControllerBaseTest<
         var repository = new AnimeRatingRelationRepository(dbContext);
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
-        
+
         alternativeServices.AddSingleton(dbContext);
 
         return new AllServicesInController(new AnimeRatingRelationService(repository), userManager, roleManager);
@@ -52,14 +52,14 @@ public class AnimeRatingControllerTest : CrudControllerBaseTest<
         );
     }
 
-    protected override void MutationBeforeDtoCreation(CreateAnimeRatingDto createDto, AllServicesInController allServicesInController,
+    protected override void MutationBeforeDtoCreation(CreateAnimeRatingDto createDto,
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
-
-
     }
-    
-    protected override void MutationBeforeDtoUpdate(UpdateAnimeRatingDto updateDto, AllServicesInController allServicesInController,
+
+    protected override void MutationBeforeDtoUpdate(UpdateAnimeRatingDto updateDto,
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
     }
@@ -68,17 +68,17 @@ public class AnimeRatingControllerTest : CrudControllerBaseTest<
     {
         return GetAnimeRatingModels.GetCreateDtoSample();
     }
-    
+
     protected override GetAnimeRatingDto GetGetDtoSample()
     {
         return GetAnimeRatingModels.GetGetDtoSample();
     }
-    
+
     protected override UpdateAnimeRatingDto GetUpdateDtoSample()
     {
         return GetAnimeRatingModels.GetUpdateDtoSample();
     }
-    
+
     protected override AnimeRating GetModelSample()
     {
         return GetAnimeRatingModels.GetSample();

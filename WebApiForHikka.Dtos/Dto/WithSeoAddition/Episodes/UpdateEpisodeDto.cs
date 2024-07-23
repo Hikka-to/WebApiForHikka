@@ -10,7 +10,7 @@ namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Episodes;
 [ExportTsInterface]
 public class UpdateEpisodeDto : UpdateDtoWithSeoAddition
 {
-    [EntityValidationAttribute<Anime>] public  Guid AnimeId { get; set; }
+    [EntityValidationAttribute<Anime>] public Guid AnimeId { get; set; }
     public required string Name { get; set; }
 
     public required int Duration { get; set; }
@@ -18,5 +18,4 @@ public class UpdateEpisodeDto : UpdateDtoWithSeoAddition
     public required DateTime AirDate { get; set; }
 
     public bool IsFiller { get; set; }
-
 }

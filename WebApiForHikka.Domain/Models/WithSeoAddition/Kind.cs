@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.Kinds;
+using WebApiForHikka.Constants.Models.WithSeoAddition.Kinds;
 using WebApiForHikka.Constants.Shared;
 
-namespace WebApiForHikka.Domain.Models;
+namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Kind : ModelWithSeoAddition
 {

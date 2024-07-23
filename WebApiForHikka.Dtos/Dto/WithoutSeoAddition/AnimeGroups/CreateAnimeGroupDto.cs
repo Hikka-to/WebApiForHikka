@@ -4,7 +4,6 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 
-
 [ModelMetadataType(typeof(AnimeGroup))]
 [ExportTsInterface]
 public class CreateAnimeGroupDto

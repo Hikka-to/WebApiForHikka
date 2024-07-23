@@ -16,5 +16,4 @@ public class CreateAnimeBackdropDto
     [FileContentType("image/*")]
     [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]
     public required IFormFile Image { get; set; }
-
 }

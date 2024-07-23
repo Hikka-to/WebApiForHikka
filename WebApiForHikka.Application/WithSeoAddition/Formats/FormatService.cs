@@ -1,7 +1,7 @@
 ﻿using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 
-namespace WebApiForHikka.Application.Formats;
+namespace WebApiForHikka.Application.WithSeoAddition.Formats;
 
 public class FormatService(IFormatRepository repository)
     : CrudService<Format, IFormatRepository>(repository), IFormatService;

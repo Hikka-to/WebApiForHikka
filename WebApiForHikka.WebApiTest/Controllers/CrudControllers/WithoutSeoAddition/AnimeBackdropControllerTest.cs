@@ -9,12 +9,12 @@ using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
@@ -27,14 +27,14 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
     CreateAnimeBackdropDto,
     GetAnimeBackdropDto,
     ReturnPageDto<GetAnimeBackdropDto>
-    >
+>
 
 {
     protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
-        
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+
+        var fileHelperMock = new Mock<IFileHelper>();
 
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
@@ -53,52 +53,54 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
 
-        return new AllServicesInController(new AnimeBackdropService(repository),
+        return new AllServicesInController(new AnimeBackdropService(repository, fileHelperMock.Object),
             userManager,
             roleManager
-            );
+        );
     }
 
-    protected override async Task<AnimeBackdropController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<AnimeBackdropController> GetController(
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        AllServicesInController allServices = allServicesInController;
+        var allServices = allServicesInController;
 
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
 
-        Mock<IColorHelper> colorHelperMock = new Mock<IColorHelper>();
+        var colorHelperMock = new Mock<IColorHelper>();
 
-        Mock<ILinkFactory> linkFactoryMock = new Mock<ILinkFactory>();
+        var linkFactoryMock = new Mock<ILinkFactory>();
 
         fileHelperMock.Setup(m => m.UploadFileImage(It.IsAny<IFormFile>(), It.IsAny<string[]>()))
-      .Returns("mocked/path/to/file");
+            .Returns("mocked/path/to/file");
 
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
         fileHelperMock.Setup(m => m.OverrideFileImage(It.IsAny<IFormFile>(), It.IsAny<string>()));
 
-        colorHelperMock.Setup(m => m.GetListOfColorsFromImage(It.IsAny<IFormFile>())).Returns([32131, 32342, 31341, 23421]);
+        colorHelperMock.Setup(m => m.GetListOfColorsFromImage(It.IsAny<IFormFile>()))
+            .Returns([32131, 32342, 31341, 23421]);
 
         linkFactoryMock.Setup(
             m => m.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
-            It.IsAny<string>(),
-            It.IsAny<string>(),
-            It.IsAny<string>())).Returns("test/image/url");
-
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns("test/image/url");
 
 
         return new AnimeBackdropController(
             allServices.CrudService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager),
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IAnimeService>(),
             fileHelperMock.Object,
             colorHelperMock.Object,
             linkFactoryMock.Object
-
         );
     }
 
-    protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         var Anime = GetAnimeModels.GetModelSample();
 
@@ -109,7 +111,8 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         createDto.AnimeId = Anime.Id;
     }
 
-    protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         var Anime = GetAnimeModels.GetSample();
 
@@ -120,8 +123,23 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         updateDto.AnimeId = Anime.Id;
     }
 
-    protected override CreateAnimeBackdropDto GetCreateDtoSample() => GetAnimeBackdropModels.GetCreateSampleDto();
-    protected override GetAnimeBackdropDto GetGetDtoSample() => GetAnimeBackdropModels.GetGetDtoSample();
-    protected override UpdateAnimeBackdropDto GetUpdateDtoSample() => GetAnimeBackdropModels.GetUpdateDtoSample();
-    protected override AnimeBackdrop GetModelSample() => GetAnimeBackdropModels.GetSample();
+    protected override CreateAnimeBackdropDto GetCreateDtoSample()
+    {
+        return GetAnimeBackdropModels.GetCreateSampleDto();
+    }
+
+    protected override GetAnimeBackdropDto GetGetDtoSample()
+    {
+        return GetAnimeBackdropModels.GetGetDtoSample();
+    }
+
+    protected override UpdateAnimeBackdropDto GetUpdateDtoSample()
+    {
+        return GetAnimeBackdropModels.GetUpdateDtoSample();
+    }
+
+    protected override AnimeBackdrop GetModelSample()
+    {
+        return GetAnimeBackdropModels.GetSample();
+    }
 }

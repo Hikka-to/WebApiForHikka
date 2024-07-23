@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace WebApiForHikka.WebApi.Helper.FileHelper;
+namespace WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
 public interface IFileHelper
 {

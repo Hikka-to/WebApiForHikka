@@ -4,21 +4,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using WebApiForHikka.Application.Users;
-using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
-using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers;
@@ -31,7 +28,6 @@ public class UserController(
     RoleManager<IdentityRole<Guid>> roleManager,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor,
-    
     UserSettingService userSettingService,
     IFileHelper _fileHelper,
     ILinkFactory _linkFactory
@@ -42,23 +38,6 @@ public class UserController(
     private readonly IConfiguration _configuration = configuration;
     private readonly IJwtTokenFactory _jwtTokenFactory = jwtTokenFactory;
     private readonly IUserService _userService = userService;
-    
-
-    [AllowAnonymous]
-    [HttpGet("dowloadAvatar/{avatarImageName}")]
-    public IActionResult GetAvatarImage([FromRoute] string avatarImageName)
-    {
-        var file = _fileHelper.GetFile(ControllerStringConstants.AvatarBackdropPath, avatarImageName);
-        return File(file, ControllerStringConstants.JsonImageReturnType, avatarImageName);
-    }
-
-    [AllowAnonymous]
-    [HttpGet("dowloadBackdrop/{backdropImageName}")]
-    public IActionResult GetBackdropImage([FromRoute] string backdropImageName)
-    {
-        var file = _fileHelper.GetFile(ControllerStringConstants.UserBackdropPath, backdropImageName);
-        return File(file, ControllerStringConstants.JsonImageReturnType, backdropImageName);
-    }
 
     [AllowAnonymous]
     [HttpPost("Registration")]
@@ -210,6 +189,23 @@ public class UserController(
 
         await _userService.DeleteAsync(id, cancellationToken);
         return NoContent();
+    }
+
+
+    [AllowAnonymous]
+    [HttpGet("dowloadAvatar/{avatarImageName}")]
+    public IActionResult GetAvatarImage([FromRoute] string avatarImageName)
+    {
+        var file = _fileHelper.GetFile(ControllerStringConstants.AvatarBackdropPath, avatarImageName);
+        return File(file, ControllerStringConstants.JsonImageReturnType, avatarImageName);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("dowloadBackdrop/{backdropImageName}")]
+    public IActionResult GetBackdropImage([FromRoute] string backdropImageName)
+    {
+        var file = _fileHelper.GetFile(ControllerStringConstants.UserBackdropPath, backdropImageName);
+        return File(file, ControllerStringConstants.JsonImageReturnType, backdropImageName);
     }
 
     [AllowAnonymous]

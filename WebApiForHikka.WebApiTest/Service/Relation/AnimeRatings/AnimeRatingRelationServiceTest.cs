@@ -9,7 +9,7 @@ using WebApiForHikka.Test.Shared.Service;
 
 namespace WebApiForHikka.Test.Service.Relation.AnimeRatings;
 
-public class AnimeRatingRelationServiceTest: SharedRelationServiceTest<
+public class AnimeRatingRelationServiceTest : SharedRelationServiceTest<
     AnimeRating,
     AnimeRatingRelationService,
     User,

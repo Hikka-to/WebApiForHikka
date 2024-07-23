@@ -3,7 +3,6 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.EmojiGroups;
 
-
 [ExportTsInterface]
 public class GetEmojiGroupDto : ModelDto
 {

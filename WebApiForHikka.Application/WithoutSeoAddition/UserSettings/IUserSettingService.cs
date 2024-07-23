@@ -5,5 +5,4 @@ namespace WebApiForHikka.Application.WithoutSeoAddition.UserSettings;
 
 public interface IUserSettingService : ICrudService<UserSetting>
 {
-    
 }

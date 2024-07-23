@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.Periods;
+using WebApiForHikka.Constants.Models.WithSeoAddition.Periods;
 
-namespace WebApiForHikka.Domain.Models;
+namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Period : ModelWithSeoAddition
 {

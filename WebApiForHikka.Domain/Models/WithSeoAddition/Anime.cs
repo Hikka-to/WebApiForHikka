@@ -5,7 +5,7 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
-public class Anime : ModelWithSeoAddition
+public class Anime : Commentable, IModelWithSeoAddition
 {
     public virtual ICollection<Tag> Tags { get; set; } = [];
 
@@ -78,4 +78,9 @@ public class Anime : ModelWithSeoAddition
     public required DateTime CreatedAt { get; set; }
 
 
+    public string TagsString => string.Join(", ", Tags.Select(t => t.Name));
+    public string CountriesString => string.Join(", ", Countries.Select(t => t.Name));
+    public string DubsString => string.Join(", ", Dubs.Select(t => t.Name));
+
+    public virtual required SeoAddition SeoAddition { get; set; }
 }

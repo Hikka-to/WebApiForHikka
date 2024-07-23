@@ -1,7 +1,5 @@
-﻿using Faker;
-using WebApiForHikka.Domain.Models.WithSeoAddition;
+﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.LanguageMediaplayers;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Languages;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.SharedModels.Models.WithSeoAddtion;
@@ -10,7 +8,7 @@ public class GetLanguageMediaplayerModels
 {
     public static LanguageMediaplayer GetSample()
     {
-        return new LanguageMediaplayer()
+        return new LanguageMediaplayer
         {
             Mediaplayer = GetMediaplayerModels.GetSample(),
             Language = GetLanguageModels.GetSample(),
@@ -46,7 +44,7 @@ public class GetLanguageMediaplayerModels
 
     public static CreateLanguageMediaplayerDto GetCreateDtoSample()
     {
-        return new CreateLanguageMediaplayerDto()
+        return new CreateLanguageMediaplayerDto
         {
             MediaplayerId = Guid.NewGuid(),
             LanguageId = Guid.NewGuid(),
@@ -64,7 +62,7 @@ public class GetLanguageMediaplayerModels
 
     public static GetLanguageMediaplayerDto GetGetDtoSample()
     {
-        return new GetLanguageMediaplayerDto()
+        return new GetLanguageMediaplayerDto
         {
             Mediaplayer = GetMediaplayerModels.GetGetDtoSample(),
             Language = GetLanguageModels.GetGetDtoSample(),
@@ -83,7 +81,7 @@ public class GetLanguageMediaplayerModels
 
     public static UpdateLanguageMediaplayerDto GetUpdateDtoSample()
     {
-        return new UpdateLanguageMediaplayerDto()
+        return new UpdateLanguageMediaplayerDto
         {
             MediaplayerId = Guid.NewGuid(),
             LanguageId = Guid.NewGuid(),
