@@ -1,5 +1,6 @@
 ﻿using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Dtos.Dto.Relation.AnimeRatings;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
 namespace WebApiForHikka.SharedModels.Models.Relation;
