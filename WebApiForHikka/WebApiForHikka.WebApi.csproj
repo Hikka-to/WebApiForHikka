@@ -35,6 +35,7 @@
         <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj"/>
         <ProjectReference Include="..\WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj"/>
         <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.SharedModels\WebApiForHikka.SharedModels.csproj" />
     </ItemGroup>
 
     <ItemGroup>

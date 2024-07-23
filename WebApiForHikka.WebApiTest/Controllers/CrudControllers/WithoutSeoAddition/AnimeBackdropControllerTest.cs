@@ -44,8 +44,6 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         alternativeServices.AddSingleton<IAnimeService, AnimeService>();
 
 
-
-
         return new AllServicesInController(new AnimeBackdropService(repository),
             userManager,
             roleManager

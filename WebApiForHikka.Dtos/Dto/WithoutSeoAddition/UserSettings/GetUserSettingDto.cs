@@ -7,8 +7,6 @@ namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 
 public class GetUserSettingDto
 {
-    public required  User User { get; set; }
-
     public required bool IsAutoNext { get; set; }
     
     public required bool IsAutoPlay { get; set; }

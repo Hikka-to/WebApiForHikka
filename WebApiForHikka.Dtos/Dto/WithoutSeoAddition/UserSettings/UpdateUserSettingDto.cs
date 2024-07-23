@@ -6,8 +6,7 @@ namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 
 public class UpdateUserSettingDto : ModelDto
 {
-    [EntityValidation<User>] public required virtual Guid UserId { get; set; }
-
+    [EntityValidation<User>] public required Guid UserId { get; set; }
     public required bool IsAutoNext { get; set; }
     
     public required bool IsAutoPlay { get; set; }

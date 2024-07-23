@@ -12,6 +12,8 @@ using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
+using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Shared;
 using WebApiForHikka.WebApi.Helper;
 using WebApiForHikka.WebApi.Helpers;
@@ -41,15 +43,7 @@ public abstract class BaseControllerTest : SharedTest
     };
 
     // !!!!!!!!! Need to fix new roles
-    protected User SampleUser => new()
-    {
-        Email = "test@gmail.com",
-        UserName = "Test",
-        Id = new Guid(),
-        Roles = [],
-        PasswordHash = "ersdsadwdmkavdkjvwe",
-        SecurityStamp = "tesfaas"
-    };
+    protected User SampleUser = GetUserModels.GetSample();
 
     protected IJwtTokenFactory GetJwtTokenFactory(UserManager<User> userManager)
     {
