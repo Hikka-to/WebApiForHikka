@@ -53,7 +53,7 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
 
-        return new AllServicesInController(new AnimeBackdropService(repository),
+        return new AllServicesInController(new AnimeBackdropService(repository, fileHelperMock.Object),
             userManager,
             roleManager
             );

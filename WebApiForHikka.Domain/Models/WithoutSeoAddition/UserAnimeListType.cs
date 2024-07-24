@@ -10,4 +10,5 @@ public class UserAnimeListType : Model
     
     [StringLength(SharedNumberConstatnts.NameLength)]
     public required string Name { get; set; }
+    //
 }

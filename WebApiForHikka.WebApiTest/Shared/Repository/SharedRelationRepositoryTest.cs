@@ -10,8 +10,8 @@ public abstract class SharedRelationRepositoryTest<
 > : SharedRepositoryTest<TRelationModel, TRelationRepository>
     where TRelationModel : RelationModel<TFirstModel, TSecondModel>
     where TRelationRepository : IRelationCrudRepository<TRelationModel, TFirstModel, TSecondModel>
-    where TFirstModel : Model
-    where TSecondModel : Model
+    where TFirstModel : class, IModel
+    where TSecondModel : class, IModel
 {
     [Fact]
     public virtual async Task RelationService_DeleteAsync_DeleteModel()
