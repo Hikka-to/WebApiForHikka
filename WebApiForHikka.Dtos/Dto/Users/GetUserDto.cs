@@ -1,5 +1,5 @@
 ﻿using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
@@ -7,7 +7,7 @@ namespace WebApiForHikka.Dtos.Dto.Users;
 [ExportTsInterface]
 public class GetUserDto : ModelDto
 {
-    public required UserSetting UserSetting { get; set; }
+    public required GetUserSettingDto UserSetting { get; set; }
     public required string Email { get; set; }
     public required string[] Roles { get; set; }
 

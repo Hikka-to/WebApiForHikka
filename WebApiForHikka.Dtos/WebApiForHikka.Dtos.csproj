@@ -29,7 +29,6 @@
 
     <ItemGroup>
         <Folder Include="Dto\Relation\"/>
-        <Folder Include="Shared\Attributes\"/>
     </ItemGroup>
 
 </Project>

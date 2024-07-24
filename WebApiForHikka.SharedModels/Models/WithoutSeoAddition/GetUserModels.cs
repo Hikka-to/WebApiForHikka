@@ -85,7 +85,7 @@ public class GetUserModels
     {
         return new GetUserDto
         {
-            UserSetting = GetUserSettingModels.GetSample(),
+            UserSetting = GetUserSettingModels.GetGetDtoSample(),
             Email = "bob.wilson@example.com",
             Roles = [],
             Name = "Bob Wilson",

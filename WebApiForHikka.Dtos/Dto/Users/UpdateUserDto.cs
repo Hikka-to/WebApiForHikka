@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Constants.Shared;
@@ -12,7 +11,6 @@ using WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
 
-[ExportTsInterface]
 [ModelMetadataType(typeof(User))]
 public class UpdateUserDto
 {
