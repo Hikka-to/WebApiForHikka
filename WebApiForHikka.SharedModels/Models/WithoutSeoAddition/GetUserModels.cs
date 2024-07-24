@@ -1,4 +1,7 @@
+using Faker;
 using Microsoft.AspNetCore.Identity;
+using WebApiForHikka.Constants.Models.Users;
+using WebApiForHikka.Constants.Models.WithoutSeoAddition.RelatedType;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.SharedModels.MyDataFakers;
@@ -21,6 +24,7 @@ public class GetUserModels
         var user = new User
         {
             UserSetting = GetUserSettingModels.GetSample(),
+            AllowAdult = false,
             Name = "JohnDoe",
             AvatarPath = "/avatars/johndoe.jpg",
             BackdropPath = "/backdrops/johndoe_backdrop.jpg",
@@ -29,7 +33,6 @@ public class GetUserModels
             TelegramUrl = "https://t.me/johndoe",
             StatusIcon = "🚀",
             StatusText = "Coding away!",
-            AllowAdult = true,
             LastSeenAt = DateTime.Now.AddHours(-2),
             UpdatedAt = DateTime.Now.AddDays(-1),
             CreatedAtTime = DateTime.Now.AddMonths(-3),
@@ -51,12 +54,12 @@ public class GetUserModels
             Name = "JaneSmith",
             AvatarPath = "/avatars/janesmith.png",
             BackdropPath = "/backdrops/janesmith_backdrop.png",
+            AllowAdult = true,
             TelegramId = 987654321,
             Description = "UX designer and coffee lover",
             TelegramUrl = "https://t.me/janesmith",
             StatusIcon = "☕",
             StatusText = "Designing the future",
-            AllowAdult = false,
             LastSeenAt = DateTime.Now.AddMinutes(-30),
             UpdatedAt = DateTime.Now.AddHours(-5),
             CreatedAtTime = DateTime.Now.AddYears(-1),
@@ -119,4 +122,27 @@ public class GetUserModels
             CreatedAtTime = DateTime.Now.AddMonths(-9)
         };
     }
+
+    public static UserRegistrationDto GetUserRegistrationDtoForAdminSample()
+    {
+        return new UserRegistrationDto()
+        {
+            Email = "user@gmail.com",
+            Password = "test123",
+            Role = UserStringConstants.AdminRole,
+            UserName = Lorem.GetFirstWord(),
+        };
+    }
+    public static UserRegistrationDto GetUserRegistrationDtoForUserSample()
+    {
+        return new UserRegistrationDto()
+        {
+            Email = "user@gmail.com",
+            Password = "test123",
+            Role = UserStringConstants.UserRole,
+            UserName = Lorem.GetFirstWord(),
+        };
+    }
+
+
 }

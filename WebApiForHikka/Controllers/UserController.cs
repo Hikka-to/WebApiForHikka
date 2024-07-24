@@ -28,7 +28,7 @@ public class UserController(
     RoleManager<IdentityRole<Guid>> roleManager,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor,
-    UserSettingService userSettingService,
+    IUserSettingService userSettingService,
     IFileHelper _fileHelper,
     ILinkFactory _linkFactory
 )
