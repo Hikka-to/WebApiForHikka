@@ -1,23 +1,41 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApiForHikka.EfPersistence.Extensions;
 
 public static class QueryableExtensions
 {
+    private static bool IsNullableType(this Type type, string propertyOrField)
+    {
+        var nullabilityContext = new NullabilityInfoContext();
+        if (type.GetProperty(propertyOrField) is { } propertyInfo)
+        {
+            var nullabilityInfo = nullabilityContext.Create(propertyInfo);
+            return nullabilityInfo.WriteState is NullabilityState.Nullable;
+        }
+
+        if (type.GetField(propertyOrField) is not { } fieldInfo) return false;
+        {
+            var nullabilityInfo = nullabilityContext.Create(fieldInfo);
+            return nullabilityInfo.WriteState is NullabilityState.Nullable;
+        }
+    }
+    
     private static string GetParameterName(int index)
     {
         return $"p{index}";
     }
 
-    private static ConditionalExpression NullConditional(this Expression expression, string propertyOrField)
+    private static Expression NullConditional(this Expression expression, string propertyOrField)
     {
         var property = Expression.PropertyOrField(expression, propertyOrField);
-
-        return Expression.Condition(Expression.NotEqual(expression, Expression.Constant(null)),
-            property,
-            Expression.Default(property.Type)
-        );
+        
+        return expression.Type.IsNullableType(propertyOrField) 
+            ? Expression.Condition(Expression.NotEqual(property, Expression.Constant(null)),
+                property,
+                Expression.Default(property.Type))
+            : property;
     }
 
     private static Expression GetFilterBody(Expression body, string[] properties, string filter, bool isStrict = false,
