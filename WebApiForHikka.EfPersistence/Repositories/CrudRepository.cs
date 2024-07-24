@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Extensions;
+using WebApiForHikka.SharedFunction.Filtering;
 using IModel = WebApiForHikka.Domain.Models.IModel;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
@@ -65,13 +64,18 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
 
         var query = DbContext.Set<TModel>().AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(dto.SearchTerm))
-            query = Filter(query, dto.Column, dto.SearchTerm);
+        query = dto.Filters.Aggregate(query,
+            (current, filter) => Filter(current, filter.Column, filter.SearchTerm, filter.IsStrict));
         var totalItems = await query.CountAsync(cancellationToken);
 
-        var orderBy = string.IsNullOrWhiteSpace(dto.Column) ? SharedStringConstants.IdName : dto.Column;
-
-        query = Sort(query, orderBy, dto.SortOrder == SortOrder.Asc);
+        var firstSort = dto.Sorts.FirstOrDefault();
+        var otherSorts = dto.Sorts.Skip(1).ToArray();
+        if (firstSort != null)
+        {
+            var orderedQuery = Sort(query, firstSort.Column, firstSort.SortOrder == SortOrder.Asc);
+            query = otherSorts.Aggregate(orderedQuery,
+                (current, sort) => ThenSort(current, sort.Column, sort.SortOrder == SortOrder.Asc));
+        }
 
         var models = await query.Skip(skip).Take(take).ToArrayAsync(cancellationToken);
 
@@ -145,70 +149,34 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         }
     }
 
-    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter)
+    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter, bool isStrict)
     {
-        var entityType = DbContext.Model.FindEntityType(typeof(TModel));
-        INavigationBase[] navigations = entityType != null
-            ?
-            [
-                ..entityType.GetNavigations().Where(n =>
-                    (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.GetMethod?.IsPublic ?? false)),
-                ..entityType.GetSkipNavigations().Where(n =>
-                    (n.FieldInfo?.IsPublic ?? false) || (n.PropertyInfo?.GetMethod?.IsPublic ?? false))
-            ]
-            : [];
+        var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
+                         throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
+        if (!FilterColumnSelector.IsColumnValid(entityType, filterBy))
+            throw new InvalidOperationException($"Column {filterBy} is not valid for {typeof(TModel)} filter");
 
-        if (entityType?.FindProperty(filterBy) is { } property &&
-            ((property.FieldInfo?.IsPublic ?? false) || (property.PropertyInfo?.GetMethod?.IsPublic ?? false)))
-        {
-            if (property.ClrType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(property.ClrType))
-                query = query.FilterMany(filterBy, filter);
-            else
-                query = query.Filter(filterBy, filter);
-        }
-        else if (navigations.FirstOrDefault(n => n.Name == filterBy) is { } navigation)
-        {
-            var targetType = navigation.TargetEntityType;
-            string[] searchName =
-            [
-                "Slug",
-                "Name"
-            ];
-            string? foundName = null;
-
-            foreach (var name in searchName)
-                if (targetType.FindProperty(name) is { } searchProperty &&
-                    ((searchProperty.FieldInfo?.IsPublic ?? false) ||
-                     (searchProperty.PropertyInfo?.GetMethod?.IsPublic ?? false)))
-                {
-                    foundName = name;
-                    break;
-                }
-
-            if (foundName == null &&
-                targetType.FindPrimaryKey() is { } primaryKey &&
-                primaryKey.Properties.FirstOrDefault(p =>
-                        (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is
-                    { } primaryProperty)
-                foundName = primaryProperty.Name;
-
-            query = navigation.IsCollection
-                ? query.FilterMany(filterBy, foundName!, filter)
-                : query.Filter($"{filterBy}.{foundName}", filter);
-        }
-        else if (entityType?.FindPrimaryKey() is { } primaryKey &&
-                 primaryKey.Properties.FirstOrDefault(p =>
-                         (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false)) is
-                     { } primaryProperty)
-        {
-            query = query.Filter(primaryProperty.Name, filter);
-        }
-
-        return query;
+        return query.Filter(filterBy, filter, isStrict);
     }
 
     protected virtual IOrderedQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending)
     {
+        var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
+                         throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
+        if (!SortColumnSelector.IsColumnValid(entityType, orderBy))
+            throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
+
         return query.Sort(orderBy, isAscending);
+    }
+
+    protected virtual IOrderedQueryable<TModel> ThenSort(IOrderedQueryable<TModel> query, string orderBy,
+        bool isAscending)
+    {
+        var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
+                         throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
+        if (!SortColumnSelector.IsColumnValid(entityType, orderBy))
+            throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
+
+        return query.ThenSort(orderBy, isAscending);
     }
 }

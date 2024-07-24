@@ -30,6 +30,9 @@ public class UserRepository(
 
     public override async Task<Guid> AddAsync(User model, CancellationToken cancellationToken)
     {
+        model.UpdatedAt = DateTime.UtcNow;
+        model.CreatedAt = DateTime.UtcNow;
+        model.LastSeenAt = DateTime.UtcNow;
         var result = await userManager.CreateAsync(model, model.PasswordHash!);
         if (!result.Succeeded)
             // !!!!!!!! Improve error handling

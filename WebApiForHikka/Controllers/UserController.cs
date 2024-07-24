@@ -28,7 +28,7 @@ public class UserController(
     RoleManager<IdentityRole<Guid>> roleManager,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor,
-    UserSettingService userSettingService,
+    IUserSettingService userSettingService,
     IFileHelper _fileHelper,
     ILinkFactory _linkFactory
 )
@@ -72,12 +72,12 @@ public class UserController(
     }
 
 
-    [HttpGet("GetAll")]
+    [HttpPost("GetAll")]
     [SwaggerResponse(StatusCodes.Status200OK, "Return all users", typeof(ReturnUserPageDto))]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
     [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
         typeof(IDictionary<string, IEnumerable<string>>))]
-    public async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
+    public async Task<IActionResult> GetAll([FromBody] FilterPaginationDto paginationDto,
         CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
@@ -91,10 +91,13 @@ public class UserController(
 
         foreach (var item in users)
         {
-            item.BackdropUrl =
-                _linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "GetAll", item.BackdropUrl);
+            if (item.BackdropUrl != null)
+                item.BackdropUrl =
+                    _linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "GetAll", item.BackdropUrl);
 
-            item.AvatarUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "GetAll", item.AvatarUrl);
+            if (item.AvatarUrl != null)
+                item.AvatarUrl =
+                    _linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "GetAll", item.AvatarUrl);
         }
 
         return Ok(
