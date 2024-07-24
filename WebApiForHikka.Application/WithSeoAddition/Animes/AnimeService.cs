@@ -1,11 +1,14 @@
 ﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.WebApi.Helper.FileHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
 namespace WebApiForHikka.Application.WithSeoAddition.Animes;
 
-public class AnimeService(IAnimeRepository repository, IAnimeBackdropService animeBackdropService, IFileHelper fileHelper)
+public class AnimeService(
+    IAnimeRepository repository,
+    IAnimeBackdropService animeBackdropService,
+    IFileHelper fileHelper)
     : CrudService<Anime, IAnimeRepository>(repository), IAnimeService
 {
     public string? GetPosterPath(Guid animeId)
@@ -22,10 +25,7 @@ public class AnimeService(IAnimeRepository repository, IAnimeBackdropService ani
     {
         var backdrops = animeBackdropService.GetAllBackdropForAnime(id);
 
-        foreach (var item in backdrops)
-        {
-            await animeBackdropService.DeleteAsync(item.Id, cancellationToken);
-        }
+        foreach (var item in backdrops) await animeBackdropService.DeleteAsync(item.Id, cancellationToken);
 
         var anime = await _repository.GetAsync(id, cancellationToken);
 

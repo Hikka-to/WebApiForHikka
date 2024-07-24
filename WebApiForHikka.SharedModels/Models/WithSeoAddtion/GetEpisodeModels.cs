@@ -12,10 +12,10 @@ public static class GetEpisodeModels
         return new Episode
         {
             AirDate = DateTime.Now,
-            CreateAt = DateTime.Now,
+            CreatedAt = DateTime.Now,
             Duration = 23123,
             IsFiller = true,
-            UpdateAt = DateTime.Now,
+            UpdatedAt = DateTime.Now,
             AnimeId = Guid.NewGuid(),
             Name = "Name",
             SeoAddition = GetSeoAdditionModels.GetSample()
@@ -27,10 +27,10 @@ public static class GetEpisodeModels
         return new Episode
         {
             AirDate = DateTime.Now,
-            CreateAt = DateTime.Now,
+            CreatedAt = DateTime.Now,
             Duration = 3414,
             IsFiller = false,
-            UpdateAt = DateTime.Now,
+            UpdatedAt = DateTime.Now,
             AnimeId = Guid.NewGuid(),
             Name = "Name1",
             SeoAddition = GetSeoAdditionModels.GetSampleForUpdate()
@@ -46,7 +46,6 @@ public static class GetEpisodeModels
             Duration = 3414,
             IsFiller = false,
             SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
-
         };
     }
 
@@ -59,8 +58,8 @@ public static class GetEpisodeModels
             AirDate = DateTime.Now,
             Duration = 3414,
             IsFiller = false,
-            CreateAt = DateTime.Now,
-            UpdateAt = DateTime.Now,
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now,
             AnimeId = Guid.NewGuid(),
             Id = new Guid()
         };

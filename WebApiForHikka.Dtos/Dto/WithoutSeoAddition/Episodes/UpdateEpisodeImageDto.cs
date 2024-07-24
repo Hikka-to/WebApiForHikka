@@ -15,5 +15,4 @@ public class UpdateEpisodeImageDto : ModelDto
     [FileContentType("image/*")]
     [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]
     public required IFormFile Image { get; set; }
-
 }

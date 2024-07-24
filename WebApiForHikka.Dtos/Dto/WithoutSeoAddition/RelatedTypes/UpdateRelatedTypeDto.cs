@@ -5,7 +5,6 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 
-
 [ModelMetadataType(typeof(RelatedType))]
 [ExportTsInterface]
 public class UpdateRelatedTypeDto : ModelDto

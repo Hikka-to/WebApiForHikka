@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Application.Sources;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Application.WithSeoAddition.Sources;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.Test.Controllers.Shared;
+using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
+using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;

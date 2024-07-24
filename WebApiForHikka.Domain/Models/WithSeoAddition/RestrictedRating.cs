@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.RestrictedRatings;
+using WebApiForHikka.Constants.Models.WithSeoAddition.RestrictedRatings;
 
-namespace WebApiForHikka.Domain.Models;
+namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class RestrictedRating : ModelWithSeoAddition
 {

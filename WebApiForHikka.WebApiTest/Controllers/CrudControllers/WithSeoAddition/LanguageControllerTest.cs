@@ -2,7 +2,6 @@
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Languages;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Kinds;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Languages;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;

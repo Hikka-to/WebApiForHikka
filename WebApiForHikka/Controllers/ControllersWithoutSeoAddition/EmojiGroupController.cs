@@ -6,7 +6,7 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
 
-public class EmojiGroupController (
+public class EmojiGroupController(
     IEmojiGroupService crudService,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor)

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.Shared;
@@ -22,7 +20,7 @@ public class CreateLanguageMediaplayerDto : CreateDtoWithSeoAddition
     [EntityValidation<Format>] public required Guid FormatId { get; set; }
 
     public required string Url { get; set; }
-    
+
     public string? FileId { get; set; }
 
     public uint? StartIntro { get; set; }

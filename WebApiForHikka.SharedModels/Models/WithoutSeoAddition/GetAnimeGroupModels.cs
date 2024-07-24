@@ -26,7 +26,7 @@ public static class GetAnimeGroupModels
     {
         return new CreateAnimeGroupDto
         {
-            Name = Lorem.GetFirstWord(),
+            Name = Lorem.GetFirstWord()
         };
     }
 

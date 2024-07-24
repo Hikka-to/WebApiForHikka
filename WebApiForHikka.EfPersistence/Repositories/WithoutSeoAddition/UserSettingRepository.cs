@@ -7,5 +7,4 @@ namespace WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 public class UserSettingRepository(HikkaDbContext dbContext)
     : CrudRepository<UserSetting>(dbContext), IUserSettingRepository
 {
-    
 }

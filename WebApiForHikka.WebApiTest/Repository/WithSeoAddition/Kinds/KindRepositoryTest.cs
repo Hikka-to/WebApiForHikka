@@ -1,6 +1,6 @@
-﻿using WebApiForHikka.Domain.Models;
+﻿using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
-using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Shared.Repository;
 

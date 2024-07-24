@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebApiForHikka.Constants.Models.Countries;
+using WebApiForHikka.Constants.Models.WithSeoAddition.Countries;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 

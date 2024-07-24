@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Constants.Models.Users;
@@ -43,12 +43,19 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Collection> Collections { get; set; }
     public DbSet<CollectionAnime> CollectionAnimes { get; set; }
     public DbSet<Language> Languages { get; set; }
+    public DbSet<Comment> Comments { get; set; }
     public DbSet<LanguageMediaplayer> LanguageMediaplayers { get; set; }
     public DbSet<Provider> Providers { get; set; }
     public DbSet<UserSetting> UserSettings { get; set; }
     public DbSet<UserAnimeListType> UserAnimeListTypes { get; set; }
     public DbSet<EmojiGroup> EmojiGroups { get; set; }
     public DbSet<UserAnimeList> UserAnimeLists { get; set; }
+
+    public DbSet<AnimeRating> AnimeRatings { get; set; }
+
+    public DbSet<CommentReportType> CommentReportTypes { get; set; }
+    public DbSet<CommentReport> CommentReports { get; set; }
+    public DbSet<CommentLike> CommentLikes { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -66,6 +73,9 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
         });
         foreach (var enumType in enumTypes)
             hasPostgresEnum.MakeGenericMethod(enumType).Invoke(null, [modelBuilder, null, null, null]);
+
+        // Comments
+        modelBuilder.Entity<Commentable>().UseTptMappingStrategy();
 
         // Configure the self-referencing relationship
         modelBuilder.Entity<Tag>()

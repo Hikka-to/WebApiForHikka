@@ -7,7 +7,7 @@ namespace WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 public class Provider : Model
 {
-    public required virtual Anime Anime { get; set; }
+    public virtual required Anime Anime { get; set; }
 
     [StringLength(ProviderNumberConstants.LogoPathLength)]
     public required string LogoPath { get; set; }

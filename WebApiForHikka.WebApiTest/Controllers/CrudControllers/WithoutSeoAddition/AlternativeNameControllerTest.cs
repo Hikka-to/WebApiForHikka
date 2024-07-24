@@ -7,11 +7,11 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AlternativeNames;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 

@@ -1,18 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
+﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.WithoutSeoAddition.Providers;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
-using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
-using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
-using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithoutSeoAddition;
 
@@ -50,9 +44,7 @@ public class ProviderControllerTest : CrudControllerBaseTest<
     protected override async Task<ProviderController> GetController(AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
-        AllServicesInController allServices = allServicesInController;
-
-        
+        var allServices = allServicesInController;
 
 
         return new ProviderController(
@@ -62,10 +54,25 @@ public class ProviderControllerTest : CrudControllerBaseTest<
                 allServicesInController.RoleManager)
         );
     }
-    
 
-    protected override CreateProviderDto GetCreateDtoSample() => GetProviderModels.GetCreateSampleDto();
-    protected override GetProviderDto GetGetDtoSample() => GetProviderModels.GetGetDtoSample();
-    protected override UpdateProviderDto GetUpdateDtoSample() => GetProviderModels.GetUpdateDtoSample();
-    protected override Provider GetModelSample() => GetProviderModels.GetSample();
+
+    protected override CreateProviderDto GetCreateDtoSample()
+    {
+        return GetProviderModels.GetCreateSampleDto();
+    }
+
+    protected override GetProviderDto GetGetDtoSample()
+    {
+        return GetProviderModels.GetGetDtoSample();
+    }
+
+    protected override UpdateProviderDto GetUpdateDtoSample()
+    {
+        return GetProviderModels.GetUpdateDtoSample();
+    }
+
+    protected override Provider GetModelSample()
+    {
+        return GetProviderModels.GetSample();
+    }
 }

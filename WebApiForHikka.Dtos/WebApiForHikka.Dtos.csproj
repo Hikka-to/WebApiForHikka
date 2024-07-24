@@ -7,29 +7,28 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="TS\**" />
-        <EmbeddedResource Remove="TS\**" />
-        <None Remove="TS\**" />
+        <Compile Remove="TS\**"/>
+        <EmbeddedResource Remove="TS\**"/>
+        <None Remove="TS\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
-        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
+        <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-        <PackageReference Include="TypeGen" Version="5.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5"/>
+        <PackageReference Include="TypeGen" Version="5.0.1"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Dto\Relation\" />
-        <Folder Include="Shared\Attributes\" />
+        <Folder Include="Dto\Relation\"/>
     </ItemGroup>
 
 </Project>

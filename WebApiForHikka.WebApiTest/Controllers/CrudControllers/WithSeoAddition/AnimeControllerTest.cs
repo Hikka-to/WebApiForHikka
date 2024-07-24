@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WebApiForHikka.Application.Kinds;
-using WebApiForHikka.Application.Periods;
-using WebApiForHikka.Application.RestrictedRatings;
 using WebApiForHikka.Application.SeoAdditions;
-using WebApiForHikka.Application.Sources;
-using WebApiForHikka.Application.Statuses;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
 using WebApiForHikka.Application.WithSeoAddition.Dubs;
+using WebApiForHikka.Application.WithSeoAddition.Kinds;
+using WebApiForHikka.Application.WithSeoAddition.Periods;
+using WebApiForHikka.Application.WithSeoAddition.RestrictedRatings;
+using WebApiForHikka.Application.WithSeoAddition.Sources;
+using WebApiForHikka.Application.WithSeoAddition.Statuses;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
@@ -19,11 +19,11 @@ using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Animes;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
@@ -36,14 +36,14 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
     CreateAnimeDto,
     GetAnimeDto,
     ReturnPageDto<GetAnimeDto>
-    >
+>
 {
     public Anime Anime => GetModelSample();
 
     protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        Mock<IFileHelper> fileHelperMock = new();
 
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
@@ -56,7 +56,6 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
 
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
-
 
 
         alternativeServices.AddSingleton(dbContext);
@@ -79,7 +78,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         alternativeServices.AddSingleton<ICountryService, CountryService>();
         alternativeServices.AddSingleton<IDubService, DubService>();
         alternativeServices.AddSingleton<IAnimeService, AnimeService>();
-        
+
         alternativeServices.AddSingleton<IAnimeBackdropRepository, AnimeBackdropRepository>();
         alternativeServices.AddSingleton<IAnimeBackdropService, AnimeBackdropService>();
 
@@ -87,43 +86,47 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         alternativeServices.AddSingleton<IColorHelper, ColorHelper>();
         alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
-        return new AllServicesInControllerWithSeoAddition(new AnimeService(animeRepository, animebackdropService, fileHelperMock.Object), new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
+        return new AllServicesInControllerWithSeoAddition(
+            new AnimeService(animeRepository, animebackdropService, fileHelperMock.Object),
+            new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
-    protected override async Task<AnimeController> GetController(AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override async Task<AnimeController> GetController(AllServicesInController allServicesInController,
+        IServiceProvider alternativeServices)
     {
-        AllServicesInControllerWithSeoAddition allServices = allServicesInController as AllServicesInControllerWithSeoAddition ?? throw new Exception("method getController in AnimeControllerTest");
+        var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
+                          throw new Exception("method getController in AnimeControllerTest");
 
 
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        Mock<IFileHelper> fileHelperMock = new();
 
-        Mock<IColorHelper> colorHelperMock = new Mock<IColorHelper>();
+        var colorHelperMock = new Mock<IColorHelper>();
 
-        Mock<ILinkFactory> linkFactoryMock = new Mock<ILinkFactory>();
+        var linkFactoryMock = new Mock<ILinkFactory>();
 
         fileHelperMock.Setup(m => m.UploadFileImage(It.IsAny<IFormFile>(), It.IsAny<string[]>()))
-             .Returns("mocked/path/to/file");
+            .Returns("mocked/path/to/file");
 
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
         fileHelperMock.Setup(m => m.OverrideFileImage(It.IsAny<IFormFile>(), It.IsAny<string>()));
 
-        colorHelperMock.Setup(m => m.GetListOfColorsFromImage(It.IsAny<IFormFile>())).Returns([32131, 32342, 31341, 23421]);
+        colorHelperMock.Setup(m => m.GetListOfColorsFromImage(It.IsAny<IFormFile>()))
+            .Returns([32131, 32342, 31341, 23421]);
 
         linkFactoryMock.Setup(
             m => m.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
-            It.IsAny<string>(),
-            It.IsAny<string>(),
-            It.IsAny<string>())).Returns("test/image/url");
-
-          
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>())).Returns("test/image/url");
 
 
         return new AnimeController(
             allServices.CrudService,
             allServices.SeoAdditionService,
             _mapper,
-            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServicesInController.RoleManager),
+            await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
+                allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IKindService>(),
             alternativeServices.GetRequiredService<IStatusService>(),
             alternativeServices.GetRequiredService<IPeriodService>(),
@@ -138,7 +141,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         );
     }
 
-    protected override void MutationBeforeDtoCreation(CreateAnimeDto createDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override void MutationBeforeDtoCreation(CreateAnimeDto createDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         var kind = GetKindModels.GetSample();
         var status = GetStatusModels.GetSample();
@@ -182,7 +186,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         createDto.SimilarAnimes = [anime.Id];
     }
 
-    protected override void MutationBeforeDtoUpdate(UpdateAnimeDto updateDto, AllServicesInController allServicesInController, IServiceProvider alternativeServices)
+    protected override void MutationBeforeDtoUpdate(UpdateAnimeDto updateDto,
+        AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
         var kind = GetKindModels.GetSample();
         var status = GetStatusModels.GetSample();
@@ -224,15 +229,26 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         updateDto.Dubs = [dub.Id];
         updateDto.Countries = [country.Id];
         updateDto.SimilarAnimes = [anime.Id];
-
     }
 
-    protected override CreateAnimeDto GetCreateDtoSample() => GetAnimeModels.GetCreateDtoSample();
+    protected override CreateAnimeDto GetCreateDtoSample()
+    {
+        return GetAnimeModels.GetCreateDtoSample();
+    }
 
 
-    protected override GetAnimeDto GetGetDtoSample() => GetAnimeModels.GetGetDtoSample();
-    protected override Anime GetModelSample() => GetAnimeModels.GetModelSample();
+    protected override GetAnimeDto GetGetDtoSample()
+    {
+        return GetAnimeModels.GetGetDtoSample();
+    }
 
-    protected override UpdateAnimeDto GetUpdateDtoSample() => GetAnimeModels.GetUpdateDtoSample();
+    protected override Anime GetModelSample()
+    {
+        return GetAnimeModels.GetModelSample();
+    }
 
+    protected override UpdateAnimeDto GetUpdateDtoSample()
+    {
+        return GetAnimeModels.GetUpdateDtoSample();
+    }
 }

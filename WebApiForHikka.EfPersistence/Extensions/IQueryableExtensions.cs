@@ -100,7 +100,7 @@ public static class IQueryableExtensions
         return source.Provider.CreateQuery<T>(queryExpr);
     }
 
-    public static IQueryable<T> Sort<T>(this IQueryable<T> source, string propertyName, bool isAscending)
+    public static IOrderedQueryable<T> Sort<T>(this IQueryable<T> source, string propertyName, bool isAscending)
     {
         var param = Expression.Parameter(typeof(T), "e");
         var body = (Expression)param;
@@ -120,6 +120,6 @@ public static class IQueryableExtensions
             : Expression.Call(typeof(Queryable), "OrderByDescending", [typeof(T), body.Type], source.Expression,
                 lambda);
 
-        return source.Provider.CreateQuery<T>(queryExpr);
+        return (IOrderedQueryable<T>)source.Provider.CreateQuery<T>(queryExpr);
     }
 }

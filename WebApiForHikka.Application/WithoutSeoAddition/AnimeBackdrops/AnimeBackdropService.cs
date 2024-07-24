@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.WebApi.Helper.FileHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
 namespace WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 
@@ -18,7 +18,7 @@ public class AnimeBackdropService(IAnimeBackdropRepository repository, IFileHelp
         return _repository.GetImagePathAsync(id);
     }
 
-    public override async Task DeleteAsync(Guid id, CancellationToken cancellationToken) 
+    public override async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         var backdrop = await _repository.GetAsync(id, cancellationToken);
 

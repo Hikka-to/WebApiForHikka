@@ -1,7 +1,6 @@
 ﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
-using WebApiForHikka.SharedModels.MyDataFakers;
 
 namespace WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 
@@ -14,7 +13,7 @@ public class GetProviderModels
             Anime = GetAnimeModels.GetSample(),
             LogoPath = "test",
             Name = "test",
-            Priority = 1,
+            Priority = 1
         };
     }
 
@@ -25,18 +24,18 @@ public class GetProviderModels
             Anime = GetAnimeModels.GetSample(),
             LogoPath = "test1",
             Name = "test1",
-            Priority = 12,
+            Priority = 12
         };
     }
 
     public static CreateProviderDto GetCreateSampleDto()
     {
-        return new CreateProviderDto()
+        return new CreateProviderDto
         {
             AnimeId = Guid.NewGuid(),
             LogoPath = "test3",
             Name = "test5",
-            Priority = 1,
+            Priority = 1
         };
     }
 
@@ -48,7 +47,7 @@ public class GetProviderModels
             LogoPath = "test",
             Name = "test",
             Priority = 1,
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid()
         };
     }
 
@@ -60,7 +59,7 @@ public class GetProviderModels
             LogoPath = "test34",
             Name = "test45",
             Priority = 1,
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid()
         };
     }
 }

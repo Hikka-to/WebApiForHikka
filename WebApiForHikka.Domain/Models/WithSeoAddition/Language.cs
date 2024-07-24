@@ -7,10 +7,10 @@ public class Language : ModelWithSeoAddition
 {
     [StringLength(LanguageNumberConstants.NameLength)]
     public required string Name { get; set; }
-    
+
     [StringLength(LanguageNumberConstants.LocaleLength)]
     public required string Locale { get; set; }
-    
+
     [StringLength(LanguageNumberConstants.IconLength)]
     public required string Icon { get; set; }
 }

@@ -4,6 +4,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.Relation.AnimeRatings;
 using WebApiForHikka.Dtos.Dto.Relation.Relateds;
 using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.Dtos.Dto.Relation.UserAnimeLists;
@@ -15,6 +16,10 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.CommentLikes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.CommentReports;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.CommentReportTypes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Comments;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.EmojiGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
@@ -49,7 +54,9 @@ public class MappingProfiles : Profile
         CreateMap<FilterPaginationDto, FilterPagination>();
 
         //User
-        CreateMap<User, GetUserDto>();
+        CreateMap<User, GetUserDto>().ForMember(
+            c => c.UserSetting,
+            op => op.MapFrom(v => v.UserSetting));
 
         CreateMap<User, UpdateUserDto>();
 
@@ -324,46 +331,57 @@ public class MappingProfiles : Profile
         CreateMap<CreateCollectionDto, Collection>();
 
         CreateMap<UpdateCollectionDto, Collection>();
-        
+
         // Language
-        
+
         CreateMap<Language, GetLanguageDto>();
-        
+
         CreateMap<CreateLanguageDto, Language>();
 
         CreateMap<UpdateLanguageDto, Language>();
-        
+
+        //Comment
+
+        CreateMap<Comment, GetCommentDto>().ForMember(
+            c => c.User,
+            op => op.MapFrom(v => v.User)).ForMember(
+            c => c.ParentId,
+            op => op.MapFrom(v => v.Parent.Id));
+
+        CreateMap<CreateCommentDto, Comment>();
+
+        CreateMap<UpdateCommentDto, Comment>();
+
         // LanguageMediaplayer
-        
+
         CreateMap<LanguageMediaplayer, GetLanguageMediaplayerDto>();
-        
+
         CreateMap<CreateLanguageMediaplayerDto, LanguageMediaplayer>();
 
         CreateMap<UpdateLanguageMediaplayerDto, LanguageMediaplayer>();
-        
+
         // Provider
-        
+
         CreateMap<Provider, GetProviderDto>();
-        
+
         CreateMap<CreateProviderDto, Provider>();
 
         CreateMap<UpdateProviderDto, Provider>();
-        
+
         // UserSetting
         CreateMap<UserSetting, GetUserSettingDto>();
-        
+
         CreateMap<CreateUserSettingDto, UserSetting>();
 
         CreateMap<UpdateUserSettingDto, UserSetting>();
 
         // EmojiGroup
-        
+
         CreateMap<EmojiGroup, GetEmojiGroupDto>();
-        
+
         CreateMap<CreateEmojiGroupDto, EmojiGroup>();
 
         CreateMap<UpdateEmojiGroupDto, EmojiGroup>();
-
         
         // UserAnimeListType
         
@@ -380,5 +398,59 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateUserAnimeListDto, UserAnimeList>();
         
+        // AnimeRating
+
+        CreateMap<AnimeRating, GetAnimeRatingDto>().ForMember(
+            c => c.UserId,
+            op => op.MapFrom(v => v.FirstId)).ForMember(
+            c => c.AnimeId,
+            op => op.MapFrom(v => v.SecondId));
+
+        CreateMap<CreateAnimeRatingDto, AnimeRating>().ForMember(
+            c => c.FirstId,
+            op => op.MapFrom(v => v.UserId)).ForMember(
+            c => c.SecondId,
+            op => op.MapFrom(v => v.AnimeId));
+
+
+        CreateMap<UpdateAnimeRatingDto, AnimeRating>().ForMember(
+            c => c.FirstId,
+            op => op.MapFrom(v => v.UserId)).ForMember(
+            c => c.SecondId,
+            op => op.MapFrom(v => v.AnimeId));
+
+        // CommentReportType
+
+        CreateMap<CommentReportType, GetCommentReportTypeDto>();
+
+        CreateMap<CreateCommentReportTypeDto, CommentReportType>();
+
+        CreateMap<UpdateCommentReportTypeDto, CommentReportType>();
+
+        // CommentReport
+
+        CreateMap<CommentReport, GetCommentReportDto>().ForMember(
+            c => c.Comment,
+            op => op.MapFrom(v => v.Comment)).ForMember(
+            c => c.User,
+            op => op.MapFrom(v => v.User)).ForMember(
+            c => c.CommentReportType,
+            op => op.MapFrom(v => v.CommentReportType));
+
+        CreateMap<CreateCommentReportDto, CommentReport>();
+
+        CreateMap<UpdateCommentReportDto, CommentReport>();
+
+        // CommentLike
+
+        CreateMap<CommentLike, GetCommentLikeDto>().ForMember(
+            c => c.CommentId,
+            op => op.MapFrom(v => v.Comment.Id)).ForMember(
+            c => c.UserId,
+            op => op.MapFrom(v => v.User.Id));
+
+        CreateMap<CreateCommentLikeDto, CommentLike>();
+
+        CreateMap<UpdateCommentLikeDto, CommentLike>();
     }
 }

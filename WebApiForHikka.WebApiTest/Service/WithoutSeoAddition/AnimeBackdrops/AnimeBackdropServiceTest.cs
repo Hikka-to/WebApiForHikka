@@ -3,9 +3,9 @@ using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.Test.Shared.Service;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 
 namespace WebApiForHikka.Test.Service.WithoutSeoAddition.AnimeBackdrops;
 
@@ -23,8 +23,7 @@ public class AnimeBackdropServiceTest : SharedServiceTest<AnimeBackdrop, AnimeBa
 
     protected override AnimeBackdropService GetService(HikkaDbContext hikkaDbContext)
     {
-
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
 
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 

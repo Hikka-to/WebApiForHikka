@@ -1,6 +1,6 @@
 ﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.WebApi.Helper.FileHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
 namespace WebApiForHikka.Application.Users;
 

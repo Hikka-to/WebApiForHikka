@@ -9,10 +9,9 @@ using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.Extensions;
 using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
-using WebApiForHikka.WebApi.Helper;
-using WebApiForHikka.WebApi.Helper.FileHelper;
 using WebApiForHikka.WebApi.Helpers;
 
 namespace WebApiForHikka.WebApi.Extensions;

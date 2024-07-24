@@ -5,7 +5,7 @@ namespace WebApiForHikka.Test.Shared.Service;
 
 public abstract class SharedServiceTestWithSeoAddition<TModel, TService>
     : SharedServiceTest<TModel, TService>
-    where TModel : ModelWithSeoAddition
+    where TModel : class, IModelWithSeoAddition
     where TService : ICrudService<TModel>
 {
     protected SeoAddition GetSeoAdditionSample()

@@ -57,7 +57,7 @@ public abstract class CrudControllerBaseTest
         var serviceCollection = new ServiceCollection();
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        
+
         var controller = await GetController(services, serviceProvider);
 
         //Act
@@ -229,6 +229,4 @@ public abstract class CrudControllerBaseTest
 
         public RoleManager<IdentityRole<Guid>> RoleManager => roleManager;
     }
-    
-
 }

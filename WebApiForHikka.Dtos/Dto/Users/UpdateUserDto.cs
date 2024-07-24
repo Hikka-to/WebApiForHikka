@@ -1,24 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
 
 namespace WebApiForHikka.Dtos.Dto.Users;
 
-[ExportTsInterface]
 [ModelMetadataType(typeof(User))]
 public class UpdateUserDto
 {
     public required UpdateUserSettingDto UserSetting { get; set; }
-    
+
     [Required(ErrorMessage = ControllerStringConstants.IdIsRequiredErrorMessage)]
     public required Guid Id { get; set; }
 
@@ -29,13 +26,13 @@ public class UpdateUserDto
     [Required]
     [RoleValidation(ErrorMessage = UserStringConstants.RoleDoesntExist)]
     public required string Role { get; set; }
-    
+
     public required string Name { get; set; }
-    
+
     [FileContentType("image/*")]
     [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]
     public IFormFile? AvatarImage { get; set; }
-    
+
     [FileContentType("image/*")]
     [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]
     public IFormFile? BackdropImage { get; set; }
@@ -45,10 +42,10 @@ public class UpdateUserDto
     public string? StatusText { get; set; }
 
     public bool AllowAdult { get; set; }
-    
+
     public DateTime LastSeenAt { get; set; }
-    
+
     public DateTime UpdatedAt { get; set; }
-    
+
     public DateTime CreatedAtTime { get; set; }
 }
