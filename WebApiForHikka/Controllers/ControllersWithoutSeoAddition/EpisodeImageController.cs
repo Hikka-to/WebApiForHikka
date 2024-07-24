@@ -102,7 +102,7 @@ public class EpisodeImageController(
     }
 
     [AllowAnonymous]
-    public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
+    public override async Task<IActionResult> GetAll(FilterPaginationDto paginationDto,
         CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(

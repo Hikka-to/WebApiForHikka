@@ -177,7 +177,7 @@ public class AnimeController(
 
 
     [AllowAnonymous]
-    public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
+    public override async Task<IActionResult> GetAll(FilterPaginationDto paginationDto,
         CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(

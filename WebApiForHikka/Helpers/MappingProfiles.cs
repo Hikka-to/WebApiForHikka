@@ -49,7 +49,15 @@ public class MappingProfiles : Profile
     public MappingProfiles()
     {
         //Shared
-        CreateMap<FilterPaginationDto, FilterPagination>();
+        CreateMap<FilterPaginationDto, FilterPagination>().ForMember(
+            c => c.Filters,
+            op => op.MapFrom(v => v.Filters)).ForMember(
+            c => c.Sorts,
+            op => op.MapFrom(v => v.Sorts));
+
+        CreateMap<FilterDto, Filter>();
+
+        CreateMap<SortDto, Sort>();
 
         //User
         CreateMap<User, GetUserDto>().ForMember(

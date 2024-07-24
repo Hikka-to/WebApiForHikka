@@ -2,17 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Shared;
-using WebApiForHikka.Domain;
 
 namespace WebApiForHikka.Dtos.Dto.SharedDtos;
 
 [ExportTsInterface]
 public class FilterPaginationDto
 {
-    [DefaultValue("")]
-    [TsDefaultValue("")]
-    public string SearchTerm { get; set; } = "";
-
     [DefaultValue(SharedNumberConstatnts.DefaultPageToStartWith)]
     [Required]
     public int PageNumber { get; set; } = SharedNumberConstatnts.DefaultPageToStartWith;
@@ -21,10 +16,6 @@ public class FilterPaginationDto
     [Required]
     public int PageSize { get; set; } = SharedNumberConstatnts.DefaultItemsInOnePage;
 
-
-    [DefaultValue(SharedStringConstants.IdName)]
-    [TsDefaultValue(SharedStringConstants.IdName)]
-    public string Column { get; set; } = SharedStringConstants.IdName;
-
-    [DefaultValue(SortOrder.Asc)] public SortOrder SortOrder { get; set; } = SortOrder.Asc;
+    public FilterDto[] Filters { get; set; } = [];
+    public SortDto[] Sorts { get; set; } = [];
 }
