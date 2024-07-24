@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApiForHikka.Domain.Enums;
@@ -13,9 +14,11 @@ using WebApiForHikka.EfPersistence.Data;
 namespace WebApiForHikka.EfPersistence.Migrations
 {
     [DbContext(typeof(HikkaDbContext))]
-    partial class HikkaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724012349_UpdateCommentReport")]
+    partial class UpdateCommentReport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1049,30 +1052,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                     b.ToTable("AnimeVideoKinds");
                 });
 
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.CommentLike", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CommentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsLiked")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CommentLikes");
-                });
-
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.CommentReport", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1886,25 +1865,6 @@ namespace WebApiForHikka.EfPersistence.Migrations
                         .IsRequired();
 
                     b.Navigation("AnimeVideoKind");
-                });
-
-            modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.CommentLike", b =>
-                {
-                    b.HasOne("WebApiForHikka.Domain.Models.WithoutSeoAddition.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiForHikka.Domain.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comment");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebApiForHikka.Domain.Models.WithoutSeoAddition.CommentReport", b =>

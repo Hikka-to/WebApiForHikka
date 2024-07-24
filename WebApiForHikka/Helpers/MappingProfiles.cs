@@ -15,6 +15,9 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideoKinds;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeVideos;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.CommentLikes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.CommentReports;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.CommentReportTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Comments;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.EmojiGroups;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Episodes;
@@ -49,7 +52,9 @@ public class MappingProfiles : Profile
         CreateMap<FilterPaginationDto, FilterPagination>();
 
         //User
-        CreateMap<User, GetUserDto>();
+        CreateMap<User, GetUserDto>().ForMember(
+            c => c.UserSetting,
+            op => op.MapFrom(v => v.UserSetting));
 
         CreateMap<User, UpdateUserDto>();
 
@@ -396,5 +401,39 @@ public class MappingProfiles : Profile
             op => op.MapFrom(v => v.UserId)).ForMember(
             c => c.SecondId,
             op => op.MapFrom(v => v.AnimeId));
+
+        // CommentReportType
+
+        CreateMap<CommentReportType, GetCommentReportTypeDto>();
+
+        CreateMap<CreateCommentReportTypeDto, CommentReportType>();
+
+        CreateMap<UpdateCommentReportTypeDto, CommentReportType>();
+
+        // CommentReport
+
+        CreateMap<CommentReport, GetCommentReportDto>().ForMember(
+            c => c.Comment,
+            op => op.MapFrom(v => v.Comment)).ForMember(
+            c => c.User,
+            op => op.MapFrom(v => v.User)).ForMember(
+            c => c.CommentReportType,
+            op => op.MapFrom(v => v.CommentReportType));
+
+        CreateMap<CreateCommentReportDto, CommentReport>();
+
+        CreateMap<UpdateCommentReportDto, CommentReport>();
+
+        // CommentLike
+
+        CreateMap<CommentLike, GetCommentLikeDto>().ForMember(
+            c => c.CommentId,
+            op => op.MapFrom(v => v.Comment.Id)).ForMember(
+            c => c.UserId,
+            op => op.MapFrom(v => v.User.Id));
+
+        CreateMap<CreateCommentLikeDto, CommentLike>();
+
+        CreateMap<UpdateCommentLikeDto, CommentLike>();
     }
 }

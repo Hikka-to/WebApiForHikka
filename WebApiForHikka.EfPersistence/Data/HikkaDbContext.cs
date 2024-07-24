@@ -51,6 +51,10 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
 
     public DbSet<AnimeRating> AnimeRatings { get; set; }
 
+    public DbSet<CommentReportType> CommentReportTypes { get; set; }
+    public DbSet<CommentReport> CommentReports { get; set; }
+    public DbSet<CommentLike> CommentLikes { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
