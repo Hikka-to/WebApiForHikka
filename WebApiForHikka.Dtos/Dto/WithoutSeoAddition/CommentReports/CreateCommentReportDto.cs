@@ -13,5 +13,5 @@ public class CreateCommentReportDto
     [EntityValidation<Comment>] public required Guid CommentId { get; set; }
     [EntityValidation<User>] public required Guid UserId { get; set; }
     [EntityValidation<CommentReportType>] public required Guid CommentReportTypeId { get; set; }
-    public required string Body { get; set; }
+    public string? Body { get; set; }
 }

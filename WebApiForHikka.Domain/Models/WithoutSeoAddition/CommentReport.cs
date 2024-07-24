@@ -10,5 +10,5 @@ public class CommentReport : Model
     public virtual required CommentReportType CommentReportType { get; set; }
 
     [StringLength(CommentReportNumberConstants.BodyLength)]
-    public required string Body { get; set; }
+    public string? Body { get; set; }
 }

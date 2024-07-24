@@ -12,5 +12,5 @@ public class GetCommentReportDto : ModelDto
     public required GetCommentDto Comment { get; set; }
     public required GetUserDto User { get; set; }
     public required GetCommentReportTypeDto CommentReportType { get; set; }
-    public required string Body { get; set; }
+    public string? Body { get; set; }
 }
