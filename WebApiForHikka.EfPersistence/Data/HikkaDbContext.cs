@@ -6,6 +6,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.SharedModels.Models.Relation;
 
 namespace WebApiForHikka.EfPersistence.Data;
 
@@ -55,7 +56,11 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<CommentReport> CommentReports { get; set; }
     public DbSet<CommentLike> CommentLikes { get; set; }
     public DbSet<Resource> Resources { get; set; }
+
     public DbSet<Review> Reviews { get; set; }
+
+    public DbSet<UserWatchHistory> UserWatchHistories { get; set; }
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
