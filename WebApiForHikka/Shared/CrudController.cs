@@ -74,8 +74,8 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     }
 
 
-    [HttpGet("GetAll")]
-    public virtual async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
+    [HttpPost("GetAll")]
+    public virtual async Task<IActionResult> GetAll([FromBody] FilterPaginationDto paginationDto,
         CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(

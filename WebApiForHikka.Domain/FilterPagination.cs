@@ -3,8 +3,9 @@
 namespace WebApiForHikka.Domain;
 
 public sealed record FilterPagination(
-    string SearchTerm = "",
     int PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
-    int PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
-    string Column = SharedStringConstants.IdName,
-    SortOrder SortOrder = SortOrder.Asc);
+    int PageSize = SharedNumberConstatnts.DefaultItemsInOnePage)
+{
+    public IEnumerable<Filter> Filters { get; init; } = [];
+    public IEnumerable<Sort> Sorts { get; init; } = [];
+}

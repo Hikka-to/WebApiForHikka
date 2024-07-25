@@ -35,7 +35,7 @@ public class UserRepositoryTest : SharedTest
             AllowAdult = testUser.AllowAdult,
             LastSeenAt = testUser.LastSeenAt,
             UpdatedAt = testUser.UpdatedAt,
-            CreatedAtTime = testUser.CreatedAtTime
+            CreatedAt = testUser.CreatedAt
         }, new CancellationToken());
 
         // Act
@@ -70,7 +70,7 @@ public class UserRepositoryTest : SharedTest
             AllowAdult = testUser.AllowAdult,
             LastSeenAt = testUser.LastSeenAt,
             UpdatedAt = testUser.UpdatedAt,
-            CreatedAtTime = testUser.CreatedAtTime
+            CreatedAt = testUser.CreatedAt
         }, new CancellationToken());
 
         // Act
@@ -107,7 +107,7 @@ public class UserRepositoryTest : SharedTest
             AllowAdult = testUser.AllowAdult,
             LastSeenAt = testUser.LastSeenAt,
             UpdatedAt = testUser.UpdatedAt,
-            CreatedAtTime = testUser.CreatedAtTime
+            CreatedAt = testUser.CreatedAt
         }, new CancellationToken());
 
         // Act
