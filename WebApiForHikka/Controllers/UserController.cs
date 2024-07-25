@@ -121,15 +121,13 @@ public class UserController(
 
         var user = _mapper.Map<GetUserDto>(await _userService.GetAsync(id, cancellationToken));
 
-
+        if (user is null)
+            return NotFound();
+        
         user.BackdropUrl =
             _linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "Get", user.BackdropUrl);
 
         user.AvatarUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "Get", user.AvatarUrl);
-
-
-        if (user is null)
-            return NotFound();
 
         return Ok(user);
     }
