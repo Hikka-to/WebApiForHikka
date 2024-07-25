@@ -57,6 +57,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<CommentLike> CommentLikes { get; set; }
     public DbSet<Resource> Resources { get; set; }
     public DbSet<UserWatchHistory> UserWatchHistories { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
