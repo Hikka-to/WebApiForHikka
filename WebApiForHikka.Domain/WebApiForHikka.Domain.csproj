@@ -7,14 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.7"/>
-        <PackageReference Include="Npgsql" Version="8.0.3"/>
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.7" />
+        <PackageReference Include="Npgsql" Version="8.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj"/>
+        <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
     </ItemGroup>
 
 </Project>

@@ -48,12 +48,11 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Provider> Providers { get; set; }
     public DbSet<UserSetting> UserSettings { get; set; }
     public DbSet<EmojiGroup> EmojiGroups { get; set; }
-
     public DbSet<AnimeRating> AnimeRatings { get; set; }
-
     public DbSet<CommentReportType> CommentReportTypes { get; set; }
     public DbSet<CommentReport> CommentReports { get; set; }
     public DbSet<CommentLike> CommentLikes { get; set; }
+    public DbSet<Resource> Resources { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

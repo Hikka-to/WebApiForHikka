@@ -25,6 +25,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Resources;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
@@ -435,5 +436,15 @@ public class MappingProfiles : Profile
         CreateMap<CreateCommentLikeDto, CommentLike>();
 
         CreateMap<UpdateCommentLikeDto, CommentLike>();
+
+        //Resource
+
+        CreateMap<Resource, GetResourceDto>();
+
+        CreateMap<CreateResourceDto, Resource>();
+
+        CreateMap<UpdateResourceDto, Resource>();
+
+
     }
 }
