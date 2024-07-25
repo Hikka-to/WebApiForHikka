@@ -63,6 +63,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
 
     public DbSet<UserWatchHistory> UserWatchHistories { get; set; }
     public DbSet<Notification> Notifications { get; set; }
+    public DbSet<SearchHistory> SearchHistories { get; set; }
 
 
 
