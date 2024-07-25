@@ -58,6 +58,8 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Resource> Resources { get; set; }
 
     public DbSet<Review> Reviews { get; set; }
+    public DbSet<ReviewLike> ReviewLikes { get; set; }
+    public DbSet<UserRecommendation> UserRecomendations { get; set; }
 
     public DbSet<UserWatchHistory> UserWatchHistories { get; set; }
     public DbSet<Notification> Notifications { get; set; }

@@ -12,6 +12,7 @@ using WebApiForHikka.Dtos.Dto.Relation.UserAnimeLists;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AlternativeNames;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
@@ -30,6 +31,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Resources;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Reviews;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecomendations;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
@@ -482,6 +484,22 @@ public class MappingProfiles : Profile
         CreateMap<CreateReviewDto, Review>();
 
         CreateMap<UpdateReviewDto, Review>();
+        
+        // ReviewLike
+        
+        CreateMap<ReviewLike, GetReviewLikeDto>();
+
+        CreateMap<CreateReviewLikeDto, ReviewLike>();
+
+        CreateMap<UpdateReviewLikeDto, ReviewLike>();
+        
+        // UserRecommendation
+        
+        CreateMap<UserRecommendation, GetUserRecommendationDto>();
+
+        CreateMap<CreateUserRecommendationDto, UserRecommendation>();
+
+        CreateMap<UpdateUserRecommendationDto, UserRecommendation>();
 
         //UserWatchHistory
 
