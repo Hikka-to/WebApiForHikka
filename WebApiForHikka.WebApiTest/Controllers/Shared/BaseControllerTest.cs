@@ -38,7 +38,7 @@ public abstract class BaseControllerTest : SharedTest
         AllowAdult = true,
         LastSeenAt = DateTime.Now.AddHours(-2),
         UpdatedAt = DateTime.Now.AddDays(-1),
-        CreatedAtTime = DateTime.Now.AddMonths(-3),
+        CreatedAt = DateTime.Now.AddMonths(-3),
         UserName = "dane_doe",
         Email = "dane.doe@example.com",
         PasswordHash = "Password123!"
@@ -53,11 +53,25 @@ public abstract class BaseControllerTest : SharedTest
 
     protected FilterPaginationDto FilterPaginationDto => new()
     {
-        SearchTerm = "",
+        Filters =
+        [
+            new FilterDto
+            {
+                SearchTerm = "Test",
+                Column = SharedStringConstants.IdName,
+                IsStrict = true
+            }
+        ],
+        Sorts =
+        [
+            new SortDto
+            {
+                Column = SharedStringConstants.IdName,
+                SortOrder = SortOrder.Asc
+            }
+        ],
         PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,
-        PageSize = SharedNumberConstatnts.DefaultItemsInOnePage,
-        Column = SharedStringConstants.IdName,
-        SortOrder = SortOrder.Asc
+        PageSize = SharedNumberConstatnts.DefaultItemsInOnePage
     };
 
     protected IJwtTokenFactory GetJwtTokenFactory(UserManager<User> userManager)

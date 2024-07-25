@@ -87,8 +87,8 @@ public abstract class CrudControllerForModelWithSeoAddition
     }
 
 
-    [HttpGet("GetAll")]
-    public override async Task<IActionResult> GetAll([FromQuery] FilterPaginationDto paginationDto,
+    [HttpPost("GetAll")]
+    public override async Task<IActionResult> GetAll([FromBody] FilterPaginationDto paginationDto,
         CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(

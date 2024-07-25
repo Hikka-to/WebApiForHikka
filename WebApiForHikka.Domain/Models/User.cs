@@ -45,7 +45,7 @@ public class User : IdentityUser<Guid>, IModel, ICloneable
 
     public required DateTime UpdatedAt { get; set; }
 
-    public required DateTime CreatedAtTime { get; set; }
+    public required DateTime CreatedAt { get; set; }
 
     public virtual ICollection<IdentityRole<Guid>> Roles { get; set; } = [];
 
