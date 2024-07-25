@@ -55,6 +55,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<CommentReport> CommentReports { get; set; }
     public DbSet<CommentLike> CommentLikes { get; set; }
     public DbSet<Resource> Resources { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -17,7 +17,8 @@ public static class GetAnimeRatingModels
             Second = GetAnimeModels.GetSampleWithoutManyToMany(),
             CreateAt = default,
             Number = 2,
-            UpdateAt = default
+            UpdateAt = default,
+            RewiewId = Guid.NewGuid()
         };
     }
 
@@ -31,7 +32,8 @@ public static class GetAnimeRatingModels
             Second = GetAnimeModels.GetSampleForUpdateWithoutManyToMany(),
             CreateAt = DateTime.Now,
             Number = 3,
-            UpdateAt = default
+            UpdateAt = default,
+            RewiewId = Guid.NewGuid()
         };
     }
 
@@ -41,7 +43,8 @@ public static class GetAnimeRatingModels
         {
             AnimeId = Guid.NewGuid(),
             Number = 1,
-            UserId = Guid.NewGuid()
+            UserId = Guid.NewGuid(),
+            ReviewId = Guid.NewGuid()
         };
     }
 
@@ -63,7 +66,8 @@ public static class GetAnimeRatingModels
             AnimeId = Guid.NewGuid(),
             Number = 3,
             UserId = Guid.NewGuid(),
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid(),
+            ReviewId = Guid.NewGuid()
         };
     }
 }

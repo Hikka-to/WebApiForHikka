@@ -27,6 +27,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Resources;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Reviews;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
@@ -469,6 +470,15 @@ public class MappingProfiles : Profile
         CreateMap<CreateResourceDto, Resource>();
 
         CreateMap<UpdateResourceDto, Resource>();
+        
+        
+        // Review
+        
+        CreateMap<Review, GetReviewDto>();
+
+        CreateMap<CreateReviewDto, Review>();
+
+        CreateMap<UpdateReviewDto, Review>();
 
 
     }
