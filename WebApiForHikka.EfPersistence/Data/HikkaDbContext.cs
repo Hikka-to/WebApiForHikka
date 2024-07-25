@@ -47,7 +47,9 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<LanguageMediaplayer> LanguageMediaplayers { get; set; }
     public DbSet<Provider> Providers { get; set; }
     public DbSet<UserSetting> UserSettings { get; set; }
+    public DbSet<UserAnimeListType> UserAnimeListTypes { get; set; }
     public DbSet<EmojiGroup> EmojiGroups { get; set; }
+    public DbSet<UserAnimeList> UserAnimeLists { get; set; }
 
     public DbSet<AnimeRating> AnimeRatings { get; set; }
 

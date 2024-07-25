@@ -7,6 +7,7 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Relation.AnimeRatings;
 using WebApiForHikka.Dtos.Dto.Relation.Relateds;
 using WebApiForHikka.Dtos.Dto.Relation.Seasons;
+using WebApiForHikka.Dtos.Dto.Relation.UserAnimeLists;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
@@ -25,6 +26,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ExternalLinks;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
@@ -388,7 +390,22 @@ public class MappingProfiles : Profile
         CreateMap<CreateEmojiGroupDto, EmojiGroup>();
 
         CreateMap<UpdateEmojiGroupDto, EmojiGroup>();
+        
+        // UserAnimeListType
+        
+        CreateMap<UserAnimeListType, GetUserAnimeListTypeDto>();
+        
+        CreateMap<CreateUserAnimeListTypeDto, UserAnimeListType>();
 
+        CreateMap<UpdateUserAnimeListTypeDto, UserAnimeListType>();
+        
+        // UserAnimeList
+        CreateMap<UserAnimeList, GetUserAnimeListDto>();
+        
+        CreateMap<CreateUserAnimeListDto, UserAnimeList>();
+
+        CreateMap<UpdateUserAnimeListDto, UserAnimeList>();
+        
         // AnimeRating
 
         CreateMap<AnimeRating, GetAnimeRatingDto>().ForMember(
