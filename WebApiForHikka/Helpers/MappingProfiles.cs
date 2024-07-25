@@ -47,6 +47,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.SharedModels.Models.Relation;
 using WebApiForHikka.Dtos.Dto.Relation.Notifications;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.SearchHistories;
 
 namespace WebApiForHikka.WebApi.Helpers;
 
@@ -489,6 +490,14 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateNotificationDto, Notification>();
 
+
+        //SearchHistories
+
+        CreateMap<SearchHistory, GetSearchHistoryDto>();
+
+        CreateMap<CreateSearchHistoryDto, SearchHistory>();
+
+        CreateMap<UpdateSearchHistoryDto, SearchHistory>();
 
 
 
