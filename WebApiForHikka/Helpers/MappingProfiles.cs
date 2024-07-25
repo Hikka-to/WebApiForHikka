@@ -7,6 +7,7 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Relation.AnimeRatings;
 using WebApiForHikka.Dtos.Dto.Relation.Relateds;
 using WebApiForHikka.Dtos.Dto.Relation.Seasons;
+using WebApiForHikka.Dtos.Dto.Relation.WatchUserHistories;
 using WebApiForHikka.Dtos.Dto.Relation.UserAnimeLists;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
@@ -44,6 +45,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
+using WebApiForHikka.SharedModels.Models.Relation;
 
 namespace WebApiForHikka.WebApi.Helpers;
 
@@ -469,6 +471,15 @@ public class MappingProfiles : Profile
         CreateMap<CreateResourceDto, Resource>();
 
         CreateMap<UpdateResourceDto, Resource>();
+
+        //UserWatchHistory
+
+        CreateMap<UserWatchHistory, GetUserWatchHistoryDto>();
+
+        CreateMap<CreateUserWatchHistoryDto, UserWatchHistory>();
+
+        CreateMap<UpdateUserWatchHistoryDto, UserWatchHistory>();
+
 
 
     }
