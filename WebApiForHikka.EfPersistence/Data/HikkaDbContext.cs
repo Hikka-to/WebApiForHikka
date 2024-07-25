@@ -60,6 +60,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Review> Reviews { get; set; }
 
     public DbSet<UserWatchHistory> UserWatchHistories { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
 
 
