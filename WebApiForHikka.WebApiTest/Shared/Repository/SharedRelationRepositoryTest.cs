@@ -22,7 +22,7 @@ public abstract class SharedRelationRepositoryTest<
         var sample = GetSample();
 
         // Act
-        var result = await repository.AddAsync(sample, CancellationToken);
+        await repository.AddAsync(sample, CancellationToken);
 
         await repository.DeleteAsync(sample.FirstId, sample.SecondId, CancellationToken);
 

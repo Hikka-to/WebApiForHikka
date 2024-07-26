@@ -10,7 +10,7 @@ namespace WebApiForHikka.Test.Service.WithoutSeoAddition.Resources;
 public class ResourceServiceTest : SharedServiceTest<
     Resource,
     ResourceService
-    >
+>
 {
     protected override Resource GetSample()
     {

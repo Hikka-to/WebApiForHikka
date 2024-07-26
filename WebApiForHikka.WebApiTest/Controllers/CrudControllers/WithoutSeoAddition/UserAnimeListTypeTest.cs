@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebApiForHikka.Application.WithoutSeoAddition.UserAnimeListTypes;
+using WebApiForHikka.Application.Relation.UserAnimeListTypes;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
 using WebApiForHikka.Dtos.Shared;
@@ -41,25 +41,39 @@ public class UserAnimeListTypeTest : CrudControllerBaseTest<
         );
     }
 
-    protected override async Task<UserAnimeListTypeController> GetController(AllServicesInController allServicesInController,
+    protected override async Task<UserAnimeListTypeController> GetController(
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
-        AllServicesInController allServices = allServicesInController;
-
-        
+        var allServices = allServicesInController;
 
 
         return new UserAnimeListTypeController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );
     }
-    
 
-    protected override CreateUserAnimeListTypeDto GetCreateDtoSample() => GetUserAnimeListTypeModels.GetCreateSampleDto();
-    protected override GetUserAnimeListTypeDto GetGetDtoSample() => GetUserAnimeListTypeModels.GetGetDtoSample();
-    protected override UpdateUserAnimeListTypeDto GetUpdateDtoSample() => GetUserAnimeListTypeModels.GetUpdateDtoSample();
-    protected override UserAnimeListType GetModelSample() => GetUserAnimeListTypeModels.GetSample();
+
+    protected override CreateUserAnimeListTypeDto GetCreateDtoSample()
+    {
+        return GetUserAnimeListTypeModels.GetCreateSampleDto();
+    }
+
+    protected override GetUserAnimeListTypeDto GetGetDtoSample()
+    {
+        return GetUserAnimeListTypeModels.GetGetDtoSample();
+    }
+
+    protected override UpdateUserAnimeListTypeDto GetUpdateDtoSample()
+    {
+        return GetUserAnimeListTypeModels.GetUpdateDtoSample();
+    }
+
+    protected override UserAnimeListType GetModelSample()
+    {
+        return GetUserAnimeListTypeModels.GetSample();
+    }
 }

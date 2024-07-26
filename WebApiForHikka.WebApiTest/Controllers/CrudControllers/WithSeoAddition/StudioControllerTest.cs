@@ -53,7 +53,7 @@ public class StudioControllerTest : CrudControllerBaseWithSeoAddition<
         return new StudioController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
         );
     }

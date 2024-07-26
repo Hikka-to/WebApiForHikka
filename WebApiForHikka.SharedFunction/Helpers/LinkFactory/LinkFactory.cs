@@ -11,7 +11,8 @@ public class LinkFactory : ILinkFactory
 
         var hostValue = httpRequest.Host.Value;
 
-        var leftPartOfLink = httpRequest.Path.Value.Substring(0, httpRequest.Path.Value.IndexOf(currectEnpointName));
+        var leftPartOfLink =
+            httpRequest.Path.Value?[..httpRequest.Path.Value.IndexOf(currectEnpointName, StringComparison.Ordinal)];
 
         var rightPartOfLink = imagePath.Split('\\').Last();
 

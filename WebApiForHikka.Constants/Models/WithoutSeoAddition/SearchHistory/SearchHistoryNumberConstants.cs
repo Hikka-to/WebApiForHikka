@@ -3,5 +3,4 @@
 public static class SearchHistoryNumberConstants
 {
     public const int QuearyLength = 255;
-    
 }

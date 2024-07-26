@@ -1,7 +1,4 @@
-﻿using FakeItEasy;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +7,6 @@ using WebApiForHikka.Application.Users;
 using WebApiForHikka.Application.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.EfPersistence.Data;
@@ -18,10 +14,8 @@ using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
-using WebApiForHikka.SharedFunction.JwtTokenFactories;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.Test.Controllers.Shared;
-using WebApiForHikka.Test.Repository.Relation;
 using WebApiForHikka.WebApi.Controllers;
 
 namespace WebApiForHikka.Test.Controllers.Users;
@@ -44,7 +38,7 @@ public class UserControllerTest : BaseControllerTest
     {
         var userRepository = new UserRepository(dbContext, userManager);
 
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
 
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
@@ -53,7 +47,7 @@ public class UserControllerTest : BaseControllerTest
 
     protected Mock<IFileHelper> GetFileHelperMock()
     {
-        Mock<IFileHelper> fileHelperMock = new Mock<IFileHelper>();
+        var fileHelperMock = new Mock<IFileHelper>();
 
         fileHelperMock.Setup(e => e.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
@@ -70,7 +64,7 @@ public class UserControllerTest : BaseControllerTest
 
     protected Mock<ILinkFactory> GetLinkFactoryMock()
     {
-        Mock<ILinkFactory> linkFactoryMock = new Mock<ILinkFactory>();
+        var linkFactoryMock = new Mock<ILinkFactory>();
 
         linkFactoryMock.Setup(e => e.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
             It.IsAny<string>(),
@@ -100,7 +94,7 @@ public class UserControllerTest : BaseControllerTest
             GetJwtTokenFactory(userManager),
             Configuration,
             GetRoleManager(dbContext),
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(userManager, roleManager),
             services.GetRequiredService<IUserSettingService>(),
             GetFileHelperMock().Object,
@@ -128,7 +122,7 @@ public class UserControllerTest : BaseControllerTest
             GetJwtTokenFactory(userManager),
             Configuration,
             GetRoleManager(dbContext),
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForUserUser(userManager, roleManager),
             services.GetRequiredService<IUserSettingService>(),
             GetFileHelperMock().Object,
@@ -138,7 +132,7 @@ public class UserControllerTest : BaseControllerTest
         return controller;
     }
 
-    protected async Task<UserController> GetUserControllerForAnonymus()
+    protected UserController GetUserControllerForAnonymus()
     {
         var serviceCollection = new ServiceCollection();
 
@@ -155,7 +149,7 @@ public class UserControllerTest : BaseControllerTest
             GetJwtTokenFactory(userManager),
             Configuration,
             GetRoleManager(dbContext),
-            _mapper,
+            Mapper,
             GetHttpContextAccessForAnonymUser(),
             services.GetRequiredService<IUserSettingService>(),
             GetFileHelperMock().Object,
@@ -173,7 +167,7 @@ public class UserControllerTest : BaseControllerTest
         var userRegistrationDto = GetUserModels.GetUserRegistrationDtoForAdminSample();
 
 
-        var controller = await GetUserControllerForAnonymus();
+        var controller = GetUserControllerForAnonymus();
         // Act
         var result = await controller.Create(userRegistrationDto, CancellationToken);
 
@@ -182,18 +176,18 @@ public class UserControllerTest : BaseControllerTest
         var response = Assert.IsType<RegistratedResponseUserDto>(okResult.Value);
         Assert.Equal(UserStringConstants.MessageUserRegistrated, response.Message);
     }
-    
-    
+
+
     [Fact]
     public async Task Get_ValidId_ReturnsOkWithUser()
     {
         // Arrange
         var controller = await GetUserControllerForAdmin();
         var user = GetUserModels.GetUserRegistrationDtoForAdminSample();
-        
+
         // Act
         var guestCreate = await controller.Create(user, CancellationToken) as OkObjectResult;
-        var createUserId = (guestCreate.Value as RegistratedResponseUserDto).Id;
+        var createUserId = (guestCreate!.Value as RegistratedResponseUserDto)!.Id;
         var result = await controller.Get(createUserId, CancellationToken.None);
 
         // Assert
@@ -201,7 +195,7 @@ public class UserControllerTest : BaseControllerTest
         var returnedUser = Assert.IsType<GetUserDto>(okResult.Value);
         Assert.Equal(createUserId, returnedUser.Id);
     }
-    
+
     [Fact]
     public async Task Put_ValidModel_ReturnsNoContentAndUpdatesUser()
     {
@@ -210,17 +204,17 @@ public class UserControllerTest : BaseControllerTest
         var createUserDto = GetUserModels.GetUserRegistrationDtoForAdminSample();
 
         var createResult = await controller.Create(createUserDto, CancellationToken.None);
-        
+
         var okCreateResult = Assert.IsType<OkObjectResult>(createResult);
         var registeredUser = Assert.IsType<RegistratedResponseUserDto>(okCreateResult.Value);
-        
+
         var createdUserId = registeredUser.Id;
-        
-        
+
+
         var updateUserDto = GetUserModels.GetUpdateDtoSample();
         updateUserDto.Id = createdUserId;
 
-        
+
         // Act
         var putResult = await controller.Put(updateUserDto, CancellationToken.None);
 
@@ -234,30 +228,29 @@ public class UserControllerTest : BaseControllerTest
         Assert.Equal(updateUserDto.Name, updatedUser.Name);
         Assert.Equal(updateUserDto.Email, updatedUser.Email);
     }
-    
-    
+
+
     [Fact]
     public async Task Delete_ValidId_ReturnsNoContentAndRemovesUser()
     {
         // Arrange
         var controller = await GetUserControllerForAdmin();
         var userDto = GetUserModels.GetUserRegistrationDtoForAdminSample();
-    
+
         // Create a user
         var createResult = await controller.Create(userDto, CancellationToken.None) as OkObjectResult;
         Assert.NotNull(createResult);
-    
+
         var registeredUser = Assert.IsType<RegistratedResponseUserDto>(createResult.Value);
         var createdUserId = registeredUser.Id;
-    
+
         // Act
         var deleteResult = await controller.Delete(createdUserId, CancellationToken.None);
-    
+
         // Assert
         Assert.IsType<NoContentResult>(deleteResult);
-        
-        var getDeletedResult = (await controller.Get(createdUserId, CancellationToken.None)) as NotFoundResult;
+
+        var getDeletedResult = await controller.Get(createdUserId, CancellationToken.None) as NotFoundResult;
         Assert.IsType<NotFoundResult>(getDeletedResult);
     }
-
 }

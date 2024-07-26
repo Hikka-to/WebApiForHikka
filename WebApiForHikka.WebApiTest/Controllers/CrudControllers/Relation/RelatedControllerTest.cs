@@ -51,7 +51,7 @@ public class RelatedControllerTest : CrudControllerBaseTest<
     {
         return new RelatedController(
             allServicesInController.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IRelatedTypeService>()

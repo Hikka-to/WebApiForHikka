@@ -46,7 +46,7 @@ public class TagControllerTest : CrudControllerBaseWithSeoAddition<
         return new TagController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

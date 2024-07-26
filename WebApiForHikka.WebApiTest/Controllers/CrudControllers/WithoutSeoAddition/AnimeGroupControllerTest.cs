@@ -47,7 +47,7 @@ public class AnimeGroupControllerTest : CrudControllerBaseTest<
 
         return new AnimeGroupController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

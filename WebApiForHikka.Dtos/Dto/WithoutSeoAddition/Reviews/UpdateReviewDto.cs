@@ -8,7 +8,7 @@ namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Reviews;
 
 [ModelMetadataType(typeof(Review))]
 [ExportTsInterface]
-public class UpdateReviewDto  : ModelDto
+public class UpdateReviewDto : ModelDto
 {
     [EntityValidation<Review>] public required Guid AnimeRatingId { get; set; }
 

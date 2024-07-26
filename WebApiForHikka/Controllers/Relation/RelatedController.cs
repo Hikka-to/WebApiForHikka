@@ -28,7 +28,7 @@ public class RelatedController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<Related>(dto);
+        var model = Mapper.Map<Related>(dto);
 
         model.RelatedType = (await relatedTypeService.GetAsync(dto.RelatedTypeId, cancellationToken))!;
 
@@ -45,7 +45,7 @@ public class RelatedController(
         });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<Related>(dto);
+        var model = Mapper.Map<Related>(dto);
 
         model.RelatedType = (await relatedTypeService.GetAsync(dto.RelatedTypeId, cancellationToken))!;
 

@@ -39,7 +39,7 @@ public class AnimeVideoKindControllerTest : CrudControllerBaseTest<
 
         return new AnimeVideoKindController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

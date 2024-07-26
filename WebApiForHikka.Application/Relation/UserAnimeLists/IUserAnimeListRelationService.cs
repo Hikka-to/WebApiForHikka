@@ -5,4 +5,4 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Application.Relation.UserAnimeLists;
 
-public interface IUserAnimeListRelationService  : IRelationCrudService<UserAnimeList, User, Anime>;
+public interface IUserAnimeListRelationService : IRelationCrudService<UserAnimeList, User, Anime>;

@@ -28,7 +28,7 @@ public class AlternativeNameController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<AlternativeName>(dto);
+        var model = Mapper.Map<AlternativeName>(dto);
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
@@ -46,7 +46,7 @@ public class AlternativeNameController(
         });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<AlternativeName>(dto);
+        var model = Mapper.Map<AlternativeName>(dto);
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 

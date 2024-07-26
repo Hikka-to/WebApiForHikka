@@ -51,7 +51,7 @@ public class ExternalLinkControllerTest : CrudControllerBaseTest<
     {
         return new ExternalLinkController(
             allServicesInController.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IAnimeService>()

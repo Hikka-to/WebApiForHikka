@@ -1,4 +1,4 @@
-﻿namespace WebApiForHikka.Constants.Models.WithoutSeoAddition.UserRecomendations;
+﻿namespace WebApiForHikka.Constants.Models.WithoutSeoAddition.UserRecommendations;
 
 public class UserRecommendationNumberConstants
 {

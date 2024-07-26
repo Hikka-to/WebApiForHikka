@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.WithoutSeoAddition.ReviewLikes;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ReviewLikes;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithoutSeoAddition;

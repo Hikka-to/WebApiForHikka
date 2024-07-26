@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.WithoutSeoAddition.ReviewLikes;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ReviewLikes;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
@@ -49,7 +49,7 @@ public class ReviewLikeControllerTest : CrudControllerBaseTest<
 
         return new ReviewLikeController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

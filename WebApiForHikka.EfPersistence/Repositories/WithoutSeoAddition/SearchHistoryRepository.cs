@@ -1,4 +1,4 @@
-﻿using WebApiForHikka.Application.WithoutSeoAddition.HistoryQueries;
+﻿using WebApiForHikka.Application.WithoutSeoAddition.SearchHistories;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebApiForHikka.Application.WithoutSeoAddition.HistoryQueries;
+using WebApiForHikka.Application.WithoutSeoAddition.SearchHistories;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.SearchHistories;
 using WebApiForHikka.Dtos.Shared;
@@ -40,14 +40,15 @@ public class SearchHistoryControllerTest : CrudControllerBaseTest<
         return seoAdditions;
     }
 
-    protected override async Task<SearchHistoryController> GetController(AllServicesInController allServicesInController,
+    protected override async Task<SearchHistoryController> GetController(
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
         var allServices = allServicesInController;
 
         return new SearchHistoryController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

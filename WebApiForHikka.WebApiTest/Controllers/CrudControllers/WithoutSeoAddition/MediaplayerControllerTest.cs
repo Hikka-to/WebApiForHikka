@@ -47,7 +47,7 @@ public class MediaplayerControllerTest : CrudControllerBaseTest<
 
         return new MediaplayerController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

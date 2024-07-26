@@ -46,7 +46,7 @@ public class KindControllerTest : CrudControllerBaseWithSeoAddition<
         return new KindController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

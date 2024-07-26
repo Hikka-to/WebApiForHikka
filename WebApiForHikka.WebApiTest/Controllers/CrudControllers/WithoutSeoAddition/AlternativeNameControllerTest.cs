@@ -51,7 +51,7 @@ public class AlternativeNameControllerTest : CrudControllerBaseTest<
     {
         return new AlternativeNameController(
             allServicesInController.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IAnimeService>()

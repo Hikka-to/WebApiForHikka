@@ -47,7 +47,7 @@ public class SeasonControllerTest : CrudControllerBaseTest<
 
         return new SeasonController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

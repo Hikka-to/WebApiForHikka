@@ -13,14 +13,12 @@ public class GetUserAnimeListModels
         {
             UserAnimeListType = GetUserAnimeListTypeModels.GetSample(),
             IsFavorite = true,
-            
+
             FirstId = Guid.NewGuid(),
             SecondId = Guid.NewGuid(),
-            
+
             First = GetUserModels.GetSample(),
             Second = GetAnimeModels.GetSample()
-            
-            
         };
     }
 
@@ -30,10 +28,10 @@ public class GetUserAnimeListModels
         {
             UserAnimeListType = GetUserAnimeListTypeModels.GetSample(),
             IsFavorite = false,
-            
+
             FirstId = Guid.NewGuid(),
             SecondId = Guid.NewGuid(),
-            
+
             First = GetUserModels.GetSample(),
             Second = GetAnimeModels.GetSample()
         };
@@ -51,13 +49,12 @@ public class GetUserAnimeListModels
     public static GetUserAnimeListDto GetGetDtoSample()
     {
         return new GetUserAnimeListDto
-        { 
+        {
             UserAnimeListType = GetUserAnimeListTypeModels.GetSample(),
             IsFavorite = false,
-            
+
             User = GetUserModels.GetGetDtoSample(),
             Anime = GetAnimeModels.GetGetDtoSample()
-            
         };
     }
 
@@ -67,9 +64,9 @@ public class GetUserAnimeListModels
         {
             UserId = Guid.NewGuid(),
             AnimeId = Guid.NewGuid(),
-            
+
             IsFavorite = false,
-            
+
             Id = Guid.NewGuid()
         };
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Relation.UserWatchHistories;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Dtos.Dto.Relation.WatchUserHistories;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
@@ -39,14 +40,15 @@ public class UserWatchHistoryControllerTest : CrudControllerBaseTest<
         return seoAdditions;
     }
 
-    protected override async Task<UserWatchHistoryController> GetController(AllServicesInController allServicesInController,
+    protected override async Task<UserWatchHistoryController> GetController(
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
         var allServices = allServicesInController;
 
         return new UserWatchHistoryController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

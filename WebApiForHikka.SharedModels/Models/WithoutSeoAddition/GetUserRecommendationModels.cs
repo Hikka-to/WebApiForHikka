@@ -1,7 +1,6 @@
 ﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecomendations;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecommendations;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
-using System;
 
 namespace WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 

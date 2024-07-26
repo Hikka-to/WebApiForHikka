@@ -123,11 +123,13 @@ public class FileHelper : IFileHelper
     {
         using var memoryStream = new MemoryStream();
         file.CopyTo(memoryStream);
+#pragma warning disable CA1416
         var image = new Bitmap(memoryStream);
 
         // Get the width and height of the image
         var width = image.Width;
         var height = image.Height;
+#pragma warning restore CA1416
 
         return (height, width);
     }

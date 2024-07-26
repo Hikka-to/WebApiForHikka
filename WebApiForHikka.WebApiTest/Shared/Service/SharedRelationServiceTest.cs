@@ -20,7 +20,7 @@ public abstract class SharedRelationServiceTest<TRelationModel, TService, TFirst
         var sample = GetSample();
 
         // Act
-        var result = await service.CreateAsync(sample, CancellationToken);
+        await service.CreateAsync(sample, CancellationToken);
 
         await service.DeleteAsync(sample.FirstId, sample.SecondId, CancellationToken);
 
