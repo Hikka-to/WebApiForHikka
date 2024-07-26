@@ -67,4 +67,14 @@ public class FilterColumnSelector
         column = GetColumns(entityType).FirstOrDefault(c => c.GetActualPath() == actualPath);
         return column is not null;
     }
+
+    public static IEnumerable<FilteringItem> GetColumnByReadablePath(IEntityType entityType, string readablePath)
+    {
+        return GetColumns(entityType).First(c => c.GetReadablePath() == readablePath);
+    }
+
+    public static IEnumerable<FilteringItem> GetColumnByActualPath(IEntityType entityType, string actualPath)
+    {
+        return GetColumns(entityType).First(c => c.GetActualPath() == actualPath);
+    }
 }

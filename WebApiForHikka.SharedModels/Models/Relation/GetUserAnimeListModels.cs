@@ -50,7 +50,7 @@ public class GetUserAnimeListModels
     {
         return new GetUserAnimeListDto
         {
-            UserAnimeListType = GetUserAnimeListTypeModels.GetSample(),
+            UserAnimeListType = GetUserAnimeListTypeModels.GetGetDtoSample(),
             IsFavorite = false,
 
             User = GetUserModels.GetGetDtoSample(),

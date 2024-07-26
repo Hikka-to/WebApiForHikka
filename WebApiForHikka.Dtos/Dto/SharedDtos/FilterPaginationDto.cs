@@ -16,6 +16,6 @@ public class FilterPaginationDto
     [Required]
     public int PageSize { get; set; } = SharedNumberConstatnts.DefaultItemsInOnePage;
 
-    public FilterDto[] Filters { get; set; } = [];
-    public SortDto[] Sorts { get; set; } = [];
+    public IEnumerable<IEnumerable<FilterDto>> Filters { get; set; } = [];
+    public IEnumerable<SortDto> Sorts { get; set; } = [];
 }

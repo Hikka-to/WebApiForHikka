@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using WebApiForHikka.Domain;
 
 namespace WebApiForHikka.EfPersistence.Extensions;
 
@@ -110,6 +111,18 @@ public static class QueryableExtensions
         var param = Expression.Parameter(typeof(T), GetParameterName(0));
         var body = (Expression)param;
         body = GetFilterBody(body, propertyName.Split('.'), filter, isStrict);
+
+        var lambda = Expression.Lambda<Func<T, bool>>(body, param);
+
+        return source.Where(lambda);
+    }
+
+    public static IQueryable<T> Filter<T>(this IQueryable<T> source, IEnumerable<Filter> filters)
+    {
+        var param = Expression.Parameter(typeof(T), GetParameterName(0));
+        var body = (Expression)param;
+        body = filters.Select(f => GetFilterBody(body, f.Column.Split('.'), f.SearchTerm, f.IsStrict))
+            .Aggregate(Expression.Or);
 
         var lambda = Expression.Lambda<Func<T, bool>>(body, param);
 
