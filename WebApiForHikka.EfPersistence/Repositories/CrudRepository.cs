@@ -153,20 +153,21 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
                          throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
-        if (!FilterColumnSelector.IsColumnValid(entityType, filterBy))
-            throw new InvalidOperationException($"Column {filterBy} is not valid for {typeof(TModel)} filter");
+        if (SortColumnSelector.TryGetColumnByReadablePath(entityType, filterBy, out var column))
+            return query.Filter(column.GetActualPath(), filter, isStrict);
 
-        return query.Filter(filterBy, filter, isStrict);
+        throw new InvalidOperationException($"Column {filterBy} is not valid for {typeof(TModel)} filter");
     }
 
     protected virtual IOrderedQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending)
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
                          throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
-        if (!SortColumnSelector.IsColumnValid(entityType, orderBy))
-            throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
 
-        return query.Sort(orderBy, isAscending);
+        if (SortColumnSelector.TryGetColumnByReadablePath(entityType, orderBy, out var column))
+            return query.Sort(column.GetActualPath(), isAscending);
+
+        throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
     }
 
     protected virtual IOrderedQueryable<TModel> ThenSort(IOrderedQueryable<TModel> query, string orderBy,
@@ -174,9 +175,10 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
                          throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
-        if (!SortColumnSelector.IsColumnValid(entityType, orderBy))
-            throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
 
-        return query.ThenSort(orderBy, isAscending);
+        if (SortColumnSelector.TryGetColumnByReadablePath(entityType, orderBy, out var column))
+            return query.ThenSort(column.GetActualPath(), isAscending);
+
+        throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
     }
 }
