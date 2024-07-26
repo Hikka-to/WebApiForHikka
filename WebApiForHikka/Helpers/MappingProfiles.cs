@@ -407,7 +407,13 @@ public class MappingProfiles : Profile
         CreateMap<UpdateUserAnimeListTypeDto, UserAnimeListType>();
 
         // UserAnimeList
-        CreateMap<UserAnimeList, GetUserAnimeListDto>();
+        CreateMap<UserAnimeList, GetUserAnimeListDto>().ForMember(
+            c => c.UserAnimeListType,
+            op => op.MapFrom(v => v.UserAnimeListType)).ForMember(
+            c => c.User,
+            op => op.MapFrom(v => v.First)).ForMember(
+            c => c.Anime,
+            op => op.MapFrom(v => v.Second));
 
         CreateMap<CreateUserAnimeListDto, UserAnimeList>();
 

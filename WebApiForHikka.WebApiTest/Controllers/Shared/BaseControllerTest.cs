@@ -54,12 +54,28 @@ public abstract class BaseControllerTest : SharedTest
     {
         Filters =
         [
-            new FilterDto
-            {
-                SearchTerm = "Test",
-                Column = SharedStringConstants.IdName,
-                IsStrict = true
-            }
+            [
+                new FilterDto
+                {
+                    SearchTerm = "Test",
+                    Column = SharedStringConstants.IdName,
+                    IsStrict = true
+                },
+                new FilterDto
+                {
+                    SearchTerm = "Test1",
+                    Column = SharedStringConstants.IdName,
+                    IsStrict = true
+                }
+            ],
+            [
+                new FilterDto
+                {
+                    SearchTerm = "Test2",
+                    Column = SharedStringConstants.IdName,
+                    IsStrict = true
+                }
+            ]
         ],
         Sorts =
         [
@@ -67,6 +83,11 @@ public abstract class BaseControllerTest : SharedTest
             {
                 Column = SharedStringConstants.IdName,
                 SortOrder = SortOrder.Asc
+            },
+            new SortDto
+            {
+                Column = SharedStringConstants.IdName,
+                SortOrder = SortOrder.Desc
             }
         ],
         PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,

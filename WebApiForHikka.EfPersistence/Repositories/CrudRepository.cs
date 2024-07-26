@@ -65,7 +65,7 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         var query = DbContext.Set<TModel>().AsQueryable();
 
         query = dto.Filters.Aggregate(query,
-            (current, filter) => Filter(current, filter.Column, filter.SearchTerm, filter.IsStrict));
+            (current, filter) => Filter(current, filter));
         var totalItems = await query.CountAsync(cancellationToken);
 
         var firstSort = dto.Sorts.FirstOrDefault();
@@ -148,14 +148,27 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         }
     }
 
-    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter, bool isStrict)
+    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, IEnumerable<Filter> filters)
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
                          throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
-        if (SortColumnSelector.TryGetColumnByReadablePath(entityType, filterBy, out var column))
-            return query.Filter(column.GetActualPath(), filter, isStrict);
 
-        throw new InvalidOperationException($"Column {filterBy} is not valid for {typeof(TModel)} filter");
+        filters = filters.ToArray();
+        var errors = filters
+            .Where(filter => !FilterColumnSelector.IsColumnValidByReadablePath(entityType, filter.Column))
+            .Select(filter => filter.Column)
+            .ToArray();
+
+        if (errors.Length != 0)
+            throw new InvalidOperationException(
+                $"Columns [{string.Join(", ", errors)}] are not valid for {typeof(TModel)} filter");
+
+        var actualFilters = filters.Select(filter => filter with
+        {
+            Column = FilterColumnSelector.GetColumnByReadablePath(entityType, filter.Column).GetActualPath()
+        });
+
+        return query.Filter(actualFilters);
     }
 
     protected virtual IOrderedQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending)
