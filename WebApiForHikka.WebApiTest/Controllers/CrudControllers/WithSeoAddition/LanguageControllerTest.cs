@@ -45,7 +45,7 @@ public class LanguageControllerTest : CrudControllerBaseWithSeoAddition<
         return new LanguageController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

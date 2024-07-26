@@ -7,7 +7,6 @@ using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.SharedFunction.Extensions;
-using WebApiForHikka.SharedModels.Models.Relation;
 
 namespace WebApiForHikka.EfPersistence.Data;
 
@@ -87,7 +86,7 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
         foreach (var entityType in modelBuilder.Model.GetEntityTypes()
                      .Where(e => e.ClrType.GenericIsSubclassOf(typeof(RelationModel<,>))))
         {
-            var relationType = entityType.ClrType.GetSubclassType(typeof(RelationModel<,>));
+            var relationType = entityType.ClrType.GetSubclassType(typeof(RelationModel<,>))!;
             var firstType = relationType.GetGenericArguments()[0];
             var secondType = relationType.GetGenericArguments()[1];
 

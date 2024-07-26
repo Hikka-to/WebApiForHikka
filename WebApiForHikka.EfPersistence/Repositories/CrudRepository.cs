@@ -108,11 +108,10 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         var modelEntry = DbContext.Entry(model);
         var entityEntry = DbContext.Entry(entity);
         foreach (var property in entityEntry.Properties)
-            if (property.Metadata.IsPrimaryKey() ||
-                property.Metadata.IsShadowProperty() ||
-                ((!property.Metadata.PropertyInfo?.SetMethod?.IsPublic ?? true) &&
-                 (!property.Metadata.FieldInfo?.IsPublic ?? true))) continue;
-            else
+            if (!property.Metadata.IsPrimaryKey() &&
+                !property.Metadata.IsShadowProperty() &&
+                ((property.Metadata.PropertyInfo?.SetMethod?.IsPublic ?? false) ||
+                 (property.Metadata.FieldInfo?.IsPublic ?? false)))
                 switch (property.Metadata.Name)
                 {
                     case "CreatedAt":

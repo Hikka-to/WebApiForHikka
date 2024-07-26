@@ -53,7 +53,7 @@ public class CountryControllerTest : CrudControllerBaseWithSeoAddition<
         return new CountryController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
         );
     }

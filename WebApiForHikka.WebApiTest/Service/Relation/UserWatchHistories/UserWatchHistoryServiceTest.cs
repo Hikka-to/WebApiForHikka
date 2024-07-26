@@ -1,15 +1,16 @@
 ﻿using WebApiForHikka.Application.Relation.UserWatchHistories;
 using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
 using WebApiForHikka.SharedModels.Models.Relation;
 using WebApiForHikka.Test.Shared.Service;
-using WebApiForHikka.WebApi.Controllers.Relation;
 
 namespace WebApiForHikka.Test.Service.Relation.UserWatchHistories;
 
-public class UserWatchHistoryServiceTest : SharedRelationServiceTest<UserWatchHistory, UserWatchHistoryService, User, Episode>
+public class
+    UserWatchHistoryServiceTest : SharedRelationServiceTest<UserWatchHistory, UserWatchHistoryService, User, Episode>
 {
     protected override UserWatchHistory GetSample()
     {

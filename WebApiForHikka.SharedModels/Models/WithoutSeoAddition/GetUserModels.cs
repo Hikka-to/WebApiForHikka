@@ -1,7 +1,6 @@
 using Faker;
 using Microsoft.AspNetCore.Identity;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Constants.Models.WithoutSeoAddition.RelatedType;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.SharedModels.MyDataFakers;
@@ -125,24 +124,23 @@ public class GetUserModels
 
     public static UserRegistrationDto GetUserRegistrationDtoForAdminSample()
     {
-        return new UserRegistrationDto()
+        return new UserRegistrationDto
         {
             Email = "user@gmail.com",
             Password = "test123",
             Role = UserStringConstants.AdminRole,
-            UserName = Lorem.GetFirstWord(),
+            UserName = Lorem.GetFirstWord()
         };
     }
+
     public static UserRegistrationDto GetUserRegistrationDtoForUserSample()
     {
-        return new UserRegistrationDto()
+        return new UserRegistrationDto
         {
             Email = "user@gmail.com",
             Password = "test123",
             Role = UserStringConstants.UserRole,
-            UserName = Lorem.GetFirstWord(),
+            UserName = Lorem.GetFirstWord()
         };
     }
-
-
 }

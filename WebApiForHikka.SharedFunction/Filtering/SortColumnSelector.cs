@@ -42,7 +42,7 @@ public class SortColumnSelector
         {
             var targetEntityType = navigation.TargetEntityType;
             if ((!navigation.FieldInfo?.IsPublic ?? true) &&
-                (!navigation.PropertyInfo?.GetMethod?.IsPublic ?? true)) continue;
+                (navigation.PropertyInfo?.GetMethod == null || !navigation.PropertyInfo.GetMethod.IsPublic)) continue;
             var targetColumns = GetNavigationColumns(targetEntityType);
             var filteringItem = new FilteringItem(navigation.Name, navigation.Name, navigation);
 

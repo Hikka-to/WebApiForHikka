@@ -5,10 +5,9 @@ using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Resources;
 
-
 [ModelMetadataType(typeof(Resource))]
 [ExportTsInterface]
 public class UpdateResourceDto : ModelDto
 {
-    public required string Slug { get; set; }   
+    public required string Slug { get; set; }
 }

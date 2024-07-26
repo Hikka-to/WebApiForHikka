@@ -46,7 +46,7 @@ public class RestrictedRatingControllerTest : CrudControllerBaseWithSeoAddition<
         return new RestrictedRatingController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
         );
     }

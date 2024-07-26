@@ -39,9 +39,9 @@ public class AnimeController(
     ITagService tagService,
     ICountryService countryService,
     IDubService dubService,
-    IFileHelper _fileHelper,
-    IColorHelper _colorHelper,
-    ILinkFactory _linkfactory
+    IFileHelper fileHelper,
+    IColorHelper colorHelper,
+    ILinkFactory linkFactory
 )
     : CrudControllerForModelWithSeoAddition<
         GetAnimeDto,
@@ -51,15 +51,17 @@ public class AnimeController(
         Anime
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
+    private readonly IAnimeService _crudService = crudService;
+
     public override async Task<IActionResult> Create([FromForm] CreateAnimeDto dto, CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<Anime>(dto);
+        var model = Mapper.Map<Anime>(dto);
 
-        var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
-        await _seoAdditionService.CreateAsync(seoAddition, cancellationToken);
+        var seoAddition = Mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.CreateAsync(seoAddition, cancellationToken);
 
         model.SeoAddition = seoAddition;
 
@@ -81,7 +83,7 @@ public class AnimeController(
 
         var similarAnimes = new List<Anime>();
         foreach (var item in dto.SimilarAnimes ?? [])
-            similarAnimes.Add((await crudService.GetAsync(item, cancellationToken))!);
+            similarAnimes.Add((await _crudService.GetAsync(item, cancellationToken))!);
 
 
         model.Tags = tags;
@@ -89,11 +91,11 @@ public class AnimeController(
         model.Dubs = dubs;
         model.SimilarChildAnimes = similarAnimes;
 
-        var path = _fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
+        var path = fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
 
         model.PosterPath = path;
 
-        model.PosterColors = _colorHelper.GetListOfColorsFromImage(dto.PosterImage);
+        model.PosterColors = colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
         model.CreatedAt = DateTime.UtcNow;
 
@@ -114,14 +116,14 @@ public class AnimeController(
         });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<Anime>(dto);
+        var model = Mapper.Map<Anime>(dto);
 
 
-        var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
-        await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
+        var seoAdditionModel = Mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
 
-        model.SeoAddition = (await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
+        model.SeoAddition = (await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
         model.Kind = (await kindService.GetAsync(dto.KindId, cancellationToken))!;
         model.Status = (await statusService.GetAsync(dto.StatusId, cancellationToken))!;
         model.Period = (await periodService.GetAsync(dto.PeriodId, cancellationToken))!;
@@ -132,15 +134,15 @@ public class AnimeController(
 
         if (path == null)
         {
-            model.PosterPath = _fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
+            model.PosterPath = fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
         }
         else
         {
-            _fileHelper.OverrideFileImage(dto.PosterImage, path!);
+            fileHelper.OverrideFileImage(dto.PosterImage, path);
             model.PosterPath = path;
         }
 
-        model.PosterColors = _colorHelper.GetListOfColorsFromImage(dto.PosterImage);
+        model.PosterColors = colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
         var tags = new List<Tag>();
         foreach (var item in dto.Tags) tags.Add((await tagService.GetAsync(item, cancellationToken))!);
@@ -152,8 +154,8 @@ public class AnimeController(
         foreach (var item in dto.Dubs) dubs.Add((await dubService.GetAsync(item, cancellationToken))!);
 
         var similarAnimes = new List<Anime>();
-        foreach (var item in dto.SimilarAnimes)
-            similarAnimes.Add((await crudService.GetAsync(item, cancellationToken))!);
+        foreach (var item in dto.SimilarAnimes ?? [])
+            similarAnimes.Add((await _crudService.GetAsync(item, cancellationToken))!);
 
         model.Tags = tags;
         model.Countries = countries;
@@ -170,7 +172,7 @@ public class AnimeController(
     [HttpGet("dowloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
-        var file = _fileHelper.GetFile(ControllerStringConstants.AnimePosterPath, imageName);
+        var file = fileHelper.GetFile(ControllerStringConstants.AnimePosterPath, imageName);
 
         return File(file, ControllerStringConstants.JsonImageReturnType, imageName);
     }
@@ -184,15 +186,15 @@ public class AnimeController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
-        var models = _mapper.Map<List<GetAnimeDto>>(paginationCollection.Models);
+        var models = Mapper.Map<List<GetAnimeDto>>(paginationCollection.Models);
 
         foreach (var item in models)
             item.PosterPathUrl =
-                _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.PosterPathUrl);
+                linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.PosterPathUrl);
 
 
         return Ok(
@@ -216,7 +218,7 @@ public class AnimeController(
 
 
         await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
-        await _seoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
+        await SeoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
         return NoContent();
     }
 
@@ -227,13 +229,13 @@ public class AnimeController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<GetAnimeDto>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<GetAnimeDto>(await CrudRelationService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();
 
 
-        model.PosterPathUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.PosterPathUrl);
+        model.PosterPathUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.PosterPathUrl);
 
 
         return Ok(model);

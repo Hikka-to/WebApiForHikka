@@ -22,9 +22,9 @@ public class EpisodeImageController(
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor,
     IEpisodeService episodeService,
-    IFileHelper _fileHelper,
-    IColorHelper _colorHelper,
-    ILinkFactory _linkfactory
+    IFileHelper fileHelper,
+    IColorHelper colorHelper,
+    ILinkFactory linkfactory
 )
     : CrudController
         <GetEpisodeImageDto, UpdateEpisodeImageDto, CreateEpisodeImageDto, EpisodeImageService, EpisodeImage>(
@@ -34,7 +34,7 @@ public class EpisodeImageController(
     [HttpGet("dowloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
-        var file = _fileHelper.GetFile(ControllerStringConstants.EpisodeImagePath, imageName);
+        var file = fileHelper.GetFile(ControllerStringConstants.EpisodeImagePath, imageName);
 
         return File(file, ControllerStringConstants.JsonImageReturnType, imageName);
     }
@@ -46,15 +46,15 @@ public class EpisodeImageController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<EpisodeImage>(dto);
+        var model = Mapper.Map<EpisodeImage>(dto);
 
         model.Episode = (await episodeService.GetAsync(dto.EpisodeId, cancellationToken))!;
 
-        model.Path = _fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.EpisodeImagePath);
+        model.Path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.EpisodeImagePath);
 
-        model.Colors = _colorHelper.GetListOfColorsFromImage(dto.Image);
+        model.Colors = colorHelper.GetListOfColorsFromImage(dto.Image);
 
-        var heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);
+        var heightWidth = fileHelper.GetHeightAndWidthOfImage(dto.Image);
 
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
@@ -73,7 +73,7 @@ public class EpisodeImageController(
         });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<EpisodeImage>(dto);
+        var model = Mapper.Map<EpisodeImage>(dto);
 
         model.Episode = (await episodeService.GetAsync(dto.EpisodeId, cancellationToken))!;
 
@@ -81,17 +81,17 @@ public class EpisodeImageController(
 
         if (path == null)
         {
-            model.Path = _fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.EpisodeImagePath);
+            model.Path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.EpisodeImagePath);
         }
         else
         {
-            _fileHelper.OverrideFileImage(dto.Image, path!);
+            fileHelper.OverrideFileImage(dto.Image, path);
             model.Path = path;
         }
 
-        model.Colors = _colorHelper.GetListOfColorsFromImage(dto.Image);
+        model.Colors = colorHelper.GetListOfColorsFromImage(dto.Image);
 
-        var heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);
+        var heightWidth = fileHelper.GetHeightAndWidthOfImage(dto.Image);
 
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
@@ -109,14 +109,14 @@ public class EpisodeImageController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
-        var models = _mapper.Map<List<GetEpisodeImageDto>>(paginationCollection.Models);
+        var models = Mapper.Map<List<GetEpisodeImageDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.ImageUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadFile", "GetAll", item.ImageUrl);
+            item.ImageUrl = linkfactory.GetLinkForDowloadImage(Request, "dowloadFile", "GetAll", item.ImageUrl);
 
 
         return Ok(
@@ -141,7 +141,7 @@ public class EpisodeImageController(
             NoContent();
 
         await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
-        _fileHelper.DeleteFile(model.Path);
+        fileHelper.DeleteFile(model.Path);
         return NoContent();
     }
 
@@ -152,13 +152,13 @@ public class EpisodeImageController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<GetEpisodeImageDto>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<GetEpisodeImageDto>(await CrudRelationService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();
 
 
-        model.ImageUrl = _linkfactory.GetLinkForDowloadImage(Request, "dowloadFile", "Get", model.ImageUrl);
+        model.ImageUrl = linkfactory.GetLinkForDowloadImage(Request, "dowloadFile", "Get", model.ImageUrl);
 
 
         return Ok(model);

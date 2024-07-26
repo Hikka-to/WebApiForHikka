@@ -20,9 +20,8 @@ namespace WebApiForHikka.Test.Controllers.Shared;
 
 public abstract class BaseControllerTest : SharedTest
 {
-    private readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
-    protected readonly IMapper _mapper;
     protected readonly IConfiguration Configuration = A.Fake<IConfiguration>();
+    protected readonly IMapper Mapper;
 
     protected User SampleUser = new()
     {
@@ -48,7 +47,7 @@ public abstract class BaseControllerTest : SharedTest
     {
         A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
-        _mapper = mapperConfiguration.CreateMapper();
+        Mapper = mapperConfiguration.CreateMapper();
     }
 
     protected FilterPaginationDto FilterPaginationDto => new()

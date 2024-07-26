@@ -46,7 +46,7 @@ public class AnimeRatingControllerTest : CrudControllerBaseTest<
     {
         return new AnimeRatingController(
             allServicesInController.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

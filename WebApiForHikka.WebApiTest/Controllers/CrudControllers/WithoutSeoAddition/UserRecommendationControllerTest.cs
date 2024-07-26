@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebApiForHikka.Application.WithoutSeoAddition.UserRecomendations;
+using WebApiForHikka.Application.WithoutSeoAddition.UserRecommendations;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecomendations;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecommendations;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
@@ -47,7 +47,7 @@ public class UserRecommendationControllerTest : CrudControllerBaseTest<
 
         return new UserRecommendationController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

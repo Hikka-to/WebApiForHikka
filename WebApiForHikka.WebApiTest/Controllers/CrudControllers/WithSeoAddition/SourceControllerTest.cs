@@ -46,7 +46,7 @@ public class SourceControllerTest : CrudControllerBaseWithSeoAddition<
         return new SourceController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

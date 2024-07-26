@@ -1,9 +1,8 @@
 ﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
-namespace WebApiForHikka.Application.WithoutSeoAddition.UserAnimeListTypes;
+namespace WebApiForHikka.Application.Relation.UserAnimeListTypes;
 
-public interface IUserAnimeListTypeRepository : ICrudRepository<UserAnimeListType> 
+public interface IUserAnimeListTypeRepository : ICrudRepository<UserAnimeListType>
 {
-    
 }

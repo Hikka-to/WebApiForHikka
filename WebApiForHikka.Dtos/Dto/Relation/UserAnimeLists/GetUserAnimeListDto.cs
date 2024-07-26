@@ -10,10 +10,10 @@ namespace WebApiForHikka.Dtos.Dto.Relation.UserAnimeLists;
 public class GetUserAnimeListDto : ModelDto
 {
     public required UserAnimeListType UserAnimeListType { get; set; }
-    
+
     public required GetUserDto User { get; set; }
-    
+
     public required GetAnimeDto Anime { get; set; }
-    
+
     public required bool IsFavorite { get; set; }
 }

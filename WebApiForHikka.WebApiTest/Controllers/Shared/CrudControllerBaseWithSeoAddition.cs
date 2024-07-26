@@ -110,12 +110,12 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
         var createDto = GetCreateDtoSample();
         MutationBeforeDtoCreation(createDto, services, serviceProvider);
         var create =
-            (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
+            (await controller.Create(createDto, CancellationToken) as OkObjectResult)!.Value as CreateResponseDto;
 
-        var model = await services.CrudService.GetAsync(create.Id, CancellationToken);
+        var model = await services.CrudService.GetAsync(create!.Id, CancellationToken);
 
         var updateDto = GetUpdateDtoSample();
-        updateDto.Id = model.Id;
+        updateDto.Id = model!.Id;
         updateDto.SeoAddition.Id = model.SeoAddition.Id;
         MutationBeforeDtoUpdate(updateDto, services, serviceProvider);
         var result = await controller.Put(updateDto, CancellationToken);
@@ -127,11 +127,11 @@ public abstract class CrudControllerBaseWithSeoAddition<TController, TCrudServic
     }
 
     protected record AllServicesInControllerWithSeoAddition(
-        TCrudService crudService,
-        ISeoAdditionService seoAdditionService,
-        UserManager<User> userManager,
-        RoleManager<IdentityRole<Guid>> roleManager) : AllServicesInController(crudService, userManager, roleManager)
+        TCrudService CrudService,
+        ISeoAdditionService SeoAdditionService,
+        UserManager<User> UserManager,
+        RoleManager<IdentityRole<Guid>> RoleManager) : AllServicesInController(CrudService, UserManager, RoleManager)
     {
-        public ISeoAdditionService SeoAdditionService = seoAdditionService;
+        public ISeoAdditionService SeoAdditionService = SeoAdditionService;
     }
 }

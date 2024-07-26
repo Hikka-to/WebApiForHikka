@@ -13,7 +13,7 @@ public class EpisodeImageRepository(HikkaDbContext dbContext)
         return DbContext.Set<EpisodeImage>().Where(i => i.Episode.Id == id);
     }
 
-    public async Task<string> GetImagePath(Guid id)
+    public async Task<string?> GetImagePath(Guid id)
     {
         return (await DbContext.Set<EpisodeImage>().FirstOrDefaultAsync(i => i.Id == id))?.Path;
     }

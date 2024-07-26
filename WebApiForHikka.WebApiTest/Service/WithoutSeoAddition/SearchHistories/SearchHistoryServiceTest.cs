@@ -1,4 +1,4 @@
-﻿using WebApiForHikka.Application.WithoutSeoAddition.HistoryQueries;
+﻿using WebApiForHikka.Application.WithoutSeoAddition.SearchHistories;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
@@ -10,7 +10,7 @@ namespace WebApiForHikka.Test.Service.WithoutSeoAddition.SearchHistories;
 public class SearchHistoryServiceTest : SharedServiceTest<
     SearchHistory,
     SearchHistoryService
-    >
+>
 {
     protected override SearchHistory GetSample()
     {

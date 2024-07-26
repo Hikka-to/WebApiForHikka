@@ -62,7 +62,7 @@ public class EpisodeControllerTest : CrudControllerBaseWithSeoAddition<
         return new EpisodeController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
         );
     }

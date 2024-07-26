@@ -5,7 +5,7 @@ using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
 namespace WebApiForHikka.SharedModels.Models.Relation;
 
-public class GetUserWatchHistoryModels 
+public class GetUserWatchHistoryModels
 {
     public static UserWatchHistory GetSample()
     {
@@ -17,7 +17,7 @@ public class GetUserWatchHistoryModels
             Second = GetEpisodeModels.GetSample(),
             CreatedAt = DateTime.Now,
             ProgressTime = 0,
-            UpdatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
         };
     }
 
@@ -31,16 +31,17 @@ public class GetUserWatchHistoryModels
             Second = GetEpisodeModels.GetSampleForUpdate(),
             CreatedAt = DateTime.Now,
             ProgressTime = 0,
-            UpdatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
         };
     }
+
     public static CreateUserWatchHistoryDto GetCreateDtoSample()
     {
         return new CreateUserWatchHistoryDto
         {
             EpisodeId = Guid.NewGuid(),
             UserId = Guid.NewGuid(),
-            ProgressTime = 21,
+            ProgressTime = 21
         };
     }
 
@@ -51,8 +52,8 @@ public class GetUserWatchHistoryModels
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.Now,
             Episode = GetEpisodeModels.GetGetDtoSample(),
-            ProgressTime= 21,
-            UpdatedAt= DateTime.Now,
+            ProgressTime = 21,
+            UpdatedAt = DateTime.Now,
             User = GetUserModels.GetGetDtoSample()
         };
     }
@@ -61,7 +62,6 @@ public class GetUserWatchHistoryModels
     {
         return new UpdateUserWatchHistoryDto
         {
-          
             EpisodeId = Guid.NewGuid(),
             UserId = Guid.NewGuid(),
             ProgressTime = 231,
@@ -69,4 +69,3 @@ public class GetUserWatchHistoryModels
         };
     }
 }
-
