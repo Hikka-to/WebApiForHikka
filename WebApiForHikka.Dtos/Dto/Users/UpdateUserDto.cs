@@ -46,8 +46,4 @@ public class UpdateUserDto
     public bool AllowAdult { get; set; }
 
     public DateTime LastSeenAt { get; set; }
-
-    public DateTime UpdatedAt { get; set; }
-
-    public DateTime CreatedAtTime { get; set; }
 }

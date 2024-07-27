@@ -29,5 +29,5 @@ public class GetUserDto : ModelDto
 
     public DateTime UpdatedAt { get; set; }
 
-    public DateTime CreatedAtTime { get; set; }
+    public DateTime CreatedAt { get; set; }
 }
