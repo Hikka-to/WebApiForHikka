@@ -9,14 +9,10 @@ using IModel = WebApiForHikka.Domain.Models.IModel;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 
-public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TModel : class, IModel
+public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRepository<TModel>
+    where TModel : class, IModel
 {
-    protected readonly HikkaDbContext DbContext;
-
-    protected CrudRepository(HikkaDbContext dbContext)
-    {
-        DbContext = dbContext;
-    }
+    protected readonly HikkaDbContext DbContext = dbContext;
 
     public virtual async Task<Guid> AddAsync(TModel model, CancellationToken cancellationToken)
     {
@@ -102,11 +98,11 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         where TEntityModel : TModel
         where TUpdateModel : TEntityModel
     {
-        if (!entity.GetType().IsInstanceOfType(model))
+        var entityEntry = DbContext.Entry(entity);
+        if (!entityEntry.Metadata.ClrType.IsInstanceOfType(model))
             throw new InvalidOperationException("Model and entity must be of the same type");
 
         var modelEntry = DbContext.Entry(model);
-        var entityEntry = DbContext.Entry(entity);
         foreach (var property in entityEntry.Properties)
             if (!property.Metadata.IsPrimaryKey() &&
                 !property.Metadata.IsShadowProperty() &&

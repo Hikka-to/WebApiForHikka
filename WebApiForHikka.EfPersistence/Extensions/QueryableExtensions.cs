@@ -5,7 +5,7 @@ using WebApiForHikka.Domain;
 
 namespace WebApiForHikka.EfPersistence.Extensions;
 
-public static class QueryableExtensions
+internal static class QueryableExtensions
 {
     private static bool IsNullableType(this Type type, string propertyOrField)
     {
@@ -59,19 +59,22 @@ public static class QueryableExtensions
             return anyCall;
         }
 
-        if (properties.Length == 0)
-        {
-            if (body.Type != typeof(string)) body = Expression.Call(body, "ToString", Type.EmptyTypes);
+        if (properties.Length != 0)
+            return body.NullConditional(
+                GetFilterBody(Expression.PropertyOrField(body, properties[0]), properties[1..], filter, isStrict),
+                properties[0]);
 
-            return isStrict
-                ? Expression.Equal(body, Expression.Constant(filter))
-                : Expression.Call(typeof(NpgsqlDbFunctionsExtensions), "ILike", Type.EmptyTypes,
-                    Expression.Constant(EF.Functions), body, Expression.Constant($"%{filter}%"));
-        }
+        if (body.Type != typeof(string)) body = Expression.Call(body, "ToString", Type.EmptyTypes);
 
-        return body.NullConditional(
-            GetFilterBody(Expression.PropertyOrField(body, properties[0]), properties[1..], filter, isStrict),
-            properties[0]);
+        if (isStrict) return Expression.Equal(body, Expression.Constant(filter));
+
+        filter = filter
+            .Replace(@"\", @"\\")
+            .Replace("%", @"\%")
+            .Replace("_", @"\_")
+            .Replace("[", @"\[");
+        return Expression.Call(typeof(NpgsqlDbFunctionsExtensions), "ILike", Type.EmptyTypes,
+            Expression.Constant(EF.Functions), body, Expression.Constant($"%{filter}%"), Expression.Constant("\\"));
     }
 
     private static Expression GetSortBody(Expression body, string[] properties, int paramIndex = 0)

@@ -125,7 +125,8 @@ public abstract class CrudControllerForModelWithSeoAddition
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = Mapper.Map<TModelWithSeoAddition>(dto);
-        var seoAdditionModel = Mapper.Map<SeoAddition>(dto.SeoAddition);
+        var seoAdditionModel = model.SeoAddition;
+        seoAdditionModel.Id = (await CrudRelationService.GetAsync(dto.Id, cancellationToken))!.SeoAddition.Id;
         await SeoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
         var seoAddition = await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken);

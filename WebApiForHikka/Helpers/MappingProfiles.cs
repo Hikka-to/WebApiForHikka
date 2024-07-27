@@ -50,6 +50,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.WebApi.Helpers;
 
@@ -83,6 +84,14 @@ public class MappingProfiles : Profile
         CreateMap<CreateSeoAdditionDto, SeoAddition>();
 
         CreateMap<UpdateSeoAdditionDto, SeoAddition>();
+
+        CreateMap<CreateDtoWithSeoAddition, ModelWithSeoAddition>().ForMember(
+            c => c.SeoAddition,
+            op => op.MapFrom(v => v.SeoAddition));
+
+        CreateMap<UpdateDtoWithSeoAddition, ModelWithSeoAddition>().ForMember(
+            c => c.SeoAddition,
+            op => op.MapFrom(v => v.SeoAddition));
 
         //Status
 
