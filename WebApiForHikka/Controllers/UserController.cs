@@ -140,7 +140,7 @@ public class UserController(
     [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(string))]
     [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
         typeof(IDictionary<string, IEnumerable<string>>))]
-    public async Task<IActionResult> Put([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> Put([FromForm] UpdateUserDto dto, CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
@@ -149,9 +149,9 @@ public class UserController(
         var user = Mapper.Map<User>(dto);
 
         var getUser = await _userService.GetAsync(user.Id, cancellationToken);
+        if (getUser == null) return NotFound($"user with {user.Id} doesn't exist");
 
-
-        if (getUser?.BackdropPath != null && dto.BackdropImage != null)
+        if (getUser.BackdropPath != null && dto.BackdropImage != null)
         {
             fileHelper.OverrideFileImage(dto.BackdropImage, getUser.BackdropPath);
             user.BackdropPath = getUser.BackdropPath;
@@ -162,7 +162,7 @@ public class UserController(
                 fileHelper.UploadFileImage(dto.BackdropImage, ControllerStringConstants.AnimeBackdropPath);
         }
 
-        if (getUser?.AvatarPath != null && dto.AvatarImage != null)
+        if (getUser.AvatarPath != null && dto.AvatarImage != null)
         {
             fileHelper.OverrideFileImage(dto.AvatarImage, getUser.AvatarPath);
             user.AvatarPath = getUser.AvatarPath;
@@ -172,10 +172,10 @@ public class UserController(
             user.AvatarPath = fileHelper.UploadFileImage(dto.AvatarImage, ControllerStringConstants.AnimeBackdropPath);
         }
 
+        user.UserSetting.Id = getUser.UserSetting.Id;
         await userSettingService.UpdateAsync(user.UserSetting, cancellationToken);
+        user.UserSetting = getUser.UserSetting;
 
-        var userWithPassword = await _userService.GetAsync(dto.Id, cancellationToken);
-        if (userWithPassword == null) return NotFound($"user with {dto.Id} doesn't exist");
         await _userService.UpdateAsync(user, cancellationToken);
         return NoContent();
     }
