@@ -132,7 +132,7 @@ public class UserController(
         return Ok(user);
     }
 
-    [HttpPut]
+    [HttpPut("Update")]
     [SwaggerResponse(StatusCodes.Status204NoContent, "User updated")]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(string))]
