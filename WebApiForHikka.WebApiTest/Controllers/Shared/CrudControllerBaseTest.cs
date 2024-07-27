@@ -78,7 +78,7 @@ public abstract class CrudControllerBaseTest
         var services = GetAllServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var controller = await GetController(services, serviceProvider);
-        foreach (var item in GetCollectionOfModels(10))
+        foreach (var _ in GetCollectionOfModels(10))
         {
             var modelDto = GetCreateDtoSample();
             MutationBeforeDtoCreation(modelDto, services, serviceProvider);
@@ -94,7 +94,7 @@ public abstract class CrudControllerBaseTest
         result.Should().NotBeNull();
         result.Should().BeOfType<OkObjectResult>();
 
-        var returnPageDto = result.Value as TReturnPageDto;
+        var returnPageDto = result?.Value as TReturnPageDto;
 
         returnPageDto.Should().BeOfType<TReturnPageDto>();
     }
@@ -117,7 +117,7 @@ public abstract class CrudControllerBaseTest
         //Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<OkObjectResult>();
-        var createResponseDto = result.Value as CreateResponseDto;
+        var createResponseDto = result?.Value as CreateResponseDto;
         createResponseDto.Should().BeOfType<CreateResponseDto>();
     }
 
@@ -178,9 +178,9 @@ public abstract class CrudControllerBaseTest
         var createDto = GetCreateDtoSample();
         MutationBeforeDtoCreation(createDto, services, serviceProvider);
         var create =
-            (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
+            (await controller.Create(createDto, CancellationToken) as OkObjectResult)?.Value as CreateResponseDto;
         var updateDto = GetUpdateDtoSample();
-        updateDto.Id = create.Id;
+        updateDto.Id = create?.Id ?? updateDto.Id;
         MutationBeforeDtoUpdate(updateDto, services, serviceProvider);
         var result = await controller.Put(updateDto, CancellationToken);
 
@@ -205,8 +205,6 @@ public abstract class CrudControllerBaseTest
 
         var createDto = GetCreateDtoSample();
         MutationBeforeDtoCreation(createDto, services, serviceProvider);
-        var create =
-            (await controller.Create(createDto, CancellationToken) as OkObjectResult).Value as CreateResponseDto;
 
         var updateDto = GetUpdateDtoSample();
         MutationBeforeDtoUpdate(updateDto, services, serviceProvider);
@@ -220,13 +218,7 @@ public abstract class CrudControllerBaseTest
 
 
     protected record AllServicesInController(
-        TCrudService crudService,
-        UserManager<User> userManager,
-        RoleManager<IdentityRole<Guid>> roleManager)
-    {
-        public TCrudService CrudService => crudService;
-        public UserManager<User> UserManager => userManager;
-
-        public RoleManager<IdentityRole<Guid>> RoleManager => roleManager;
-    }
+        TCrudService CrudService,
+        UserManager<User> UserManager,
+        RoleManager<IdentityRole<Guid>> RoleManager);
 }

@@ -49,7 +49,7 @@ public class ProviderControllerTest : CrudControllerBaseTest<
 
         return new ProviderController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

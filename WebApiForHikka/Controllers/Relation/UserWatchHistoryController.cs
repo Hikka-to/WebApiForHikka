@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using WebApiForHikka.Application.Relation.UserWatchHistories;
+using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Dtos.Dto.Relation.WatchUserHistories;
-using WebApiForHikka.SharedModels.Models.Relation;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.Relation;

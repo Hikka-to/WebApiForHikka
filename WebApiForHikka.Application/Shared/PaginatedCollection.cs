@@ -8,6 +8,7 @@ public sealed record PaginatedCollection<TModel>(IReadOnlyCollection<TModel> Mod
 {
     public IEnumerator<TModel> GetEnumerator()
     {
+        // ReSharper disable once NotDisposedResourceIsReturned
         return Models.GetEnumerator();
     }
 

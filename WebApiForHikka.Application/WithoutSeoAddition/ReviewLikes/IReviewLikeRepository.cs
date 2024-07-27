@@ -5,5 +5,4 @@ namespace WebApiForHikka.Application.WithoutSeoAddition.ReviewLikes;
 
 public interface IReviewLikeRepository : ICrudRepository<ReviewLike>
 {
-    
 }

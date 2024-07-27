@@ -41,11 +41,9 @@ public class UpdateUserDto
 
     public string? StatusText { get; set; }
 
+    public required string StatusIcon { get; set; }
+
     public bool AllowAdult { get; set; }
 
     public DateTime LastSeenAt { get; set; }
-
-    public DateTime UpdatedAt { get; set; }
-
-    public DateTime CreatedAtTime { get; set; }
 }

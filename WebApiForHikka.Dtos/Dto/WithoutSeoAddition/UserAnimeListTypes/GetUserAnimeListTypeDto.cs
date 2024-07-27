@@ -1,5 +1,4 @@
-﻿using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Domain.Models;
+using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;

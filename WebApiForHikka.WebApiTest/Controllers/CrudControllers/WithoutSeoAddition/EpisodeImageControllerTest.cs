@@ -89,7 +89,7 @@ public class EpisodeImageControllerTest : CrudControllerBaseTest<
 
         return new EpisodeImageController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IEpisodeService>(),
@@ -114,13 +114,13 @@ public class EpisodeImageControllerTest : CrudControllerBaseTest<
     protected override void MutationBeforeDtoUpdate(UpdateEpisodeImageDto updateDto,
         AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        var Episode = GetEpisodeModels.GetSample();
+        var episode = GetEpisodeModels.GetSample();
 
         var animeService = alternativeServices.GetRequiredService<IEpisodeService>();
 
-        animeService.CreateAsync(Episode, CancellationToken).Wait();
+        animeService.CreateAsync(episode, CancellationToken).Wait();
 
-        updateDto.EpisodeId = Episode.Id;
+        updateDto.EpisodeId = episode.Id;
     }
 
     protected override CreateEpisodeImageDto GetCreateDtoSample()

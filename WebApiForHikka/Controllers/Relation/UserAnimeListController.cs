@@ -6,7 +6,7 @@ using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.Relation;
 
-public class UserAnimeListController (
+public class UserAnimeListController(
     IUserAnimeListRelationService crudService,
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor)

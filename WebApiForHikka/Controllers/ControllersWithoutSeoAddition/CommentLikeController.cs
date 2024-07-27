@@ -29,7 +29,7 @@ public class CommentLikeController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<CommentLike>(dto);
+        var model = Mapper.Map<CommentLike>(dto);
 
         model.User = (await userService.GetAsync(dto.UserId, cancellationToken))!;
         model.Comment = (await commentService.GetAsync(dto.CommentId, cancellationToken))!;
@@ -48,7 +48,7 @@ public class CommentLikeController(
         });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<CommentLike>(dto);
+        var model = Mapper.Map<CommentLike>(dto);
 
         model.User = (await userService.GetAsync(dto.UserId, cancellationToken))!;
         model.Comment = (await commentService.GetAsync(dto.CommentId, cancellationToken))!;

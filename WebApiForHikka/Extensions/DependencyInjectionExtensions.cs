@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Constants.AppSettings;
@@ -12,7 +11,6 @@ using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
 using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedFunction.JwtTokenFactories;
-using WebApiForHikka.WebApi.Helpers;
 
 namespace WebApiForHikka.WebApi.Extensions;
 
@@ -48,9 +46,6 @@ public static class DependencyInjectionExtensions
                 .UseNpgsql(dataSource)
                 .UseLazyLoadingProxies();
         });
-
-        var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
-        var mapper = mapperConfiguration.CreateMapper();
 
         //Repositories
         services.AddBaseClassArchitecture(typeof(CrudRepository<>), typeof(ICrudRepository<>));

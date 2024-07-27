@@ -29,10 +29,10 @@ public class TagController(
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<Tag>(dto);
+        var model = Mapper.Map<Tag>(dto);
 
-        var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
-        await _seoAdditionService.CreateAsync(seoAddition, cancellationToken);
+        var seoAddition = Mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.CreateAsync(seoAddition, cancellationToken);
 
         model.SeoAddition = seoAddition;
 
@@ -57,11 +57,11 @@ public class TagController(
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<Tag>(dto);
-        var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
-        await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
+        var model = Mapper.Map<Tag>(dto);
+        var seoAdditionModel = Mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
-        model.SeoAddition = (await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
+        model.SeoAddition = (await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
 
         if (dto.ParentTagId != null)
             model.ParentTag = await CrudRelationService.GetAsync((Guid)dto.ParentTagId, cancellationToken);

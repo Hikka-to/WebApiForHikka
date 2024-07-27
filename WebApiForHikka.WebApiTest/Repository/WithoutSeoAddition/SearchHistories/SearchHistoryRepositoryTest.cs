@@ -6,7 +6,7 @@ using WebApiForHikka.Test.Shared.Repository;
 
 namespace WebApiForHikka.Test.Repository.WithoutSeoAddition.SearchHistories;
 
-public class SearchHistoryRepositoryTest: SharedRepositoryTest<
+public class SearchHistoryRepositoryTest : SharedRepositoryTest<
     SearchHistory,
     SearchHistoryRepository
 >

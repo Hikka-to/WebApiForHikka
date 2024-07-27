@@ -52,7 +52,7 @@ public class CollectionControllerTest : CrudControllerBaseWithSeoAddition<
         return new CollectionController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
         );
     }

@@ -3,7 +3,6 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Application.WithoutSeoAddition.Reviews;
 
-public interface IReviewRepository  : ICrudRepository<Review>
+public interface IReviewRepository : ICrudRepository<Review>
 {
-    
 }

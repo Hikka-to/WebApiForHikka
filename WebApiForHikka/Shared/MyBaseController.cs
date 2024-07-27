@@ -11,46 +11,44 @@ namespace WebApiForHikka.WebApi.Shared;
 public abstract class MyBaseController(IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : ControllerBase
 {
-    protected readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-    protected readonly IMapper _mapper = mapper;
+    protected readonly IHttpContextAccessor HttpContextAccessor = httpContextAccessor;
+    protected readonly IMapper Mapper = mapper;
 
 
     protected JwtTokenContentDto GetJwtTokenAuthorizationFromHeader()
     {
-        var authHeader = _httpContextAccessor.HttpContext!.Request.Headers.Authorization;
+        var authHeader = HttpContextAccessor.HttpContext!.Request.Headers.Authorization;
 
         var headerString = authHeader.ToString();
 
-        if (headerString != null)
-            try
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (headerString == null)
+            return new JwtTokenContentDto
             {
-                var handler = new JwtSecurityTokenHandler();
-                var jwtToken = handler.ReadJwtToken(headerString);
-                var userEmail = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.EmailClaim).Value
-                    .ToString();
-                var userRole = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.RoleClaim).Value
-                    .ToString();
-                var userId = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.IdClaim).Value
-                    .ToString();
-
-                return new JwtTokenContentDto { Email = userEmail, Role = UserStringConstants.UserRole, Id = userId };
-            }
-            catch (Exception)
-            {
-                return new JwtTokenContentDto
-                {
-                    Email = null,
-                    Role = null,
-                    Id = null
-                };
-            }
-
-        return new JwtTokenContentDto
+                Email = null,
+                Role = null,
+                Id = null
+            };
+        try
         {
-            Email = null,
-            Role = null,
-            Id = null
-        };
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(headerString);
+            var userEmail = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.EmailClaim).Value
+                .ToString();
+            var userId = jwtToken.Payload.FirstOrDefault(c => c.Key == UserStringConstants.IdClaim).Value
+                .ToString();
+
+            return new JwtTokenContentDto { Email = userEmail, Role = UserStringConstants.UserRole, Id = userId };
+        }
+        catch (Exception)
+        {
+            return new JwtTokenContentDto
+            {
+                Email = null,
+                Role = null,
+                Id = null
+            };
+        }
     }
 
 

@@ -46,11 +46,11 @@ public static class GetNotificationModels
     public static GetNotificationDto GetGetDtoSample()
     {
         return new GetNotificationDto
-        { 
+        {
             AnimeId = Guid.NewGuid(),
             CreatedAt = DateTime.Now,
             ResourceId = Guid.NewGuid(),
-            UserId= Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
             Id = Guid.NewGuid()
         };
     }
@@ -61,7 +61,7 @@ public static class GetNotificationModels
         {
             AnimeId = Guid.NewGuid(),
             ResourceId = Guid.NewGuid(),
-            UserId= Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
             Id = Guid.NewGuid()
         };
     }

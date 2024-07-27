@@ -22,9 +22,9 @@ public class AnimeBackdropController(
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor,
     IAnimeService animeService,
-    IFileHelper _fileHelper,
-    IColorHelper _colorHelper,
-    ILinkFactory _linkFactory
+    IFileHelper fileHelper,
+    IColorHelper colorHelper,
+    ILinkFactory linkFactory
 )
     : CrudController<
         GetAnimeBackdropDto,
@@ -38,7 +38,7 @@ public class AnimeBackdropController(
     [HttpGet("dowloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
-        var file = _fileHelper.GetFile(ControllerStringConstants.AnimeBackdropPath, imageName);
+        var file = fileHelper.GetFile(ControllerStringConstants.AnimeBackdropPath, imageName);
 
         return File(file, ControllerStringConstants.JsonImageReturnType, imageName);
     }
@@ -50,15 +50,15 @@ public class AnimeBackdropController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<AnimeBackdrop>(dto);
+        var model = Mapper.Map<AnimeBackdrop>(dto);
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
-        model.Path = _fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
+        model.Path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
 
-        model.Colors = _colorHelper.GetListOfColorsFromImage(dto.Image);
+        model.Colors = colorHelper.GetListOfColorsFromImage(dto.Image);
 
-        var heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);
+        var heightWidth = fileHelper.GetHeightAndWidthOfImage(dto.Image);
 
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
@@ -77,7 +77,7 @@ public class AnimeBackdropController(
         });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<AnimeBackdrop>(dto);
+        var model = Mapper.Map<AnimeBackdrop>(dto);
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
@@ -85,17 +85,17 @@ public class AnimeBackdropController(
 
         if (path == null)
         {
-            model.Path = _fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
+            model.Path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
         }
         else
         {
-            _fileHelper.OverrideFileImage(dto.Image, path!);
+            fileHelper.OverrideFileImage(dto.Image, path);
             model.Path = path;
         }
 
-        model.Colors = _colorHelper.GetListOfColorsFromImage(dto.Image);
+        model.Colors = colorHelper.GetListOfColorsFromImage(dto.Image);
 
-        var heightWidth = _fileHelper.GetHeightAndWidthOfImage(dto.Image);
+        var heightWidth = fileHelper.GetHeightAndWidthOfImage(dto.Image);
 
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
@@ -113,14 +113,14 @@ public class AnimeBackdropController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
-        var models = _mapper.Map<List<GetAnimeBackdropDto>>(paginationCollection.Models);
+        var models = Mapper.Map<List<GetAnimeBackdropDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.ImageUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.ImageUrl);
+            item.ImageUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.ImageUrl);
 
 
         return Ok(
@@ -155,13 +155,13 @@ public class AnimeBackdropController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<GetAnimeBackdropDto>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<GetAnimeBackdropDto>(await CrudRelationService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();
 
 
-        model.ImageUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.ImageUrl);
+        model.ImageUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.ImageUrl);
 
 
         return Ok(model);

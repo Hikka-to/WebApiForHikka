@@ -28,7 +28,7 @@ public class GetSearchHistoryModels
     {
         return new CreateSearchHistoryDto
         {
-            Query = Lorem.GetFirstWord(),
+            Query = Lorem.GetFirstWord()
         };
     }
 
@@ -39,7 +39,6 @@ public class GetSearchHistoryModels
             Id = new Guid(),
             CreateAt = DateTime.Now,
             Query = "test1"
-            
         };
     }
 

@@ -3,14 +3,14 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 
-namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition;
+namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ReviewLikes;
 
 [ModelMetadataType(typeof(ReviewLike))]
 public class CreateReviewLikeDto
 {
-    [EntityValidation<Review>] public  required Guid ReviewId { get; set; }
-    
-    [EntityValidation<User>] public  required Guid UserId { get; set; }
-    
-    public  required bool IsLiked { get; set; }
+    [EntityValidation<Review>] public required Guid ReviewId { get; set; }
+
+    [EntityValidation<User>] public required Guid UserId { get; set; }
+
+    public required bool IsLiked { get; set; }
 }

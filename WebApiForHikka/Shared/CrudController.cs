@@ -35,10 +35,11 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<TModel>(dto);
+        var model = Mapper.Map<TModel>(dto);
 
         Guid? id = await CrudRelationService.CreateAsync(model, cancellationToken);
 
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (id == null) return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
 
         return Ok(new CreateResponseDto { Id = (Guid)id });
@@ -66,7 +67,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<TGetDto>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<TGetDto>(await CrudRelationService.GetAsync(id, cancellationToken));
         if (model is null)
             return NotFound();
 
@@ -82,11 +83,11 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
-        var models = _mapper.Map<List<TGetDto>>(paginationCollection.Models);
+        var models = Mapper.Map<List<TGetDto>>(paginationCollection.Models);
         return Ok(
             new ReturnPageDto<TGetDto>
             {
@@ -109,7 +110,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<TModel>(dto);
+        var model = Mapper.Map<TModel>(dto);
         await CrudRelationService.UpdateAsync(model, cancellationToken);
         return NoContent();
     }

@@ -11,7 +11,9 @@ public class User : IdentityUser<Guid>, IModel, ICloneable
     public override required string Email
     {
         get => base.Email!;
+#pragma warning disable CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
         set => base.Email = value;
+#pragma warning restore CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
     }
 
     public virtual required UserSetting UserSetting { get; set; }

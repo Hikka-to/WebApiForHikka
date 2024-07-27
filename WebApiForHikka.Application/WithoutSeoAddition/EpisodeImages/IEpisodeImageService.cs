@@ -5,7 +5,7 @@ namespace WebApiForHikka.Application.WithoutSeoAddition.EpisodeImages;
 
 public interface IEpisodeImageService : ICrudService<EpisodeImage>
 {
-    public Task<string> GetImagePath(Guid id);
+    public Task<string?> GetImagePath(Guid id);
 
     public IQueryable<EpisodeImage> GetEpisodeImagesForEpisode(Guid id);
 }

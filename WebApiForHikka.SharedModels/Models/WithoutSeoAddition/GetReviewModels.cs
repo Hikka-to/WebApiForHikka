@@ -1,8 +1,6 @@
-﻿using WebApiForHikka.Domain.Models.Relation;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Reviews;
 using WebApiForHikka.SharedModels.Models.Relation;
-using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
 namespace WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 

@@ -4,10 +4,9 @@ using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Resources;
 
-
 [ModelMetadataType(typeof(Resource))]
 [ExportTsInterface]
-public class CreateResourceDto 
+public class CreateResourceDto
 {
     public required string Slug { get; set; }
 }

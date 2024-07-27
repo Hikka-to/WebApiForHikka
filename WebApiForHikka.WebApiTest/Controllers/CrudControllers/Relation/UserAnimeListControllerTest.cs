@@ -1,13 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using WebApiForHikka.Application.Relation.UserAnimeLists;
 using WebApiForHikka.Domain.Models.Relation;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.Relation.Seasons;
 using WebApiForHikka.Dtos.Dto.Relation.UserAnimeLists;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
 using WebApiForHikka.SharedModels.Models.Relation;
-using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.Relation;
 
@@ -42,14 +39,15 @@ public class UserAnimeListControllerTest : CrudControllerBaseTest<
         return userAnimeLists;
     }
 
-    protected override async Task<UserAnimeListController> GetController(AllServicesInController allServicesInController,
+    protected override async Task<UserAnimeListController> GetController(
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
         var allServices = allServicesInController;
 
         return new UserAnimeListController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

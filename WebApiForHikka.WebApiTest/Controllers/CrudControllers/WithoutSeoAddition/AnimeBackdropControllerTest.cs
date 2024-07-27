@@ -89,7 +89,7 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
 
         return new AnimeBackdropController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IAnimeService>(),
@@ -102,25 +102,25 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
     protected override void MutationBeforeDtoCreation(CreateAnimeBackdropDto createDto,
         AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        var Anime = GetAnimeModels.GetModelSample();
+        var anime = GetAnimeModels.GetModelSample();
 
         var animeService = alternativeServices.GetRequiredService<IAnimeService>();
 
-        animeService.CreateAsync(Anime, CancellationToken).Wait();
+        animeService.CreateAsync(anime, CancellationToken).Wait();
 
-        createDto.AnimeId = Anime.Id;
+        createDto.AnimeId = anime.Id;
     }
 
     protected override void MutationBeforeDtoUpdate(UpdateAnimeBackdropDto updateDto,
         AllServicesInController allServicesInController, IServiceProvider alternativeServices)
     {
-        var Anime = GetAnimeModels.GetSample();
+        var anime = GetAnimeModels.GetSample();
 
         var animeService = alternativeServices.GetRequiredService<IAnimeService>();
 
-        animeService.CreateAsync(Anime, CancellationToken).Wait();
+        animeService.CreateAsync(anime, CancellationToken).Wait();
 
-        updateDto.AnimeId = Anime.Id;
+        updateDto.AnimeId = anime.Id;
     }
 
     protected override CreateAnimeBackdropDto GetCreateDtoSample()

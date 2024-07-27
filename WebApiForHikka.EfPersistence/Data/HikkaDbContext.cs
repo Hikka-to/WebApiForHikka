@@ -6,7 +6,7 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.SharedModels.Models.Relation;
+using WebApiForHikka.SharedFunction.Extensions;
 
 namespace WebApiForHikka.EfPersistence.Data;
 
@@ -66,7 +66,6 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<SearchHistory> SearchHistories { get; set; }
 
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -82,6 +81,24 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
         });
         foreach (var enumType in enumTypes)
             hasPostgresEnum.MakeGenericMethod(enumType).Invoke(null, [modelBuilder, null, null, null]);
+
+        // Relations
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes()
+                     .Where(e => e.ClrType.GenericIsSubclassOf(typeof(RelationModel<,>))))
+        {
+            var relationType = entityType.ClrType.GetSubclassType(typeof(RelationModel<,>))!;
+            var firstType = relationType.GetGenericArguments()[0];
+            var secondType = relationType.GetGenericArguments()[1];
+
+            var firstName = firstType.Name;
+            var secondName = firstType == secondType ? $"Second{secondType.Name}" : secondType.Name;
+
+            var firstIdName = $"{firstName}Id";
+            var secondIdName = $"{secondName}Id";
+
+            modelBuilder.Entity(entityType.ClrType).Property("FirstId").HasColumnName(firstIdName);
+            modelBuilder.Entity(entityType.ClrType).Property("SecondId").HasColumnName(secondIdName);
+        }
 
         // Comments
         modelBuilder.Entity<Commentable>().UseTptMappingStrategy();

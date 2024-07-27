@@ -40,16 +40,16 @@ public class LanguageMediaplayerController(
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<LanguageMediaplayer>(dto);
+        var model = Mapper.Map<LanguageMediaplayer>(dto);
 
-        var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
-        await _seoAdditionService.CreateAsync(seoAddition, cancellationToken);
+        var seoAddition = Mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.CreateAsync(seoAddition, cancellationToken);
 
         model.SeoAddition = seoAddition;
-        model.Episode = await episodeService.GetAsync(dto.EpisodeId, cancellationToken);
-        model.Mediaplayer = await mediaplayerService.GetAsync(dto.MediaplayerId, cancellationToken);
-        model.Format = await formatService.GetAsync(dto.FormatId, cancellationToken);
-        model.Language = await languageService.GetAsync(dto.LanguageId, cancellationToken);
+        model.Episode = (await episodeService.GetAsync(dto.EpisodeId, cancellationToken))!;
+        model.Mediaplayer = (await mediaplayerService.GetAsync(dto.MediaplayerId, cancellationToken))!;
+        model.Format = (await formatService.GetAsync(dto.FormatId, cancellationToken))!;
+        model.Language = (await languageService.GetAsync(dto.LanguageId, cancellationToken))!;
 
         var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
 
@@ -69,17 +69,17 @@ public class LanguageMediaplayerController(
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<LanguageMediaplayer>(dto);
+        var model = Mapper.Map<LanguageMediaplayer>(dto);
 
-        var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
-        await _seoAdditionService.UpdateAsync(seoAddition, cancellationToken);
+        var seoAddition = Mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.UpdateAsync(seoAddition, cancellationToken);
 
-        model.SeoAddition = (await _seoAdditionService.GetAsync(seoAddition.Id, cancellationToken))!;
+        model.SeoAddition = (await SeoAdditionService.GetAsync(seoAddition.Id, cancellationToken))!;
 
-        model.Episode = await episodeService.GetAsync(dto.EpisodeId, cancellationToken);
-        model.Mediaplayer = await mediaplayerService.GetAsync(dto.MediaplayerId, cancellationToken);
-        model.Format = await formatService.GetAsync(dto.FormatId, cancellationToken);
-        model.Language = await languageService.GetAsync(dto.LanguageId, cancellationToken);
+        model.Episode = (await episodeService.GetAsync(dto.EpisodeId, cancellationToken))!;
+        model.Mediaplayer = (await mediaplayerService.GetAsync(dto.MediaplayerId, cancellationToken))!;
+        model.Format = (await formatService.GetAsync(dto.FormatId, cancellationToken))!;
+        model.Language = (await languageService.GetAsync(dto.LanguageId, cancellationToken))!;
 
         await CrudRelationService.UpdateAsync(model, cancellationToken);
 

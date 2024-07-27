@@ -13,8 +13,6 @@ public class EpisodeService(IEpisodeRepository repository, IEpisodeImageService 
 
         foreach (var item in images) await episodeImageService.DeleteAsync(item.Id, cancellationToken);
 
-
-        var episode = await _repository.GetAsync(id, cancellationToken);
-        await _repository.DeleteAsync(id, cancellationToken);
+        await Repository.DeleteAsync(id, cancellationToken);
     }
 }

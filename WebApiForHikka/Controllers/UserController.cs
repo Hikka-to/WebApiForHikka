@@ -29,8 +29,8 @@ public class UserController(
     IMapper mapper,
     IHttpContextAccessor httpContextAccessor,
     IUserSettingService userSettingService,
-    IFileHelper _fileHelper,
-    ILinkFactory _linkFactory
+    IFileHelper fileHelper,
+    ILinkFactory linkFactory
 )
     : MyBaseController(mapper, httpContextAccessor),
         ICrudController<UpdateUserDto, UserRegistrationDto>
@@ -65,7 +65,7 @@ public class UserController(
         return Ok(new RegistratedResponseUserDto
             {
                 Message = UserStringConstants.MessageUserRegistrated,
-                JwtToken = tokenString,
+                JwtToken = tokenString!,
                 Id = (Guid)id
             }
         );
@@ -83,21 +83,21 @@ public class UserController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await _userService.GetAllAsync(filterPagination, cancellationToken);
 
-        var users = _mapper.Map<List<GetUserDto>>(paginationCollection.Models);
+        var users = Mapper.Map<List<GetUserDto>>(paginationCollection.Models);
 
         foreach (var item in users)
         {
             if (item.BackdropUrl != null)
                 item.BackdropUrl =
-                    _linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "GetAll", item.BackdropUrl);
+                    linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "GetAll", item.BackdropUrl);
 
             if (item.AvatarUrl != null)
                 item.AvatarUrl =
-                    _linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "GetAll", item.AvatarUrl);
+                    linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "GetAll", item.AvatarUrl);
         }
 
         return Ok(
@@ -119,15 +119,17 @@ public class UserController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var user = _mapper.Map<GetUserDto>(await _userService.GetAsync(id, cancellationToken));
+        var user = Mapper.Map<GetUserDto>(await _userService.GetAsync(id, cancellationToken));
 
         if (user is null)
             return NotFound();
-        
-        user.BackdropUrl =
-            _linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "Get", user.BackdropUrl);
 
-        user.AvatarUrl = _linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "Get", user.AvatarUrl);
+        if (user.BackdropUrl != null)
+            user.BackdropUrl =
+                linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "Get", user.BackdropUrl);
+
+        if (user.AvatarUrl != null)
+            user.AvatarUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "Get", user.AvatarUrl);
 
         return Ok(user);
     }
@@ -138,42 +140,42 @@ public class UserController(
     [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(string))]
     [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
         typeof(IDictionary<string, IEnumerable<string>>))]
-    public async Task<IActionResult> Put([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> Put([FromForm] UpdateUserDto dto, CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var user = _mapper.Map<User>(dto);
+        var user = Mapper.Map<User>(dto);
 
         var getUser = await _userService.GetAsync(user.Id, cancellationToken);
+        if (getUser == null) return NotFound($"user with {user.Id} doesn't exist");
 
-
-        if (getUser.BackdropPath != null)
+        if (getUser.BackdropPath != null && dto.BackdropImage != null)
         {
-            _fileHelper.OverrideFileImage(dto.BackdropImage, getUser.BackdropPath);
+            fileHelper.OverrideFileImage(dto.BackdropImage, getUser.BackdropPath);
             user.BackdropPath = getUser.BackdropPath;
         }
-        else
+        else if (dto.BackdropImage != null)
         {
             user.BackdropPath =
-                _fileHelper.UploadFileImage(dto.BackdropImage, ControllerStringConstants.AnimeBackdropPath);
+                fileHelper.UploadFileImage(dto.BackdropImage, ControllerStringConstants.AnimeBackdropPath);
         }
 
-        if (getUser.AvatarPath != null)
+        if (getUser.AvatarPath != null && dto.AvatarImage != null)
         {
-            _fileHelper.OverrideFileImage(dto.AvatarImage, getUser.AvatarPath);
+            fileHelper.OverrideFileImage(dto.AvatarImage, getUser.AvatarPath);
             user.AvatarPath = getUser.AvatarPath;
         }
-        else
+        else if (dto.AvatarImage != null)
         {
-            user.AvatarPath = _fileHelper.UploadFileImage(dto.AvatarImage, ControllerStringConstants.AnimeBackdropPath);
+            user.AvatarPath = fileHelper.UploadFileImage(dto.AvatarImage, ControllerStringConstants.AnimeBackdropPath);
         }
 
+        user.UserSetting.Id = getUser.UserSetting.Id;
         await userSettingService.UpdateAsync(user.UserSetting, cancellationToken);
+        user.UserSetting = getUser.UserSetting;
 
-        var userWithPassword = await _userService.GetAsync(dto.Id, cancellationToken);
-        if (userWithPassword == null) return NotFound($"user with {dto.Id} doesn't exist");
         await _userService.UpdateAsync(user, cancellationToken);
         return NoContent();
     }
@@ -197,7 +199,7 @@ public class UserController(
     [HttpGet("dowloadAvatar/{avatarImageName}")]
     public IActionResult GetAvatarImage([FromRoute] string avatarImageName)
     {
-        var file = _fileHelper.GetFile(ControllerStringConstants.AvatarBackdropPath, avatarImageName);
+        var file = fileHelper.GetFile(ControllerStringConstants.AvatarBackdropPath, avatarImageName);
         return File(file, ControllerStringConstants.JsonImageReturnType, avatarImageName);
     }
 
@@ -205,7 +207,7 @@ public class UserController(
     [HttpGet("dowloadBackdrop/{backdropImageName}")]
     public IActionResult GetBackdropImage([FromRoute] string backdropImageName)
     {
-        var file = _fileHelper.GetFile(ControllerStringConstants.UserBackdropPath, backdropImageName);
+        var file = fileHelper.GetFile(ControllerStringConstants.UserBackdropPath, backdropImageName);
         return File(file, ControllerStringConstants.JsonImageReturnType, backdropImageName);
     }
 

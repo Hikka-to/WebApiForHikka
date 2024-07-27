@@ -9,5 +9,4 @@ public class GetNotificationDto : ModelDto
     public required Guid ResourceId { get; set; }
 
     public required DateTime CreatedAt { get; set; }
-
 }
