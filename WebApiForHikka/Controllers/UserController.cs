@@ -228,4 +228,22 @@ public class UserController(
 
         return Ok(new LoginResponseUserDto { Token = tokenString! });
     }
+
+    [AllowAnonymous]
+    [HttpPost("LoginAdmin")]
+    [SwaggerResponse(StatusCodes.Status200OK, "User logged in", typeof(LoginResponseUserDto))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
+    [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
+        typeof(IDictionary<string, IEnumerable<string>>))]
+    public async Task<IActionResult> LoginAdmin([FromBody] UserLoginDto model, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid) return UnprocessableEntity(GetAllErrorsDuringValidation());
+
+        var user = await _userService.AuthenticateUserWithAdminRoleAsync(model.Email, model.Password, cancellationToken);
+        if (user == null) return Unauthorized();
+
+        var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
+
+        return Ok(new LoginResponseUserDto { Token = tokenString! });
+    }
 }

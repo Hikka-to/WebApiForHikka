@@ -72,5 +72,7 @@ public abstract class MyBaseController(IMapper mapper, IHttpContextAccessor http
 
     protected record ThingsToValidateBase
     {
+        
+
     }
 }
