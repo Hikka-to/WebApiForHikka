@@ -81,6 +81,9 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
+
+        CkeckIfColumnsAreInModel(paginationDto, errorEndPoint);
+
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
@@ -125,9 +128,50 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
 
         errorEndPoint.BadRequestObjectResult =
             new BadRequestObjectResult(ControllerStringConstants.ModelWithThisIdDoesntExistForUpdateEndPoint)
-                { StatusCode = 404 };
+            { StatusCode = 404 };
         return errorEndPoint;
     }
+
+
+    protected void CkeckIfColumnsAreInModel(FilterPaginationDto filterDtos, ErrorEndPoint error)
+    {
+        var columsOfModels = typeof(TGetDto).GetProperties();
+
+        var listOfPropertiesNames = new List<string>();
+
+
+        foreach (var i in columsOfModels)
+        {
+            listOfPropertiesNames.Add(i.Name);
+        }
+
+
+        foreach (var item in filterDtos.Sorts)
+        {
+            if (!listOfPropertiesNames.Contains(item.Column))
+            {
+                error.BadRequestObjectResult = new BadRequestObjectResult($"Column with this name {item.Column} doesn't exist");
+                return;
+            }
+
+        }
+
+        foreach (var column in filterDtos.Filters)
+        {
+            foreach (var item in column)
+            {
+                if (!listOfPropertiesNames.Contains(item.Column))
+                {
+                    error.BadRequestObjectResult = new BadRequestObjectResult($"Column with this name {item.Column} doesn't exist");
+                    return;
+                }
+
+            }
+        }
+
+    }
+
+
 
     protected record ThingsToValidateForUpdate : ThingsToValidateBase
     {
