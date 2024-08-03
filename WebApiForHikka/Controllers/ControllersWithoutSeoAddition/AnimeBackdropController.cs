@@ -111,6 +111,9 @@ public class AnimeBackdropController(
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
+        
+        CkeckIfColumnsAreInModel(paginationDto, errorEndPoint);
+
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
