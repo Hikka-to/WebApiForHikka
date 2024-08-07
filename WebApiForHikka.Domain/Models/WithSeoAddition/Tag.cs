@@ -16,7 +16,9 @@ public class Tag : ModelWithSeoAddition
 
     public virtual Tag? ParentTag { get; set; }
 
+    public bool IsCharacterTag { get; set; } = false;    
     public virtual ICollection<Tag> Tags { get; } = [];
 
     public virtual ICollection<Anime> Animes { get; } = [];
 }
+

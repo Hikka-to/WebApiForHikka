@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
-using Image = SixLabors.ImageSharp.Image;
+// using Image = SixLabors.ImageSharp.Image;
+
+using SkiaSharp;
 
 namespace WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
@@ -45,90 +47,55 @@ public class FileHelper : IFileHelper
 
     public void OverrideFileImage(IFormFile file, string path)
     {
-        using var image = Image.Load(file.OpenReadStream());
-        var encoderOptions = new WebpEncoder { Quality = 80 }; // Adjust quality as needed
-        image.Save(path, encoderOptions);
+        using var inputStream = file.OpenReadStream();
+        using var skBitmap = SKBitmap.Decode(inputStream);
+        using var image = SKImage.FromBitmap(skBitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Webp, 80);
+        using var stream = File.OpenWrite(path);
+        data.SaveTo(stream);
     }
-
 
     public string UploadFileImage(IFormFile file, string[] path)
     {
-        // GetAsync the extension of the uploaded file
-        var originalExtension = Path.GetExtension(file.FileName);
-
-        // Define the target directory where images will be saved
         var targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
-
-        // Ensure the target directory exists
         Directory.CreateDirectory(targetDirectory);
 
-        // Generate a unique filename using a GUID
         var fileNameWithoutExtension = Guid.NewGuid();
         var webPFileName = $"{fileNameWithoutExtension}.webp";
-
-        // Full path to save the converted image
         var filePath = Path.Combine(targetDirectory, webPFileName);
 
-        // Convert and save the image if it's not already in WebP format
-        if (originalExtension != ".webp")
-        {
-            using var image = Image.Load(file.OpenReadStream());
-            var encoderOptions = new WebpEncoder { Quality = 100 }; // Adjust quality as needed
-            image.Save(filePath, encoderOptions);
-        }
-        else
-        {
-            // If the file is already in WebP format, just copy it to the target directory
-            using var fileStream = File.Create(filePath);
-            file.CopyTo(fileStream);
-        }
+        using var inputStream = file.OpenReadStream();
+        using var skBitmap = SKBitmap.Decode(inputStream);
+        using var image = SKImage.FromBitmap(skBitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Webp, 100);
+        using var stream = File.OpenWrite(filePath);
+        data.SaveTo(stream);
 
         return filePath;
     }
+
 
     public string UploadFileImage(IFormFile file, string[] path, string fileName)
     {
-        // GetAsync the extension of the uploaded file
-        var originalExtension = Path.GetExtension(file.FileName);
-
-        // Define the target directory where images will be saved
         var targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
-
-        // Ensure the target directory exists
         Directory.CreateDirectory(targetDirectory);
 
         var webPFileName = $"{fileName}.webp";
-
-        // Full path to save the converted image
         var filePath = Path.Combine(targetDirectory, webPFileName);
 
-        // Convert and save the image if it's not already in WebP format
-        if (originalExtension != ".webp")
-        {
-            using var image = Image.Load(file.OpenReadStream());
-            var encoderOptions = new WebpEncoder { Quality = 80 }; // Adjust quality as needed
-            image.Save(filePath, encoderOptions);
-        }
-        else
-        {
-            // If the file is already in WebP format, just copy it to the target directory
-            using var fileStream = File.Create(filePath);
-            file.CopyTo(fileStream);
-        }
+        using var inputStream = file.OpenReadStream();
+        using var skBitmap = SKBitmap.Decode(inputStream);
+        using var image = SKImage.FromBitmap(skBitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Webp, 80);
+        using var stream = File.OpenWrite(filePath);
+        data.SaveTo(stream);
 
         return filePath;
     }
-
     public (int height, int width) GetHeightAndWidthOfImage(IFormFile file)
     {
-        using var memoryStream = new MemoryStream();
-        file.CopyTo(memoryStream);
-        var image = new Bitmap(memoryStream);
-
-        // Get the width and height of the image
-        var width = image.Width;
-        var height = image.Height;
-
-        return (height, width);
+        using var inputStream = file.OpenReadStream();
+        using var skBitmap = SKBitmap.Decode(inputStream);
+        return (skBitmap.Height, skBitmap.Width);
     }
 }

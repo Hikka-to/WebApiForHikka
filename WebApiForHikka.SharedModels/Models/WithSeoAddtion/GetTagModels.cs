@@ -16,7 +16,8 @@ public static class GetTagModels
             EngName = "test",
             IsGenre = true,
             Name = "test",
-            SeoAddition = GetSeoAdditionModels.GetSample()
+            SeoAddition = GetSeoAdditionModels.GetSample(),
+            IsCharacterTag = false
         };
     }
 
@@ -35,8 +36,10 @@ public static class GetTagModels
                 EngName = "test",
                 IsGenre = true,
                 Name = "test",
-                SeoAddition = GetSeoAdditionModels.GetSample()
-            }
+                SeoAddition = GetSeoAdditionModels.GetSample(),
+                IsCharacterTag = false
+            },
+            IsCharacterTag = false
         };
     }
 
@@ -48,7 +51,8 @@ public static class GetTagModels
             EngName = Lorem.GetFirstWord(),
             IsGenre = Boolean.Random(),
             Name = Lorem.GetFirstWord(),
-            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
+            SeoAddition = GetSeoAdditionModels.GetCreateDtoSample(),
+            IsCharacterTag = false
         };
     }
 
@@ -61,7 +65,8 @@ public static class GetTagModels
             Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
             IsGenre = Boolean.Random(),
-            Id = new Guid()
+            Id = new Guid(),
+            IsCharacterTag = false
         };
     }
 
@@ -74,7 +79,8 @@ public static class GetTagModels
             IsGenre = Boolean.Random(),
             Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetSample(),
-            Id = new Guid()
+            Id = new Guid(),
+            IsCharacterTag = false
         };
     }
 
@@ -87,7 +93,8 @@ public static class GetTagModels
             IsGenre = Boolean.Random(),
             Name = Lorem.GetFirstWord(),
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample(),
-            Id = new Guid()
+            Id = new Guid(),
+            IsCharacterTag = true
         };
     }
 }

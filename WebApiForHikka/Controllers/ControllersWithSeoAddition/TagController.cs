@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
+using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.ResponseDto;
+using WebApiForHikka.Dtos.Shared;
+using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
@@ -70,4 +74,34 @@ public class TagController(
 
         return NoContent();
     }
+    
+    [HttpPost("GetAllGenres")]
+    public async Task<IActionResult> GetAllGenres([FromBody] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
+    {
+        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var paginatedGenres = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
+
+        var models = _mapper.Map<List<GetTagDto>>(paginatedGenres.Models);
+        return Ok(new ReturnPageDto<GetTagDto>
+        {
+            HowManyPages = (int)Math.Ceiling((double)paginatedGenres.Total / filterPagination.PageSize),
+            Models = models
+        });
+    }
+    
+    [HttpPost("GetAllTagsForCharacters")]
+    public async Task<IActionResult> GetAllTagsForCharacters([FromBody] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
+    {
+        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        
+        var paginatedCharacterTags = await crudService.GetAllTagForCharactersAsync(filterPagination, cancellationToken);
+
+        var models = _mapper.Map<List<GetTagDto>>(paginatedCharacterTags.Models);
+        return Ok(new ReturnPageDto<GetTagDto>
+        {
+            HowManyPages = (int)Math.Ceiling((double)paginatedCharacterTags.Total / filterPagination.PageSize),
+            Models = models
+        });
+    }
+    
 }

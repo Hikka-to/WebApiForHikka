@@ -15,6 +15,8 @@ public class CreateTagDto : CreateDtoWithSeoAddition
     public required string EngName { get; set; }
 
     public required List<string> Alises { get; set; }
+    
+    public  bool IsCharacterTag { get; set; } = false;    
 
     public required bool IsGenre { get; set; }
 
