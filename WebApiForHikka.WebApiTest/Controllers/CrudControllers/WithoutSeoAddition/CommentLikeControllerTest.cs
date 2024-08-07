@@ -49,7 +49,7 @@ public class CommentLikeControllerTest : CrudControllerBaseTest<
     {
         return new CommentLikeController(
             allServicesInController.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<ICommentService>(),

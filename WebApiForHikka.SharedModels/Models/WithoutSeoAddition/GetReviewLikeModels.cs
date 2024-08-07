@@ -1,7 +1,5 @@
 ﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Reviews;
-using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ReviewLikes;
 
 namespace WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 
@@ -33,7 +31,7 @@ public class GetReviewLikeModels
         {
             ReviewId = Guid.NewGuid(),
             UserId = Guid.NewGuid(),
-            IsLiked = false,
+            IsLiked = false
         };
     }
 

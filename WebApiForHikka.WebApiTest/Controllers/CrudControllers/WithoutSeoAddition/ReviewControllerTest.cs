@@ -46,7 +46,7 @@ public class ReviewControllerTest : CrudControllerBaseTest<
 
         return new ReviewController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

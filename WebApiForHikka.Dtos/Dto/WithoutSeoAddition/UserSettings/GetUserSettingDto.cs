@@ -1,9 +1,10 @@
 ﻿using TypeGen.Core.TypeAnnotations;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 
 [ExportTsInterface]
-public class GetUserSettingDto
+public class GetUserSettingDto : ModelDto
 {
     public required bool IsAutoNext { get; set; }
 

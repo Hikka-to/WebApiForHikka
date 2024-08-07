@@ -47,7 +47,7 @@ public class ResourceControllerTest : CrudControllerBaseTest<
 
         return new ResourceController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

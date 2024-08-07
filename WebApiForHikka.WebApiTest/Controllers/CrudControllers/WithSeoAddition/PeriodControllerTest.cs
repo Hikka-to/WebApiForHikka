@@ -46,7 +46,7 @@ public class PeriodControllerTest : CrudControllerBaseWithSeoAddition<
         return new PeriodController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
         );
     }

@@ -5,14 +5,14 @@ using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.Relation.AnimeRatings;
+using WebApiForHikka.Dtos.Dto.Relation.Notifications;
 using WebApiForHikka.Dtos.Dto.Relation.Relateds;
 using WebApiForHikka.Dtos.Dto.Relation.Seasons;
-using WebApiForHikka.Dtos.Dto.Relation.WatchUserHistories;
 using WebApiForHikka.Dtos.Dto.Relation.UserAnimeLists;
+using WebApiForHikka.Dtos.Dto.Relation.WatchUserHistories;
 using WebApiForHikka.Dtos.Dto.SeoAdditions;
 using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.Users;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AlternativeNames;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.AnimeGroups;
@@ -29,9 +29,11 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Mediaplayers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Providers;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.RelatedTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Resources;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.ReviewLikes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Reviews;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.SearchHistories;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
-using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecomendations;
+using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecommendations;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
@@ -48,7 +50,7 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Studios;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
-using WebApiForHikka.SharedModels.Models.Relation;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.WebApi.Helpers;
 
@@ -82,6 +84,14 @@ public class MappingProfiles : Profile
         CreateMap<CreateSeoAdditionDto, SeoAddition>();
 
         CreateMap<UpdateSeoAdditionDto, SeoAddition>();
+
+        CreateMap<CreateDtoWithSeoAddition, ModelWithSeoAddition>().ForMember(
+            c => c.SeoAddition,
+            op => op.MapFrom(v => v.SeoAddition));
+
+        CreateMap<UpdateDtoWithSeoAddition, ModelWithSeoAddition>().ForMember(
+            c => c.SeoAddition,
+            op => op.MapFrom(v => v.SeoAddition));
 
         //Status
 
@@ -396,22 +406,28 @@ public class MappingProfiles : Profile
         CreateMap<CreateEmojiGroupDto, EmojiGroup>();
 
         CreateMap<UpdateEmojiGroupDto, EmojiGroup>();
-        
+
         // UserAnimeListType
-        
+
         CreateMap<UserAnimeListType, GetUserAnimeListTypeDto>();
-        
+
         CreateMap<CreateUserAnimeListTypeDto, UserAnimeListType>();
 
         CreateMap<UpdateUserAnimeListTypeDto, UserAnimeListType>();
-        
+
         // UserAnimeList
-        CreateMap<UserAnimeList, GetUserAnimeListDto>();
-        
+        CreateMap<UserAnimeList, GetUserAnimeListDto>().ForMember(
+            c => c.UserAnimeListType,
+            op => op.MapFrom(v => v.UserAnimeListType)).ForMember(
+            c => c.User,
+            op => op.MapFrom(v => v.First)).ForMember(
+            c => c.Anime,
+            op => op.MapFrom(v => v.Second));
+
         CreateMap<CreateUserAnimeListDto, UserAnimeList>();
 
         CreateMap<UpdateUserAnimeListDto, UserAnimeList>();
-        
+
         // AnimeRating
 
         CreateMap<AnimeRating, GetAnimeRatingDto>().ForMember(
@@ -474,26 +490,26 @@ public class MappingProfiles : Profile
         CreateMap<CreateResourceDto, Resource>();
 
         CreateMap<UpdateResourceDto, Resource>();
-        
-        
+
+
         // Review
-        
+
         CreateMap<Review, GetReviewDto>();
 
         CreateMap<CreateReviewDto, Review>();
 
         CreateMap<UpdateReviewDto, Review>();
-        
+
         // ReviewLike
-        
+
         CreateMap<ReviewLike, GetReviewLikeDto>();
 
         CreateMap<CreateReviewLikeDto, ReviewLike>();
 
         CreateMap<UpdateReviewLikeDto, ReviewLike>();
-        
+
         // UserRecommendation
-        
+
         CreateMap<UserRecommendation, GetUserRecommendationDto>();
 
         CreateMap<CreateUserRecommendationDto, UserRecommendation>();
@@ -508,7 +524,21 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateUserWatchHistoryDto, UserWatchHistory>();
 
+        //Notifications
+
+        CreateMap<Notification, GetNotificationDto>();
+
+        CreateMap<CreateNotificationDto, Notification>();
+
+        CreateMap<UpdateNotificationDto, Notification>();
 
 
+        //SearchHistories
+
+        CreateMap<SearchHistory, GetSearchHistoryDto>();
+
+        CreateMap<CreateSearchHistoryDto, SearchHistory>();
+
+        CreateMap<UpdateSearchHistoryDto, SearchHistory>();
     }
 }

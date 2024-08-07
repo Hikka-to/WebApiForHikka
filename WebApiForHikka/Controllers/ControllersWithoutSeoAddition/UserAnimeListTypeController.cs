@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using WebApiForHikka.Application.WithoutSeoAddition.UserAnimeListTypes;
+using WebApiForHikka.Application.Relation.UserAnimeListTypes;
 using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
 using WebApiForHikka.WebApi.Shared;
@@ -12,7 +12,7 @@ public class UserAnimeListTypeController(
     IHttpContextAccessor httpContextAccessor
 )
     : CrudController
-        <GetUserAnimeListTypeDto, UpdateUserAnimeListTypeDto, CreateUserAnimeListTypeDto, UserAnimeListTypeService, UserAnimeListType>(crudService, mapper, httpContextAccessor)
+    <GetUserAnimeListTypeDto, UpdateUserAnimeListTypeDto, CreateUserAnimeListTypeDto, UserAnimeListTypeService,
+        UserAnimeListType>(crudService, mapper, httpContextAccessor)
 {
-    
 }

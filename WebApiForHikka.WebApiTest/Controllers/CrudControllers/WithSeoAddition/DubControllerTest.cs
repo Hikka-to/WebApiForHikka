@@ -52,7 +52,7 @@ internal class DubControllerTest : CrudControllerBaseWithSeoAddition<
         return new DubController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager, allServices.RoleManager)
         );
     }

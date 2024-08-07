@@ -9,14 +9,10 @@ using IModel = WebApiForHikka.Domain.Models.IModel;
 
 namespace WebApiForHikka.EfPersistence.Repositories;
 
-public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TModel : class, IModel
+public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRepository<TModel>
+    where TModel : class, IModel
 {
-    protected readonly HikkaDbContext DbContext;
-
-    protected CrudRepository(HikkaDbContext dbContext)
-    {
-        DbContext = dbContext;
-    }
+    protected readonly HikkaDbContext DbContext = dbContext;
 
     public virtual async Task<Guid> AddAsync(TModel model, CancellationToken cancellationToken)
     {
@@ -65,7 +61,7 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         var query = DbContext.Set<TModel>().AsQueryable();
 
         query = dto.Filters.Aggregate(query,
-            (current, filter) => Filter(current, filter.Column, filter.SearchTerm, filter.IsStrict));
+            (current, filter) => Filter(current, filter));
         var totalItems = await query.CountAsync(cancellationToken);
 
         var firstSort = dto.Sorts.FirstOrDefault();
@@ -102,17 +98,16 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         where TEntityModel : TModel
         where TUpdateModel : TEntityModel
     {
-        if (!entity.GetType().IsInstanceOfType(model))
+        var entityEntry = DbContext.Entry(entity);
+        if (!entityEntry.Metadata.ClrType.IsInstanceOfType(model))
             throw new InvalidOperationException("Model and entity must be of the same type");
 
         var modelEntry = DbContext.Entry(model);
-        var entityEntry = DbContext.Entry(entity);
         foreach (var property in entityEntry.Properties)
-            if (property.Metadata.IsPrimaryKey() ||
-                property.Metadata.IsShadowProperty() ||
-                ((!property.Metadata.PropertyInfo?.SetMethod?.IsPublic ?? true) &&
-                 (!property.Metadata.FieldInfo?.IsPublic ?? true))) continue;
-            else
+            if (!property.Metadata.IsPrimaryKey() &&
+                !property.Metadata.IsShadowProperty() &&
+                ((property.Metadata.PropertyInfo?.SetMethod?.IsPublic ?? false) ||
+                 (property.Metadata.FieldInfo?.IsPublic ?? false)))
                 switch (property.Metadata.Name)
                 {
                     case "CreatedAt":
@@ -149,24 +144,38 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
         }
     }
 
-    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, string filterBy, string filter, bool isStrict)
+    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, IEnumerable<Filter> filters)
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
                          throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
-        if (!FilterColumnSelector.IsColumnValid(entityType, filterBy))
-            throw new InvalidOperationException($"Column {filterBy} is not valid for {typeof(TModel)} filter");
 
-        return query.Filter(filterBy, filter, isStrict);
+        filters = filters.ToArray();
+        var errors = filters
+            .Where(filter => !FilterColumnSelector.IsColumnValidByReadablePath(entityType, filter.Column))
+            .Select(filter => filter.Column)
+            .ToArray();
+
+        if (errors.Length != 0)
+            throw new InvalidOperationException(
+                $"Columns [{string.Join(", ", errors)}] are not valid for {typeof(TModel)} filter");
+
+        var actualFilters = filters.Select(filter => filter with
+        {
+            Column = FilterColumnSelector.GetColumnByReadablePath(entityType, filter.Column).GetActualPath()
+        });
+
+        return query.Filter(actualFilters);
     }
 
     protected virtual IOrderedQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending)
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
                          throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
-        if (!SortColumnSelector.IsColumnValid(entityType, orderBy))
-            throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
 
-        return query.Sort(orderBy, isAscending);
+        if (SortColumnSelector.TryGetColumnByReadablePath(entityType, orderBy, out var column))
+            return query.Sort(column.GetActualPath(), isAscending);
+
+        throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
     }
 
     protected virtual IOrderedQueryable<TModel> ThenSort(IOrderedQueryable<TModel> query, string orderBy,
@@ -174,9 +183,10 @@ public abstract class CrudRepository<TModel> : ICrudRepository<TModel> where TMo
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
                          throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
-        if (!SortColumnSelector.IsColumnValid(entityType, orderBy))
-            throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
 
-        return query.ThenSort(orderBy, isAscending);
+        if (SortColumnSelector.TryGetColumnByReadablePath(entityType, orderBy, out var column))
+            return query.ThenSort(column.GetActualPath(), isAscending);
+
+        throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
     }
 }

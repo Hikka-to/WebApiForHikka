@@ -28,7 +28,7 @@ public class ExternalLinkController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<ExternalLink>(dto);
+        var model = Mapper.Map<ExternalLink>(dto);
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
@@ -46,7 +46,7 @@ public class ExternalLinkController(
         });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<ExternalLink>(dto);
+        var model = Mapper.Map<ExternalLink>(dto);
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 

@@ -124,7 +124,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         return new AnimeController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IKindService>(),

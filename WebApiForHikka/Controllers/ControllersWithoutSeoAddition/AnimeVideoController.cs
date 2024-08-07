@@ -28,7 +28,7 @@ public class AnimeVideoController(
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<AnimeVideo>(dto);
+        var model = Mapper.Map<AnimeVideo>(dto);
 
         model.AnimeVideoKind = (await animeVideoKindService.GetAsync(dto.AnimeVideoKindId, cancellationToken))!;
 
@@ -46,7 +46,7 @@ public class AnimeVideoController(
         });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<AnimeVideo>(dto);
+        var model = Mapper.Map<AnimeVideo>(dto);
 
         model.AnimeVideoKind = (await animeVideoKindService.GetAsync(dto.AnimeVideoKindId, cancellationToken))!;
 

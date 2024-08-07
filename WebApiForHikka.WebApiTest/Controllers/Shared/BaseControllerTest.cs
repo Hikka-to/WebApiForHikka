@@ -20,9 +20,8 @@ namespace WebApiForHikka.Test.Controllers.Shared;
 
 public abstract class BaseControllerTest : SharedTest
 {
-    private readonly IHttpContextAccessor _httpContextAccessor = A.Fake<HttpContextAccessor>();
-    protected readonly IMapper _mapper;
     protected readonly IConfiguration Configuration = A.Fake<IConfiguration>();
+    protected readonly IMapper Mapper;
 
     protected User SampleUser = new()
     {
@@ -48,19 +47,35 @@ public abstract class BaseControllerTest : SharedTest
     {
         A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
         var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
-        _mapper = mapperConfiguration.CreateMapper();
+        Mapper = mapperConfiguration.CreateMapper();
     }
 
     protected FilterPaginationDto FilterPaginationDto => new()
     {
         Filters =
         [
-            new FilterDto
-            {
-                SearchTerm = "Test",
-                Column = SharedStringConstants.IdName,
-                IsStrict = true
-            }
+            [
+                new FilterDto
+                {
+                    SearchTerm = "Test",
+                    Column = SharedStringConstants.IdName,
+                    IsStrict = true
+                },
+                new FilterDto
+                {
+                    SearchTerm = "Test1",
+                    Column = SharedStringConstants.IdName,
+                    IsStrict = true
+                }
+            ],
+            [
+                new FilterDto
+                {
+                    SearchTerm = "Test2",
+                    Column = SharedStringConstants.IdName,
+                    IsStrict = true
+                }
+            ]
         ],
         Sorts =
         [
@@ -68,6 +83,11 @@ public abstract class BaseControllerTest : SharedTest
             {
                 Column = SharedStringConstants.IdName,
                 SortOrder = SortOrder.Asc
+            },
+            new SortDto
+            {
+                Column = SharedStringConstants.IdName,
+                SortOrder = SortOrder.Desc
             }
         ],
         PageNumber = SharedNumberConstatnts.DefaultPageToStartWith,

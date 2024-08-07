@@ -13,11 +13,13 @@ public class ColorHelper : IColorHelper
         // Create a bitmap from the uploaded file
         using var memoryStream = new MemoryStream();
         file.CopyTo(memoryStream);
+#pragma warning disable CA1416
         var image = new Bitmap(memoryStream);
 
         // Get the width and height of the image
         var width = image.Width;
         var height = image.Height;
+
 
         // Calculate coordinates for the middle left, middle right, top, and bottom pixels
         var middleLeft = new Point(0, height / 2);
@@ -54,6 +56,7 @@ public class ColorHelper : IColorHelper
             image.GetPixel(bottomMiddle.X, bottomMiddle.Y).G,
             image.GetPixel(bottomMiddle.X, bottomMiddle.Y).B
         ));
+#pragma warning restore CA1416
 
         return pixelColors;
     }
