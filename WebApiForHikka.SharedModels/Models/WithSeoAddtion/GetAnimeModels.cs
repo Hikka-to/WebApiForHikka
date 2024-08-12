@@ -246,9 +246,34 @@ public static class GetAnimeModels
     {
         var sample = GetGetDtoSampleWithoutSimilars();
 
-        sample.SimilarAnimes.Add(GetGetDtoSampleWithoutSimilars());
+        sample.SimilarAnimes.Add(GetLightAnimeDto());
 
         return sample;
+    }
+
+    public static GetLightAnimeDto GetLightAnimeDto() 
+    {
+        return new GetLightAnimeDto
+        {
+            Name = Lorem.GetFirstWord(),
+            Kind = GetKindModels.GetGetDtoSample(),
+            Status = GetStatusModels.GetGetDtoSample(),
+            Period = GetPeriodModels.GetGetDtoSample(),
+            RestrictedRating = GetRestrictedRatingModels.GetGetDtoSample(),
+            NativeName = Lorem.GetFirstWord(),
+            PosterPathUrl = Lorem.GetFirstWord(),
+            PosterColors = [RandomNumber.Next(), RandomNumber.Next(), RandomNumber.Next()],
+            AvgDuration = RandomNumber.Next(),
+            ShikimoriScore = RandomNumber.Next(),
+            TmdbScore = RandomNumber.Next(),
+            ImdbScore = RandomNumber.Next(),
+            IsPublished = Boolean.Random(),
+            ImageName = Lorem.GetFirstWord(),
+            ShikimoriId = RandomNumber.Next(),
+            PublishedAt = DateTime.Now,
+            RomajiName = Lorem.GetFirstWord(),
+            TmdbId = RandomNumber.Next(),
+        };
     }
 
     public static GetAnimeDto GetGetDtoSampleWithoutSimilars()
@@ -291,6 +316,7 @@ public static class GetAnimeModels
             TmdbId = RandomNumber.Next(),
             UpdatedAt = DateTime.Now,
             CreatedAt = DateTime.Now,
+            BackdropPathUrl = Lorem.GetFirstWord(),
             Id = Guid.NewGuid()
         };
     }

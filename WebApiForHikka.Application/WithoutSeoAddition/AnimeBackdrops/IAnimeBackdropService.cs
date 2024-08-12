@@ -8,4 +8,5 @@ public interface IAnimeBackdropService : ICrudService<AnimeBackdrop>
     public Task<string?> GetImagePathAsync(Guid id);
 
     public IQueryable<AnimeBackdrop> GetAllBackdropForAnime(Guid id);
+
 }
