@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
 using WebApiForHikka.Application.WithSeoAddition.Dubs;
@@ -39,6 +40,7 @@ public class AnimeController(
     ITagService tagService,
     ICountryService countryService,
     IDubService dubService,
+    IAnimeBackdropService animeBackdropService,
     IFileHelper fileHelper,
     IColorHelper colorHelper,
     ILinkFactory linkFactory
@@ -177,6 +179,16 @@ public class AnimeController(
         return File(file, ControllerStringConstants.JsonImageReturnType, imageName);
     }
 
+    [AllowAnonymous]
+    [HttpGet("dowloadBackdrop/{imageName}")]
+    public IActionResult GetBackdrop([FromRoute] string backdropName)
+    {
+        var file = fileHelper.GetFile(ControllerStringConstants.AnimeBackdropPath, backdropName);
+
+        return File(file, ControllerStringConstants.JsonImageReturnType, backdropName);
+    }
+
+
 
     [AllowAnonymous]
     public override async Task<IActionResult> GetAll(FilterPaginationDto paginationDto,
@@ -192,7 +204,7 @@ public class AnimeController(
 
         var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
-        var models = Mapper.Map<List<GetAnimeDto>>(paginationCollection.Models);
+        var models = Mapper.Map<List<GetLightAnimeDto>>(paginationCollection.Models);
 
         foreach (var item in models)
             item.PosterPathUrl =
@@ -200,7 +212,7 @@ public class AnimeController(
 
 
         return Ok(
-            new ReturnPageDto<GetAnimeDto>
+            new ReturnPageDto<GetLightAnimeDto>
             {
                 HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
                 Models = models
@@ -235,6 +247,13 @@ public class AnimeController(
 
         if (model is null)
             return NotFound();
+
+        var backdrops =animeBackdropService.GetAllBackdropForAnime(model.Id).ToList();
+
+        if (backdrops.Count >= 1)
+        {
+            model.BackdropPathUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "Get", backdrops.First().Path);
+        }
 
 
         model.PosterPathUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.PosterPathUrl);

@@ -23,7 +23,7 @@ public class AnimeService(
 
     public override async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var backdrops = animeBackdropService.GetAllBackdropForAnime(id);
+        var backdrops =  animeBackdropService.GetAllBackdropForAnime(id);
 
         foreach (var item in backdrops) await animeBackdropService.DeleteAsync(item.Id, cancellationToken);
 
