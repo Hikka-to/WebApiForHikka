@@ -32,16 +32,17 @@ public class DtoTsGenerationSpec : GenerationSpec
         SyncTypes();
     }
 
-    private Dictionary<Type, string> Types { get; } = [];
+    private Dictionary<string, Type> Types { get; } = [];
 
     private static string CurrentDir { get; } = Path.GetFullPath("./WebApiForHikka.Dtos");
 
     private void SyncTypes()
     {
-        foreach (var type in Types.ToArray()) SyncType(type.Value[..type.Value.LastIndexOf('/')], type.Key);
+        var defaultTypes = Types.Values.ToArray();
+        foreach (var type in Types.ToArray()) SyncType(defaultTypes, type.Key[..type.Key.LastIndexOf('/')], type.Value);
     }
 
-    private void SyncType(string outputDir, Type? type)
+    private void SyncType(Type[] defaultTypes, string outputDir, Type? type)
     {
         if (type is null ||
             type == typeof(object) ||
@@ -54,15 +55,17 @@ public class DtoTsGenerationSpec : GenerationSpec
             type.GenericIsSubclassOf(typeof(INumber<>)) ||
             type.GenericIsSubclassOf(typeof(IEnumerable<>))) return;
 
-        SyncType(outputDir, type.BaseType);
+        SyncType(defaultTypes, outputDir, type.BaseType);
 
-        foreach (var interfaceType in type.GetInterfaces()) SyncType(outputDir, interfaceType);
+        foreach (var interfaceType in type.GetInterfaces()) SyncType(defaultTypes, outputDir, interfaceType);
 
-        foreach (var property in type.GetProperties()) SyncType(outputDir, property.PropertyType);
+        foreach (var property in type.GetProperties()) SyncType(defaultTypes, outputDir, property.PropertyType);
 
-        if (Types.ContainsKey(type)) return;
+        if (defaultTypes.Contains(type)) return;
 
-        Types.Add(type, outputDir + "/" + ToKebabCase(type.Name) + ".ts");
+        var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+        var output = outputDir + "/" + ToKebabCase(typeName) + ".ts";
+        Types.TryAdd(output, type);
     }
 
     private void AddTypes<TAttribute>(Func<Type, string, SpecBuilderBase> method)
@@ -82,7 +85,9 @@ public class DtoTsGenerationSpec : GenerationSpec
                 .Replace("\\", "/")
                 .TrimEnd('/');
             method(type, outputDir);
-            Types.Add(type, outputDir + "/" + ToKebabCase(type.Name) + ".ts");
+
+            var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+            Types.Add(outputDir + "/" + ToKebabCase(typeName) + ".ts", type);
         }
     }
 
@@ -100,14 +105,8 @@ public class DtoTsGenerationSpec : GenerationSpec
             using var sr = new StreamReader(fs);
             var source = sr.ReadToEnd();
             var ast = new TypeScriptAST(source, filePath);
-            var generatedInterface = ast.GetDescendants().OfType<InterfaceDeclaration>().FirstOrDefault();
-            if (generatedInterface is not null)
-            {
-                var propertiesOutput = GetInterfaceProperties(generatedInterface);
-                fs.Write(Encoding.UTF8.GetBytes(propertiesOutput));
-            }
 
-            var type = Types.FirstOrDefault(t => filePath == Path.GetFullPath(t.Value, CurrentDir)).Key;
+            var type = Types.FirstOrDefault(t => filePath == Path.GetFullPath(t.Key, CurrentDir)).Value;
             if (type is null) continue;
             List<Type> dependencies = [];
             var zodOutput = GetZod(type, dependencies);
@@ -138,16 +137,27 @@ public class DtoTsGenerationSpec : GenerationSpec
             foreach (var importOutput in from dependency in dependencies
                      where dependency != type
                      let typePath = new Uri(filePath, UriKind.Absolute)
-                     let dependencyPath = new Uri(Path.GetFullPath(Types[dependency], CurrentDir), UriKind.Absolute)
+                     let dependencyPath =
+                         new Uri(
+                             Types.Select(t => (Path.GetFullPath(t.Key, CurrentDir), t.Value))
+                                 .First(t => t.Value == dependency && args.GeneratedFiles
+                                     .Select(f => Path.GetFullPath(f, CurrentDir)).Contains(t.Item1))
+                                 .Item1,
+                             UriKind.Absolute)
                      let path = typePath.MakeRelativeUri(dependencyPath).ToString()
-                     let name = StringToLowerCase(dependency.Name) + "Schema"
+                     let dependencyName = dependency.IsGenericTypeDefinition
+                         ? dependency.Name[..dependency.Name.IndexOf('`')]
+                         : dependency.Name
+                     let name = StringToLowerCase(dependencyName) + "Schema"
                      select $"import {{ {name} }} from '{path.Replace(".ts", "")}';\n")
             {
                 source = source.Insert(lastIndex, importOutput);
                 lastIndex += importOutput.Length;
             }
 
-            source = source.Insert(lastIndex, "import { z } from 'zod';" + (imports.Length == 0 ? "\n" : ""));
+            source = source.Insert(lastIndex,
+                $"import {{ z{(type.IsGenericTypeDefinition ? ", ZodTypeAny" : "")} }} from 'zod';" +
+                (imports.Length == 0 ? "\n" : ""));
 
             fs.Position = 0;
             fs.Write(Encoding.UTF8.GetBytes(source));
@@ -156,15 +166,17 @@ public class DtoTsGenerationSpec : GenerationSpec
 
     private string GetZod(Type type, List<Type> dependencies)
     {
-        if (type.GetCustomAttribute<ExportTsClassAttribute>() is not null)
+        if (type.GetCustomAttribute<ExportTsClassAttribute>() is not null ||
+            (type.GetCustomAttribute<ExportTsInterfaceAttribute>() is null && type.IsClass))
         {
             var properties = type.GetProperties();
             var fields = type.GetFields();
             var genericArguments = type.IsGenericTypeDefinition ? type.GetGenericArguments() : [];
             var genericPart = genericArguments.Length > 0
-                ? $"({string.Join(", ", genericArguments.Select(a => a.Name))}) => "
+                ? $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: ZodTypeAny"))}) => "
                 : "";
-            return $"\nexport const {StringToLowerCase(type.Name)}Schema = {genericPart}z.object({{\n" +
+            var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+            return $"\nexport const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
                    string.Join(",\n",
                        properties.Select(p => $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
                    string.Join(",\n",
@@ -172,15 +184,17 @@ public class DtoTsGenerationSpec : GenerationSpec
                    $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n";
         }
 
-        if (type.GetCustomAttribute<ExportTsInterfaceAttribute>() is not null)
+        if (type.GetCustomAttribute<ExportTsInterfaceAttribute>() is not null ||
+            (type.GetCustomAttribute<ExportTsClassAttribute>() is null && type.IsInterface))
         {
             var properties = type.GetProperties();
             var fields = type.GetFields();
             var genericArguments = type.IsGenericTypeDefinition ? type.GetGenericArguments() : [];
             var genericPart = genericArguments.Length > 0
-                ? $"({string.Join(", ", genericArguments.Select(a => a.Name))}) => "
+                ? $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: ZodTypeAny"))}) => "
                 : "";
-            return $"\nexport const {StringToLowerCase(type.Name)}Schema = {genericPart}z.object({{\n" +
+            var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+            return $"\nexport const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
                    string.Join(",\n",
                        properties.Select(p => $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
                    string.Join(",\n",
@@ -193,23 +207,15 @@ public class DtoTsGenerationSpec : GenerationSpec
             $"\nexport const {StringToLowerCase(type.Name)}Schema = z.enum({StringToLowerCase(type.Name)}Keys)\n";
     }
 
-    private static string GetInterfaceProperties(InterfaceDeclaration generatedInterface)
-    {
-        var properties = generatedInterface.Members.OfType<PropertySignature>();
-        var propertyNames = properties.Select(p => p.Name.GetText()).ToArray();
-        return
-            $"\nexport const {StringToLowerCase(generatedInterface.Name.GetText())}Properties: (keyof {generatedInterface.Name.GetText()})[] = [\n"
-            + string.Join(",\n", propertyNames.Select(p => $"    '{p}'"))
-            + $"{(propertyNames.Length > 0 ? "\n" : "")}];\n";
-    }
-
-    private string GetZodType(NullabilityInfo nullabilityInfo, in List<Type> dependencies)
+    private string GetZodType(NullabilityInfo nullabilityInfo, bool addAdditions, List<Type> dependencies)
     {
         return GetZodType(nullabilityInfo.Type, nullabilityInfo.GenericTypeArguments, nullabilityInfo.ElementType,
+            addAdditions,
             nullabilityInfo.WriteState == NullabilityState.Nullable, dependencies);
     }
 
     private string GetZodType(Type type, NullabilityInfo[] genericArguments, NullabilityInfo? elementType,
+        bool addAdditions,
         bool nullable, List<Type> dependencies)
     {
         var result = "";
@@ -245,33 +251,35 @@ public class DtoTsGenerationSpec : GenerationSpec
             var key = genericArguments[0];
             var value = genericArguments[1];
             result = key.Type.GenericIsSubclassOf(typeof(string))
-                ? $"z.record({GetZodType(value, dependencies)})"
-                : $"z.map({GetZodType(key, dependencies)}, {GetZodType(value, dependencies)})";
+                ? $"z.record({GetZodType(value, true, dependencies)})"
+                : $"z.map({GetZodType(key, true, dependencies)}, {GetZodType(value, true, dependencies)})";
         }
         else if (type.GenericIsSubclassOf(typeof(Array)))
         {
-            result = $"z.array({GetZodType(elementType!, dependencies)})";
+            result = $"z.array({GetZodType(elementType!, true, dependencies)})";
         }
         else if (type.GenericIsSubclassOf(typeof(IEnumerable<>)))
         {
             var value = genericArguments[0];
-            result = $"z.array({GetZodType(value, dependencies)})";
+            result = $"z.array({GetZodType(value, true, dependencies)})";
         }
         else if (type.GenericIsSubclassOf(typeof(Nullable<>)))
         {
             var value = Nullable.GetUnderlyingType(type);
-            result = GetZodType(value!, genericArguments, elementType, false, dependencies);
+            result = GetZodType(value!, genericArguments, elementType, true, false, dependencies);
         }
-        else if (Types.ContainsKey(type))
+        else if (Types.ContainsValue(type))
         {
-            if (!dependencies.Contains(type)) dependencies.Add(type);
+            var definition = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+            if (!dependencies.Contains(definition)) dependencies.Add(definition);
             result = StringToLowerCase(type.Name) + "Schema";
             if (type.IsGenericType)
-                result += $"({string.Join(", ", genericArguments.Select(a => GetZodType(a, dependencies)))})";
+                result +=
+                    $"({string.Join(", ", genericArguments.Select(a => GetZodType(a, addAdditions, dependencies)))})";
         }
         else if (type.IsGenericParameter)
         {
-            result = type.Name;
+            result = StringToLowerCase(type.Name);
             return result;
         }
         else
@@ -279,47 +287,11 @@ public class DtoTsGenerationSpec : GenerationSpec
             result = "z.unknown()";
         }
 
-        if (type.TryGetSubclassType(typeof(IMinMaxValue<>), out var minMaxType))
+        if (addAdditions && type.GenericIsSubclassOf(typeof(IMinMaxValue<>)))
         {
-            object? min = null;
-            try
-            {
-                min = minMaxType.GetField("MinValue")?.GetValue(null);
-            }
-            catch
-            {
-                // ignored
-            }
+            var min = GetTypeMin(type);
 
-            if (min == null)
-                try
-                {
-                    min = minMaxType.GetProperty("MinValue")?.GetValue(null);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-            object? max = null;
-            try
-            {
-                max = minMaxType.GetField("MaxValue")?.GetValue(null);
-            }
-            catch
-            {
-                // ignored
-            }
-
-            if (max == null)
-                try
-                {
-                    max = minMaxType.GetProperty("MaxValue")?.GetValue(null);
-                }
-                catch
-                {
-                    // ignored
-                }
+            var max = GetTypeMax(type);
 
             if (min != null && max != null)
                 result += $".min({min}).max({max})";
@@ -329,7 +301,7 @@ public class DtoTsGenerationSpec : GenerationSpec
                 result += $".max({max})";
         }
 
-        if (nullable)
+        if (addAdditions && nullable)
             result += ".nullable()";
 
         return result;
@@ -338,18 +310,40 @@ public class DtoTsGenerationSpec : GenerationSpec
     private string GetZodType(MemberInfo member, List<Type> dependencies)
     {
         var nullabilityContext = new NullabilityInfoContext();
-        NullabilityInfo nullabilityInfo;
-        if (member is PropertyInfo propertyInfo)
-            nullabilityInfo = nullabilityContext.Create(propertyInfo);
-        else
-            nullabilityInfo = nullabilityContext.Create((FieldInfo)member);
-        var result = GetZodType(nullabilityInfo, dependencies);
+        var propertyInfo = member as PropertyInfo;
+        var fieldInfo = member as FieldInfo;
+        var type = propertyInfo != null ? propertyInfo.PropertyType : fieldInfo!.FieldType;
+        var nullabilityInfo = propertyInfo != null
+            ? nullabilityContext.Create(propertyInfo)
+            : nullabilityContext.Create(fieldInfo!);
+        var result = GetZodType(nullabilityInfo, false, dependencies);
 
         if (GetCustomAttribute<StringLengthAttribute>(member) is { } stringLength)
             result += $".length({stringLength.MaximumLength})";
 
         if (GetCustomAttribute<RangeAttribute>(member) is { } range)
-            result += $".min({range.Minimum}).max({range.Maximum})";
+        {
+            var min = range.Minimum;
+            var max = range.Maximum;
+            if (double.NegativeInfinity.Equals(min))
+                min = null;
+            if (float.NegativeInfinity.Equals(min))
+                min = null;
+            if (double.PositiveInfinity.Equals(max))
+                max = null;
+            if (float.PositiveInfinity.Equals(max))
+                max = null;
+
+            min ??= GetTypeMin(type);
+            max ??= GetTypeMax(type);
+
+            if (min != null && max != null)
+                result += $".min({min}).max({max})";
+            else if (min != null)
+                result += $".min({min})";
+            else if (max != null)
+                result += $".max({max})";
+        }
 
         if (GetCustomAttribute<EmailAddressAttribute>(member) is not null)
             result += ".email()";
@@ -357,7 +351,8 @@ public class DtoTsGenerationSpec : GenerationSpec
         if (GetCustomAttribute<UrlAttribute>(member) is not null)
             result += ".url()";
 
-        if (GetCustomAttribute<RequiredAttribute>(member) is { AllowEmptyStrings: false })
+        if (GetCustomAttribute<RequiredAttribute>(member) is { AllowEmptyStrings: false } &&
+            type.GenericIsSubclassOf(typeof(string)))
             result += ".regex(/\\S/)";
 
         if (GetCustomAttribute<MinLengthAttribute>(member) is { } minLength)
@@ -368,6 +363,9 @@ public class DtoTsGenerationSpec : GenerationSpec
 
         if (GetCustomAttribute<RegularExpressionAttribute>(member) is { } regex)
             result += $".regex(/{regex.Pattern}/)";
+
+        if (nullabilityInfo.WriteState == NullabilityState.Nullable)
+            result += ".nullable()";
 
         return result;
     }
@@ -404,5 +402,45 @@ public class DtoTsGenerationSpec : GenerationSpec
 
             return null;
         }
+    }
+
+    private static object MinValueGetter<T>() where T : IMinMaxValue<T>
+    {
+        return T.MinValue;
+    }
+
+    private static object MaxValueGetter<T>() where T : IMinMaxValue<T>
+    {
+        return T.MaxValue;
+    }
+
+    private static object? GetTypeMin(Type type)
+    {
+        var min = typeof(DtoTsGenerationSpec).GetMethod(nameof(MinValueGetter),
+                BindingFlags.NonPublic | BindingFlags.Static)
+            !.MakeGenericMethod(type)
+            .Invoke(null, null);
+
+        if (double.NegativeInfinity.Equals(min))
+            min = null;
+        if (float.NegativeInfinity.Equals(min))
+            min = null;
+
+        return min;
+    }
+
+    private static object? GetTypeMax(Type type)
+    {
+        var max = typeof(DtoTsGenerationSpec).GetMethod(nameof(MaxValueGetter),
+                BindingFlags.NonPublic | BindingFlags.Static)
+            !.MakeGenericMethod(type)
+            .Invoke(null, null);
+
+        if (double.PositiveInfinity.Equals(max))
+            max = null;
+        if (float.PositiveInfinity.Equals(max))
+            max = null;
+
+        return max;
     }
 }
