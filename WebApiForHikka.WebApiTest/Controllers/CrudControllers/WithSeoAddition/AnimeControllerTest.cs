@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WebApiForHikka.Application.SeoAdditions;
@@ -135,6 +137,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
             alternativeServices.GetRequiredService<ITagService>(),
             alternativeServices.GetRequiredService<ICountryService>(),
             alternativeServices.GetRequiredService<IDubService>(),
+            alternativeServices.GetRequiredService<IAnimeBackdropService>(),
             fileHelperMock.Object,
             colorHelperMock.Object,
             linkFactoryMock.Object
@@ -250,5 +253,34 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
     protected override UpdateAnimeDto GetUpdateDtoSample()
     {
         return GetAnimeModels.GetUpdateDtoSample();
+    }
+
+    [Fact]
+    public override async Task CrudController_GetAll_ReturnsReturnPageDto()
+    {
+        //Arrange
+        var serviceCollection = new ServiceCollection();
+        var services = GetAllServices(serviceCollection);
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+        var controller = await GetController(services, serviceProvider);
+        foreach (var _ in GetCollectionOfModels(10))
+        {
+            var modelDto = GetCreateDtoSample();
+            MutationBeforeDtoCreation(modelDto, services, serviceProvider);
+            await controller.Create(modelDto, CancellationToken);
+        }
+
+        //Act
+
+        var result = await controller.GetAll(FilterPaginationDto, CancellationToken) as OkObjectResult;
+
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<OkObjectResult>();
+
+        var returnPageDto = result?.Value as ReturnPageDto<GetLightAnimeDto>;
+
+        returnPageDto.Should().BeOfType<ReturnPageDto<GetLightAnimeDto>>();
     }
 }

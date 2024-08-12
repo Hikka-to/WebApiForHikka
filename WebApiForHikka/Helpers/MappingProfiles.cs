@@ -187,6 +187,20 @@ public class MappingProfiles : Profile
 
         //Anime
 
+        CreateMap<Anime, GetLightAnimeDto>().ForMember(
+            c => c.Kind,
+            op => op.MapFrom(v => v.Kind)).ForMember(
+            c => c.Status,
+            op => op.MapFrom(v => v.Status)).ForMember(
+            c => c.Period,
+            op => op.MapFrom(v => v.Period)).ForMember(
+            c => c.RestrictedRating,
+            op => op.MapFrom(v => v.RestrictedRating)).ForMember(
+            c => c.PosterPathUrl,
+op => op.MapFrom(v => v.PosterPath)
+            );
+
+
         CreateMap<Anime, GetAnimeDto>().ForMember(
             c => c.Kind,
             op => op.MapFrom(v => v.Kind)).ForMember(
