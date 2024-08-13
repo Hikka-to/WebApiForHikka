@@ -16,6 +16,7 @@ public class UpdateTagDto : UpdateDtoWithSeoAddition
 
     public required List<string> Alises { get; set; }
 
+    public  bool IsCharacterTag { get; set; } = false;    
     public required bool IsGenre { get; set; }
 
     [EntityValidation<Tag>] public Guid? ParentTagId { get; set; }
