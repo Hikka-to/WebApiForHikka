@@ -332,7 +332,7 @@ public class DtoTsGenerationSpec : GenerationSpec
         }
 
         if (addAdditions && nullable)
-            result += ".nullable().optional()";
+            result += ".nullish()";
 
         return result;
     }
@@ -395,7 +395,7 @@ public class DtoTsGenerationSpec : GenerationSpec
             result += $".regex(/{regex.Pattern}/)";
 
         if (nullabilityInfo.WriteState == NullabilityState.Nullable)
-            result += ".nullable().optional()";
+            result += ".nullish()";
 
         return result;
     }
