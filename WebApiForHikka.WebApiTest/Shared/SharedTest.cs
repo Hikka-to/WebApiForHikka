@@ -52,7 +52,6 @@ public class SharedTest
         };
 
         var passwordHasher = new PasswordHasher<User>();
-        var passwordValidators = new List<IPasswordValidator<User>>();
         var keyNormalizer = new UpperInvariantLookupNormalizer();
         var errors = new IdentityErrorDescriber();
         var logger = new Logger<UserManager<User>>(new LoggerFactory());

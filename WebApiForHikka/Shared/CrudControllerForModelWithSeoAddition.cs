@@ -31,7 +31,7 @@ public abstract class CrudControllerForModelWithSeoAddition
     where TCreateDtoWithSeoAddition : CreateDtoWithSeoAddition
     where TIService : ICrudService<TModelWithSeoAddition>
 {
-    protected ISeoAdditionService _seoAdditionService = seoAdditionService;
+    protected readonly ISeoAdditionService SeoAdditionService = seoAdditionService;
 
     [HttpPost]
     public override async Task<IActionResult> Create([FromBody] TCreateDtoWithSeoAddition dto,
@@ -40,13 +40,14 @@ public abstract class CrudControllerForModelWithSeoAddition
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<TModelWithSeoAddition>(dto);
-        var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
-        await _seoAdditionService.CreateAsync(seoAddition, cancellationToken);
+        var model = Mapper.Map<TModelWithSeoAddition>(dto);
+        var seoAddition = Mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.CreateAsync(seoAddition, cancellationToken);
         model.SeoAddition = seoAddition;
 
         Guid? id = await CrudRelationService.CreateAsync(model, cancellationToken);
 
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (id == null) return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
 
         return Ok(new CreateResponseDto { Id = (Guid)id });
@@ -66,8 +67,8 @@ public abstract class CrudControllerForModelWithSeoAddition
             return NoContent();
 
 
-        await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
-        await _seoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
+        await CrudRelationService.DeleteAsync(model.Id, cancellationToken);
+        await SeoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
         return NoContent();
     }
 
@@ -79,7 +80,7 @@ public abstract class CrudControllerForModelWithSeoAddition
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<TGetDtoWithSeoAddition>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<TGetDtoWithSeoAddition>(await CrudRelationService.GetAsync(id, cancellationToken));
         if (model is null)
             return NotFound();
 
@@ -93,13 +94,15 @@ public abstract class CrudControllerForModelWithSeoAddition
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
+
+        CkeckIfColumnsAreInModel(paginationDto, errorEndPoint);
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
-        var models = _mapper.Map<List<TGetDtoWithSeoAddition>>(paginationCollection.Models);
+        var models = Mapper.Map<List<TGetDtoWithSeoAddition>>(paginationCollection.Models);
         return Ok(
             new ReturnPageDto<TGetDtoWithSeoAddition>
             {
@@ -123,11 +126,12 @@ public abstract class CrudControllerForModelWithSeoAddition
         );
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = _mapper.Map<TModelWithSeoAddition>(dto);
-        var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
-        await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
+        var model = Mapper.Map<TModelWithSeoAddition>(dto);
+        var seoAdditionModel = model.SeoAddition;
+        seoAdditionModel.Id = (await CrudRelationService.GetAsync(dto.Id, cancellationToken))!.SeoAddition.Id;
+        await SeoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
-        var seoAddition = await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken);
+        var seoAddition = await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken);
         model.SeoAddition = seoAddition!;
 
         await CrudRelationService.UpdateAsync(model, cancellationToken);

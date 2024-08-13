@@ -15,8 +15,6 @@ public static class CreateUserFakeData
         {
             ids.Add(Guid.NewGuid());
 
-            var roleEntity = await roleManager.FindByNameAsync(role);
-
             var user = databaseContext.Users.Add(GetUserModels.GetSample());
 
             await databaseContext.SaveChangesAsync();

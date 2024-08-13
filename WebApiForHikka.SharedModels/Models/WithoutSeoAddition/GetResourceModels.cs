@@ -1,10 +1,9 @@
-﻿using Faker;
-using WebApiForHikka.Domain.Models.WithoutSeoAddition;
+﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.Resources;
-using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
 namespace WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
-public class GetResourceModels 
+
+public class GetResourceModels
 {
     public static Resource GetSample()
     {
@@ -36,7 +35,6 @@ public class GetResourceModels
         {
             Id = Guid.NewGuid(),
             Slug = "test12"
-
         };
     }
 
@@ -46,7 +44,6 @@ public class GetResourceModels
         {
             Id = Guid.NewGuid(),
             Slug = "test231"
-            
         };
     }
 }

@@ -49,7 +49,7 @@ public class GetUserSettingControllerTest : CrudControllerBaseTest<
 
         return new UserSettingController(
             allServices.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager)
         );

@@ -50,7 +50,7 @@ public class CommentControllerTest : CrudControllerBaseTest<
     {
         return new CommentController(
             allServicesInController.CrudService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IUserService>(),

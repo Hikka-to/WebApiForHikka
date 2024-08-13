@@ -7,5 +7,4 @@ namespace WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 public class ReviewRepository(HikkaDbContext dbContext)
     : CrudRepository<Review>(dbContext), IReviewRepository
 {
-    
 }

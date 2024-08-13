@@ -1,7 +1,6 @@
 using Faker;
 using Microsoft.AspNetCore.Identity;
 using WebApiForHikka.Constants.Models.Users;
-using WebApiForHikka.Constants.Models.WithoutSeoAddition.RelatedType;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Dtos.Dto.Users;
 using WebApiForHikka.SharedModels.MyDataFakers;
@@ -96,10 +95,11 @@ public class GetUserModels
             BackdropUrl = "https://example.com/backdrops/bobwilson_backdrop.jpg",
             Description = "Passionate about photography and travel",
             StatusText = "Exploring the world 🌍",
+            StatusIcon = "🚀",
             AllowAdult = true,
             LastSeenAt = DateTime.Now.AddDays(-1),
             UpdatedAt = DateTime.Now,
-            CreatedAtTime = DateTime.Now.AddMonths(-6)
+            CreatedAt = DateTime.Now.AddMonths(-6)
         };
     }
 
@@ -115,34 +115,32 @@ public class GetUserModels
             AvatarImage = MyDataFaker.GetFakeImage(),
             BackdropImage = MyDataFaker.GetFakeImage(),
             StatusText = "Leading the team to success 💪",
+            StatusIcon = "☕",
             Description = "Tech lead with a passion for AI and machine learning",
             AllowAdult = true,
-            LastSeenAt = DateTime.Now.AddHours(-1),
-            UpdatedAt = DateTime.Now.AddDays(-2),
-            CreatedAtTime = DateTime.Now.AddMonths(-9)
+            LastSeenAt = DateTime.Now.AddHours(-1)
         };
     }
 
     public static UserRegistrationDto GetUserRegistrationDtoForAdminSample()
     {
-        return new UserRegistrationDto()
+        return new UserRegistrationDto
         {
             Email = "user@gmail.com",
             Password = "test123",
             Role = UserStringConstants.AdminRole,
-            UserName = Lorem.GetFirstWord(),
+            UserName = Lorem.GetFirstWord()
         };
     }
+
     public static UserRegistrationDto GetUserRegistrationDtoForUserSample()
     {
-        return new UserRegistrationDto()
+        return new UserRegistrationDto
         {
             Email = "user@gmail.com",
             Password = "test123",
             Role = UserStringConstants.UserRole,
-            UserName = Lorem.GetFirstWord(),
+            UserName = Lorem.GetFirstWord()
         };
     }
-
-
 }

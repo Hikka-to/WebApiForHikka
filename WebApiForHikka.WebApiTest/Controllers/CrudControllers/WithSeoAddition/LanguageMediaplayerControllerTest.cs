@@ -71,7 +71,7 @@ public class LanguageMediaplayerControllerTest : CrudControllerBaseWithSeoAdditi
         return new LanguageMediaplayerController(
             allServices.CrudService,
             allServices.SeoAdditionService,
-            _mapper,
+            Mapper,
             await GetHttpContextAccessForAdminUser(allServicesInController.UserManager,
                 allServicesInController.RoleManager),
             alternativeServices.GetRequiredService<IMediaplayerService>(),

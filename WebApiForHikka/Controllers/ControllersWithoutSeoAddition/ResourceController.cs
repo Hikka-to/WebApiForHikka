@@ -16,4 +16,4 @@ public class ResourceController(
         CreateResourceDto,
         IResourceService,
         Resource
-    >(crudService, mapper, httpContextAccessor); 
+    >(crudService, mapper, httpContextAccessor);

@@ -13,12 +13,12 @@ public class AnimeService(
 {
     public string? GetPosterPath(Guid animeId)
     {
-        return _repository.GetPosterPath(animeId);
+        return Repository.GetPosterPath(animeId);
     }
 
     public Task<string?> GetPosterPathAsync(Guid animeId)
     {
-        return _repository.GetPosterPathAsync(animeId);
+        return Repository.GetPosterPathAsync(animeId);
     }
 
     public override async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
@@ -27,10 +27,11 @@ public class AnimeService(
 
         foreach (var item in backdrops) await animeBackdropService.DeleteAsync(item.Id, cancellationToken);
 
-        var anime = await _repository.GetAsync(id, cancellationToken);
+        var anime = await Repository.GetAsync(id, cancellationToken);
 
-        fileHelper.DeleteFile(anime.PosterPath);
+        if (anime?.PosterPath != null)
+            fileHelper.DeleteFile(anime.PosterPath);
 
-        await _repository.DeleteAsync(id, cancellationToken);
+        await Repository.DeleteAsync(id, cancellationToken);
     }
 }

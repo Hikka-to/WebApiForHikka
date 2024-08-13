@@ -13,7 +13,7 @@ public class RelationCrudControllerResponseTypesOperationFilter : IOperationFilt
     {
         if (!context.ApiDescription.TryGetMethodInfo(out var methodInfo) ||
             methodInfo.DeclaringType == null ||
-            !methodInfo.DeclaringType.TryGetSubclassType(typeof(RelationCrudController<,,,>), out var crudController))
+            !methodInfo.DeclaringType.GenericIsSubclassOf(typeof(RelationCrudController<,,,>)))
             return;
 
         var responseAttributes = methodInfo.GetCustomAttributes<SwaggerResponseAttribute>().ToArray();

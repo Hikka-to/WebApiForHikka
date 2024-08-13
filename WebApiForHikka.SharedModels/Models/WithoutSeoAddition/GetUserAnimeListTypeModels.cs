@@ -1,6 +1,5 @@
 ﻿using WebApiForHikka.Domain.Models.WithoutSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
-using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
 namespace WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 
@@ -10,8 +9,8 @@ public class GetUserAnimeListTypeModels
     {
         return new UserAnimeListType
         {
-           Slug = "test",
-           Name = "test"
+            Slug = "test",
+            Name = "test"
         };
     }
 
@@ -26,7 +25,7 @@ public class GetUserAnimeListTypeModels
 
     public static CreateUserAnimeListTypeDto GetCreateSampleDto()
     {
-        return new CreateUserAnimeListTypeDto()
+        return new CreateUserAnimeListTypeDto
         {
             Slug = "test2",
             Name = "test2"

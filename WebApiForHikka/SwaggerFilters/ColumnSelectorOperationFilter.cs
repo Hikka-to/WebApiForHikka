@@ -27,8 +27,8 @@ public class ColumnSelectorOperationFilter(IServiceProvider services) : IOperati
 
         operation.RequestBody.Description =
             $"**Available filter columns**: " +
-            $"{string.Concat(FilterColumnSelector.GetColumns(entityType).Keys.Select(k => "\n- " + k))}\n\n" +
+            $"{string.Concat(FilterColumnSelector.GetColumns(entityType).Select(p => "\n- " + p.GetReadablePath()))}\n\n" +
             $"**Available sort columns**: " +
-            $"{string.Concat(SortColumnSelector.GetColumns(entityType).Keys.Select(k => "\n- " + k))}";
+            $"{string.Concat(SortColumnSelector.GetColumns(entityType).Select(p => "\n- " + p.GetReadablePath()))}";
     }
 }

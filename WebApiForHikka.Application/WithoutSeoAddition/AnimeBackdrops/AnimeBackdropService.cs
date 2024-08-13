@@ -10,19 +10,20 @@ public class AnimeBackdropService(IAnimeBackdropRepository repository, IFileHelp
 {
     public IQueryable<AnimeBackdrop> GetAllBackdropForAnime(Guid id)
     {
-        return _repository.GetAllBackdropForAnime(id);
+        return Repository.GetAllBackdropForAnime(id);
     }
 
     public Task<string?> GetImagePathAsync(Guid id)
     {
-        return _repository.GetImagePathAsync(id);
+        return Repository.GetImagePathAsync(id);
     }
 
     public override async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var backdrop = await _repository.GetAsync(id, cancellationToken);
+        var backdrop = await Repository.GetAsync(id, cancellationToken);
 
-        fileHelper.DeleteFile(backdrop.Path);
-        await _repository.DeleteAsync(id, cancellationToken);
+        if (backdrop?.Path != null)
+            fileHelper.DeleteFile(backdrop.Path);
+        await Repository.DeleteAsync(id, cancellationToken);
     }
 }

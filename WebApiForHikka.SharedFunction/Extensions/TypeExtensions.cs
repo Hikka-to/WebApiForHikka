@@ -6,26 +6,28 @@ public static class TypeExtensions
 {
     public static Type? GetSubclassType(this Type type, Type subclassType)
     {
-        if (subclassType.IsInterface && subclassType.IsGenericTypeDefinition)
+        switch (subclassType.IsInterface)
         {
-            Type[] types =
-            [
-                type,
-                ..type.GetInterfaces()
-            ];
+            case true when subclassType.IsGenericTypeDefinition:
+            {
+                Type[] types =
+                [
+                    type,
+                    ..type.GetInterfaces()
+                ];
 
-            return types.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == subclassType);
-        }
+                return types.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == subclassType);
+            }
+            case true:
+            {
+                Type[] types =
+                [
+                    type,
+                    ..type.GetInterfaces()
+                ];
 
-        if (subclassType.IsInterface)
-        {
-            Type[] types =
-            [
-                type,
-                ..type.GetInterfaces()
-            ];
-
-            return types.FirstOrDefault(t => t == subclassType);
+                return types.FirstOrDefault(t => t == subclassType);
+            }
         }
 
         if (subclassType.IsGenericTypeDefinition)

@@ -3,7 +3,6 @@ using Moq;
 using WebApiForHikka.Application.Users;
 using WebApiForHikka.Constants.Models.Users;
 using WebApiForHikka.EfPersistence.Repositories;
-using WebApiForHikka.SharedFunction.HashFunction;
 using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
 using WebApiForHikka.Test.Shared;
@@ -12,9 +11,6 @@ namespace WebApiForHikka.Test.Service.Users;
 
 public class UserServiceTest : SharedTest
 {
-    private readonly IHashFunctions _hashFunctions = new HashFunctions();
-
-
     [Fact]
     public async Task UserService_AuthenticateUserAsync_ReturnsUser()
     {
@@ -26,8 +22,6 @@ public class UserServiceTest : SharedTest
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
         var userService = new UserService(userRepository, fileHelperMock.Object);
-        var roleManager = GetRoleManager(dbContext);
-        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
 
         var testUser = GetUserModels.GetSample();
         var password = testUser.PasswordHash;
@@ -35,7 +29,7 @@ public class UserServiceTest : SharedTest
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
-        var result = await userService.AuthenticateUserAsync(testUser.Email, password, new CancellationToken());
+        var result = await userService.AuthenticateUserAsync(testUser.Email, password!, new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
@@ -65,13 +59,13 @@ public class UserServiceTest : SharedTest
 
         // Act
         var result =
-            await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, password,
+            await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, password!,
                 new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();
         result!.Email.Should().Be(testUser.Email);
-        result!.Roles.Should().Contain(role!);
+        result.Roles.Should().Contain(role!);
     }
 
     [Fact]
@@ -85,14 +79,12 @@ public class UserServiceTest : SharedTest
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
         var userService = new UserService(userRepository, fileHelperMock.Object);
-        var roleManager = GetRoleManager(dbContext);
-        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
         var testUser = GetUserModels.GetSample();
         await userRepository.AddAsync(testUser, new CancellationToken());
 
         // Act
         var result =
-            await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash,
+            await userService.AuthenticateUserWithAdminRoleAsync(testUser.Email, testUser.PasswordHash!,
                 new CancellationToken());
 
         // Assert
@@ -110,8 +102,6 @@ public class UserServiceTest : SharedTest
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
         var userService = new UserService(userRepository, fileHelperMock.Object);
-        var roleManager = GetRoleManager(dbContext);
-        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
 
         var testUser = GetUserModels.GetSample();
 
@@ -137,11 +127,11 @@ public class UserServiceTest : SharedTest
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
         var userService = new UserService(userRepository, fileHelperMock.Object);
-        var roleManager = GetRoleManager(dbContext);
-        var role = roleManager.FindByNameAsync(UserStringConstants.UserRole).Result;
         var testUser = GetUserModels.GetSample();
 
+#pragma warning disable xUnit1031
         userRepository.AddAsync(testUser, new CancellationToken()).Wait();
+#pragma warning restore xUnit1031
 
         // Act
         var result = userService.CheckIfUserWithTheEmailIsAlreadyExist(testUser.Email);
@@ -161,15 +151,13 @@ public class UserServiceTest : SharedTest
         var userManager = GetUserManager(dbContext);
         var userRepository = new UserRepository(dbContext, userManager);
         var userService = new UserService(userRepository, fileHelperMock.Object);
-        var roleManager = GetRoleManager(dbContext);
-        var role = await roleManager.FindByNameAsync(UserStringConstants.UserRole);
 
         var testUser = GetUserModels.GetSample();
         var password = testUser.PasswordHash;
         await userService.RegisterUserAsync(testUser, new CancellationToken());
         // Act
         var result =
-            await userService.AuthenticateUserAsync(testUser.Email, password, new CancellationToken());
+            await userService.AuthenticateUserAsync(testUser.Email, password!, new CancellationToken());
 
 
         // Assert

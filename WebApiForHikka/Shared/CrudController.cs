@@ -35,10 +35,11 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<TModel>(dto);
+        var model = Mapper.Map<TModel>(dto);
 
         Guid? id = await CrudRelationService.CreateAsync(model, cancellationToken);
 
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (id == null) return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
 
         return Ok(new CreateResponseDto { Id = (Guid)id });
@@ -66,7 +67,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<TGetDto>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<TGetDto>(await CrudRelationService.GetAsync(id, cancellationToken));
         if (model is null)
             return NotFound();
 
@@ -80,13 +81,16 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
+
+        CkeckIfColumnsAreInModel(paginationDto, errorEndPoint);
+
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
         var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
 
-        var models = _mapper.Map<List<TGetDto>>(paginationCollection.Models);
+        var models = Mapper.Map<List<TGetDto>>(paginationCollection.Models);
         return Ok(
             new ReturnPageDto<TGetDto>
             {
@@ -109,7 +113,7 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var model = _mapper.Map<TModel>(dto);
+        var model = Mapper.Map<TModel>(dto);
         await CrudRelationService.UpdateAsync(model, cancellationToken);
         return NoContent();
     }
@@ -124,9 +128,50 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
 
         errorEndPoint.BadRequestObjectResult =
             new BadRequestObjectResult(ControllerStringConstants.ModelWithThisIdDoesntExistForUpdateEndPoint)
-                { StatusCode = 404 };
+            { StatusCode = 404 };
         return errorEndPoint;
     }
+
+
+    protected void CkeckIfColumnsAreInModel(FilterPaginationDto filterDtos, ErrorEndPoint error)
+    {
+        var columsOfModels = typeof(TGetDto).GetProperties();
+
+        var listOfPropertiesNames = new List<string>();
+
+
+        foreach (var i in columsOfModels)
+        {
+            listOfPropertiesNames.Add(i.Name);
+        }
+
+
+        foreach (var item in filterDtos.Sorts)
+        {
+            if (!listOfPropertiesNames.Contains(item.Column))
+            {
+                error.BadRequestObjectResult = new BadRequestObjectResult($"Column with this name {item.Column} doesn't exist");
+                return;
+            }
+
+        }
+
+        foreach (var column in filterDtos.Filters)
+        {
+            foreach (var item in column)
+            {
+                if (!listOfPropertiesNames.Contains(item.Column))
+                {
+                    error.BadRequestObjectResult = new BadRequestObjectResult($"Column with this name {item.Column} doesn't exist");
+                    return;
+                }
+
+            }
+        }
+
+    }
+
+
 
     protected record ThingsToValidateForUpdate : ThingsToValidateBase
     {
