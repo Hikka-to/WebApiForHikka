@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Domain;
@@ -21,10 +22,10 @@ public class TagRepository(HikkaDbContext dbContext) : CrudRepository<Tag>(dbCon
         var skip = (dto.PageNumber - 1) * dto.PageSize;
         var take = dto.PageSize;
 
-        var query = DbContext.Set<Tag>().Where(a => a.IsCharacterTag == true).AsQueryable();
+        var query = DbContext.Set<Tag>().Where(e=>e.IsCharacterTag == true).AsQueryable();
 
         query = dto.Filters.Aggregate(query,
-            (current, filter) => Filter(current, filter.Column, filter.SearchTerm, filter.IsStrict));
+            (current, filter) => Filter(current, filter));
         var totalItems = await query.CountAsync(cancellationToken);
 
         var firstSort = dto.Sorts.FirstOrDefault();
@@ -40,4 +41,6 @@ public class TagRepository(HikkaDbContext dbContext) : CrudRepository<Tag>(dbCon
 
         return new PaginatedCollection<Tag>(models, totalItems);
     }
+    
+    
 }

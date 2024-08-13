@@ -78,10 +78,10 @@ public class TagController(
     [HttpPost("GetAllGenres")]
     public async Task<IActionResult> GetAllGenres([FromBody] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = mapper.Map<FilterPagination>(paginationDto);
         var paginatedGenres = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
     
-        var models = _mapper.Map<List<GetTagDto>>(paginatedGenres.Models);
+        var models = mapper.Map<List<GetTagDto>>(paginatedGenres.Models);
         return Ok(new ReturnPageDto<GetTagDto>
         {
             HowManyPages = (int)Math.Ceiling((double)paginatedGenres.Total / filterPagination.PageSize),
@@ -92,11 +92,11 @@ public class TagController(
     [HttpPost("GetAllTagsForCharacters")]
     public async Task<IActionResult> GetAllTagsForCharacters([FromBody] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = mapper.Map<FilterPagination>(paginationDto);
         
         var paginatedCharacterTags = await crudService.GetAllTagForCharactersAsync(filterPagination, cancellationToken);
     
-        var models = _mapper.Map<List<GetTagDto>>(paginatedCharacterTags.Models);
+        var models = mapper.Map<List<GetTagDto>>(paginatedCharacterTags.Models);
         return Ok(new ReturnPageDto<GetTagDto>
         {
             HowManyPages = (int)Math.Ceiling((double)paginatedCharacterTags.Total / filterPagination.PageSize),
