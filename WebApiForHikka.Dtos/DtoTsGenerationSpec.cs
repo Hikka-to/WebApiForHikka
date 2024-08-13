@@ -188,8 +188,12 @@ public class DtoTsGenerationSpec : GenerationSpec
                 : "";
             var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
             var typeOutput = type.IsGenericTypeDefinition
-                ? $"export type {typeName}<{string.Join(", ", genericArguments.Select(a => $"{a.Name} extends z.ZodTypeAny"))}> = " +
-                  $"z.infer<ReturnType<typeof {StringToLowerCase(typeName)}Schema<{string.Join(", ", genericArguments.Select(a => a.Name))}>>>;\n"
+                ? $"export type {typeName}<{string.Join(", ", genericArguments.Select(a => $"{a.Name}"))}> = " +
+                  "z.infer<" +
+                  "ReturnType<" +
+                  $"typeof {StringToLowerCase(typeName)}Schema<" +
+                  $"{string.Join(", ", genericArguments.Select(a => $"z.ZodType<{a.Name}>"))}" +
+                  ">>>;\n"
                 : $"export type {typeName} = z.infer<typeof {StringToLowerCase(typeName)}Schema>;\n";
             return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
                    string.Join(",\n",
@@ -213,8 +217,12 @@ public class DtoTsGenerationSpec : GenerationSpec
                 : "";
             var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
             var typeOutput = type.IsGenericTypeDefinition
-                ? $"export type {typeName}<{string.Join(", ", genericArguments.Select(a => $"{a.Name} extends z.ZodTypeAny"))}> = " +
-                  $"z.infer<ReturnType<typeof {StringToLowerCase(typeName)}Schema<{string.Join(", ", genericArguments.Select(a => a.Name))}>>>;\n"
+                ? $"export type {typeName}<{string.Join(", ", genericArguments.Select(a => $"{a.Name}"))}> = " +
+                  "z.infer<" +
+                  "ReturnType<" +
+                  $"typeof {StringToLowerCase(typeName)}Schema<" +
+                  $"{string.Join(", ", genericArguments.Select(a => $"z.ZodType<{a.Name}>"))}" +
+                  ">>>;\n"
                 : $"export type {typeName} = z.infer<typeof {StringToLowerCase(typeName)}Schema>;\n";
             return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
                    string.Join(",\n",
