@@ -183,7 +183,8 @@ public class DtoTsGenerationSpec : GenerationSpec
             var fields = type.GetFields();
             var genericArguments = type.IsGenericTypeDefinition ? type.GetGenericArguments() : [];
             var genericPart = genericArguments.Length > 0
-                ? $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: z.ZodTypeAny"))}) => "
+                ? $"<{string.Join(", ", genericArguments.Select(a => $"{a.Name} extends z.ZodTypeAny"))}>" +
+                  $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: {a.Name}"))}) => "
                 : "";
             var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
             return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
@@ -201,7 +202,8 @@ public class DtoTsGenerationSpec : GenerationSpec
             var fields = type.GetFields();
             var genericArguments = type.IsGenericTypeDefinition ? type.GetGenericArguments() : [];
             var genericPart = genericArguments.Length > 0
-                ? $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: z.ZodTypeAny"))}) => "
+                ? $"<{string.Join(", ", genericArguments.Select(a => $"{a.Name} extends z.ZodTypeAny"))}>" +
+                  $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: {a.Name}"))}) => "
                 : "";
             var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
             return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
