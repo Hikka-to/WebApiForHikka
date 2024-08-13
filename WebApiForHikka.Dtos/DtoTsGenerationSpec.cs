@@ -202,9 +202,7 @@ public class DtoTsGenerationSpec : GenerationSpec
                    $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n";
         }
 
-        return
-            $"\nexport const {StringToLowerCase(type.Name)}Keys = Object.keys({type.Name}) as [keyof typeof {type.Name}]\n" +
-            $"\nexport const {StringToLowerCase(type.Name)}Schema = z.enum({StringToLowerCase(type.Name)}Keys)\n";
+        return $"\nexport const {StringToLowerCase(type.Name)}Schema = z.nativeEnum({type.Name});\n";
     }
 
     private string GetZodType(NullabilityInfo nullabilityInfo, bool addAdditions, List<Type> dependencies)
