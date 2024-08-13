@@ -187,12 +187,18 @@ public class DtoTsGenerationSpec : GenerationSpec
                   $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: {a.Name}"))}) => "
                 : "";
             var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+            var typeOutput = type.IsGenericTypeDefinition
+                ? $"export type {typeName}<{string.Join(", ", genericArguments.Select(a => $"{a.Name} extends z.ZodTypeAny"))}> = " +
+                  $"z.infer<ReturnType<typeof {StringToLowerCase(typeName)}Schema<{string.Join(", ", genericArguments.Select(a => a.Name))}>>>;\n"
+                : $"export type {typeName} = z.infer<typeof {StringToLowerCase(typeName)}Schema>;\n";
             return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
                    string.Join(",\n",
                        properties.Select(p => $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
                    string.Join(",\n",
                        fields.Select(f => $"    {StringToLowerCase(f.Name)}: {GetZodType(f, dependencies)}")) +
-                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n";
+                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n" +
+                   "\n" +
+                   typeOutput;
         }
 
         if (type.GetCustomAttribute<ExportTsInterfaceAttribute>() is not null ||
@@ -206,12 +212,18 @@ public class DtoTsGenerationSpec : GenerationSpec
                   $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: {a.Name}"))}) => "
                 : "";
             var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+            var typeOutput = type.IsGenericTypeDefinition
+                ? $"export type {typeName}<{string.Join(", ", genericArguments.Select(a => $"{a.Name} extends z.ZodTypeAny"))}> = " +
+                  $"z.infer<ReturnType<typeof {StringToLowerCase(typeName)}Schema<{string.Join(", ", genericArguments.Select(a => a.Name))}>>>;\n"
+                : $"export type {typeName} = z.infer<typeof {StringToLowerCase(typeName)}Schema>;\n";
             return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
                    string.Join(",\n",
                        properties.Select(p => $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
                    string.Join(",\n",
                        fields.Select(f => $"    {StringToLowerCase(f.Name)}: {GetZodType(f, dependencies)}")) +
-                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n";
+                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n" +
+                   "\n" +
+                   typeOutput;
         }
 
         return $"\nexport const {StringToLowerCase(type.Name)}Schema = z.nativeEnum({type.Name});\n";
