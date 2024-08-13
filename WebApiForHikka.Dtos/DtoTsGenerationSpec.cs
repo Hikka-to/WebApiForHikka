@@ -106,24 +106,32 @@ public class DtoTsGenerationSpec : GenerationSpec
             var source = sr.ReadToEnd();
             var ast = new TypeScriptAST(source, filePath);
 
+            if (ast.GetDescendants().OfType<InterfaceDeclaration>().FirstOrDefault() is { } interfaceDeclaration)
+                source = source.TrimEnd().Remove(interfaceDeclaration.NodeStart,
+                    interfaceDeclaration.End!.Value - interfaceDeclaration.NodeStart);
+            if (ast.GetDescendants().OfType<ClassDeclaration>().FirstOrDefault() is { } classDeclaration)
+                source = source.TrimEnd().Remove(classDeclaration.NodeStart,
+                    classDeclaration.End!.Value - classDeclaration.NodeStart);
+
             var type = Types.FirstOrDefault(t => filePath == Path.GetFullPath(t.Key, CurrentDir)).Value;
             if (type is null) continue;
             List<Type> dependencies = [];
             var zodOutput = GetZod(type, dependencies);
-            fs.Write(Encoding.UTF8.GetBytes(zodOutput));
-
-            fs.Position = 0;
-            source = sr.ReadToEnd();
+            source += zodOutput;
 
             var imports = ast.GetDescendants().OfType<ImportDeclaration>().ToArray();
             foreach (var import in imports.Reverse())
             {
                 var original = import.ImportClause.NamedBindings.Children.First().GetText();
-                if (dependencies.All(d => d.Name != original)) continue;
+                if (dependencies.All(d => d.Name != original))
+                {
+                    source = source.Remove(import.NodeStart, import.End!.Value - import.NodeStart + 2);
+                    continue;
+                }
 
                 var name = StringToLowerCase(original) + "Schema";
                 var path = import.ModuleSpecifier.GetText();
-                var importOutput = $"import {{ {original}, {name} }} from {path};";
+                var importOutput = $"import {{ {name} }} from {path};";
                 var start = import.NodeStart;
                 var end = import.End;
                 source = source.Remove(start, end!.Value - start).Insert(start, importOutput);
@@ -157,7 +165,7 @@ public class DtoTsGenerationSpec : GenerationSpec
 
             source = source.Insert(lastIndex,
                 $"import {{ z{(type.IsGenericTypeDefinition ? ", ZodTypeAny" : "")} }} from 'zod';" +
-                (imports.Length == 0 ? "\n" : ""));
+                (imports.Length + dependencies.Count == 0 ? "\n" : ""));
 
             fs.Position = 0;
             fs.Write(Encoding.UTF8.GetBytes(source));
@@ -176,12 +184,14 @@ public class DtoTsGenerationSpec : GenerationSpec
                 ? $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: ZodTypeAny"))}) => "
                 : "";
             var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
-            return $"\nexport const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
+            return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
                    string.Join(",\n",
                        properties.Select(p => $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
                    string.Join(",\n",
                        fields.Select(f => $"    {StringToLowerCase(f.Name)}: {GetZodType(f, dependencies)}")) +
-                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n";
+                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n" +
+                   "\n" +
+                   $"export type {typeName} = z.infer<typeof {StringToLowerCase(typeName)}Schema>;\n";
         }
 
         if (type.GetCustomAttribute<ExportTsInterfaceAttribute>() is not null ||
@@ -194,12 +204,14 @@ public class DtoTsGenerationSpec : GenerationSpec
                 ? $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: ZodTypeAny"))}) => "
                 : "";
             var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
-            return $"\nexport const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
+            return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
                    string.Join(",\n",
                        properties.Select(p => $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
                    string.Join(",\n",
                        fields.Select(f => $"    {StringToLowerCase(f.Name)}: {GetZodType(f, dependencies)}")) +
-                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n";
+                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n" +
+                   "\n" +
+                   $"export type {typeName} = z.infer<typeof {StringToLowerCase(typeName)}Schema>;\n";
         }
 
         return $"\nexport const {StringToLowerCase(type.Name)}Schema = z.nativeEnum({type.Name});\n";
@@ -300,7 +312,7 @@ public class DtoTsGenerationSpec : GenerationSpec
         }
 
         if (addAdditions && nullable)
-            result += ".nullable()";
+            result += ".nullable().optional()";
 
         return result;
     }
@@ -363,7 +375,7 @@ public class DtoTsGenerationSpec : GenerationSpec
             result += $".regex(/{regex.Pattern}/)";
 
         if (nullabilityInfo.WriteState == NullabilityState.Nullable)
-            result += ".nullable()";
+            result += ".nullable().optional()";
 
         return result;
     }
