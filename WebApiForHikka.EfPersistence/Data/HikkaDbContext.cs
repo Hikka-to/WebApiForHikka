@@ -62,6 +62,8 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<UserRecommendation> UserRecomendations { get; set; }
 
     public DbSet<UserWatchHistory> UserWatchHistories { get; set; }
+    
+    public DbSet<Character> Characters { get; set; }
 
 
 

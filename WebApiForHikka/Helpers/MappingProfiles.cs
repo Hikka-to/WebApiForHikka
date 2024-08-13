@@ -34,6 +34,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecomendations;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
@@ -507,7 +508,14 @@ public class MappingProfiles : Profile
         CreateMap<CreateUserWatchHistoryDto, UserWatchHistory>();
 
         CreateMap<UpdateUserWatchHistoryDto, UserWatchHistory>();
+        
+        //Character
+        
+        CreateMap<Character, GetCharacterDto>();
 
+        CreateMap<CreateCharacterDto, Character>();
+
+        CreateMap<UpdateCharacterDto, Character>();
 
 
     }

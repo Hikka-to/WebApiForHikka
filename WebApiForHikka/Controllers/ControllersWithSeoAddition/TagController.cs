@@ -80,7 +80,7 @@ public class TagController(
     {
         var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
         var paginatedGenres = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
-
+    
         var models = _mapper.Map<List<GetTagDto>>(paginatedGenres.Models);
         return Ok(new ReturnPageDto<GetTagDto>
         {
@@ -95,7 +95,7 @@ public class TagController(
         var filterPagination = _mapper.Map<FilterPagination>(paginationDto);
         
         var paginatedCharacterTags = await crudService.GetAllTagForCharactersAsync(filterPagination, cancellationToken);
-
+    
         var models = _mapper.Map<List<GetTagDto>>(paginatedCharacterTags.Models);
         return Ok(new ReturnPageDto<GetTagDto>
         {
