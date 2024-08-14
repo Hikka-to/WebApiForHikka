@@ -53,6 +53,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddLoggingMiddleware();
+builder.Services.AddExceptionHandlerMiddleware();
 builder.Services.Configure<TokenOptions>(builder.Configuration.GetSection("TokenOptions"));
 
 builder.Services.AddIdentity();
@@ -74,7 +75,9 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");
 app.UseAuthentication(); // Use authentication middleware
 app.UseAuthorization(); // Use authorization middleware
-//app.UseExceptionHandlerMiddleware();
+
+app.UseExceptionHandlerMiddleware();
+
 app.UseLoggingMiddleware();
 app.MapControllers();
 

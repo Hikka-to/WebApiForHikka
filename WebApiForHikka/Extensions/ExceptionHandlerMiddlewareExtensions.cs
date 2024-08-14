@@ -7,6 +7,11 @@ static public class ExceptionHandlerMiddlewareExtensions
 {
     public static IApplicationBuilder UseExceptionHandlerMiddleware(this IApplicationBuilder app)
     {
-        return app.UseMiddleware<ExceptionHandlerMiddleware>();
+        return app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
     }
+     public static IServiceCollection AddExceptionHandlerMiddleware(this IServiceCollection services)
+    {
+        return services.AddTransient<GlobalExceptionHandlerMiddleware>();
+    }
+
 }
