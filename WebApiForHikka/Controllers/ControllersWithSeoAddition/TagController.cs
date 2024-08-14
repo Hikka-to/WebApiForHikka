@@ -41,9 +41,9 @@ public class TagController(
         model.SeoAddition = seoAddition;
 
         if (dto.ParentTagId != null)
-            model.ParentTag = await CrudRelationService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
+            model.ParentTag = await CrudService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
 
-        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
 
 
         return Ok(new CreateResponseDto { Id = createdId });
@@ -68,9 +68,9 @@ public class TagController(
         model.SeoAddition = (await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
 
         if (dto.ParentTagId != null)
-            model.ParentTag = await CrudRelationService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
+            model.ParentTag = await CrudService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }
@@ -79,7 +79,7 @@ public class TagController(
     public async Task<IActionResult> GetAllGenres([FromBody] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
         var filterPagination = mapper.Map<FilterPagination>(paginationDto);
-        var paginatedGenres = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
+        var paginatedGenres = await CrudService.GetAllAsync(filterPagination, cancellationToken);
     
         var models = mapper.Map<List<GetTagDto>>(paginatedGenres.Models);
         return Ok(new ReturnPageDto<GetTagDto>

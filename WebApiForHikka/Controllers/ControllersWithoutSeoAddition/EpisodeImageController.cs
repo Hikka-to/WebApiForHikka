@@ -59,7 +59,7 @@ public class EpisodeImageController(
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
 
-        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
 
         return Ok(new CreateResponseDto { Id = createdId });
     }
@@ -77,7 +77,7 @@ public class EpisodeImageController(
 
         model.Episode = (await episodeService.GetAsync(dto.EpisodeId, cancellationToken))!;
 
-        var path = await CrudRelationService.GetImagePath(dto.Id);
+        var path = await CrudService.GetImagePath(dto.Id);
 
         if (path == null)
         {
@@ -96,7 +96,7 @@ public class EpisodeImageController(
         model.Width = heightWidth.width;
         model.Height = heightWidth.height;
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }
@@ -113,7 +113,7 @@ public class EpisodeImageController(
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection = await CrudService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = Mapper.Map<List<GetEpisodeImageDto>>(paginationCollection.Models);
 
@@ -138,11 +138,11 @@ public class EpisodeImageController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = await CrudRelationService.GetAsync(id, cancellationToken);
+        var model = await CrudService.GetAsync(id, cancellationToken);
         if (model is null)
             NoContent();
 
-        await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
+        await CrudService.DeleteAsync(model!.Id, cancellationToken);
         fileHelper.DeleteFile(model.Path);
         return NoContent();
     }
@@ -154,7 +154,7 @@ public class EpisodeImageController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = Mapper.Map<GetEpisodeImageDto>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<GetEpisodeImageDto>(await CrudService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();

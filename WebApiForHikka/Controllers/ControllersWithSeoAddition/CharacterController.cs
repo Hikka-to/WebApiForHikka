@@ -1,68 +1,146 @@
-﻿// using AutoMapper;
-// using Microsoft.AspNetCore.Mvc;
-// using WebApiForHikka.Application.SeoAdditions;
-// using WebApiForHikka.Application.WithSeoAddition.Characters;
-// using WebApiForHikka.Domain.Models;
-// using WebApiForHikka.Domain.Models.WithSeoAddition;
-// using WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
-// using WebApiForHikka.Dtos.ResponseDto;
-// using WebApiForHikka.Dtos.Shared;
-// using WebApiForHikka.WebApi.Shared;
-//
-// namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
-//
-// public class CharacterController : CrudControllerForModelWithSeoAddition<GetCharacterDto,
-//     UpdateCharacterDto,
-//     CreateCharacterDto,
-//     ICharacterService,
-//     Character
-// >
-// {
-//     public CharacterController(
-//         ICharacterService crudService,
-//         ISeoAdditionService seoAdditionService,
-//         IMapper mapper,
-//         IHttpContextAccessor httpContextAccessor)
-//         : base(crudService, seoAdditionService, mapper, httpContextAccessor)
-//     {
-//     }
-//
-//     [HttpPost("Create")]
-//     public override async Task<IActionResult> Create([FromBody] CreateCharacterDto dto, CancellationToken cancellationToken)
-//     {
-//         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
-//         if (errorEndPoint.IsError) return errorEndPoint.GetError();
-//
-//         var model = _mapper.Map<Character>(dto);
-//
-//         var seoAddition = _mapper.Map<SeoAddition>(dto.SeoAddition);
-//         await _seoAdditionService.CreateAsync(seoAddition, cancellationToken);
-//
-//         model.SeoAddition = seoAddition;
-//
-//         var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
-//
-//         return Ok(new CreateResponseDto { Id = createdId });
-//     }
-//
-//     [HttpPut("Update")]
-//     public override async Task<IActionResult> Put([FromBody] UpdateCharacterDto dto, CancellationToken cancellationToken)
-//     {
-//         var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate
-//         {
-//             UpdateDto = dto,
-//             IdForSeoAddition = dto.SeoAddition.Id
-//         });
-//         if (errorEndPoint.IsError) return errorEndPoint.GetError();
-//
-//         var model = _mapper.Map<Character>(dto);
-//         var seoAdditionModel = _mapper.Map<SeoAddition>(dto.SeoAddition);
-//         await _seoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
-//
-//         model.SeoAddition = (await _seoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
-//
-//         await CrudRelationService.UpdateAsync(model, cancellationToken);
-//
-//         return NoContent();
-//     }
-// }
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Application.WithSeoAddition.Characters;
+using WebApiForHikka.Constants.Controllers;
+using WebApiForHikka.Domain;
+using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Domain.Models.WithSeoAddition;
+using WebApiForHikka.Dtos.Dto.SharedDtos;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
+using WebApiForHikka.Dtos.ResponseDto;
+using WebApiForHikka.Dtos.Shared;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
+using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
+using WebApiForHikka.WebApi.Shared;
+
+namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
+
+public class CharacterController(
+        ICharacterService crudService,
+        ISeoAdditionService seoAdditionService,
+        IFileHelper fileHelper,
+        ILinkFactory linkFactory,
+        IMapper mapper,
+        IHttpContextAccessor httpContextAccessor
+        ) : CrudControllerForModelWithSeoAddition<GetCharacterDto,
+    UpdateCharacterDto,
+    CreateCharacterDto,
+    ICharacterService,
+    Character
+>(crudService, seoAdditionService, mapper, httpContextAccessor)
+{
+
+    [AllowAnonymous]
+    [HttpGet("dowloadImage/{imageName}")]
+    public IActionResult GetImage([FromRoute] string imageName)
+    {
+        var file = fileHelper.GetFile(ControllerStringConstants.CharacterImagePath, imageName);
+
+        return File(file, ControllerStringConstants.JsonImageReturnType, imageName);
+    }
+
+    [AllowAnonymous]
+    public override async Task<IActionResult> GetAll(FilterPaginationDto paginationDto,
+        CancellationToken cancellationToken)
+    {
+        var errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase());
+
+        CkeckIfColumnsAreInModel(paginationDto, errorEndPoint);
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
+
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
+
+        var paginationCollection = await CrudService.GetAllAsync(filterPagination, cancellationToken);
+
+        var models = Mapper.Map<List<GetCharacterDto>>(paginationCollection.Models);
+
+        foreach (var item in models)
+            item.ImageUrl =
+                linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.ImageUrl);
+
+
+        return Ok(
+            new ReturnPageDto<GetCharacterDto>
+            {
+                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
+                Models = models
+            }
+        );
+    }
+
+
+    [HttpPost("Create")]
+    public override async Task<IActionResult> Create([FromForm] CreateCharacterDto dto, CancellationToken cancellationToken)
+    {
+        var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
+
+        var model = mapper.Map<Character>(dto);
+
+        var seoAddition = mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.CreateAsync(seoAddition, cancellationToken);
+
+        model.SeoAddition = seoAddition;
+
+        var path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.CharacterImagePath);
+        model.ImagePath = path;
+
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
+
+        return Ok(new CreateResponseDto { Id = createdId });
+    }
+
+    [HttpPut("Update")]
+    public override async Task<IActionResult> Put([FromForm] UpdateCharacterDto dto, CancellationToken cancellationToken)
+    {
+        var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate
+        {
+            UpdateDto = dto,
+            IdForSeoAddition = dto.SeoAddition.Id
+        });
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
+
+        var model = mapper.Map<Character>(dto);
+
+        var seoAdditionModel = mapper.Map<SeoAddition>(dto.SeoAddition);
+        await SeoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
+
+        model.SeoAddition = (await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
+
+        var character = await CrudService.GetAsync(dto.Id, cancellationToken);
+
+
+        fileHelper.OverrideFileImage(dto.Image, character.ImagePath);
+        model.ImagePath = character.ImagePath;
+
+        await CrudService.UpdateAsync(model, cancellationToken);
+
+        return NoContent();
+    }
+
+
+    [HttpGet("{id:Guid}")]
+    public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var errorEndPoint = ValidateRequest(
+            new ThingsToValidateBase());
+        if (errorEndPoint.IsError) return errorEndPoint.GetError();
+
+        var model = Mapper.Map<GetCharacterDto>(await CrudService.GetAsync(id, cancellationToken));
+
+        if (model is null)
+            return NotFound();
+
+
+
+        model.ImageUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.ImageUrl);
+
+
+        return Ok(model);
+    }
+}

@@ -103,7 +103,7 @@ public class AnimeController(
 
         model.UpdatedAt = DateTime.UtcNow;
 
-        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
 
 
         return Ok(new CreateResponseDto { Id = createdId });
@@ -132,7 +132,7 @@ public class AnimeController(
         model.RestrictedRating = (await restrictedRatingService.GetAsync(dto.RestrictedRatingId, cancellationToken))!;
         model.Source = (await sourceService.GetAsync(dto.SourceId, cancellationToken))!;
 
-        var path = CrudRelationService.GetPosterPath(model.Id);
+        var path = CrudService.GetPosterPath(model.Id);
 
         if (path == null)
         {
@@ -164,14 +164,14 @@ public class AnimeController(
         model.Dubs = dubs;
         model.SimilarChildAnimes = similarAnimes;
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }
 
 
     [AllowAnonymous]
-    [HttpGet("dowloadFile/{imageName}")]
+    [HttpGet("dowloadImage/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
         var file = fileHelper.GetFile(ControllerStringConstants.AnimePosterPath, imageName);
@@ -202,7 +202,7 @@ public class AnimeController(
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection = await CrudService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = Mapper.Map<List<GetLightAnimeDto>>(paginationCollection.Models);
 
@@ -228,10 +228,10 @@ public class AnimeController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = await CrudRelationService.GetAsync(id, cancellationToken);
+        var model = await CrudService.GetAsync(id, cancellationToken);
 
 
-        await CrudRelationService.DeleteAsync(model!.Id, cancellationToken);
+        await CrudService.DeleteAsync(model!.Id, cancellationToken);
         await SeoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
         return NoContent();
     }
@@ -243,7 +243,7 @@ public class AnimeController(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = Mapper.Map<GetAnimeDto>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<GetAnimeDto>(await CrudService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();

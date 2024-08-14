@@ -3,10 +3,11 @@ using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
+using WebApiForHikka.SharedModels.MyDataFakers;
 
 namespace WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 
-public class CharacterModels
+public static class GetCharacterModels
 {
     public static Character GetSample()
     {
@@ -47,7 +48,7 @@ public class CharacterModels
             NativeName = Lorem.GetFirstWord(),
             AlternativeName = Lorem.GetFirstWord(),
             AnimeId = Guid.NewGuid(),
-            ImagePath = Lorem.GetFirstWord() + ".jpg",
+            Image = MyDataFaker.GetFakeImage(),
             Description = Lorem.Sentence(),
             SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
         };
@@ -63,7 +64,7 @@ public class CharacterModels
             NativeName = Lorem.GetFirstWord(),
             AlternativeName = Lorem.GetFirstWord(),
             AnimeId = Guid.NewGuid(),
-            ImagePath = Lorem.GetFirstWord() + ".jpg",
+            ImageUrl = Lorem.GetFirstWord() + ".jpg",
             Description = Lorem.Sentence(),
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
             CreatedAt = DateTime.Now,
@@ -99,7 +100,7 @@ public class CharacterModels
             NativeName = Lorem.GetFirstWord(),
             AlternativeName = Lorem.GetFirstWord(),
             AnimeId = Guid.NewGuid(),
-            ImagePath = Lorem.GetFirstWord() + ".jpg",
+            Image = MyDataFaker.GetFakeImage(),
             Description = Lorem.Sentence(),
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample()
         };

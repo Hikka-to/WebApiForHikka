@@ -36,6 +36,7 @@ using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserAnimeListTypes;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserRecommendations;
 using WebApiForHikka.Dtos.Dto.WithoutSeoAddition.UserSettings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
+using WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Collections;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Countries;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Dubs;
@@ -554,5 +555,17 @@ op => op.MapFrom(v => v.PosterPath)
         CreateMap<CreateSearchHistoryDto, SearchHistory>();
 
         CreateMap<UpdateSearchHistoryDto, SearchHistory>();
+
+        //SearchHistories
+
+        CreateMap<Character, GetCharacterDto>().ForMember(
+            c => c.ImageUrl,
+            op => op.MapFrom(v => v.ImagePath)
+            );
+
+        CreateMap<CreateCharacterDto, Character>();
+
+        CreateMap<UpdateCharacterDto, Character>();
+
     }
 }

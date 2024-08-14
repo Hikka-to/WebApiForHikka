@@ -51,7 +51,7 @@ public class LanguageMediaplayerController(
         model.Format = (await formatService.GetAsync(dto.FormatId, cancellationToken))!;
         model.Language = (await languageService.GetAsync(dto.LanguageId, cancellationToken))!;
 
-        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
 
         return Ok(new CreateResponseDto { Id = createdId });
     }
@@ -81,7 +81,7 @@ public class LanguageMediaplayerController(
         model.Format = (await formatService.GetAsync(dto.FormatId, cancellationToken))!;
         model.Language = (await languageService.GetAsync(dto.LanguageId, cancellationToken))!;
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }

@@ -38,7 +38,7 @@ public class CommentReportController(
         model.CommentReportType =
             (await commentReportTypeService.GetAsync(dto.CommentReportTypeId, cancellationToken))!;
 
-        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
 
         return Ok(new CreateResponseDto { Id = createdId });
     }
@@ -59,7 +59,7 @@ public class CommentReportController(
         model.CommentReportType =
             (await commentReportTypeService.GetAsync(dto.CommentReportTypeId, cancellationToken))!;
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }

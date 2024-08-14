@@ -33,7 +33,7 @@ public class NotificationController(
 
         model.Resource = (await resourceService.GetAsync(dto.ResourceId, cancellationToken))!;
 
-        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
 
         return Ok(new CreateResponseDto { Id = createdId });
     }
@@ -51,7 +51,7 @@ public class NotificationController(
 
         model.Resource = (await resourceService.GetAsync(dto.ResourceId, cancellationToken))!;
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }
