@@ -45,7 +45,7 @@ public abstract class CrudControllerForModelWithSeoAddition
         await SeoAdditionService.CreateAsync(seoAddition, cancellationToken);
         model.SeoAddition = seoAddition;
 
-        Guid? id = await CrudRelationService.CreateAsync(model, cancellationToken);
+        Guid? id = await CrudService.CreateAsync(model, cancellationToken);
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (id == null) return BadRequest(ControllerStringConstants.SomethingWentWrongDuringCreateing);
@@ -61,13 +61,13 @@ public abstract class CrudControllerForModelWithSeoAddition
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = await CrudRelationService.GetAsync(id, cancellationToken);
+        var model = await CrudService.GetAsync(id, cancellationToken);
 
         if (model is null)
             return NoContent();
 
 
-        await CrudRelationService.DeleteAsync(model.Id, cancellationToken);
+        await CrudService.DeleteAsync(model.Id, cancellationToken);
         await SeoAdditionService.DeleteAsync(model.SeoAddition.Id, cancellationToken);
         return NoContent();
     }
@@ -80,7 +80,7 @@ public abstract class CrudControllerForModelWithSeoAddition
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = Mapper.Map<TGetDtoWithSeoAddition>(await CrudRelationService.GetAsync(id, cancellationToken));
+        var model = Mapper.Map<TGetDtoWithSeoAddition>(await CrudService.GetAsync(id, cancellationToken));
         if (model is null)
             return NotFound();
 
@@ -100,7 +100,7 @@ public abstract class CrudControllerForModelWithSeoAddition
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await CrudRelationService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection = await CrudService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = Mapper.Map<List<TGetDtoWithSeoAddition>>(paginationCollection.Models);
         return Ok(
@@ -128,13 +128,13 @@ public abstract class CrudControllerForModelWithSeoAddition
 
         var model = Mapper.Map<TModelWithSeoAddition>(dto);
         var seoAdditionModel = model.SeoAddition;
-        seoAdditionModel.Id = (await CrudRelationService.GetAsync(dto.Id, cancellationToken))!.SeoAddition.Id;
+        seoAdditionModel.Id = (await CrudService.GetAsync(dto.Id, cancellationToken))!.SeoAddition.Id;
         await SeoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
         var seoAddition = await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken);
         model.SeoAddition = seoAddition!;
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
         return NoContent();
     }
 

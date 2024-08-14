@@ -1,32 +1,31 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebApiForHikka.Constants.Models.WithSeoAddition.Characters;
 using WebApiForHikka.Constants.Shared;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Character : ModelWithSeoAddition
 {
-    public Guid Id { get; set; }
 
-    [StringLength(SharedNumberConstatnts.NameLength)]
+    [StringLength(CharacterNumberConstants.NameLength)]
     public string? Name { get; set; }
 
-    [StringLength(SharedNumberConstatnts.NameLength)]
+    [StringLength(CharacterNumberConstants.RomajiNameLength)]
     public required string RomajiName { get; set; }
 
-    [StringLength(SharedNumberConstatnts.NameLength)]
+    [StringLength(CharacterNumberConstants.NativeNameLength)]
     public required string NativeName { get; set; }
 
-    [StringLength(SharedNumberConstatnts.NameLength)]
+    [StringLength(CharacterNumberConstants.AlternativeNameLength)]
     public string? AlternativeName { get; set; }
 
     public required Guid AnimeId { get; set; }
 
+    [StringLength(CharacterNumberConstants.ImagePathLength)]
     public required string ImagePath { get; set; }
 
-    [StringLength(1024)]
+    [StringLength(CharacterNumberConstants.DescriptionLength)]
     public string? Description { get; set; }
-
-    public Guid? SeoAdditionId { get; set; }
 
     public required DateTime UpdatedAt { get; set; }
 

@@ -52,4 +52,6 @@ public static class ControllerStringConstants
     public static readonly string[] AnimeBackdropPath = ["images", "anime", "backdrop"];
 
     public static readonly string[] EpisodeImagePath = ["images", "episod", "image"];
+
+    public static readonly string[] CharacterImagePath = ["images", "character", "image"];
 }

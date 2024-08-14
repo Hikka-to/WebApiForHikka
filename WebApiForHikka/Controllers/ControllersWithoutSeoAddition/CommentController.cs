@@ -34,7 +34,7 @@ public class CommentController(
         model.User = (await userService.GetAsync(dto.UserId, cancellationToken))!;
         model.Parent = (await commentableService.GetAsync(dto.ParentId, cancellationToken))!;
 
-        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
 
         return Ok(new CreateResponseDto { Id = createdId });
     }
@@ -53,7 +53,7 @@ public class CommentController(
         model.User = (await userService.GetAsync(dto.UserId, cancellationToken))!;
         model.Parent = (await commentableService.GetAsync(dto.ParentId, cancellationToken))!;
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }

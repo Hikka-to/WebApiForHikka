@@ -32,7 +32,7 @@ public class AlternativeNameController(
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
-        var createdId = await CrudRelationService.CreateAsync(model, cancellationToken);
+        var createdId = await CrudService.CreateAsync(model, cancellationToken);
 
         return Ok(new CreateResponseDto { Id = createdId });
     }
@@ -50,7 +50,7 @@ public class AlternativeNameController(
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
-        await CrudRelationService.UpdateAsync(model, cancellationToken);
+        await CrudService.UpdateAsync(model, cancellationToken);
 
         return NoContent();
     }

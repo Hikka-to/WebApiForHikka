@@ -65,6 +65,8 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<SearchHistory> SearchHistories { get; set; }
 
+    public DbSet<Character> Characters { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
