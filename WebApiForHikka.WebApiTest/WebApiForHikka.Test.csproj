@@ -50,8 +50,4 @@
         <ProjectReference Include="..\WebApiForHikka\WebApiForHikka.WebApi.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Controllers\RelationControllers\" />
-    </ItemGroup>
-
 </Project>

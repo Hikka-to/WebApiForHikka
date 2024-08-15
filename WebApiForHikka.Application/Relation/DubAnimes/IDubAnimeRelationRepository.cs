@@ -4,4 +4,4 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 
 namespace WebApiForHikka.Application.Relation.DubAnimes;
 
-public interface IDubAnimeRealtionRepository : IRelationCrudRepository<DubAnime, Dub, Anime>;
+public interface IDubAnimeRelationRepository : IRelationCrudRepository<DubAnime, Dub, Anime>;

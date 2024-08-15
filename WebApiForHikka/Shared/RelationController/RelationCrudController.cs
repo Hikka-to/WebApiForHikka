@@ -57,6 +57,21 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
         return NoContent();
     }
 
+
+    [HttpGet("[firstModel]/{firstId:Guid}/[secondModel]/{secondId:Guid}")]
+    public virtual async Task<IActionResult> Check([FromRoute] Guid firstId, [FromRoute] Guid secondId,
+        CancellationToken cancellationToken) 
+    {
+        if (relationService.CheckIfModelsWithThisIdsExist(firstId,
+                secondId) && await relationService.GetAsync(firstId, secondId, cancellationToken) != null) 
+        {
+            return Ok();
+        }
+
+        return NotFound();
+    }
+
+
     protected virtual TModel CreateRelationModel(Guid firstId, Guid secondId)
     {
         var model = Activator.CreateInstance<TModel>();
