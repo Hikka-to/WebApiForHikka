@@ -24,6 +24,21 @@ public static class GetCharacterModels
             Tags = []
         };
     }
+    public static Character GetSampleWithoutManyToMany()
+    {
+        return new Character
+        {
+            Name = "Test Character",
+            RomajiName = "Tesuto Kyarakuta",
+            NativeName = "テストキャラクター",
+            ImagePath = "test_image.jpg",
+            Animes = [],
+            SeoAddition = GetSeoAdditionModels.GetSample(),
+            CreatedAt = DateTime.Today,
+            UpdatedAt = DateTime.UtcNow,
+            Tags = []
+        };
+    }
 
     public static Character GetSampleForUpdate()
     {
