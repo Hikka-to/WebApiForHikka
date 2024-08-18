@@ -22,9 +22,9 @@ public class CreateCharacterDto : CreateDtoWithSeoAddition
 
     public string? AlternativeName { get; set; }
 
-    [EntityValidation<Anime>]
-    public required Guid AnimeId { get; set; }
+    [EntityValidation<Anime>] public required List<Guid> Animes { get; set; }
 
+    [EntityValidation<Tag>] public required List<Guid> Tags { get; set; }
 
     public string? Description { get; set; }
 

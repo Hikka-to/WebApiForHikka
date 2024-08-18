@@ -34,7 +34,7 @@ public abstract class CrudService<TModel, TRepository> : ICrudService<TModel> wh
         return await Repository.GetAsync(id, cancellationToken);
     }
 
-    public virtual async Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids,
+    public virtual async Task<ICollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids,
         CancellationToken cancellationToken)
     {
         return await Repository.GetAllModelsByIdsAsync(ids, cancellationToken);

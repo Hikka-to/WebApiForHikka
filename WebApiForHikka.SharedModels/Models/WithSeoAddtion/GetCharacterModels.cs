@@ -17,10 +17,11 @@ public static class GetCharacterModels
             RomajiName = "Tesuto Kyarakuta",
             NativeName = "テストキャラクター",
             ImagePath = "test_image.jpg",
-            AnimeId = Guid.NewGuid(),
+            Animes = [],
             SeoAddition = GetSeoAdditionModels.GetSample(),
             CreatedAt = DateTime.Today,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
+            Tags = []
         };
     }
 
@@ -32,10 +33,11 @@ public static class GetCharacterModels
             RomajiName = "Koushin Kyarakuta",
             NativeName = "更新キャラクター",
             ImagePath = "updated_image.jpg",
-            AnimeId = Guid.NewGuid(),
+            Animes = [GetAnimeModels.GetSample()],
             SeoAddition = GetSeoAdditionModels.GetSampleForUpdate(),
             CreatedAt = DateTime.Today,
-            UpdatedAt = DateTime.UtcNow
+            UpdatedAt = DateTime.UtcNow,
+            Tags = [GetTagModels.GetSample()]
         };
     }
 
@@ -47,7 +49,8 @@ public static class GetCharacterModels
             RomajiName = Lorem.GetFirstWord(),
             NativeName = Lorem.GetFirstWord(),
             AlternativeName = Lorem.GetFirstWord(),
-            AnimeId = Guid.NewGuid(),
+            Animes = [Guid.NewGuid()],
+            Tags = [Guid.NewGuid()],
             Image = MyDataFaker.GetFakeImage(),
             Description = Lorem.Sentence(),
             SeoAddition = GetSeoAdditionModels.GetCreateDtoSample()
@@ -63,7 +66,25 @@ public static class GetCharacterModels
             RomajiName = Lorem.GetFirstWord(),
             NativeName = Lorem.GetFirstWord(),
             AlternativeName = Lorem.GetFirstWord(),
-            AnimeId = Guid.NewGuid(),
+            Animes = [GetAnimeModels.GetLightAnimeDto()],
+            Tags = [GetTagModels.GetGetDtoSample()],
+            ImageUrl = Lorem.GetFirstWord() + ".jpg",
+            Description = Lorem.Sentence(),
+            SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
+        };
+    }
+public static GetLightCharacterDto GetGetLightDtoSample()
+    {
+        return new GetLightCharacterDto
+        {
+            Id = Guid.NewGuid(),
+            Name = Lorem.GetFirstWord(),
+            RomajiName = Lorem.GetFirstWord(),
+            NativeName = Lorem.GetFirstWord(),
+            AlternativeName = Lorem.GetFirstWord(),
+            Tags = [GetTagModels.GetGetDtoSample()],
             ImageUrl = Lorem.GetFirstWord() + ".jpg",
             Description = Lorem.Sentence(),
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
@@ -81,7 +102,7 @@ public static class GetCharacterModels
             RomajiName = Lorem.GetFirstWord(),
             NativeName = Lorem.GetFirstWord(),
             AlternativeName = Lorem.GetFirstWord(),
-            AnimeId = Guid.NewGuid(),
+            Animes = [GetAnimeModels.GetSample()],
             ImagePath = Lorem.GetFirstWord() + ".jpg",
             Description = Lorem.Sentence(),
             SeoAddition = GetSeoAdditionModels.GetSample(),
@@ -99,10 +120,12 @@ public static class GetCharacterModels
             RomajiName = Lorem.GetFirstWord(),
             NativeName = Lorem.GetFirstWord(),
             AlternativeName = Lorem.GetFirstWord(),
-            AnimeId = Guid.NewGuid(),
+            Animes = [Guid.NewGuid()],
+            Tags = [Guid.NewGuid()],
             Image = MyDataFaker.GetFakeImage(),
             Description = Lorem.Sentence(),
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample()
         };
     }
+    
 }

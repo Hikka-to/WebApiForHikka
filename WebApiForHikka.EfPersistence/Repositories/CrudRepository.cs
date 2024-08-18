@@ -73,20 +73,20 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
                 (current, sort) => ThenSort(current, sort.Column, sort.SortOrder == SortOrder.Asc));
         }
 
-        var models = await query.Skip(skip).Take(take).ToArrayAsync(cancellationToken);
+        var models = await query.Skip(skip).Take(take).ToListAsync(cancellationToken);
 
         return new PaginatedCollection<TModel>(models, totalItems);
     }
 
-    public virtual async Task<IReadOnlyCollection<TModel>> GetAllAsync(CancellationToken cancellationToken)
+    public virtual async Task<ICollection<TModel>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await DbContext.Set<TModel>().ToArrayAsync(cancellationToken);
+        return await DbContext.Set<TModel>().ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids,
+    public virtual async Task<ICollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids,
         CancellationToken cancellationToken)
     {
-        return await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id)).ToArrayAsync(cancellationToken);
+        return (await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id)).ToListAsync(cancellationToken))!;
     }
 
     public virtual TModel? Get(Guid id)

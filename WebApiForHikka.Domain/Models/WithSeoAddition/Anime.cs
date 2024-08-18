@@ -9,6 +9,8 @@ public class Anime : Commentable, IModelWithSeoAddition
 {
     public virtual ICollection<Tag> Tags { get; set; } = [];
 
+    public virtual ICollection<Character> Characters { get; set; } = [];
+
     public virtual ICollection<Country> Countries { get; set; } = [];
 
     public virtual ICollection<Dub> Dubs { get; set; } = [];

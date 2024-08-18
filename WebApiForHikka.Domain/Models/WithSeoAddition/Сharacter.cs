@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Models.WithSeoAddition.Characters;
-using WebApiForHikka.Constants.Shared;
+using WebApiForHikka.Domain.Models.Relation;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Character : ModelWithSeoAddition
 {
-
     [StringLength(CharacterNumberConstants.NameLength)]
     public string? Name { get; set; }
 
@@ -19,8 +18,6 @@ public class Character : ModelWithSeoAddition
     [StringLength(CharacterNumberConstants.AlternativeNameLength)]
     public string? AlternativeName { get; set; }
 
-    public required Guid AnimeId { get; set; }
-
     [StringLength(CharacterNumberConstants.ImagePathLength)]
     public required string ImagePath { get; set; }
 
@@ -31,5 +28,8 @@ public class Character : ModelWithSeoAddition
 
     public required DateTime CreatedAt { get; set; }
 
-    public virtual Anime Anime { get; set; } = null!;
+    public virtual ICollection<Anime> Animes { get; set; } = [];
+    public virtual ICollection<Tag> Tags { get; set; } = [];
+
+    public virtual ICollection<TagCharacter> TagCharacters { get; set; } = [];
 }

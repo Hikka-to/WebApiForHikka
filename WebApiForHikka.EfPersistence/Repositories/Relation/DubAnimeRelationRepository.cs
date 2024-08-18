@@ -6,4 +6,4 @@ using WebApiForHikka.EfPersistence.Data;
 namespace WebApiForHikka.EfPersistence.Repositories.Relation;
 
 public class DubAnimeRelationRepository(HikkaDbContext dbContext)
-    : CrudRelationRepository<DubAnime, Dub, Anime>(dbContext), IDubAnimeRealtionRepository;
+    : CrudRelationRepository<DubAnime, Dub, Anime>(dbContext), IDubAnimeRelationRepository;

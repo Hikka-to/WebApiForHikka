@@ -60,14 +60,12 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
     public DbSet<Review> Reviews { get; set; }
     public DbSet<ReviewLike> ReviewLikes { get; set; }
     public DbSet<UserRecommendation> UserRecomendations { get; set; }
-
     public DbSet<UserWatchHistory> UserWatchHistories { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<SearchHistory> SearchHistories { get; set; }
-
     public DbSet<Character> Characters { get; set; }
-
-
+    public DbSet<TagCharacter> TagCharacters { get; set; }
+    public DbSet<AnimeCharacter> AnimeCharacters { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -175,5 +173,18 @@ public class HikkaDbContext(DbContextOptions<HikkaDbContext> options)
             .HasMany(e => e.Collections)
             .WithMany(e => e.Animes)
             .UsingEntity<CollectionAnime>();
+
+        //Character
+        modelBuilder.Entity<Character>()
+                    .HasMany(e => e.Tags)
+                    .WithMany(e => e.Characters)
+                    .UsingEntity<TagAnime>();
+
+        modelBuilder.Entity<Character>()
+                    .HasMany(e => e.Animes)
+                    .WithMany(e => e.Characters)
+                    .UsingEntity<AnimeCharacter>();
+
+
     }
 }

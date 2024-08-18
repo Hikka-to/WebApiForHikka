@@ -5,4 +5,4 @@ using WebApiForHikka.Domain.Models.WithSeoAddition;
 namespace WebApiForHikka.Application.Relation.Similars;
 
 public class SimilarRelationService(ISimilarRelationRepository relationRepository)
-    : RelationCrudService<Similar, Anime, Anime, ISimilarRelationRepository>(relationRepository);
+    : RelationCrudService<Similar, Anime, Anime, ISimilarRelationRepository>(relationRepository), ISimilarRelationService;

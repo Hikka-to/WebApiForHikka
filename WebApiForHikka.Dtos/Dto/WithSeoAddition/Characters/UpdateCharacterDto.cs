@@ -22,8 +22,9 @@ public class UpdateCharacterDto : UpdateDtoWithSeoAddition
 
     public string? AlternativeName { get; set; }
 
-    [EntityValidation<Anime>]
-    public required Guid AnimeId { get; set; }
+    [EntityValidation<Anime>] public required List<Guid> Animes { get; set; }
+
+    [EntityValidation<Tag>] public required List<Guid> Tags { get; set; }
 
     [FileContentType("image/*")]
     [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]

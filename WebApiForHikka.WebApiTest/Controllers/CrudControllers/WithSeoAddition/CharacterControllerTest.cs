@@ -2,21 +2,25 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WebApiForHikka.Application.SeoAdditions;
+using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Characters;
 using WebApiForHikka.Application.WithSeoAddition.Collections;
+using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
+using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.SharedFunction.Helpers.ColorHelper;
 using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.Test.Controllers.Shared;
-using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
+using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Characters;
 
 namespace WebApiForHikka.Test.Controllers.CrudControllers.WithSeoAddition;
 
@@ -39,6 +43,19 @@ public class CharacterControllerTest : CrudControllerBaseWithSeoAddition<
         var characterRepository = new CharacterRepository(dbContext);
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
+
+
+        alternativeServices.AddSingleton(dbContext);
+        alternativeServices.AddSingleton<ITagRepository, TagRepository>();
+        alternativeServices.AddSingleton<ITagService, TagService>();
+
+        alternativeServices.AddSingleton<IAnimeBackdropRepository, AnimeBackdropRepository>();
+        alternativeServices.AddSingleton<IAnimeBackdropService, AnimeBackdropService>();
+
+        alternativeServices.AddSingleton<IFileHelper, FileHelper>();
+
+        alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
+        alternativeServices.AddSingleton<IAnimeService, AnimeService>();
 
 
         Mock<IFileHelper> fileHelperMock = new();
@@ -99,6 +116,8 @@ public class CharacterControllerTest : CrudControllerBaseWithSeoAddition<
         return new CharacterController(
             allServices.CrudService,
             allServices.SeoAdditionService,
+            alternativeServices.GetRequiredService<ITagService>(),
+            alternativeServices.GetRequiredService<IAnimeService>(),
             fileHelperMock.Object,
             linkFactoryMock.Object,
             Mapper,

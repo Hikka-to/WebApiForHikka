@@ -22,6 +22,9 @@ public class CreateAnimeDto : CreateDtoWithSeoAddition
     [EntityValidation<Source>] public required Guid SourceId { get; set; }
 
     [EntityValidation<Tag>] public required List<Guid> Tags { get; set; }
+
+    [EntityValidation<Character>] public required List<Guid> Characters { get; set; }
+
     [EntityValidation<Country>] public required List<Guid> Countries { get; set; }
     [EntityValidation<Dub>] public required List<Guid> Dubs { get; set; }
 

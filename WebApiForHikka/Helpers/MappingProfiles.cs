@@ -226,7 +226,9 @@ op => op.MapFrom(v => v.PosterPath)
             c => c.SeasonAnimeGroups,
             op => op.MapFrom(v => v.SeasonAnimeGroups)).ForMember(
             c => c.SimilarAnimes,
-            op => op.MapFrom(v => v.SimilarChildAnimes));
+            op => op.MapFrom(v => v.SimilarChildAnimes)).ForMember(
+            c => c.Characters,
+            op => op.MapFrom(v => v.Characters));
 
         CreateMap<CreateAnimeDto, Anime>().ForMember(
             c => c.Tags,
@@ -236,6 +238,8 @@ op => op.MapFrom(v => v.PosterPath)
             c => c.Countries,
             op => op.Ignore()).ForMember(
             c => c.SimilarChildAnimes,
+            op => op.Ignore()).ForMember(
+            c => c.Characters,
             op => op.Ignore());
 
         CreateMap<UpdateAnimeDto, Anime>().ForMember(
@@ -246,6 +250,8 @@ op => op.MapFrom(v => v.PosterPath)
             c => c.Countries,
             op => op.Ignore()).ForMember(
             c => c.SimilarChildAnimes,
+            op => op.Ignore()).ForMember(
+            c => c.Characters,
             op => op.Ignore());
 
 
@@ -556,16 +562,37 @@ op => op.MapFrom(v => v.PosterPath)
 
         CreateMap<UpdateSearchHistoryDto, SearchHistory>();
 
-        //SearchHistories
+        //Characters
 
         CreateMap<Character, GetCharacterDto>().ForMember(
             c => c.ImageUrl,
             op => op.MapFrom(v => v.ImagePath)
+            ).ForMember(
+            c => c.Animes,
+            op => op.MapFrom(v => v.Animes)
             );
 
-        CreateMap<CreateCharacterDto, Character>();
+        CreateMap<Character, GetLightCharacterDto>().ForMember(
+            c => c.ImageUrl,
+            op => op.MapFrom(v => v.ImagePath)
+            );
 
-        CreateMap<UpdateCharacterDto, Character>();
+
+        CreateMap<CreateCharacterDto, Character>().ForMember(
+            c => c.Animes,
+            op => op.Ignore()
+            ).ForMember(
+            c => c.Tags,
+            op => op.Ignore()
+            );
+
+        CreateMap<UpdateCharacterDto, Character>().ForMember(
+            c => c.Animes,
+            op => op.Ignore()
+            ).ForMember(
+            c => c.Tags,
+            op => op.Ignore()
+            );
 
     }
 }
