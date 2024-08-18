@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
+using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Characters;
+using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models;
@@ -17,11 +19,13 @@ using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.SharedFunction.Helpers.LinkFactory;
 using WebApiForHikka.WebApi.Shared;
 
-namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
+namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Characters;
 
 public class CharacterController(
         ICharacterService crudService,
         ISeoAdditionService seoAdditionService,
+        ITagService tagService,
+        IAnimeService animeService,
         IFileHelper fileHelper,
         ILinkFactory linkFactory,
         IMapper mapper,
@@ -89,6 +93,10 @@ public class CharacterController(
 
         var path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.CharacterImagePath);
         model.ImagePath = path;
+
+        model.Tags = await tagService.GetAllModelsByIdsAsync(dto.Tags, cancellationToken);
+
+        model.Animes = await animeService.GetAllModelsByIdsAsync(dto.Tags, cancellationToken);
 
         var createdId = await CrudService.CreateAsync(model, cancellationToken);
 

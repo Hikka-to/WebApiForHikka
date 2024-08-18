@@ -4,11 +4,12 @@ using WebApiForHikka.Dtos.Dto.WithSeoAddition.Periods;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.RestrictedRatings;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Sources;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Statuses;
+using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 
 [ExportTsInterface]
-public class GetLightAnimeDto
+public class GetLightAnimeDto : GetDtoWithSeoAddition
 {
     public required GetKindDto Kind { get; set; }
     public required GetStatusDto Status { get; set; }

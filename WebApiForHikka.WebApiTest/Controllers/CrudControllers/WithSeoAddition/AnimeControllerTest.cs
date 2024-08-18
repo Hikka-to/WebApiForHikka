@@ -6,6 +6,7 @@ using Moq;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
+using WebApiForHikka.Application.WithSeoAddition.Characters;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
 using WebApiForHikka.Application.WithSeoAddition.Dubs;
 using WebApiForHikka.Application.WithSeoAddition.Kinds;
@@ -70,6 +71,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         alternativeServices.AddSingleton<ICountryRepository, CountryRepository>();
         alternativeServices.AddSingleton<IDubRepository, DubRepository>();
         alternativeServices.AddSingleton<IAnimeRepository, AnimeRepository>();
+        alternativeServices.AddSingleton<ICharacterRepository, CharacterRepository>();
 
         alternativeServices.AddSingleton<IKindService, KindService>();
         alternativeServices.AddSingleton<IStatusService, StatusService>();
@@ -80,6 +82,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         alternativeServices.AddSingleton<ICountryService, CountryService>();
         alternativeServices.AddSingleton<IDubService, DubService>();
         alternativeServices.AddSingleton<IAnimeService, AnimeService>();
+
+        alternativeServices.AddSingleton<ICharacterService, CharacterService>();
 
         alternativeServices.AddSingleton<IAnimeBackdropRepository, AnimeBackdropRepository>();
         alternativeServices.AddSingleton<IAnimeBackdropService, AnimeBackdropService>();
@@ -136,6 +140,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
             alternativeServices.GetRequiredService<ISourceService>(),
             alternativeServices.GetRequiredService<ITagService>(),
             alternativeServices.GetRequiredService<ICountryService>(),
+            alternativeServices.GetRequiredService<ICharacterService>(),
             alternativeServices.GetRequiredService<IDubService>(),
             alternativeServices.GetRequiredService<IAnimeBackdropService>(),
             fileHelperMock.Object,

@@ -1,12 +1,12 @@
 ﻿using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Animes;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.Shared;
 
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
 
+
 [ExportTsInterface]
-public class GetCharacterDto : GetDtoWithSeoAddition
+public class GetLightCharacterDto : GetDtoWithSeoAddition
 {
     public string? Name { get; set; }
 
@@ -15,8 +15,6 @@ public class GetCharacterDto : GetDtoWithSeoAddition
     public required string NativeName { get; set; }
 
     public string? AlternativeName { get; set; }
-
-    public required List<GetLightAnimeDto> Animes { get; set; }
 
     public required List<GetTagDto> Tags { get; set; }
 

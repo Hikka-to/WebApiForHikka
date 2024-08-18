@@ -207,6 +207,7 @@ public static class GetAnimeModels
                 Guid.NewGuid(),
                 Guid.NewGuid()
             ],
+            Characters = [Guid.NewGuid()],
             Countries =
             [
                 Guid.NewGuid()
@@ -273,6 +274,8 @@ public static class GetAnimeModels
             PublishedAt = DateTime.Now,
             RomajiName = Lorem.GetFirstWord(),
             TmdbId = RandomNumber.Next(),
+            Id = Guid.NewGuid(),
+            SeoAddition = GetSeoAdditionModels.GetGetDtoSample()
         };
     }
 
@@ -281,6 +284,7 @@ public static class GetAnimeModels
         return new GetAnimeDto
         {
             SeoAddition = GetSeoAdditionModels.GetGetDtoSample(),
+            Characters = [GetCharacterModels.GetGetLightDtoSample()],
             Tags =
             [
                 GetTagModels.GetGetDtoSample(),
@@ -369,6 +373,7 @@ public static class GetAnimeModels
                 GetTagModels.GetModelSample(),
                 GetTagModels.GetModelSample()
             ],
+            Characters = [],
             UpdatedAt = DateTime.Now,
             CreatedAt = DateTime.Now,
             NativeName = Lorem.GetFirstWord(),
@@ -407,6 +412,9 @@ public static class GetAnimeModels
             [
                 Guid.NewGuid()
             ],
+            Charaters = [
+                Guid.NewGuid()
+                ],
             SimilarAnimes =
             [
                 Guid.NewGuid()

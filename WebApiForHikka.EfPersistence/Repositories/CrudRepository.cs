@@ -78,12 +78,12 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
         return new PaginatedCollection<TModel>(models, totalItems);
     }
 
-    public virtual async Task<IReadOnlyCollection<TModel>> GetAllAsync(CancellationToken cancellationToken)
+    public virtual async Task<ICollection<TModel>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await DbContext.Set<TModel>().ToArrayAsync(cancellationToken);
     }
 
-    public virtual async Task<IReadOnlyCollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids,
+    public virtual async Task<ICollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids,
         CancellationToken cancellationToken)
     {
         return await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id)).ToArrayAsync(cancellationToken);

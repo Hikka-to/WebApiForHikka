@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
+using WebApiForHikka.Application.WithSeoAddition.Characters;
 using WebApiForHikka.Application.WithSeoAddition.Countries;
 using WebApiForHikka.Application.WithSeoAddition.Dubs;
 using WebApiForHikka.Application.WithSeoAddition.Kinds;
@@ -39,6 +40,7 @@ public class AnimeController(
     ISourceService sourceService,
     ITagService tagService,
     ICountryService countryService,
+    ICharacterService characterService,
     IDubService dubService,
     IAnimeBackdropService animeBackdropService,
     IFileHelper fileHelper,
@@ -73,25 +75,11 @@ public class AnimeController(
         model.RestrictedRating = (await restrictedRatingService.GetAsync(dto.RestrictedRatingId, cancellationToken))!;
         model.Source = (await sourceService.GetAsync(dto.SourceId, cancellationToken))!;
 
-        var tags = new List<Tag>();
-
-        foreach (var item in dto.Tags) tags.Add((await tagService.GetAsync(item, cancellationToken))!);
-
-        var countries = new List<Country>();
-        foreach (var item in dto.Countries) countries.Add((await countryService.GetAsync(item, cancellationToken))!);
-
-        var dubs = new List<Dub>();
-        foreach (var item in dto.Dubs) dubs.Add((await dubService.GetAsync(item, cancellationToken))!);
-
-        var similarAnimes = new List<Anime>();
-        foreach (var item in dto.SimilarAnimes ?? [])
-            similarAnimes.Add((await _crudService.GetAsync(item, cancellationToken))!);
-
-
-        model.Tags = tags;
-        model.Countries = countries;
-        model.Dubs = dubs;
-        model.SimilarChildAnimes = similarAnimes;
+        model.Tags = await tagService.GetAllModelsByIdsAsync(dto.Tags, cancellationToken);
+        model.Countries = await countryService.GetAllModelsByIdsAsync(dto.Countries, cancellationToken);
+        model.Dubs = await dubService.GetAllModelsByIdsAsync(dto.Dubs, cancellationToken);
+        model.Characters = await characterService.GetAllModelsByIdsAsync(dto.Characters, cancellationToken);
+        model.SimilarChildAnimes = await CrudService.GetAllModelsByIdsAsync(dto.SimilarAnimes ?? new List<Guid>(), cancellationToken);
 
         var path = fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
 
@@ -146,23 +134,12 @@ public class AnimeController(
 
         model.PosterColors = colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
-        var tags = new List<Tag>();
-        foreach (var item in dto.Tags) tags.Add((await tagService.GetAsync(item, cancellationToken))!);
 
-        var countries = new List<Country>();
-        foreach (var item in dto.Countries) countries.Add((await countryService.GetAsync(item, cancellationToken))!);
-
-        var dubs = new List<Dub>();
-        foreach (var item in dto.Dubs) dubs.Add((await dubService.GetAsync(item, cancellationToken))!);
-
-        var similarAnimes = new List<Anime>();
-        foreach (var item in dto.SimilarAnimes ?? [])
-            similarAnimes.Add((await _crudService.GetAsync(item, cancellationToken))!);
-
-        model.Tags = tags;
-        model.Countries = countries;
-        model.Dubs = dubs;
-        model.SimilarChildAnimes = similarAnimes;
+        model.Tags = await tagService.GetAllModelsByIdsAsync(dto.Tags, cancellationToken);
+        model.Characters = await characterService.GetAllModelsByIdsAsync(dto.Charaters, cancellationToken);
+        model.Countries = await countryService.GetAllModelsByIdsAsync(dto.Countries, cancellationToken);
+        model.Dubs = await dubService.GetAllModelsByIdsAsync(dto.Dubs, cancellationToken);
+        model.SimilarChildAnimes = await _crudService.GetAllModelsByIdsAsync(dto.SimilarAnimes ?? new List<Guid>(), cancellationToken);
 
         await CrudService.UpdateAsync(model, cancellationToken);
 
