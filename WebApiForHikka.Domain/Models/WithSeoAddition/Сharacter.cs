@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApiForHikka.Constants.Models.WithSeoAddition.Characters;
-using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models.Relation;
 
 namespace WebApiForHikka.Domain.Models.WithSeoAddition;
 
 public class Character : ModelWithSeoAddition
 {
-
     [StringLength(CharacterNumberConstants.NameLength)]
     public string? Name { get; set; }
 
@@ -30,9 +28,8 @@ public class Character : ModelWithSeoAddition
 
     public required DateTime CreatedAt { get; set; }
 
-    public virtual ICollection<Anime> Animes { get; set; } = new List<Anime>();
-    public virtual ICollection<AnimeCharacter> AnimeCharacters { get; set; } = new List<AnimeCharacter>();
-    public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
+    public virtual ICollection<Anime> Animes { get; set; } = [];
+    public virtual ICollection<Tag> Tags { get; set; } = [];
 
-    public virtual ICollection<TagCharacter> TagCharacters { get; set; } =  new List<TagCharacter>();
+    public virtual ICollection<TagCharacter> TagCharacters { get; set; } = [];
 }

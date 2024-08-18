@@ -161,6 +161,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         var country = GetCountryModels.GetSample();
         var dub = GetDubModels.GetSample();
         var anime = GetAnimeModels.GetSampleWithoutManyToMany();
+        var character = GetCharacterModels.GetSample();
 
         var kindService = alternativeServices.GetRequiredService<IKindService>();
         var statusService = alternativeServices.GetRequiredService<IStatusService>();
@@ -171,6 +172,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         var countryService = alternativeServices.GetRequiredService<ICountryService>();
         var dubService = alternativeServices.GetRequiredService<IDubService>();
         var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+        var characterService = alternativeServices.GetRequiredService<ICharacterService>();
 
         kindService.CreateAsync(kind, CancellationToken).Wait();
         statusService.CreateAsync(status, CancellationToken).Wait();
@@ -181,7 +183,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         countryService.CreateAsync(country, CancellationToken).Wait();
         dubService.CreateAsync(dub, CancellationToken).Wait();
         animeService.CreateAsync(anime, CancellationToken).Wait();
-
+        characterService.CreateAsync(character, CancellationToken).Wait();
 
         createDto.KindId = kind.Id;
         createDto.StatusId = status.Id;
@@ -192,6 +194,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         createDto.Dubs = [dub.Id];
         createDto.Countries = [country.Id];
         createDto.SimilarAnimes = [anime.Id];
+        createDto.Characters = [character.Id];
     }
 
     protected override void MutationBeforeDtoUpdate(UpdateAnimeDto updateDto,
@@ -206,6 +209,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         var tag = GetTagModels.GetSample();
         var dub = GetDubModels.GetSample();
         var anime = GetAnimeModels.GetSampleWithoutManyToMany();
+        var character = GetCharacterModels.GetSample();
 
         var kindService = alternativeServices.GetRequiredService<IKindService>();
         var statusService = alternativeServices.GetRequiredService<IStatusService>();
@@ -216,6 +220,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         var tagService = alternativeServices.GetRequiredService<ITagService>();
         var dubService = alternativeServices.GetRequiredService<IDubService>();
         var animeService = alternativeServices.GetRequiredService<IAnimeService>();
+        var characterService = alternativeServices.GetRequiredService<ICharacterService>();
 
         countryService.CreateAsync(country, CancellationToken).Wait();
         dubService.CreateAsync(dub, CancellationToken).Wait();
@@ -226,7 +231,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         restrictedRatingService.CreateAsync(restrictedRating, CancellationToken).Wait();
         sourceService.CreateAsync(source, CancellationToken).Wait();
         animeService.CreateAsync(anime, CancellationToken).Wait();
-
+        characterService.CreateAsync(character, CancellationToken).Wait();
 
         updateDto.KindId = kind.Id;
         updateDto.StatusId = status.Id;
