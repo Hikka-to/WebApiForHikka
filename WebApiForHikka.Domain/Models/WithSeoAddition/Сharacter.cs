@@ -32,4 +32,5 @@ public class Character : ModelWithSeoAddition
     public virtual ICollection<Tag> Tags { get; set; } = [];
 
     public virtual ICollection<TagCharacter> TagCharacters { get; set; } = [];
+    public virtual ICollection<AnimeCharacter> AnimeCharacters { get; set; } = [];
 }
