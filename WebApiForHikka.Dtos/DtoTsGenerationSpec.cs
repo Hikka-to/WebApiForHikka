@@ -32,6 +32,8 @@ public class DtoTsGenerationSpec : GenerationSpec
         SyncTypes();
     }
 
+    private NullabilityInfoContext NullabilityContext { get; } = new();
+
     private Dictionary<string, Type> Types { get; } = [];
 
     private static string CurrentDir { get; } = Path.GetFullPath("./WebApiForHikka.Dtos");
@@ -172,6 +174,22 @@ public class DtoTsGenerationSpec : GenerationSpec
             fs.SetLength(0);
             fs.Write(Encoding.UTF8.GetBytes(source));
         }
+
+        ClearUnusedFiles(args.GeneratedFiles);
+    }
+
+    private void ClearUnusedFiles(IEnumerable<string> generatedFiles)
+    {
+        generatedFiles = generatedFiles.ToArray();
+
+        var path = Path.GetFullPath(OutputDir, CurrentDir);
+        var files = Directory.GetFiles(path, "*.ts", SearchOption.AllDirectories);
+        foreach (var file in files)
+        {
+            if (generatedFiles.Any(f => Path.GetFullPath(f, CurrentDir) == file) &&
+                Types.Keys.Any(f => Path.GetFullPath(f, CurrentDir) == file)) continue;
+            File.Delete(file);
+        }
     }
 
     private string GetZod(Type type, List<Type> dependencies)
@@ -248,7 +266,7 @@ public class DtoTsGenerationSpec : GenerationSpec
         bool addAdditions,
         bool nullable, List<Type> dependencies)
     {
-        var result = "";
+        string result;
 
         if (type == typeof(Guid))
         {
@@ -276,10 +294,11 @@ public class DtoTsGenerationSpec : GenerationSpec
             result = "z.date()";
         }
 
-        else if (type.GenericIsSubclassOf(typeof(IDictionary<,>)))
+        else if (type.TryGetSubclassType(typeof(IDictionary<,>), out var dictionary))
         {
-            var key = genericArguments[0];
-            var value = genericArguments[1];
+            Console.WriteLine($"{type.Name}");
+            var key = NullabilityContext.Create(dictionary.GetProperty("Keys")!).GenericTypeArguments[0];
+            var value = NullabilityContext.Create(dictionary.GetProperty("Values")!).GenericTypeArguments[0];
             result = key.Type.GenericIsSubclassOf(typeof(string))
                 ? $"z.record({GetZodType(value, true, dependencies)})"
                 : $"z.map({GetZodType(key, true, dependencies)}, {GetZodType(value, true, dependencies)})";
@@ -288,9 +307,10 @@ public class DtoTsGenerationSpec : GenerationSpec
         {
             result = $"z.array({GetZodType(elementType!, true, dependencies)})";
         }
-        else if (type.GenericIsSubclassOf(typeof(IEnumerable<>)))
+        else if (type.TryGetSubclassType(typeof(IEnumerable<>), out var enumerable))
         {
-            var value = genericArguments[0];
+            var value = NullabilityContext.Create(enumerable.GetMethod("GetEnumerator")!.ReturnParameter)
+                .GenericTypeArguments[0];
             result = $"z.array({GetZodType(value, true, dependencies)})";
         }
         else if (type.GenericIsSubclassOf(typeof(Nullable<>)))
@@ -339,13 +359,12 @@ public class DtoTsGenerationSpec : GenerationSpec
 
     private string GetZodType(MemberInfo member, List<Type> dependencies)
     {
-        var nullabilityContext = new NullabilityInfoContext();
         var propertyInfo = member as PropertyInfo;
         var fieldInfo = member as FieldInfo;
         var type = propertyInfo != null ? propertyInfo.PropertyType : fieldInfo!.FieldType;
         var nullabilityInfo = propertyInfo != null
-            ? nullabilityContext.Create(propertyInfo)
-            : nullabilityContext.Create(fieldInfo!);
+            ? NullabilityContext.Create(propertyInfo)
+            : NullabilityContext.Create(fieldInfo!);
         var result = GetZodType(nullabilityInfo, false, dependencies);
 
         if (GetCustomAttribute<StringLengthAttribute>(member) is { } stringLength)
