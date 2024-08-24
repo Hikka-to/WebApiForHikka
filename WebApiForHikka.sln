@@ -19,11 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.Test", "WebA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.SharedFunction", "WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj", "{CF5C01C1-E0E1-4252-9075-23C0FA0C41F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiForHikka.SharedModels", "WebApiForHikka.SharedModels\WebApiForHikka.SharedModels.csproj", "{DC4F51AA-41FF-4820-8891-16166A280C95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.SharedModels", "WebApiForHikka.SharedModels\WebApiForHikka.SharedModels.csproj", "{DC4F51AA-41FF-4820-8891-16166A280C95}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A1B7B9D9-30F4-4744-B997-F9D3E2A820BE} = {A1B7B9D9-30F4-4744-B997-F9D3E2A820BE}
 		{AC23C15B-9BF0-4108-A390-B3F03BB0EBBA} = {AC23C15B-9BF0-4108-A390-B3F03BB0EBBA}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiForHikka.AppHost", "WebApiForHikka.AppHost\WebApiForHikka.AppHost.csproj", "{BF1378C7-FA44-4899-83B5-05EE2416CC3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiForHikka.ServiceDefaults", "WebApiForHikka.ServiceDefaults\WebApiForHikka.ServiceDefaults.csproj", "{904E0394-2F5C-4E44-BA18-3C7ABD0A440C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +71,14 @@ Global
 		{DC4F51AA-41FF-4820-8891-16166A280C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC4F51AA-41FF-4820-8891-16166A280C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC4F51AA-41FF-4820-8891-16166A280C95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF1378C7-FA44-4899-83B5-05EE2416CC3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF1378C7-FA44-4899-83B5-05EE2416CC3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF1378C7-FA44-4899-83B5-05EE2416CC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF1378C7-FA44-4899-83B5-05EE2416CC3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{904E0394-2F5C-4E44-BA18-3C7ABD0A440C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{904E0394-2F5C-4E44-BA18-3C7ABD0A440C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{904E0394-2F5C-4E44-BA18-3C7ABD0A440C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{904E0394-2F5C-4E44-BA18-3C7ABD0A440C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
