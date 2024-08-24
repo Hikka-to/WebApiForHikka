@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using WebApiForHikka.Constants.Shared;
 using Microsoft.AspNetCore.Mvc;
-using TypeGen.Core.TypeAnnotations;
-using WebApiForHikka.Domain.Models;
+using WebApiForHikka.Constants.Shared;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute;
 using WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
@@ -11,7 +9,6 @@ using WebApiForHikka.Dtos.Shared;
 namespace WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
 
 [ModelMetadataType(typeof(Character))]
-[ExportTsInterface]
 public class CreateCharacterDto : CreateDtoWithSeoAddition
 {
     public string? Name { get; set; }
@@ -31,5 +28,4 @@ public class CreateCharacterDto : CreateDtoWithSeoAddition
     [FileContentType("image/*")]
     [MaxFileSize(SharedNumberConstatnts.MaxFileSize)]
     public required IFormFile Image { get; set; }
-
 }

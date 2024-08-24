@@ -62,6 +62,7 @@ builder.Services.AddIdentity();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddPolicies();
+builder.Services.AddCorsPolicies(builder.Configuration);
 
 var app = builder.Build();
 
@@ -72,10 +73,15 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(CorsExtensions.AllowAllOrigins);
+}
+else
+{
+    app.UseCors(CorsExtensions.AllowSpecificOrigins);
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAllOrigins");
+
 app.UseAuthentication(); // Use authentication middleware
 app.UseAuthorization(); // Use authorization middleware
 
