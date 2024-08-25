@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>c7852e88-cef9-4623-a86b-834272dae6ad</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <Platforms>AnyCPU;ARM64</Platforms>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,7 +25,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
         <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.9.0" />
         <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.9.0-beta.2" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
@@ -33,8 +34,8 @@
         <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.9.0" />
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.1" />
-        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.7.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.7.2" />
         <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
     </ItemGroup>
 
