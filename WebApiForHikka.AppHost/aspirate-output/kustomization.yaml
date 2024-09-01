@@ -1,0 +1,8 @@
+resources:
+- webapiforhikka-webapi
+- dashboard.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+

@@ -8,6 +8,7 @@
     <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>bda97f38-f2f0-4ae7-9f98-70b3c328448c</UserSecretsId>
     <Platforms>AnyCPU;ARM64</Platforms>
+	  <SkipAddAspireDefaultReferences>true</SkipAddAspireDefaultReferences>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebApiForHikka\WebApiForHikka.WebApi.csproj" />
+	  <PackageReference Include="Aspire.Dashboard.Sdk.$(NETCoreSdkRuntimeIdentifier)" Version="8.2.0" />
+	  <PackageReference Include="Aspire.Hosting.Orchestration.$(NETCoreSdkRuntimeIdentifier)" Version="8.2.0" />
   </ItemGroup>
 
 </Project>
