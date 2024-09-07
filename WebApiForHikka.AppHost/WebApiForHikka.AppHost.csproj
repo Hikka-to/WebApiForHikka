@@ -16,6 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebApiForHikka.Application\WebApiForHikka.Application.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.Constants\WebApiForHikka.Constants.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.Domain\WebApiForHikka.Domain.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.Dtos\WebApiForHikka.Dtos.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.EfPersistence\WebApiForHikka.EfPersistence.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.ServiceDefaults\WebApiForHikka.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\WebApiForHikka.SharedFunction\WebApiForHikka.SharedFunction.csproj" />
     <ProjectReference Include="..\WebApiForHikka\WebApiForHikka.WebApi.csproj" />
 	  <PackageReference Include="Aspire.Dashboard.Sdk.$(NETCoreSdkRuntimeIdentifier)" Version="8.2.0" />
 	  <PackageReference Include="Aspire.Hosting.Orchestration.$(NETCoreSdkRuntimeIdentifier)" Version="8.2.0" />
