@@ -45,8 +45,10 @@ public abstract class BaseControllerTest : SharedTest
 
     public BaseControllerTest()
     {
-        A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey]).Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
-        var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
+        A.CallTo(() => Configuration[AppSettingsStringConstants.JwtKey])
+            .Returns("7DbP1lM5m0IiZWOWlaCSFApiHKfR0Zhb");
+        var mapperConfiguration =
+            new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfiles()));
         Mapper = mapperConfiguration.CreateMapper();
     }
 
@@ -59,13 +61,15 @@ public abstract class BaseControllerTest : SharedTest
                 {
                     SearchTerm = "Test",
                     Column = SharedStringConstants.IdName,
-                    IsStrict = true
+                    FilterType = FilterType.Strict,
+                    Negate = false
                 },
                 new FilterDto
                 {
                     SearchTerm = "Test1",
                     Column = SharedStringConstants.IdName,
-                    IsStrict = true
+                    FilterType = FilterType.Strict,
+                    Negate = false
                 }
             ],
             [
@@ -73,7 +77,8 @@ public abstract class BaseControllerTest : SharedTest
                 {
                     SearchTerm = "Test2",
                     Column = SharedStringConstants.IdName,
-                    IsStrict = true
+                    FilterType = FilterType.Strict,
+                    Negate = false
                 }
             ]
         ],
@@ -100,12 +105,14 @@ public abstract class BaseControllerTest : SharedTest
         );
         var optionsAccessor = Options.Create(options);
 
-        var userClaimsPrincipalFactory = new UserClaimsPrincipalFactory<User>(userManager, optionsAccessor);
+        var userClaimsPrincipalFactory =
+            new UserClaimsPrincipalFactory<User>(userManager, optionsAccessor);
         var jwtTokenFactory = new JwtTokenFactory(userClaimsPrincipalFactory);
         return jwtTokenFactory;
     }
 
-    protected async Task<IHttpContextAccessor> GetHttpContextAccessForAdminUser(UserManager<User> userManager,
+    protected async Task<IHttpContextAccessor> GetHttpContextAccessForAdminUser(
+        UserManager<User> userManager,
         RoleManager<IdentityRole<Guid>> roleManager)
     {
         // Generate JWT Token
@@ -125,7 +132,8 @@ public abstract class BaseControllerTest : SharedTest
         httpRequestMock.Setup(req => req.Headers.Authorization).Returns(jwtToken);
         httpRequestMock.Setup(req => req.Scheme).Returns("https:7076://");
         httpRequestMock.Setup(req => req.Host).Returns(new HostString("api/v1"));
-        httpRequestMock.Setup(req => req.Path).Returns(new PathString("/asdada/resdad/controller/GetGetAll"));
+        httpRequestMock.Setup(req => req.Path)
+            .Returns(new PathString("/asdada/resdad/controller/GetGetAll"));
 
         // Setup the HttpContext mock to return the mocked HttpRequest
         httpContextMock.Setup(ctx => ctx.Request).Returns(httpRequestMock.Object);
@@ -137,7 +145,8 @@ public abstract class BaseControllerTest : SharedTest
         return httpContextAccessorMock.Object;
     }
 
-    protected async Task<IHttpContextAccessor> GetHttpContextAccessForUserUser(UserManager<User> userManager,
+    protected async Task<IHttpContextAccessor> GetHttpContextAccessForUserUser(
+        UserManager<User> userManager,
         RoleManager<IdentityRole<Guid>> roleManager)
     {
         // Generate JWT Token

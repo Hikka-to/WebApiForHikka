@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using NpgsqlTypes;
+using WebApiForHikka.Domain;
 
 namespace WebApiForHikka.SharedFunction.Filtering;
 
@@ -10,7 +12,8 @@ public class FilterColumnSelector
     {
         List<FilteringItem[]> columns = [];
         columns.AddRange(entityType.GetProperties()
-            .Where(p => (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false))
+            .Where(p =>
+                (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false))
             .Select(property => (FilteringItem[])
                 [new FilteringItem(property.GetColumnName(), property.Name, property)]));
 
@@ -28,19 +31,23 @@ public class FilterColumnSelector
 
         columns.AddRange(from navigation in navigations
             let targetEntityType = navigation.TargetEntityType
-            where !(!navigation.FieldInfo?.IsPublic ?? true) || !(!navigation.PropertyInfo?.GetMethod?.IsPublic ?? true)
+            where !(!navigation.FieldInfo?.IsPublic ?? true) ||
+                  !(!navigation.PropertyInfo?.GetMethod?.IsPublic ?? true)
             let targetColumns = GetNavigationColumns(targetEntityType)
             from targetColumn in targetColumns
-            select (FilteringItem[]) [new FilteringItem(navigation.Name, navigation.Name, navigation), ..targetColumn]);
+            select (FilteringItem[])
+                [new FilteringItem(navigation.Name, navigation.Name, navigation), ..targetColumn]);
 
         columns.AddRange(entityType.GetProperties()
-            .Where(p => (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false))
+            .Where(p =>
+                (p.FieldInfo?.IsPublic ?? false) || (p.PropertyInfo?.GetMethod?.IsPublic ?? false))
             .Select(property => (FilteringItem[])
                 [new FilteringItem(property.GetColumnName(), property.Name, property)]));
 
         columns.Reverse();
 
-        return Filtering.FilterTransforms.Aggregate(columns as IEnumerable<IEnumerable<FilteringItem>>,
+        return Filtering.FilterTransforms.Aggregate(
+            columns as IEnumerable<IEnumerable<FilteringItem>>,
             (current, transform) => transform.Transform(entityType, current));
     }
 
@@ -68,13 +75,62 @@ public class FilterColumnSelector
         return column is not null;
     }
 
-    public static IEnumerable<FilteringItem> GetColumnByReadablePath(IEntityType entityType, string readablePath)
+    public static IEnumerable<FilteringItem> GetColumnByReadablePath(IEntityType entityType,
+        string readablePath)
     {
         return GetColumns(entityType).First(c => c.GetReadablePath() == readablePath);
     }
 
-    public static IEnumerable<FilteringItem> GetColumnByActualPath(IEntityType entityType, string actualPath)
+    public static IEnumerable<FilteringItem> GetColumnByActualPath(IEntityType entityType,
+        string actualPath)
     {
         return GetColumns(entityType).First(c => c.GetActualPath() == actualPath);
+    }
+
+    public static IEnumerable<FilterType> GetFilterTypes(Type type)
+    {
+        if (typeof(NpgsqlTsVector).IsAssignableFrom(type))
+            return
+            [
+                FilterType.WebSearch,
+                FilterType.OrderedWebSearch,
+                FilterType.DescendingOrderedWebSearch
+            ];
+        if (typeof(IComparable).IsAssignableFrom(Nullable.GetUnderlyingType(type) ?? type))
+            return
+            [
+                FilterType.Strict,
+                FilterType.Like,
+                FilterType.InsensitiveLike,
+                FilterType.Contains,
+                FilterType.InsensitiveContains,
+                FilterType.StartsWith,
+                FilterType.EndsWith,
+                FilterType.InsensitiveStartsWith,
+                FilterType.InsensitiveEndsWith,
+                FilterType.Bigger,
+                FilterType.Smaller,
+                FilterType.BiggerOrEqual,
+                FilterType.SmallerOrEqual,
+                FilterType.WebSearch,
+                FilterType.OrderedWebSearch,
+                FilterType.DescendingOrderedWebSearch
+            ];
+
+        return
+        [
+            FilterType.Strict,
+            FilterType.Like,
+            FilterType.InsensitiveLike,
+            FilterType.Contains,
+            FilterType.InsensitiveContains,
+            FilterType.StartsWith,
+            FilterType.EndsWith,
+            FilterType.InsensitiveStartsWith,
+            FilterType.InsensitiveEndsWith,
+            FilterType.WebSearch,
+            FilterType.OrderedWebSearch,
+            FilterType.DescendingOrderedWebSearch
+        ];
     }
 }

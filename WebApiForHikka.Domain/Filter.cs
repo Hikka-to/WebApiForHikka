@@ -5,4 +5,5 @@ namespace WebApiForHikka.Domain;
 public sealed record Filter(
     string SearchTerm = "",
     string Column = SharedStringConstants.IdName,
-    bool IsStrict = false);
+    FilterType FilterType = FilterType.Strict,
+    bool Negate = false);

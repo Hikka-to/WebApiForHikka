@@ -17,9 +17,11 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
     public virtual async Task<Guid> AddAsync(TModel model, CancellationToken cancellationToken)
     {
         var modelEntry = DbContext.Entry(model);
-        if (modelEntry.Properties.FirstOrDefault(p => p.Metadata.Name == "CreatedAt") is { } createdAtProperty)
+        if (modelEntry.Properties.FirstOrDefault(p => p.Metadata.Name == "CreatedAt") is
+            { } createdAtProperty)
             createdAtProperty.CurrentValue = DateTime.UtcNow;
-        if (modelEntry.Properties.FirstOrDefault(p => p.Metadata.Name == "UpdatedAt") is { } updatedAtProperty)
+        if (modelEntry.Properties.FirstOrDefault(p => p.Metadata.Name == "UpdatedAt") is
+            { } updatedAtProperty)
             updatedAtProperty.CurrentValue = DateTime.UtcNow;
 
         await DbContext.Set<TModel>().AddAsync(model, cancellationToken);
@@ -29,7 +31,8 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
 
     public virtual async Task UpdateAsync(TModel model, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == model.Id, cancellationToken);
+        var entity = await DbContext.Set<TModel>()
+            .FirstOrDefaultAsync(e => e.Id == model.Id, cancellationToken);
         if (entity is null)
             return;
 
@@ -39,7 +42,8 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
 
     public virtual async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        var entity = await DbContext.Set<TModel>()
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         if (entity is null)
             return;
 
@@ -49,7 +53,8 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
 
     public virtual async Task<TModel?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await DbContext.Set<TModel>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        return await DbContext.Set<TModel>()
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 
     public virtual async Task<PaginatedCollection<TModel>> GetAllAsync(FilterPagination dto,
@@ -64,14 +69,8 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
             (current, filter) => Filter(current, filter));
         var totalItems = await query.CountAsync(cancellationToken);
 
-        var firstSort = dto.Sorts.FirstOrDefault();
-        var otherSorts = dto.Sorts.Skip(1).ToArray();
-        if (firstSort != null)
-        {
-            var orderedQuery = Sort(query, firstSort.Column, firstSort.SortOrder == SortOrder.Asc);
-            query = otherSorts.Aggregate(orderedQuery,
-                (current, sort) => ThenSort(current, sort.Column, sort.SortOrder == SortOrder.Asc));
-        }
+        query = dto.Sorts.Aggregate(query,
+            (current, sort) => Sort(current, sort.Column, sort.SortOrder == SortOrder.Asc));
 
         var models = await query.Skip(skip).Take(take).ToListAsync(cancellationToken);
 
@@ -86,7 +85,8 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
     public virtual async Task<ICollection<TModel?>> GetAllModelsByIdsAsync(List<Guid> ids,
         CancellationToken cancellationToken)
     {
-        return (await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id)).ToListAsync(cancellationToken))!;
+        return (await DbContext.Set<TModel>().Where(m => ids.Contains(m.Id))
+            .ToListAsync(cancellationToken))!;
     }
 
     public virtual TModel? Get(Guid id)
@@ -94,7 +94,8 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
         return DbContext.Set<TModel>().FirstOrDefault(e => e.Id == id);
     }
 
-    protected virtual void Update<TEntityModel, TUpdateModel>(TUpdateModel model, TEntityModel entity)
+    protected virtual void Update<TEntityModel, TUpdateModel>(TUpdateModel model,
+        TEntityModel entity)
         where TEntityModel : TModel
         where TUpdateModel : TEntityModel
     {
@@ -116,7 +117,8 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
                         property.CurrentValue = DateTime.UtcNow;
                         break;
                     default:
-                        property.CurrentValue = modelEntry.Property(property.Metadata.Name).CurrentValue;
+                        property.CurrentValue =
+                            modelEntry.Property(property.Metadata.Name).CurrentValue;
                         break;
                 }
 
@@ -125,12 +127,14 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
             var modelNavigation = modelEntry.Navigation(navigation.Metadata.Name);
             var navigationMetadata = navigation.Metadata as INavigation;
             var foreignKey = navigationMetadata?.ForeignKey.Properties[0];
-            var modelForeignKey = foreignKey != null && foreignKey.DeclaringType.ClrType == entity.GetType()
-                ? modelEntry.CurrentValues[foreignKey.Name]
-                : null;
-            var entityForeignKey = foreignKey != null && foreignKey.DeclaringType.ClrType == entity.GetType()
-                ? entityEntry.CurrentValues[foreignKey.Name]
-                : null;
+            var modelForeignKey =
+                foreignKey != null && foreignKey.DeclaringType.ClrType == entity.GetType()
+                    ? modelEntry.CurrentValues[foreignKey.Name]
+                    : null;
+            var entityForeignKey =
+                foreignKey != null && foreignKey.DeclaringType.ClrType == entity.GetType()
+                    ? entityEntry.CurrentValues[foreignKey.Name]
+                    : null;
             switch (modelNavigation.CurrentValue)
             {
                 case null when foreignKey is { IsNullable: false }:
@@ -144,14 +148,21 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
         }
     }
 
-    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query, IEnumerable<Filter> filters)
+    protected virtual IQueryable<TModel> Filter(IQueryable<TModel> query,
+        IEnumerable<Filter> filters)
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
-                         throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
+                         throw new InvalidOperationException(
+                             $"Entity type for {typeof(TModel)} not found.");
 
         filters = filters.ToArray();
         var errors = filters
-            .Where(filter => !FilterColumnSelector.IsColumnValidByReadablePath(entityType, filter.Column))
+            .Where(filter =>
+                !FilterColumnSelector.IsColumnValidByReadablePath(entityType, filter.Column) &&
+                !FilterColumnSelector.GetFilterTypes(FilterColumnSelector
+                        .GetColumnByReadablePath(entityType, filter.Column)
+                        .GetProperty().ClrType)
+                    .Contains(filter.FilterType))
             .Select(filter => filter.Column)
             .ToArray();
 
@@ -161,32 +172,42 @@ public abstract class CrudRepository<TModel>(HikkaDbContext dbContext) : ICrudRe
 
         var actualFilters = filters.Select(filter => filter with
         {
-            Column = FilterColumnSelector.GetColumnByReadablePath(entityType, filter.Column).GetActualPath()
+            Column = FilterColumnSelector.GetColumnByReadablePath(entityType, filter.Column)
+                .GetActualPath()
         });
 
         return query.Filter(actualFilters);
     }
 
-    protected virtual IOrderedQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy, bool isAscending)
+    protected virtual IOrderedQueryable<TModel> Sort(IQueryable<TModel> query, string orderBy,
+        bool isAscending)
     {
+        if (typeof(IOrderedQueryable<TModel>).IsAssignableFrom(query.Expression.Type))
+            return ThenSort((IOrderedQueryable<TModel>)query, orderBy, isAscending);
+
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
-                         throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
+                         throw new InvalidOperationException(
+                             $"Entity type for {typeof(TModel)} not found.");
 
         if (SortColumnSelector.TryGetColumnByReadablePath(entityType, orderBy, out var column))
             return query.Sort(column.GetActualPath(), isAscending);
 
-        throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
+        throw new InvalidOperationException(
+            $"Column {orderBy} is not valid for {typeof(TModel)} sort");
     }
 
-    protected virtual IOrderedQueryable<TModel> ThenSort(IOrderedQueryable<TModel> query, string orderBy,
+    protected virtual IOrderedQueryable<TModel> ThenSort(IOrderedQueryable<TModel> query,
+        string orderBy,
         bool isAscending)
     {
         var entityType = DbContext.Model.FindEntityType(typeof(TModel)) ??
-                         throw new InvalidOperationException($"Entity type for {typeof(TModel)} not found.");
+                         throw new InvalidOperationException(
+                             $"Entity type for {typeof(TModel)} not found.");
 
         if (SortColumnSelector.TryGetColumnByReadablePath(entityType, orderBy, out var column))
             return query.ThenSort(column.GetActualPath(), isAscending);
 
-        throw new InvalidOperationException($"Column {orderBy} is not valid for {typeof(TModel)} sort");
+        throw new InvalidOperationException(
+            $"Column {orderBy} is not valid for {typeof(TModel)} sort");
     }
 }
