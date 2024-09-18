@@ -41,7 +41,8 @@ public class DtoTsGenerationSpec : GenerationSpec
     private void SyncTypes()
     {
         var defaultTypes = Types.Values.ToArray();
-        foreach (var type in Types.ToArray()) SyncType(defaultTypes, type.Key[..type.Key.LastIndexOf('/')], type.Value);
+        foreach (var type in Types.ToArray())
+            SyncType(defaultTypes, type.Key[..type.Key.LastIndexOf('/')], type.Value);
     }
 
     private void SyncType(Type[] defaultTypes, string outputDir, Type? type)
@@ -59,13 +60,17 @@ public class DtoTsGenerationSpec : GenerationSpec
 
         SyncType(defaultTypes, outputDir, type.BaseType);
 
-        foreach (var interfaceType in type.GetInterfaces()) SyncType(defaultTypes, outputDir, interfaceType);
+        foreach (var interfaceType in type.GetInterfaces())
+            SyncType(defaultTypes, outputDir, interfaceType);
 
-        foreach (var property in type.GetProperties()) SyncType(defaultTypes, outputDir, property.PropertyType);
+        foreach (var property in type.GetProperties())
+            SyncType(defaultTypes, outputDir, property.PropertyType);
 
         if (defaultTypes.Contains(type)) return;
 
-        var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+        var typeName = type.IsGenericTypeDefinition
+            ? type.Name[..type.Name.IndexOf('`')]
+            : type.Name;
         var output = outputDir + "/" + ToKebabCase(typeName) + ".ts";
         Types.TryAdd(output, type);
     }
@@ -80,7 +85,8 @@ public class DtoTsGenerationSpec : GenerationSpec
         {
             var attribute = type.GetCustomAttribute<TAttribute>()!;
             var fullPath = Path.GetFullPath(OutputDir, CurrentDir);
-            var namespacePath = "./" + type.Namespace?.Replace("WebApiForHikka.Dtos.", "").Replace(".", "/");
+            var namespacePath =
+                "./" + type.Namespace?.Replace("WebApiForHikka.Dtos.", "").Replace(".", "/");
             var outputDir = Path.Combine(fullPath, namespacePath, attribute.OutputDir ?? "");
             outputDir = Path.GetFullPath(outputDir)
                 .Replace(fullPath, OutputDir)
@@ -88,14 +94,18 @@ public class DtoTsGenerationSpec : GenerationSpec
                 .TrimEnd('/');
             method(type, outputDir);
 
-            var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+            var typeName = type.IsGenericTypeDefinition
+                ? type.Name[..type.Name.IndexOf('`')]
+                : type.Name;
             Types.Add(outputDir + "/" + ToKebabCase(typeName) + ".ts", type);
         }
     }
 
     private static string ToKebabCase(string str)
     {
-        return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x : x.ToString())).ToLower();
+        return string
+            .Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x : x.ToString()))
+            .ToLower();
     }
 
     public override void OnAfterGeneration(OnAfterGenerationArgs args)
@@ -108,14 +118,17 @@ public class DtoTsGenerationSpec : GenerationSpec
             var source = sr.ReadToEnd();
             var ast = new TypeScriptAST(source, filePath);
 
-            if (ast.GetDescendants().OfType<InterfaceDeclaration>().FirstOrDefault() is { } interfaceDeclaration)
+            if (ast.GetDescendants().OfType<InterfaceDeclaration>().FirstOrDefault() is
+                { } interfaceDeclaration)
                 source = source.TrimEnd().Remove(interfaceDeclaration.NodeStart,
                     interfaceDeclaration.End!.Value - interfaceDeclaration.NodeStart);
-            if (ast.GetDescendants().OfType<ClassDeclaration>().FirstOrDefault() is { } classDeclaration)
+            if (ast.GetDescendants().OfType<ClassDeclaration>().FirstOrDefault() is
+                { } classDeclaration)
                 source = source.TrimEnd().Remove(classDeclaration.NodeStart,
                     classDeclaration.End!.Value - classDeclaration.NodeStart);
 
-            var type = Types.FirstOrDefault(t => filePath == Path.GetFullPath(t.Key, CurrentDir)).Value;
+            var type = Types.FirstOrDefault(t => filePath == Path.GetFullPath(t.Key, CurrentDir))
+                .Value;
 
             if (type is null) continue;
             List<Type> dependencies = [];
@@ -128,7 +141,8 @@ public class DtoTsGenerationSpec : GenerationSpec
                 var original = import.ImportClause.NamedBindings.Children.First().GetText();
                 if (dependencies.All(d => d.Name != original))
                 {
-                    source = source.Remove(import.NodeStart, import.End!.Value - import.NodeStart + 2);
+                    source = source.Remove(import.NodeStart,
+                        import.End!.Value - import.NodeStart + 2);
                     continue;
                 }
 
@@ -152,7 +166,8 @@ public class DtoTsGenerationSpec : GenerationSpec
                          new Uri(
                              Types.Select(t => (Path.GetFullPath(t.Key, CurrentDir), t.Value))
                                  .First(t => t.Value == dependency && args.GeneratedFiles
-                                     .Select(f => Path.GetFullPath(f, CurrentDir)).Contains(t.Item1))
+                                     .Select(f => Path.GetFullPath(f, CurrentDir))
+                                     .Contains(t.Item1))
                                  .Item1,
                              UriKind.Absolute)
                      let path = typePath.MakeRelativeUri(dependencyPath).ToString()
@@ -204,7 +219,9 @@ public class DtoTsGenerationSpec : GenerationSpec
                 ? $"<{string.Join(", ", genericArguments.Select(a => $"{a.Name} extends z.ZodTypeAny"))}>" +
                   $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: {a.Name}"))}) => "
                 : "";
-            var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+            var typeName = type.IsGenericTypeDefinition
+                ? type.Name[..type.Name.IndexOf('`')]
+                : type.Name;
             var typeOutput = type.IsGenericTypeDefinition
                 ? $"export type {typeName}<{string.Join(", ", genericArguments.Select(a => $"{a.Name}"))}> = " +
                   "z.infer<" +
@@ -213,14 +230,17 @@ public class DtoTsGenerationSpec : GenerationSpec
                   $"{string.Join(", ", genericArguments.Select(a => $"z.ZodType<{a.Name}>"))}" +
                   ">>>;\n"
                 : $"export type {typeName} = z.infer<typeof {StringToLowerCase(typeName)}Schema>;\n";
-            return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
-                   string.Join(",\n",
-                       properties.Select(p => $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
-                   string.Join(",\n",
-                       fields.Select(f => $"    {StringToLowerCase(f.Name)}: {GetZodType(f, dependencies)}")) +
-                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n" +
-                   "\n" +
-                   typeOutput;
+            return
+                $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
+                string.Join(",\n",
+                    properties.Select(p =>
+                        $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
+                string.Join(",\n",
+                    fields.Select(f =>
+                        $"    {StringToLowerCase(f.Name)}: {GetZodType(f, dependencies)}")) +
+                $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n" +
+                "\n" +
+                typeOutput;
         }
 
         if (type.GetCustomAttribute<ExportTsInterfaceAttribute>() is not null ||
@@ -233,7 +253,9 @@ public class DtoTsGenerationSpec : GenerationSpec
                 ? $"<{string.Join(", ", genericArguments.Select(a => $"{a.Name} extends z.ZodTypeAny"))}>" +
                   $"({string.Join(", ", genericArguments.Select(a => $"{StringToLowerCase(a.Name)}: {a.Name}"))}) => "
                 : "";
-            var typeName = type.IsGenericTypeDefinition ? type.Name[..type.Name.IndexOf('`')] : type.Name;
+            var typeName = type.IsGenericTypeDefinition
+                ? type.Name[..type.Name.IndexOf('`')]
+                : type.Name;
             var typeOutput = type.IsGenericTypeDefinition
                 ? $"export type {typeName}<{string.Join(", ", genericArguments.Select(a => $"{a.Name}"))}> = " +
                   "z.infer<" +
@@ -242,27 +264,34 @@ public class DtoTsGenerationSpec : GenerationSpec
                   $"{string.Join(", ", genericArguments.Select(a => $"z.ZodType<{a.Name}>"))}" +
                   ">>>;\n"
                 : $"export type {typeName} = z.infer<typeof {StringToLowerCase(typeName)}Schema>;\n";
-            return $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
-                   string.Join(",\n",
-                       properties.Select(p => $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
-                   string.Join(",\n",
-                       fields.Select(f => $"    {StringToLowerCase(f.Name)}: {GetZodType(f, dependencies)}")) +
-                   $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n" +
-                   "\n" +
-                   typeOutput;
+            return
+                $"export const {StringToLowerCase(typeName)}Schema = {genericPart}z.object({{\n" +
+                string.Join(",\n",
+                    properties.Select(p =>
+                        $"    {StringToLowerCase(p.Name)}: {GetZodType(p, dependencies)}")) +
+                string.Join(",\n",
+                    fields.Select(f =>
+                        $"    {StringToLowerCase(f.Name)}: {GetZodType(f, dependencies)}")) +
+                $"{(properties.Length + fields.Length > 0 ? "\n" : "")}}});\n" +
+                "\n" +
+                typeOutput;
         }
 
-        return $"\nexport const {StringToLowerCase(type.Name)}Schema = z.nativeEnum({type.Name});\n";
+        return
+            $"\nexport const {StringToLowerCase(type.Name)}Schema = z.nativeEnum({type.Name});\n";
     }
 
-    private string GetZodType(NullabilityInfo nullabilityInfo, bool addAdditions, List<Type> dependencies)
+    private string GetZodType(NullabilityInfo nullabilityInfo, bool addAdditions,
+        List<Type> dependencies)
     {
-        return GetZodType(nullabilityInfo.Type, nullabilityInfo.GenericTypeArguments, nullabilityInfo.ElementType,
+        return GetZodType(nullabilityInfo.Type, nullabilityInfo.GenericTypeArguments,
+            nullabilityInfo.ElementType,
             addAdditions,
             nullabilityInfo.WriteState == NullabilityState.Nullable, dependencies);
     }
 
-    private string GetZodType(Type type, NullabilityInfo[] genericArguments, NullabilityInfo? elementType,
+    private string GetZodType(Type type, NullabilityInfo[] genericArguments,
+        NullabilityInfo? elementType,
         bool addAdditions,
         bool nullable, List<Type> dependencies)
     {
@@ -280,7 +309,8 @@ public class DtoTsGenerationSpec : GenerationSpec
         {
             result = "z.boolean()";
         }
-        else if (type.GenericIsSubclassOf(typeof(INumberBase<>)) && !type.GenericIsSubclassOf(typeof(IFloatingPoint<>)))
+        else if (type.GenericIsSubclassOf(typeof(INumberBase<>)) &&
+                 !type.GenericIsSubclassOf(typeof(IFloatingPoint<>)))
         {
             result = "z.number().int()";
         }
@@ -288,17 +318,20 @@ public class DtoTsGenerationSpec : GenerationSpec
         {
             result = "z.number()";
         }
-        else if (type.GenericIsSubclassOf(typeof(DateOnly)) || type.GenericIsSubclassOf(typeof(DateTimeOffset)) ||
-                 type.GenericIsSubclassOf(typeof(TimeSpan)) || type.GenericIsSubclassOf(typeof(DateTime)))
+        else if (type.GenericIsSubclassOf(typeof(DateOnly)) ||
+                 type.GenericIsSubclassOf(typeof(DateTimeOffset)) ||
+                 type.GenericIsSubclassOf(typeof(TimeSpan)) ||
+                 type.GenericIsSubclassOf(typeof(DateTime)))
         {
             result = "z.date()";
         }
-
-        else if (type.TryGetSubclassType(typeof(IDictionary<,>), out var dictionary))
+        else if (type.GenericIsSubclassOf(typeof(IDictionary<,>)))
         {
-            Console.WriteLine($"{type.Name}");
-            var key = NullabilityContext.Create(dictionary.GetProperty("Keys")!).GenericTypeArguments[0];
-            var value = NullabilityContext.Create(dictionary.GetProperty("Values")!).GenericTypeArguments[0];
+            var dictionaryNullabilityInfo =
+                NullabilityContext.SubClassCreate(type, genericArguments, nullable, elementType,
+                    typeof(IDictionary<,>));
+            var key = dictionaryNullabilityInfo.GenericTypeArguments[0];
+            var value = dictionaryNullabilityInfo.GenericTypeArguments[1];
             result = key.Type.GenericIsSubclassOf(typeof(string))
                 ? $"z.record({GetZodType(value, true, dependencies)})"
                 : $"z.map({GetZodType(key, true, dependencies)}, {GetZodType(value, true, dependencies)})";
@@ -307,10 +340,12 @@ public class DtoTsGenerationSpec : GenerationSpec
         {
             result = $"z.array({GetZodType(elementType!, true, dependencies)})";
         }
-        else if (type.TryGetSubclassType(typeof(IEnumerable<>), out var enumerable))
+        else if (type.GenericIsSubclassOf(typeof(IEnumerable<>)))
         {
-            var value = NullabilityContext.Create(enumerable.GetMethod("GetEnumerator")!.ReturnParameter)
-                .GenericTypeArguments[0];
+            var enumerableNullabilityInfo =
+                NullabilityContext.SubClassCreate(type, genericArguments, nullable, elementType,
+                    typeof(IEnumerable<>));
+            var value = enumerableNullabilityInfo.GenericTypeArguments[0];
             result = $"z.array({GetZodType(value, true, dependencies)})";
         }
         else if (type.GenericIsSubclassOf(typeof(Nullable<>)))
@@ -424,13 +459,15 @@ public class DtoTsGenerationSpec : GenerationSpec
         return str[..1].ToLower() + str[1..];
     }
 
-    private static TAttribute? GetCustomAttribute<TAttribute>(MemberInfo member) where TAttribute : Attribute
+    private static TAttribute? GetCustomAttribute<TAttribute>(MemberInfo member)
+        where TAttribute : Attribute
     {
         while (true)
         {
             if (member.GetCustomAttribute<TAttribute>() is { } attribute) return attribute;
 
-            if (member.DeclaringType?.GetCustomAttribute<ModelMetadataTypeAttribute>() is { } modelMetadataType)
+            if (member.DeclaringType?.GetCustomAttribute<ModelMetadataTypeAttribute>() is
+                { } modelMetadataType)
             {
                 var metadataType = modelMetadataType.MetadataType;
                 var metadataProperty = metadataType.GetProperty(member.Name);
@@ -441,12 +478,15 @@ public class DtoTsGenerationSpec : GenerationSpec
                 }
             }
 
-            for (var baseType = member is PropertyInfo property ? property.PropertyType : ((FieldInfo)member).FieldType;
+            for (var baseType = member is PropertyInfo property
+                     ? property.PropertyType
+                     : ((FieldInfo)member).FieldType;
                  baseType != null;
                  baseType = baseType.BaseType)
             {
                 var baseProperty = baseType.GetProperty(member.Name);
-                if (baseProperty?.GetCustomAttribute<TAttribute>() is { } baseAttribute) return baseAttribute;
+                if (baseProperty?.GetCustomAttribute<TAttribute>() is { } baseAttribute)
+                    return baseAttribute;
             }
 
             return null;
