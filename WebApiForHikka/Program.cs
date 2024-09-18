@@ -6,6 +6,8 @@ using WebApiForHikka.WebApi.SwaggerFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 
 builder.Services.AddControllers()
@@ -63,6 +65,7 @@ builder.Services.AddPolicies();
 builder.Services.AddCorsPolicies(builder.Configuration);
 
 var app = builder.Build();
+
 
 
 // Configure the HTTP request pipeline.
