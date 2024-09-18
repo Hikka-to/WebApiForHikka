@@ -33,7 +33,7 @@ public class ColumnSelectorOperationFilter(IServiceProvider services) : IOperati
         var filterColumns = FilterColumnSelector.GetColumns(entityType);
         var filterTypes = Enum.GetValues<FilterType>();
         var header = "\n| Column |" +
-                     string.Concat(filterTypes.Select(t => $" {(int)t} |"));
+                     string.Concat(filterTypes.Select(t => $" [{(int)t}](## \"{t}\") |"));
         var separator = "\n| --- |" +
                         string.Concat(filterTypes.Select(_ => " :---: |"));
         var body = string.Concat(filterColumns.Select(c =>
@@ -43,7 +43,7 @@ public class ColumnSelectorOperationFilter(IServiceProvider services) : IOperati
                 FilterColumnSelector.GetFilterTypes(column.GetProperty().ClrType);
             return $"\n| {column.GetReadablePath()} |" +
                    string.Concat(filterTypes.Select(t =>
-                       $" {(availableFilterTypes.Contains(t) ? "✅" : "❌")} |"));
+                       $" [{(availableFilterTypes.Contains(t) ? "✅" : "❌")}](## \"{column.GetReadablePath()}: {t}\") |"));
         }));
         var table = header + separator + body;
 
