@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Shared;
+using WebApiForHikka.Domain;
 
 namespace WebApiForHikka.Dtos.Dto.SharedDtos;
 
@@ -15,5 +16,8 @@ public class FilterDto
     [TsDefaultValue(SharedStringConstants.IdName)]
     public string Column { get; set; } = SharedStringConstants.IdName;
 
-    [DefaultValue(false)] public bool IsStrict { get; set; } = false;
+    [DefaultValue(FilterType.Strict)]
+    public FilterType FilterType { get; set; } = FilterType.Strict;
+
+    [DefaultValue(false)] public bool Negate { get; set; } = false;
 }
