@@ -17,27 +17,35 @@ public class RelationCrudControllerResponseTypesOperationFilter : IOperationFilt
             return;
 
         var responseAttributes = methodInfo.GetCustomAttributes<SwaggerResponseAttribute>().ToArray();
+        
+        var responses = new Dictionary<string, Action>()
+        {
+            ["Create"] = () =>
+            {
+                Response("200", "Created", typeof(int));
+                Response("401", "Unauthorized");
+                Response("422", "Model Validation Error",
+                    typeof(IDictionary<string, IEnumerable<string>>));
+            },
+            ["Delete"] = () =>
+            {
+                Response("204", "Deleted");
+                Response("401", "Unauthorized");
+                Response("404", "Not Found", typeof(string));
+                Response("422", "Model Validation Error",
+                    typeof(IDictionary<string, IEnumerable<string>>));
+            }
+        };
+        
+        if (!responses.TryGetValue(methodInfo.Name, out var responseAction)) return;
 
         foreach (var (statusCode, _) in operation.Responses.ToDictionary())
         {
             if (responseAttributes.Any(a => a.StatusCode == int.Parse(statusCode))) continue;
             operation.Responses.Remove(statusCode);
         }
-
-        switch (methodInfo.Name)
-        {
-            case "Create":
-                Response("200", "Created", typeof(int));
-                Response("401", "Unauthorized");
-                Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));
-                break;
-            case "Delete":
-                Response("204", "Deleted");
-                Response("401", "Unauthorized");
-                Response("404", "Not Found", typeof(string));
-                Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));
-                break;
-        }
+        
+        responseAction();
 
         return;
 

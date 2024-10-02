@@ -148,7 +148,7 @@ public class AnimeController(
 
 
     [AllowAnonymous]
-    [HttpGet("dowloadImage/{imageName}")]
+    [HttpGet("downloadImage/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
         var file = fileHelper.GetFile(ControllerStringConstants.AnimePosterPath, imageName);
@@ -157,7 +157,7 @@ public class AnimeController(
     }
 
     [AllowAnonymous]
-    [HttpGet("dowloadBackdrop/{imageName}")]
+    [HttpGet("downloadBackdrop/{backdropName}")]
     public IActionResult GetBackdrop([FromRoute] string backdropName)
     {
         var file = fileHelper.GetFile(ControllerStringConstants.AnimeBackdropPath, backdropName);
