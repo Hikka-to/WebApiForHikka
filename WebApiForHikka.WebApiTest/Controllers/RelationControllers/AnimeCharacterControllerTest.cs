@@ -4,7 +4,6 @@ using WebApiForHikka.Application.Relation.AnimeCharacters;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Characters;
-using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
@@ -18,44 +17,40 @@ using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Characters;
 
 namespace WebApiForHikka.Test.Controllers.RelationControllers;
 
-public class AnimeCharacterControllerTest: RelationCrudControllerTest<
+public class AnimeCharacterControllerTest : RelationCrudControllerTest<
     AnimeCharacter, Anime, Character,
     IAnimeCharacterRelationService, IAnimeService, ICharacterService,
     IAnimeCharacterRelationRepository, IAnimeRepository, ICharacterRepository,
     AnimeCharacterController
-    >
+>
 {
     protected override async Task<AnimeCharacterController> GetController(
-      IServiceProvider alternativeServices)
+        IServiceProvider alternativeServices)
     {
-
         return new AnimeCharacterController(
             alternativeServices.GetRequiredService<IAnimeCharacterRelationService>(),
             Mapper,
             await GetHttpContextAccessForAdminUser(
                 alternativeServices.GetRequiredService<UserManager<User>>(),
                 alternativeServices.GetRequiredService<RoleManager<IdentityRole<Guid>>>()
-                )
-            );
+            )
+        );
     }
 
-    protected override Anime GetFirstModelSample() 
+    protected override Anime GetFirstModelSample()
     {
-        return GetAnimeModels.GetSample(); 
-    }
-    
-    protected override Character GetSecondModelSample() 
-    {
-
-        return GetCharacterModels.GetSample(); 
+        return GetAnimeModels.GetSample();
     }
 
-    protected override void GetAllServices(IServiceCollection alternativeServices) 
+    protected override Character GetSecondModelSample()
     {
+        return GetCharacterModels.GetSample();
+    }
 
+    protected override void GetAllServices(IServiceCollection alternativeServices)
+    {
         var dbContext = GetDatabaseContext();
 
-        var repository = new AnimeCharacterRelationRepository(dbContext);
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
@@ -75,8 +70,9 @@ public class AnimeCharacterControllerTest: RelationCrudControllerTest<
         alternativeServices.AddSingleton<ICharacterRepository, CharacterRepository>();
         alternativeServices.AddSingleton<ICharacterService, CharacterService>();
 
-        alternativeServices.AddSingleton<IAnimeCharacterRelationRepository, AnimeCharacterRelationRepository>();
-        alternativeServices.AddSingleton<IAnimeCharacterRelationService, AnimeCharacterRelationService>();
+        alternativeServices
+            .AddSingleton<IAnimeCharacterRelationRepository, AnimeCharacterRelationRepository>();
+        alternativeServices
+            .AddSingleton<IAnimeCharacterRelationService, AnimeCharacterRelationService>();
     }
-
 }

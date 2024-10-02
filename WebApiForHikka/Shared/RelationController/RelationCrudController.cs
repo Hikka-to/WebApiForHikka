@@ -5,6 +5,7 @@ using WebApiForHikka.Application.Shared.Relation;
 using WebApiForHikka.Constants.Controllers;
 using WebApiForHikka.Domain.Models;
 using WebApiForHikka.WebApi.Shared.ErrorEndPoints;
+// ReSharper disable RouteTemplates.ActionRoutePrefixCanBeExtractedToControllerRoute
 
 // ReSharper disable RouteTemplates.RouteTokenNotResolved
 
@@ -22,6 +23,8 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
     where TSecondModel : class, IModel
     where TRelationService : IRelationCrudService<TModel, TFirstModel, TSecondModel>
 {
+    private TRelationService _relationService = relationService;
+
     [HttpPost("[firstModel]/{firstId:Guid}/[secondModel]/{secondId:Guid}")]
     public virtual async Task<IActionResult> Create([FromRoute] Guid firstId,
         [FromRoute] Guid secondId,
@@ -32,7 +35,7 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
-        var id = await relationService.CreateAsync(
+        var id = await _relationService.CreateAsync(
             CreateRelationModel(firstId, secondId),
             cancellationToken
         );
@@ -52,7 +55,7 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
             });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        await relationService.DeleteAsync(firstId, secondId, cancellationToken);
+        await _relationService.DeleteAsync(firstId, secondId, cancellationToken);
 
         return NoContent();
     }
@@ -62,8 +65,8 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
     public virtual async Task<IActionResult> Check([FromRoute] Guid firstId, [FromRoute] Guid secondId,
         CancellationToken cancellationToken) 
     {
-        if (relationService.CheckIfModelsWithThisIdsExist(firstId,
-                secondId) && await relationService.GetAsync(firstId, secondId, cancellationToken) != null) 
+        if (_relationService.CheckIfModelsWithThisIdsExist(firstId,
+                secondId) && await _relationService.GetAsync(firstId, secondId, cancellationToken) != null) 
         {
             return Ok();
         }
@@ -91,7 +94,7 @@ public abstract class RelationCrudController<TModel, TFirstModel, TSecondModel, 
         }
 
         if (thingsToValidate is not ThingsToValidateRelation thingsToValidateRelation ||
-            relationService.CheckIfModelsWithThisIdsExist(thingsToValidateRelation.FirstId,
+            _relationService.CheckIfModelsWithThisIdsExist(thingsToValidateRelation.FirstId,
                 thingsToValidateRelation.SecondId)) return errorEndPoint;
 
         errorEndPoint.BadRequestObjectResult = new BadRequestObjectResult(

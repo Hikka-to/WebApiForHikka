@@ -1,5 +1,4 @@
-﻿using WebApiForHikka.Application.Relation.TagAnimes;
-using WebApiForHikka.Application.Relation.TagCharacters;
+﻿using WebApiForHikka.Application.Relation.TagCharacters;
 using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.EfPersistence.Data;
@@ -9,7 +8,7 @@ using WebApiForHikka.Test.Shared.Service;
 
 namespace WebApiForHikka.Test.Service.Relation.TagCharacters;
 
-public class TagCharacterRelationServiceTest: SharedRelationServiceTest<
+public class TagCharacterRelationServiceTest : SharedRelationServiceTest<
     TagCharacter,
     TagCharacterRelationService,
     Tag,

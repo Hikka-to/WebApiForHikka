@@ -1,10 +1,6 @@
-﻿using System.Drawing;
-using Microsoft.AspNetCore.Http;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Webp;
-// using Image = SixLabors.ImageSharp.Image;
-
+﻿using Microsoft.AspNetCore.Http;
 using SkiaSharp;
+// using Image = SixLabors.ImageSharp.Image;
 
 namespace WebApiForHikka.SharedFunction.Helpers.FileHelper;
 
@@ -14,7 +10,8 @@ public class FileHelper : IFileHelper
     {
         try
         {
-            File.Delete(Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path)) + fileName);
+            File.Delete(Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path)) +
+                        fileName);
         }
         catch (DirectoryNotFoundException)
         {
@@ -39,7 +36,8 @@ public class FileHelper : IFileHelper
 
     public byte[] GetFile(string[] path, string fileName)
     {
-        var targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
+        var targetDirectory =
+            Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
         var filePath = Path.Combine(targetDirectory, fileName);
 
         return File.ReadAllBytes(filePath);
@@ -57,7 +55,8 @@ public class FileHelper : IFileHelper
 
     public string UploadFileImage(IFormFile file, string[] path)
     {
-        var targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
+        var targetDirectory =
+            Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
         Directory.CreateDirectory(targetDirectory);
 
         var fileNameWithoutExtension = Guid.NewGuid();
@@ -77,7 +76,8 @@ public class FileHelper : IFileHelper
 
     public string UploadFileImage(IFormFile file, string[] path, string fileName)
     {
-        var targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
+        var targetDirectory =
+            Path.Combine(Directory.GetCurrentDirectory(), string.Join("\\", path));
         Directory.CreateDirectory(targetDirectory);
 
         var webPFileName = $"{fileName}.webp";
@@ -92,24 +92,11 @@ public class FileHelper : IFileHelper
 
         return filePath;
     }
+
     public (int height, int width) GetHeightAndWidthOfImage(IFormFile file)
     {
-
         using var inputStream = file.OpenReadStream();
         using var skBitmap = SKBitmap.Decode(inputStream);
         return (skBitmap.Height, skBitmap.Width);
-
-        using var memoryStream = new MemoryStream();
-        file.CopyTo(memoryStream);
-#pragma warning disable CA1416
-        var image = new Bitmap(memoryStream);
-
-        // Get the width and height of the image
-        var width = image.Width;
-        var height = image.Height;
-#pragma warning restore CA1416
-
-        return (height, width);
-
     }
 }

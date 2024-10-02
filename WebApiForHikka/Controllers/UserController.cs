@@ -41,10 +41,12 @@ public class UserController(
 
     [AllowAnonymous]
     [HttpPost("Registration")]
-    [SwaggerResponse(StatusCodes.Status200OK, "User registered", typeof(RegistratedResponseUserDto))]
+    [SwaggerResponse(StatusCodes.Status200OK, "User registered",
+        typeof(RegistratedResponseUserDto))]
     [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
         typeof(IDictionary<string, IEnumerable<string>>))]
-    public async Task<IActionResult> Create([FromBody] UserRegistrationDto model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create([FromBody] UserRegistrationDto model,
+        CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return UnprocessableEntity(GetAllErrorsDuringValidation());
 
@@ -85,7 +87,8 @@ public class UserController(
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await _userService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection =
+            await _userService.GetAllAsync(filterPagination, cancellationToken);
 
         var users = Mapper.Map<List<GetUserDto>>(paginationCollection.Models);
 
@@ -93,17 +96,21 @@ public class UserController(
         {
             if (item.BackdropUrl != null)
                 item.BackdropUrl =
-                    linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "GetAll", item.BackdropUrl);
+                    linkFactory.GetLinkForDownloadImage(Request, "downloadBackdrop", "GetAll",
+                        item.BackdropUrl);
 
             if (item.AvatarUrl != null)
                 item.AvatarUrl =
-                    linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "GetAll", item.AvatarUrl);
+                    linkFactory.GetLinkForDownloadImage(Request, "downloadAvatar", "GetAll",
+                        item.AvatarUrl);
         }
 
         return Ok(
             new ReturnUserPageDto
             {
-                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
+                HowManyPages =
+                    (int)Math.Ceiling(
+                        (double)paginationCollection.Total / filterPagination.PageSize),
                 Models = users
             }
         );
@@ -126,10 +133,13 @@ public class UserController(
 
         if (user.BackdropUrl != null)
             user.BackdropUrl =
-                linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "Get", user.BackdropUrl);
+                linkFactory.GetLinkForDownloadImage(Request, "downloadBackdrop", "Get",
+                    user.BackdropUrl);
 
         if (user.AvatarUrl != null)
-            user.AvatarUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadAvatar", "Get", user.AvatarUrl);
+            user.AvatarUrl =
+                linkFactory.GetLinkForDownloadImage(Request, "downloadAvatar", "Get",
+                    user.AvatarUrl);
 
         return Ok(user);
     }
@@ -140,7 +150,8 @@ public class UserController(
     [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(string))]
     [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
         typeof(IDictionary<string, IEnumerable<string>>))]
-    public async Task<IActionResult> Put([FromForm] UpdateUserDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> Put([FromForm] UpdateUserDto dto,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
@@ -159,7 +170,8 @@ public class UserController(
         else if (dto.BackdropImage != null)
         {
             user.BackdropPath =
-                fileHelper.UploadFileImage(dto.BackdropImage, ControllerStringConstants.AnimeBackdropPath);
+                fileHelper.UploadFileImage(dto.BackdropImage,
+                    ControllerStringConstants.AnimeBackdropPath);
         }
 
         if (getUser.AvatarPath != null && dto.AvatarImage != null)
@@ -169,7 +181,8 @@ public class UserController(
         }
         else if (dto.AvatarImage != null)
         {
-            user.AvatarPath = fileHelper.UploadFileImage(dto.AvatarImage, ControllerStringConstants.AnimeBackdropPath);
+            user.AvatarPath = fileHelper.UploadFileImage(dto.AvatarImage,
+                ControllerStringConstants.AnimeBackdropPath);
         }
 
         user.UserSetting.Id = getUser.UserSetting.Id;
@@ -185,7 +198,8 @@ public class UserController(
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
     [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
         typeof(IDictionary<string, IEnumerable<string>>))]
-    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete([FromRoute] Guid id,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
@@ -196,18 +210,20 @@ public class UserController(
 
 
     [AllowAnonymous]
-    [HttpGet("dowloadAvatar/{avatarImageName}")]
+    [HttpGet("downloadAvatar/{avatarImageName}")]
     public IActionResult GetAvatarImage([FromRoute] string avatarImageName)
     {
-        var file = fileHelper.GetFile(ControllerStringConstants.AvatarBackdropPath, avatarImageName);
+        var file =
+            fileHelper.GetFile(ControllerStringConstants.AvatarBackdropPath, avatarImageName);
         return File(file, ControllerStringConstants.JsonImageReturnType, avatarImageName);
     }
 
     [AllowAnonymous]
-    [HttpGet("dowloadBackdrop/{backdropImageName}")]
+    [HttpGet("downloadBackdrop/{backdropImageName}")]
     public IActionResult GetBackdropImage([FromRoute] string backdropImageName)
     {
-        var file = fileHelper.GetFile(ControllerStringConstants.UserBackdropPath, backdropImageName);
+        var file =
+            fileHelper.GetFile(ControllerStringConstants.UserBackdropPath, backdropImageName);
         return File(file, ControllerStringConstants.JsonImageReturnType, backdropImageName);
     }
 
@@ -217,11 +233,14 @@ public class UserController(
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
     [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
         typeof(IDictionary<string, IEnumerable<string>>))]
-    public async Task<IActionResult> Login([FromBody] UserLoginDto model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login([FromBody] UserLoginDto model,
+        CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return UnprocessableEntity(GetAllErrorsDuringValidation());
 
-        var user = await _userService.AuthenticateUserAsync(model.Email, model.Password, cancellationToken);
+        var user =
+            await _userService.AuthenticateUserAsync(model.Email, model.Password,
+                cancellationToken);
         if (user == null) return Unauthorized();
 
         var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);
@@ -235,11 +254,14 @@ public class UserController(
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized")]
     [SwaggerResponse(StatusCodes.Status422UnprocessableEntity, "Model Validation Error",
         typeof(IDictionary<string, IEnumerable<string>>))]
-    public async Task<IActionResult> LoginAdmin([FromBody] UserLoginDto model, CancellationToken cancellationToken)
+    public async Task<IActionResult> LoginAdmin([FromBody] UserLoginDto model,
+        CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return UnprocessableEntity(GetAllErrorsDuringValidation());
 
-        var user = await _userService.AuthenticateUserWithAdminRoleAsync(model.Email, model.Password, cancellationToken);
+        var user =
+            await _userService.AuthenticateUserWithAdminRoleAsync(model.Email, model.Password,
+                cancellationToken);
         if (user == null) return Unauthorized();
 
         var tokenString = await _jwtTokenFactory.GetJwtTokenAsync(user, _configuration);

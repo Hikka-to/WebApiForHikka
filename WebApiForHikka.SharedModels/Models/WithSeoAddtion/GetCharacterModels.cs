@@ -1,5 +1,4 @@
 ﻿using Faker;
-using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
 using WebApiForHikka.SharedModels.Models.WithoutSeoAddition;
@@ -24,6 +23,7 @@ public static class GetCharacterModels
             Tags = []
         };
     }
+
     public static Character GetSampleWithoutManyToMany()
     {
         return new Character
@@ -90,7 +90,8 @@ public static class GetCharacterModels
             UpdatedAt = DateTime.Now
         };
     }
-public static GetLightCharacterDto GetGetLightDtoSample()
+
+    public static GetLightCharacterDto GetGetLightDtoSample()
     {
         return new GetLightCharacterDto
         {
@@ -142,5 +143,4 @@ public static GetLightCharacterDto GetGetLightDtoSample()
             SeoAddition = GetSeoAdditionModels.GetUpdateDtoSample()
         };
     }
-    
 }

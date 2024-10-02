@@ -9,7 +9,6 @@ using WebApiForHikka.Dtos.Dto.SharedDtos;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.ResponseDto;
 using WebApiForHikka.Dtos.Shared;
-using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 using WebApiForHikka.WebApi.Shared;
 
 namespace WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition;
@@ -26,8 +25,11 @@ public class TagController(
         Tag
     >(crudService, seoAdditionService, mapper, httpContextAccessor)
 {
+    private readonly ITagService _crudService = crudService;
+
     [HttpPost("Create")]
-    public override async Task<IActionResult> Create([FromBody] CreateTagDto dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Create([FromBody] CreateTagDto dto,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
@@ -51,13 +53,15 @@ public class TagController(
 
 
     [HttpPut("Update")]
-    public override async Task<IActionResult> Put([FromBody] UpdateTagDto dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Put([FromBody] UpdateTagDto dto,
+        CancellationToken cancellationToken)
     {
-        var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate
-        {
-            UpdateDto = dto,
-            IdForSeoAddition = dto.SeoAddition.Id
-        });
+        var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(
+            new ThingsToValidateWithSeoAdditionForUpdate
+            {
+                UpdateDto = dto,
+                IdForSeoAddition = dto.SeoAddition.Id
+            });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
 
@@ -65,7 +69,8 @@ public class TagController(
         var seoAdditionModel = Mapper.Map<SeoAddition>(dto.SeoAddition);
         await SeoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
-        model.SeoAddition = (await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
+        model.SeoAddition =
+            (await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
 
         if (dto.ParentTagId != null)
             model.ParentTag = await CrudService.GetAsync((Guid)dto.ParentTagId, cancellationToken);
@@ -74,34 +79,38 @@ public class TagController(
 
         return NoContent();
     }
-    
+
     [HttpPost("GetAllGenres")]
-    public async Task<IActionResult> GetAllGenres([FromBody] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllGenres([FromBody] FilterPaginationDto paginationDto,
+        CancellationToken cancellationToken)
     {
-        var filterPagination = mapper.Map<FilterPagination>(paginationDto);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
         var paginatedGenres = await CrudService.GetAllAsync(filterPagination, cancellationToken);
-    
-        var models = mapper.Map<List<GetTagDto>>(paginatedGenres.Models);
+
+        var models = Mapper.Map<List<GetTagDto>>(paginatedGenres.Models);
         return Ok(new ReturnPageDto<GetTagDto>
         {
-            HowManyPages = (int)Math.Ceiling((double)paginatedGenres.Total / filterPagination.PageSize),
+            HowManyPages =
+                (int)Math.Ceiling((double)paginatedGenres.Total / filterPagination.PageSize),
             Models = models
         });
     }
-    
+
     [HttpPost("GetAllTagsForCharacters")]
-    public async Task<IActionResult> GetAllTagsForCharacters([FromBody] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllTagsForCharacters(
+        [FromBody] FilterPaginationDto paginationDto, CancellationToken cancellationToken)
     {
-        var filterPagination = mapper.Map<FilterPagination>(paginationDto);
-        
-        var paginatedCharacterTags = await crudService.GetAllTagForCharactersAsync(filterPagination, cancellationToken);
-    
-        var models = mapper.Map<List<GetTagDto>>(paginatedCharacterTags.Models);
+        var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
+
+        var paginatedCharacterTags =
+            await _crudService.GetAllTagForCharactersAsync(filterPagination, cancellationToken);
+
+        var models = Mapper.Map<List<GetTagDto>>(paginatedCharacterTags.Models);
         return Ok(new ReturnPageDto<GetTagDto>
         {
-            HowManyPages = (int)Math.Ceiling((double)paginatedCharacterTags.Total / filterPagination.PageSize),
+            HowManyPages =
+                (int)Math.Ceiling((double)paginatedCharacterTags.Total / filterPagination.PageSize),
             Models = models
         });
     }
-    
 }

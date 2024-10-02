@@ -30,7 +30,8 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
 >
 
 {
-    protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
+    protected override AllServicesInController GetAllServices(
+        IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -53,7 +54,8 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
         alternativeServices.AddSingleton<IFileHelper, FileHelper>();
 
 
-        return new AllServicesInController(new AnimeBackdropService(repository, fileHelperMock.Object),
+        return new AllServicesInController(
+            new AnimeBackdropService(repository, fileHelperMock.Object),
             userManager,
             roleManager
         );
@@ -81,7 +83,7 @@ public class AnimeBackdropControllerTest : CrudControllerBaseTest<
             .Returns([32131, 32342, 31341, 23421]);
 
         linkFactoryMock.Setup(
-            m => m.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
+            m => m.GetLinkForDownloadImage(It.IsAny<HttpRequest>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<string>())).Returns("test/image/url");

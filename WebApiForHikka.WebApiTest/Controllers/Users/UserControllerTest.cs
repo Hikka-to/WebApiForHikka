@@ -22,7 +22,8 @@ namespace WebApiForHikka.Test.Controllers.Users;
 
 public class UserControllerTest : BaseControllerTest
 {
-    protected void GetAllServicesInServiceCollection(HikkaDbContext dbContext, IServiceCollection alternativeServices)
+    protected void GetAllServicesInServiceCollection(HikkaDbContext dbContext,
+        IServiceCollection alternativeServices)
     {
         alternativeServices.AddSingleton(dbContext);
         alternativeServices.AddSingleton<IUserSettingRepository, UserSettingRepository>();
@@ -66,7 +67,7 @@ public class UserControllerTest : BaseControllerTest
     {
         var linkFactoryMock = new Mock<ILinkFactory>();
 
-        linkFactoryMock.Setup(e => e.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
+        linkFactoryMock.Setup(e => e.GetLinkForDownloadImage(It.IsAny<HttpRequest>(),
             It.IsAny<string>(),
             It.IsAny<string>(),
             It.IsAny<string>())).Returns(
@@ -238,7 +239,8 @@ public class UserControllerTest : BaseControllerTest
         var userDto = GetUserModels.GetUserRegistrationDtoForAdminSample();
 
         // Create a user
-        var createResult = await controller.Create(userDto, CancellationToken.None) as OkObjectResult;
+        var createResult =
+            await controller.Create(userDto, CancellationToken.None) as OkObjectResult;
         Assert.NotNull(createResult);
 
         var registeredUser = Assert.IsType<RegistratedResponseUserDto>(createResult.Value);
@@ -250,7 +252,8 @@ public class UserControllerTest : BaseControllerTest
         // Assert
         Assert.IsType<NoContentResult>(deleteResult);
 
-        var getDeletedResult = await controller.Get(createdUserId, CancellationToken.None) as NotFoundResult;
+        var getDeletedResult =
+            await controller.Get(createdUserId, CancellationToken.None) as NotFoundResult;
         Assert.IsType<NotFoundResult>(getDeletedResult);
     }
 }
