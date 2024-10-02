@@ -1,5 +1,4 @@
-﻿using System.Linq.Dynamic.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
 using WebApiForHikka.Domain;
@@ -8,7 +7,8 @@ using WebApiForHikka.EfPersistence.Data;
 
 namespace WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
 
-public class TagRepository(HikkaDbContext dbContext) : CrudRepository<Tag>(dbContext), ITagRepository
+public class TagRepository(HikkaDbContext dbContext)
+    : CrudRepository<Tag>(dbContext), ITagRepository
 {
     public override async Task<ICollection<Tag>> GetAllAsync(CancellationToken cancellationToken)
     {
@@ -16,13 +16,14 @@ public class TagRepository(HikkaDbContext dbContext) : CrudRepository<Tag>(dbCon
             .ToArrayAsync(cancellationToken);
     }
 
-    public virtual async Task<PaginatedCollection<Tag>> GetAllTagForCharactersAsync(FilterPagination dto,
+    public virtual async Task<PaginatedCollection<Tag>> GetAllTagForCharactersAsync(
+        FilterPagination dto,
         CancellationToken cancellationToken)
     {
         var skip = (dto.PageNumber - 1) * dto.PageSize;
         var take = dto.PageSize;
 
-        var query = DbContext.Set<Tag>().Where(e=>e.IsCharacterTag == true).AsQueryable();
+        var query = DbContext.Set<Tag>().Where(e => e.IsCharacterTag == true).AsQueryable();
 
         query = dto.Filters.Aggregate(query,
             (current, filter) => Filter(current, filter));
@@ -41,6 +42,4 @@ public class TagRepository(HikkaDbContext dbContext) : CrudRepository<Tag>(dbCon
 
         return new PaginatedCollection<Tag>(models, totalItems);
     }
-    
-    
 }

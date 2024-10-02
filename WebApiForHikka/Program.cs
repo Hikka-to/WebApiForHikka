@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using WebApiForHikka.ServiceDefaults;
 using WebApiForHikka.WebApi.Conventions;
 using WebApiForHikka.WebApi.Extensions;
 using WebApiForHikka.WebApi.SwaggerFilters;
@@ -65,7 +66,6 @@ builder.Services.AddPolicies();
 builder.Services.AddCorsPolicies(builder.Configuration);
 
 var app = builder.Build();
-
 
 
 // Configure the HTTP request pipeline.

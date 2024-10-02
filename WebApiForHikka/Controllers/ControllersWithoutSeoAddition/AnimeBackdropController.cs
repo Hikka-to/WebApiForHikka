@@ -35,7 +35,7 @@ public class AnimeBackdropController(
     >(crudService, mapper, httpContextAccessor)
 {
     [AllowAnonymous]
-    [HttpGet("dowloadFile/{imageName}")]
+    [HttpGet("downloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
         var file = fileHelper.GetFile(ControllerStringConstants.AnimeBackdropPath, imageName);
@@ -54,7 +54,8 @@ public class AnimeBackdropController(
 
         model.Anime = (await animeService.GetAsync(dto.AnimeId, cancellationToken))!;
 
-        model.Path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
+        model.Path =
+            fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
 
         model.Colors = colorHelper.GetListOfColorsFromImage(dto.Image);
 
@@ -85,7 +86,8 @@ public class AnimeBackdropController(
 
         if (path == null)
         {
-            model.Path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
+            model.Path =
+                fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.AnimeBackdropPath);
         }
         else
         {
@@ -111,25 +113,30 @@ public class AnimeBackdropController(
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
-        
+
         CkeckIfColumnsAreInModel(paginationDto, errorEndPoint);
 
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await CrudService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection =
+            await CrudService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = Mapper.Map<List<GetAnimeBackdropDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.ImageUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.ImageUrl);
+            item.ImageUrl =
+                linkFactory.GetLinkForDownloadImage(Request, "downloadImage", "GetAll",
+                    item.ImageUrl);
 
 
         return Ok(
             new ReturnPageDto<GetAnimeBackdropDto>
             {
-                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
+                HowManyPages =
+                    (int)Math.Ceiling(
+                        (double)paginationCollection.Total / filterPagination.PageSize),
                 Models = models
             }
         );
@@ -137,7 +144,8 @@ public class AnimeBackdropController(
 
 
     [HttpDelete("{id:Guid}")]
-    public override async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Delete([FromRoute] Guid id,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
@@ -152,19 +160,22 @@ public class AnimeBackdropController(
     }
 
     [HttpGet("{id:Guid}")]
-    public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Get([FromRoute] Guid id,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = Mapper.Map<GetAnimeBackdropDto>(await CrudService.GetAsync(id, cancellationToken));
+        var model =
+            Mapper.Map<GetAnimeBackdropDto>(await CrudService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();
 
 
-        model.ImageUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.ImageUrl);
+        model.ImageUrl =
+            linkFactory.GetLinkForDownloadImage(Request, "downloadImage", "Get", model.ImageUrl);
 
 
         return Ok(model);

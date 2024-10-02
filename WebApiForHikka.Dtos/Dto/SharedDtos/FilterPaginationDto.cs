@@ -2,13 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using TypeGen.Core.TypeAnnotations;
 using WebApiForHikka.Constants.Shared;
-using WebApiForHikka.Domain.Models;
-using WebApiForHikka.Dtos.MyOwnValidationAttribute.FileValidationAttributes;
 
 namespace WebApiForHikka.Dtos.Dto.SharedDtos;
 
 [ExportTsInterface]
-public class FilterPaginationDto 
+public class FilterPaginationDto
 {
     [DefaultValue(SharedNumberConstatnts.DefaultPageToStartWith)]
     [Range(SharedNumberConstatnts.MinPageNumber, int.MaxValue)]

@@ -1,16 +1,16 @@
-﻿using WebApiForHikka.Application.Relation.TagCharacters;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using WebApiForHikka.Application.Relation.TagCharacters;
 using WebApiForHikka.Application.WithSeoAddition.Characters;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
+using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.Relation;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
-using WebApiForHikka.Test.Controllers.Shared;
-using Microsoft.AspNetCore.Identity;
-using WebApiForHikka.Domain.Models;
-using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
 using WebApiForHikka.EfPersistence.Repositories.Relation;
-using WebApiForHikka.SharedFunction.Helpers.FileHelper;
 using WebApiForHikka.EfPersistence.Repositories.WithSeoAddition;
+using WebApiForHikka.SharedFunction.Helpers.FileHelper;
+using WebApiForHikka.SharedModels.Models.WithSeoAddtion;
+using WebApiForHikka.Test.Controllers.Shared;
 using WebApiForHikka.WebApi.Controllers.ControllersWithSeoAddition.Characters;
 
 namespace WebApiForHikka.Test.Controllers.RelationControllers;
@@ -20,39 +20,35 @@ public class TagCharacterControllerTest : RelationCrudControllerTest<
     ITagCharacterRelationService, ITagService, ICharacterService,
     ITagCharacterRelationRepository, ITagRepository, ICharacterRepository,
     TagCharacterController
-    >
+>
 {
     protected override async Task<TagCharacterController> GetController(
-      IServiceProvider alternativeServices)
+        IServiceProvider alternativeServices)
     {
-
         return new TagCharacterController(
             alternativeServices.GetRequiredService<ITagCharacterRelationService>(),
             Mapper,
             await GetHttpContextAccessForAdminUser(
                 alternativeServices.GetRequiredService<UserManager<User>>(),
                 alternativeServices.GetRequiredService<RoleManager<IdentityRole<Guid>>>()
-                )
-            );
+            )
+        );
     }
 
-    protected override Tag GetFirstModelSample() 
+    protected override Tag GetFirstModelSample()
     {
-        return GetTagModels.GetSample(); 
-    }
-    
-    protected override Character GetSecondModelSample() 
-    {
-
-        return GetCharacterModels.GetSample(); 
+        return GetTagModels.GetSample();
     }
 
-    protected override void GetAllServices(IServiceCollection alternativeServices) 
+    protected override Character GetSecondModelSample()
     {
+        return GetCharacterModels.GetSample();
+    }
 
+    protected override void GetAllServices(IServiceCollection alternativeServices)
+    {
         var dbContext = GetDatabaseContext();
 
-        var repository = new TagCharacterRelationRepository(dbContext);
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
 
@@ -69,8 +65,9 @@ public class TagCharacterControllerTest : RelationCrudControllerTest<
         alternativeServices.AddSingleton<ITagRepository, TagRepository>();
         alternativeServices.AddSingleton<ITagService, TagService>();
 
-        alternativeServices.AddSingleton<ITagCharacterRelationRepository, TagCharacterRelationRepository>();
-        alternativeServices.AddSingleton<ITagCharacterRelationService, TagCharacterRelationService>();
+        alternativeServices
+            .AddSingleton<ITagCharacterRelationRepository, TagCharacterRelationRepository>();
+        alternativeServices
+            .AddSingleton<ITagCharacterRelationService, TagCharacterRelationService>();
     }
-
 }

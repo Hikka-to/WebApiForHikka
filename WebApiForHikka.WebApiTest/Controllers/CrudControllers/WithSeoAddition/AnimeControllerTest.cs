@@ -43,7 +43,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
 {
     public Anime Anime => GetModelSample();
 
-    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(
+        IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
         Mock<IFileHelper> fileHelperMock = new();
@@ -55,7 +56,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         var animeRepository = new AnimeRepository(dbContext);
         var animebackdropRepository = new AnimeBackdropRepository(dbContext);
 
-        var animebackdropService = new AnimeBackdropService(animebackdropRepository, fileHelperMock.Object);
+        var animebackdropService =
+            new AnimeBackdropService(animebackdropRepository, fileHelperMock.Object);
 
         var userManager = GetUserManager(dbContext);
         var roleManager = GetRoleManager(dbContext);
@@ -97,7 +99,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
             new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
-    protected override async Task<AnimeController> GetController(AllServicesInController allServicesInController,
+    protected override async Task<AnimeController> GetController(
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
         var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
@@ -121,7 +124,7 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
             .Returns([32131, 32342, 31341, 23421]);
 
         linkFactoryMock.Setup(
-            m => m.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
+            m => m.GetLinkForDownloadImage(It.IsAny<HttpRequest>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<string>())).Returns("test/image/url");
@@ -166,7 +169,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         var kindService = alternativeServices.GetRequiredService<IKindService>();
         var statusService = alternativeServices.GetRequiredService<IStatusService>();
         var periodService = alternativeServices.GetRequiredService<IPeriodService>();
-        var restrictedRatingService = alternativeServices.GetRequiredService<IRestrictedRatingService>();
+        var restrictedRatingService =
+            alternativeServices.GetRequiredService<IRestrictedRatingService>();
         var sourceService = alternativeServices.GetRequiredService<ISourceService>();
         var tagService = alternativeServices.GetRequiredService<ITagService>();
         var countryService = alternativeServices.GetRequiredService<ICountryService>();
@@ -214,7 +218,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
         var kindService = alternativeServices.GetRequiredService<IKindService>();
         var statusService = alternativeServices.GetRequiredService<IStatusService>();
         var periodService = alternativeServices.GetRequiredService<IPeriodService>();
-        var restrictedRatingService = alternativeServices.GetRequiredService<IRestrictedRatingService>();
+        var restrictedRatingService =
+            alternativeServices.GetRequiredService<IRestrictedRatingService>();
         var sourceService = alternativeServices.GetRequiredService<ISourceService>();
         var countryService = alternativeServices.GetRequiredService<ICountryService>();
         var tagService = alternativeServices.GetRequiredService<ITagService>();
@@ -282,7 +287,8 @@ public class AnimeControllerTest : CrudControllerBaseWithSeoAddition<
 
         //Act
 
-        var result = await controller.GetAll(FilterPaginationDto, CancellationToken) as OkObjectResult;
+        var result =
+            await controller.GetAll(FilterPaginationDto, CancellationToken) as OkObjectResult;
 
 
         //Assert

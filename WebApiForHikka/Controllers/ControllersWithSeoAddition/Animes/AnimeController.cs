@@ -57,7 +57,8 @@ public class AnimeController(
 {
     private readonly IAnimeService _crudService = crudService;
 
-    public override async Task<IActionResult> Create([FromForm] CreateAnimeDto dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Create([FromForm] CreateAnimeDto dto,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
@@ -72,16 +73,21 @@ public class AnimeController(
         model.Kind = (await kindService.GetAsync(dto.KindId, cancellationToken))!;
         model.Status = (await statusService.GetAsync(dto.StatusId, cancellationToken))!;
         model.Period = (await periodService.GetAsync(dto.PeriodId, cancellationToken))!;
-        model.RestrictedRating = (await restrictedRatingService.GetAsync(dto.RestrictedRatingId, cancellationToken))!;
+        model.RestrictedRating =
+            (await restrictedRatingService.GetAsync(dto.RestrictedRatingId, cancellationToken))!;
         model.Source = (await sourceService.GetAsync(dto.SourceId, cancellationToken))!;
 
-        model.Tags = await tagService.GetAllModelsByIdsAsync(dto.Tags, cancellationToken);
-        model.Countries = await countryService.GetAllModelsByIdsAsync(dto.Countries, cancellationToken);
-        model.Dubs = await dubService.GetAllModelsByIdsAsync(dto.Dubs, cancellationToken);
-        model.Characters = await characterService.GetAllModelsByIdsAsync(dto.Characters, cancellationToken);
-        model.SimilarChildAnimes = await CrudService.GetAllModelsByIdsAsync(dto.SimilarAnimes ?? new List<Guid>(), cancellationToken);
+        model.Tags = (await tagService.GetAllModelsByIdsAsync(dto.Tags, cancellationToken))!;
+        model.Countries =
+            (await countryService.GetAllModelsByIdsAsync(dto.Countries, cancellationToken))!;
+        model.Dubs = (await dubService.GetAllModelsByIdsAsync(dto.Dubs, cancellationToken))!;
+        model.Characters =
+            (await characterService.GetAllModelsByIdsAsync(dto.Characters, cancellationToken))!;
+        model.SimilarChildAnimes = (await CrudService.GetAllModelsByIdsAsync(dto.SimilarAnimes ??
+            [], cancellationToken))!;
 
-        var path = fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
+        var path =
+            fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
 
         model.PosterPath = path;
 
@@ -97,13 +103,15 @@ public class AnimeController(
         return Ok(new CreateResponseDto { Id = createdId });
     }
 
-    public override async Task<IActionResult> Put([FromForm] UpdateAnimeDto dto, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Put([FromForm] UpdateAnimeDto dto,
+        CancellationToken cancellationToken)
     {
-        var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(new ThingsToValidateWithSeoAdditionForUpdate
-        {
-            UpdateDto = dto,
-            IdForSeoAddition = dto.SeoAddition.Id
-        });
+        var errorEndPoint = ValidateRequestForUpdateWithSeoAddtionEndPoint(
+            new ThingsToValidateWithSeoAdditionForUpdate
+            {
+                UpdateDto = dto,
+                IdForSeoAddition = dto.SeoAddition.Id
+            });
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
         var model = Mapper.Map<Anime>(dto);
@@ -113,18 +121,21 @@ public class AnimeController(
         await SeoAdditionService.UpdateAsync(seoAdditionModel, cancellationToken);
 
 
-        model.SeoAddition = (await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
+        model.SeoAddition =
+            (await SeoAdditionService.GetAsync(seoAdditionModel.Id, cancellationToken))!;
         model.Kind = (await kindService.GetAsync(dto.KindId, cancellationToken))!;
         model.Status = (await statusService.GetAsync(dto.StatusId, cancellationToken))!;
         model.Period = (await periodService.GetAsync(dto.PeriodId, cancellationToken))!;
-        model.RestrictedRating = (await restrictedRatingService.GetAsync(dto.RestrictedRatingId, cancellationToken))!;
+        model.RestrictedRating =
+            (await restrictedRatingService.GetAsync(dto.RestrictedRatingId, cancellationToken))!;
         model.Source = (await sourceService.GetAsync(dto.SourceId, cancellationToken))!;
 
         var path = CrudService.GetPosterPath(model.Id);
 
         if (path == null)
         {
-            model.PosterPath = fileHelper.UploadFileImage(dto.PosterImage, ControllerStringConstants.AnimePosterPath);
+            model.PosterPath = fileHelper.UploadFileImage(dto.PosterImage,
+                ControllerStringConstants.AnimePosterPath);
         }
         else
         {
@@ -135,11 +146,14 @@ public class AnimeController(
         model.PosterColors = colorHelper.GetListOfColorsFromImage(dto.PosterImage);
 
 
-        model.Tags = await tagService.GetAllModelsByIdsAsync(dto.Tags, cancellationToken);
-        model.Characters = await characterService.GetAllModelsByIdsAsync(dto.Charaters, cancellationToken);
-        model.Countries = await countryService.GetAllModelsByIdsAsync(dto.Countries, cancellationToken);
-        model.Dubs = await dubService.GetAllModelsByIdsAsync(dto.Dubs, cancellationToken);
-        model.SimilarChildAnimes = await _crudService.GetAllModelsByIdsAsync(dto.SimilarAnimes ?? new List<Guid>(), cancellationToken);
+        model.Tags = (await tagService.GetAllModelsByIdsAsync(dto.Tags, cancellationToken))!;
+        model.Characters =
+            (await characterService.GetAllModelsByIdsAsync(dto.Charaters, cancellationToken))!;
+        model.Countries =
+            (await countryService.GetAllModelsByIdsAsync(dto.Countries, cancellationToken))!;
+        model.Dubs = (await dubService.GetAllModelsByIdsAsync(dto.Dubs, cancellationToken))!;
+        model.SimilarChildAnimes = (await _crudService.GetAllModelsByIdsAsync(dto.SimilarAnimes ??
+            [], cancellationToken))!;
 
         await CrudService.UpdateAsync(model, cancellationToken);
 
@@ -166,7 +180,6 @@ public class AnimeController(
     }
 
 
-
     [AllowAnonymous]
     public override async Task<IActionResult> GetAll(FilterPaginationDto paginationDto,
         CancellationToken cancellationToken)
@@ -179,19 +192,23 @@ public class AnimeController(
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await CrudService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection =
+            await CrudService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = Mapper.Map<List<GetLightAnimeDto>>(paginationCollection.Models);
 
         foreach (var item in models)
             item.PosterPathUrl =
-                linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "GetAll", item.PosterPathUrl);
+                linkFactory.GetLinkForDownloadImage(Request, "downloadImage", "GetAll",
+                    item.PosterPathUrl);
 
 
         return Ok(
             new ReturnPageDto<GetLightAnimeDto>
             {
-                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
+                HowManyPages =
+                    (int)Math.Ceiling(
+                        (double)paginationCollection.Total / filterPagination.PageSize),
                 Models = models
             }
         );
@@ -199,7 +216,8 @@ public class AnimeController(
 
 
     [HttpDelete("{id:Guid}")]
-    public override async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Delete([FromRoute] Guid id,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
@@ -214,7 +232,8 @@ public class AnimeController(
     }
 
     [HttpGet("{id:Guid}")]
-    public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Get([FromRoute] Guid id,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
@@ -225,15 +244,16 @@ public class AnimeController(
         if (model is null)
             return NotFound();
 
-        var backdrops =animeBackdropService.GetAllBackdropForAnime(model.Id).ToList();
+        var backdrops = animeBackdropService.GetAllBackdropForAnime(model.Id).ToList();
 
         if (backdrops.Count >= 1)
-        {
-            model.BackdropPathUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadBackdrop", "Get", backdrops.First().Path);
-        }
+            model.BackdropPathUrl = linkFactory.GetLinkForDownloadImage(Request, "downloadBackdrop",
+                "Get", backdrops.First().Path);
 
 
-        model.PosterPathUrl = linkFactory.GetLinkForDowloadImage(Request, "dowloadImage", "Get", model.PosterPathUrl);
+        model.PosterPathUrl =
+            linkFactory.GetLinkForDownloadImage(Request, "downloadImage", "Get",
+                model.PosterPathUrl);
 
 
         return Ok(model);

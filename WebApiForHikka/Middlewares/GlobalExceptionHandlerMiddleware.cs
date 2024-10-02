@@ -20,16 +20,18 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
         catch (Exception ex)
         {
             var traceId = Guid.NewGuid();
-            _logger.LogError($"Error occure while processing the request, TraceId : ${traceId}, Message : ${ex.Message}, StackTrace: ${ex.StackTrace}");
+            _logger.LogError(
+                "Error occure while processing the request, TraceId: {traceId}, Message: {message}, StackTrace: {stackTrace}",
+                traceId, ex.Message, ex.StackTrace);
 
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
             var problemDetails = new ProblemDetails
             {
                 Title = "Internal Server Error",
-                Status = (int)StatusCodes.Status500InternalServerError,
+                Status = StatusCodes.Status500InternalServerError,
                 Instance = context.Request.Path,
-                Detail = $"Internal server error occured, traceId : {traceId}",
+                Detail = $"Internal server error occured, traceId : {traceId}"
             };
             await context.Response.WriteAsJsonAsync(problemDetails);
         }

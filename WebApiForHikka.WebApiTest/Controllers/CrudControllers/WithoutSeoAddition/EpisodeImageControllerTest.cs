@@ -30,7 +30,8 @@ public class EpisodeImageControllerTest : CrudControllerBaseTest<
 >
 
 {
-    protected override AllServicesInController GetAllServices(IServiceCollection alternativeServices)
+    protected override AllServicesInController GetAllServices(
+        IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -53,13 +54,15 @@ public class EpisodeImageControllerTest : CrudControllerBaseTest<
         fileHelperMock.Setup(m => m.DeleteFile(It.IsAny<string[]>(), It.IsAny<string>()));
 
 
-        return new AllServicesInController(new EpisodeImageService(repository, fileHelperMock.Object),
+        return new AllServicesInController(
+            new EpisodeImageService(repository, fileHelperMock.Object),
             userManager,
             roleManager
         );
     }
 
-    protected override async Task<EpisodeImageController> GetController(AllServicesInController allServicesInController,
+    protected override async Task<EpisodeImageController> GetController(
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
         var allServices = allServicesInController;
@@ -81,7 +84,7 @@ public class EpisodeImageControllerTest : CrudControllerBaseTest<
             .Returns([32131, 32342, 31341, 23421]);
 
         linkFactoryMock.Setup(
-            m => m.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
+            m => m.GetLinkForDownloadImage(It.IsAny<HttpRequest>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<string>())).Returns("test/image/url");

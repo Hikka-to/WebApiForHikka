@@ -5,12 +5,9 @@ using WebApiForHikka.Application.SeoAdditions;
 using WebApiForHikka.Application.WithoutSeoAddition.AnimeBackdrops;
 using WebApiForHikka.Application.WithSeoAddition.Animes;
 using WebApiForHikka.Application.WithSeoAddition.Characters;
-using WebApiForHikka.Application.WithSeoAddition.Collections;
 using WebApiForHikka.Application.WithSeoAddition.Tags;
-using WebApiForHikka.Domain.Models;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 using WebApiForHikka.Dtos.Dto.WithSeoAddition.Characters;
-using WebApiForHikka.Dtos.Dto.WithSeoAddition.Tags;
 using WebApiForHikka.Dtos.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.EfPersistence.Repositories.WithoutSeoAddition;
@@ -35,7 +32,8 @@ public class CharacterControllerTest : CrudControllerBaseWithSeoAddition<
     ReturnPageDto<GetCharacterDto>
 >
 {
-    protected override AllServicesInControllerWithSeoAddition GetAllServices(IServiceCollection alternativeServices)
+    protected override AllServicesInControllerWithSeoAddition GetAllServices(
+        IServiceCollection alternativeServices)
     {
         var dbContext = GetDatabaseContext();
 
@@ -75,16 +73,18 @@ public class CharacterControllerTest : CrudControllerBaseWithSeoAddition<
             .Returns([32131, 32342, 31341, 23421]);
 
         linkFactoryMock.Setup(
-            m => m.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
+            m => m.GetLinkForDownloadImage(It.IsAny<HttpRequest>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<string>())).Returns("test/image/url");
 
-        return new AllServicesInControllerWithSeoAddition(new CharacterService(characterRepository, fileHelperMock.Object),
+        return new AllServicesInControllerWithSeoAddition(
+            new CharacterService(characterRepository, fileHelperMock.Object),
             new SeoAdditionService(seoAdditionRepository), userManager, roleManager);
     }
 
-    protected override async Task<CharacterController> GetController(AllServicesInController allServicesInController,
+    protected override async Task<CharacterController> GetController(
+        AllServicesInController allServicesInController,
         IServiceProvider alternativeServices)
     {
         var allServices = allServicesInController as AllServicesInControllerWithSeoAddition ??
@@ -107,7 +107,7 @@ public class CharacterControllerTest : CrudControllerBaseWithSeoAddition<
             .Returns([32131, 32342, 31341, 23421]);
 
         linkFactoryMock.Setup(
-            m => m.GetLinkForDowloadImage(It.IsAny<HttpRequest>(),
+            m => m.GetLinkForDownloadImage(It.IsAny<HttpRequest>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<string>())).Returns("test/image/url");

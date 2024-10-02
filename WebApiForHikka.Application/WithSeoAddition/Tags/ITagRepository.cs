@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApiForHikka.Application.Shared;
+﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.Domain;
 using WebApiForHikka.Domain.Models.WithSeoAddition;
 

@@ -27,11 +27,12 @@ public class EpisodeImageController(
     ILinkFactory linkfactory
 )
     : CrudController
-        <GetEpisodeImageDto, UpdateEpisodeImageDto, CreateEpisodeImageDto, EpisodeImageService, EpisodeImage>(
-            crudService, mapper, httpContextAccessor)
+    <GetEpisodeImageDto, UpdateEpisodeImageDto, CreateEpisodeImageDto, EpisodeImageService,
+        EpisodeImage>(
+        crudService, mapper, httpContextAccessor)
 {
     [AllowAnonymous]
-    [HttpGet("dowloadFile/{imageName}")]
+    [HttpGet("downloadFile/{imageName}")]
     public IActionResult GetImage([FromRoute] string imageName)
     {
         var file = fileHelper.GetFile(ControllerStringConstants.EpisodeImagePath, imageName);
@@ -50,7 +51,8 @@ public class EpisodeImageController(
 
         model.Episode = (await episodeService.GetAsync(dto.EpisodeId, cancellationToken))!;
 
-        model.Path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.EpisodeImagePath);
+        model.Path =
+            fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.EpisodeImagePath);
 
         model.Colors = colorHelper.GetListOfColorsFromImage(dto.Image);
 
@@ -81,7 +83,8 @@ public class EpisodeImageController(
 
         if (path == null)
         {
-            model.Path = fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.EpisodeImagePath);
+            model.Path =
+                fileHelper.UploadFileImage(dto.Image, ControllerStringConstants.EpisodeImagePath);
         }
         else
         {
@@ -113,18 +116,23 @@ public class EpisodeImageController(
 
         var filterPagination = Mapper.Map<FilterPagination>(paginationDto);
 
-        var paginationCollection = await CrudService.GetAllAsync(filterPagination, cancellationToken);
+        var paginationCollection =
+            await CrudService.GetAllAsync(filterPagination, cancellationToken);
 
         var models = Mapper.Map<List<GetEpisodeImageDto>>(paginationCollection.Models);
 
         foreach (var item in models)
-            item.ImageUrl = linkfactory.GetLinkForDowloadImage(Request, "dowloadFile", "GetAll", item.ImageUrl);
+            item.ImageUrl =
+                linkfactory.GetLinkForDownloadImage(Request, "downloadFile", "GetAll",
+                    item.ImageUrl);
 
 
         return Ok(
             new ReturnPageDto<GetEpisodeImageDto>
             {
-                HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
+                HowManyPages =
+                    (int)Math.Ceiling(
+                        (double)paginationCollection.Total / filterPagination.PageSize),
                 Models = models
             }
         );
@@ -132,7 +140,8 @@ public class EpisodeImageController(
 
 
     [HttpDelete("{id:Guid}")]
-    public override async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Delete([FromRoute] Guid id,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
@@ -148,19 +157,22 @@ public class EpisodeImageController(
     }
 
     [HttpGet("{id:Guid}")]
-    public override async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
+    public override async Task<IActionResult> Get([FromRoute] Guid id,
+        CancellationToken cancellationToken)
     {
         var errorEndPoint = ValidateRequest(
             new ThingsToValidateBase());
         if (errorEndPoint.IsError) return errorEndPoint.GetError();
 
-        var model = Mapper.Map<GetEpisodeImageDto>(await CrudService.GetAsync(id, cancellationToken));
+        var model =
+            Mapper.Map<GetEpisodeImageDto>(await CrudService.GetAsync(id, cancellationToken));
 
         if (model is null)
             return NotFound();
 
 
-        model.ImageUrl = linkfactory.GetLinkForDowloadImage(Request, "dowloadFile", "Get", model.ImageUrl);
+        model.ImageUrl =
+            linkfactory.GetLinkForDownloadImage(Request, "downloadFile", "Get", model.ImageUrl);
 
 
         return Ok(model);
