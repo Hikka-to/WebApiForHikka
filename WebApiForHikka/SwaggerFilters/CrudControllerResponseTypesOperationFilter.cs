@@ -20,6 +20,50 @@ public class CrudControllerResponseTypesOperationFilter : IOperationFilter
         var getDtoType = crudController.GetGenericArguments()[0];
 
         var responseAttributes = methodInfo.GetCustomAttributes<SwaggerResponseAttribute>().ToArray();
+        
+        var responses = new Dictionary<string, Action>()
+        {
+            ["Create"] = () =>
+            {
+                Response("200", "Created", typeof(CreateResponseDto));
+                Response("400", "Bad Request", typeof(string));
+                Response("401", "Unauthorized");
+                Response("422", "Model Validation Error",
+                    typeof(IDictionary<string, IEnumerable<string>>));
+            },
+            ["Delete"] = () =>
+            {
+                Response("204", "Deleted");
+                Response("401", "Unauthorized");
+                Response("422", "Model Validation Error",
+                    typeof(IDictionary<string, IEnumerable<string>>));
+            },
+            ["Get"] = () =>
+            {
+                Response("200", "Ok", getDtoType);
+                Response("401", "Unauthorized");
+                Response("404", "Not Found");
+                Response("422", "Model Validation Error",
+                    typeof(IDictionary<string, IEnumerable<string>>));
+            },
+            ["GetAll"] = () =>
+            {
+                Response("200", "Ok", typeof(ReturnPageDto<>).MakeGenericType(getDtoType));
+                Response("401", "Unauthorized");
+                Response("422", "Model Validation Error",
+                    typeof(IDictionary<string, IEnumerable<string>>));
+            },
+            ["Put"] = () =>
+            {
+                Response("204", "Updated");
+                Response("401", "Unauthorized");
+                Response("404", "Not Found", typeof(string));
+                Response("422", "Model Validation Error",
+                    typeof(IDictionary<string, IEnumerable<string>>));
+            }
+        };
+
+        if (!responses.TryGetValue(methodInfo.Name, out var responseAction)) return;
 
         foreach (var (statusCode, _) in operation.Responses.ToDictionary())
         {
@@ -27,37 +71,7 @@ public class CrudControllerResponseTypesOperationFilter : IOperationFilter
             operation.Responses.Remove(statusCode);
         }
 
-        switch (methodInfo.Name)
-        {
-            case "Create":
-                Response("200", "Created", typeof(CreateResponseDto));
-                Response("400", "Bad Request", typeof(string));
-                Response("401", "Unauthorized");
-                Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));
-                break;
-            case "Delete":
-                Response("204", "Deleted");
-                Response("401", "Unauthorized");
-                Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));
-                break;
-            case "Get":
-                Response("200", "Ok", getDtoType);
-                Response("401", "Unauthorized");
-                Response("404", "Not Found");
-                Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));
-                break;
-            case "GetAll":
-                Response("200", "Ok", typeof(ReturnPageDto<>).MakeGenericType(getDtoType));
-                Response("401", "Unauthorized");
-                Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));
-                break;
-            case "Put":
-                Response("204", "Updated");
-                Response("401", "Unauthorized");
-                Response("404", "Not Found", typeof(string));
-                Response("422", "Model Validation Error", typeof(IDictionary<string, IEnumerable<string>>));
-                break;
-        }
+        responseAction();
 
         return;
 
