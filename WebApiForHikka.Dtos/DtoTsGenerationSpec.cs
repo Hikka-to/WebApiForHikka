@@ -403,7 +403,7 @@ public class DtoTsGenerationSpec : GenerationSpec
         var result = GetZodType(nullabilityInfo, false, dependencies);
 
         if (GetCustomAttribute<StringLengthAttribute>(member) is { } stringLength)
-            result += $".length({stringLength.MaximumLength})";
+            result += $".max({stringLength.MaximumLength})";
 
         if (GetCustomAttribute<RangeAttribute>(member) is { } range)
         {
