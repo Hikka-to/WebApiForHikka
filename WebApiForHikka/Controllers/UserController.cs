@@ -111,7 +111,8 @@ public class UserController(
                 HowManyPages =
                     (int)Math.Ceiling(
                         (double)paginationCollection.Total / filterPagination.PageSize),
-                Models = users
+                Models = users,
+                Total = paginationCollection.Total,
             }
         );
     }

@@ -95,7 +95,8 @@ public abstract class CrudController<TGetDto, TUpdateDto, TCreateDto, TIService,
             new ReturnPageDto<TGetDto>
             {
                 HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
-                Models = models
+                Models = models,
+                Total = paginationCollection.Total,
             }
         );
     }

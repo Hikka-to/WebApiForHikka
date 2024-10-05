@@ -137,7 +137,8 @@ public class AnimeBackdropController(
                 HowManyPages =
                     (int)Math.Ceiling(
                         (double)paginationCollection.Total / filterPagination.PageSize),
-                Models = models
+                Models = models,
+                Total = paginationCollection.Total
             }
         );
     }

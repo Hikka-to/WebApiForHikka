@@ -107,7 +107,8 @@ public abstract class CrudControllerForModelWithSeoAddition
             new ReturnPageDto<TGetDtoWithSeoAddition>
             {
                 HowManyPages = (int)Math.Ceiling((double)paginationCollection.Total / filterPagination.PageSize),
-                Models = models
+                Models = models,
+                Total = paginationCollection.Total,
             }
         );
     }

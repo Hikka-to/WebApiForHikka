@@ -92,7 +92,9 @@ public class TagController(
         {
             HowManyPages =
                 (int)Math.Ceiling((double)paginatedGenres.Total / filterPagination.PageSize),
-            Models = models
+            Models = models,
+
+                Total = paginatedGenres.Total,
         });
     }
 
@@ -110,7 +112,8 @@ public class TagController(
         {
             HowManyPages =
                 (int)Math.Ceiling((double)paginatedCharacterTags.Total / filterPagination.PageSize),
-            Models = models
+            Models = models,
+                Total = paginatedCharacterTags.Total,
         });
     }
 }
