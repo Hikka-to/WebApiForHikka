@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Npgsql;
-using WebApiForHikka.Application.Shared;
-using WebApiForHikka.Constants.AppSettings;
-using WebApiForHikka.Domain.Models;
-using WebApiForHikka.EfPersistence.Data;
+﻿using WebApiForHikka.Application.Shared;
 using WebApiForHikka.EfPersistence.Repositories;
 using WebApiForHikka.SharedFunction.Extensions;
 using WebApiForHikka.SharedFunction.HashFunction;
@@ -16,7 +11,8 @@ namespace WebApiForHikka.WebApi.Extensions;
 
 public static class DependencyInjectionExtensions
 {
-    public static void AddBaseClassArchitecture(this IServiceCollection services, Type baseClass, Type baseInterface)
+    public static void AddBaseClassArchitecture(this IServiceCollection services, Type baseClass,
+        Type baseInterface)
     {
         foreach (var service in baseClass.Assembly.GetTypes().Where(t =>
                      !t.IsAbstract &&
@@ -30,23 +26,9 @@ public static class DependencyInjectionExtensions
         }
     }
 
-    public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
+    public static void AddApplication(this IServiceCollection services,
+        IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString(AppSettingsStringConstants.DefaultConnection);
-        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-        var modelsAssembly = typeof(IModel).Assembly;
-        var enumTypes = modelsAssembly.GetTypes().Where(t =>
-            (t.Namespace?.Contains("Enums") ?? false) && t.IsEnum);
-        foreach (var enumType in enumTypes)
-            dataSourceBuilder.MapEnum(enumType);
-        var dataSource = dataSourceBuilder.Build();
-        services.AddDbContext<HikkaDbContext>(options =>
-        {
-            options
-                .UseNpgsql(dataSource)
-                .UseLazyLoadingProxies();
-        });
-
         //Repositories
         services.AddBaseClassArchitecture(typeof(CrudRepository<>), typeof(ICrudRepository<>));
 
