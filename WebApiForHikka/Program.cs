@@ -53,6 +53,7 @@ builder.Services.AddSwaggerGen(c =>
 
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddLoggingMiddleware();
@@ -66,7 +67,6 @@ builder.Services.AddPolicies();
 builder.Services.AddCorsPolicies(builder.Configuration);
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -89,5 +89,7 @@ app.UseExceptionHandlerMiddleware();
 
 app.UseLoggingMiddleware();
 app.MapControllers();
+
+app.InitMigration();
 
 app.Run();

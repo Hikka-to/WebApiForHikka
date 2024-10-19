@@ -16,7 +16,6 @@ COPY ["WebApiForHikka.Domain/WebApiForHikka.Domain.csproj", "WebApiForHikka.Doma
 COPY ["WebApiForHikka.SharedFunction/WebApiForHikka.SharedFunction.csproj", "WebApiForHikka.SharedFunction/"]
 COPY ["WebApiForHikka.Dtos/WebApiForHikka.Dtos.csproj", "WebApiForHikka.Dtos/"]
 COPY ["WebApiForHikka.EfPersistence/WebApiForHikka.EfPersistence.csproj", "WebApiForHikka.EfPersistence/"]
-COPY ["WebApiForHikka.SharedModels/WebApiForHikka.SharedModels.csproj", "WebApiForHikka.SharedModels/"]
 RUN dotnet restore "./WebApiForHikka/WebApiForHikka.WebApi.csproj"
 COPY . .
 WORKDIR "/src/WebApiForHikka"
